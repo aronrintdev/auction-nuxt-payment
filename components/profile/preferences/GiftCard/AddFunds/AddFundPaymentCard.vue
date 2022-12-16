@@ -350,14 +350,9 @@ export default {
             if (response.token) {
               this.form.cardholderName = response.check.name
               // Extract the last 4 digits of the card number.
-              this.form.cardNumber = response.card.number.slice(
-                response.card.number.length - CARD_LAST_DIGITS_OFFSET
-              )
+              this.form.cardNumber = response.card.number.slice(response.card.number.length - CARD_LAST_DIGITS_OFFSET)
               // Format the date to MM / YYYY.
-              this.form.cardExp =
-                response.card.exp.substring(0, 2) +
-                '/' +
-                response.card.exp.substring(2)
+              this.form.cardExp = response.card.exp.substring(0, 2) +'/' +response.card.exp.substring(2)
               this.form.cardBrand = response.card.type
               this.form.paymentToken = response.token
               await this.savePaymentDetails()

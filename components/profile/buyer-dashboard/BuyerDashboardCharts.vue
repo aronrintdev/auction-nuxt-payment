@@ -1,150 +1,173 @@
 <template>
-  <section class=" row mt-sm-5 mb-4">
-    <div :class="mobileClass" class="charts col-md-8 mb-2 mb-md-0">
-      <div :class="{
-        'pt-4': !isScreenXS
-      }" class="bg-white br-10 px-2  p-sm-4">
+  <section
+    class="d-flex mb-4"
+    :class="{
+      'flex-column': isScreenXS,
+    }"
+  >
+    <div
+      :class="{
+        mobile: isScreenXS,
+        XL: isScreenXL,
+      }"
+      class="charts chart-line mb-2 mb-md-0"
+    >
+      <div
+        :class="{
+          'pt-4': !isScreenXS,
+        }"
+        class="bg-white br-10 px-2 p-sm-4"
+      >
         <div class="d-flex align-items-center justify-content-between">
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $t('buyer_dashboard.dashobard_buyer.total_purchases_main') }}
           </h1>
           <h1
-              class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none text-center w-100"
+            class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none w-100"
           >
             {{ $t('buyer_dashboard.dashobard_buyer.total_purchases_main') }}
           </h1>
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
-                :default="filterBy"
-                :options="chartFilterOptions"
-                :threelineIcon="false"
-                :title="filterByTitle"
-                bordered
-                class="dropdown-filter"
-                @input="handleFilterByChangeTotalSale"
+              :default="filterBy"
+              :options="chartFilterOptions"
+              :threelineIcon="false"
+              :title="filterByTitle"
+              class="dropdown-filter"
+              @input="handleFilterByChangeTotalSale"
             />
           </div>
         </div>
-        <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
+        <div class="position-relative mt-3">
           <div class="tabs d-sm-none d-flex gap-2 justify-content-center my-4">
             <h6
-                v-for="(tab, index) in tabsOptions"
-                :key="index"
-                :class="{ activeOne: activeTab === tab.value }"
-                class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
-                @click="changeTab(tab.value)"
+              v-for="(tab, index) in tabsOptions"
+              :key="index"
+              :class="{ activeOne: activeTab === tab.value }"
+              class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
+              @click="changeTab(tab.value)"
             >
               {{ tab.title }}
             </h6>
           </div>
           <LineChart
-              :chart-data="mainChart"
-              :height="260"
-              :options="lineChartOptions"
-              chart-id="vendor-dashboard-line-chart"
-              class="line-chart d-none d-sm-block"
-              is-graph
+            :chart-data="mainChart"
+            :height="260"
+            :options="lineChartOptions"
+            chart-id="vendor-dashboard-line-chart"
+            class="line-chart d-none d-sm-block"
+            is-graph
           />
           <LineChart
-              :chart-data="mainChart"
-              :height="204"
-              :options="lineChartOptions"
-              chart-id="vendor-dashboard-line-chart"
-              class="line-chart d-block d-sm-none"
-              is-graph
+            :chart-data="mainChart"
+            :height="204"
+            :options="lineChartOptions"
+            chart-id="vendor-dashboard-line-chart"
+            class="line-chart d-block d-sm-none"
+            is-graph
           />
-        </div>
-        <div class="text-right d-none d-sm-block">
-          <a
-              class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0"
-              href="#"
-          >{{ $t('vendor_dashboard.view_breakdown') }}</a
-          >
         </div>
       </div>
     </div>
     <!-- TODO -->
-    <div :class="mobileClass" class="col-md-4 charts radial">
-      <div class=" bg-white br-10 px-2 py-3 p-sm-4 h-100">
-
-        <div class="d-flex align-items-center justify-content-between">
-          <h1 :class="{
-            'mb-5': isScreenXS
+    <div
+      :class="{
+        mobile: isScreenXS,
+        XL: isScreenXL,
+      }"
+      class="charts radial"
+    >
+      <div
+        :class="{
+          'chat-web-padding': !isScreenXS,
+          'pb-4 pt-1': isScreenXS,
+        }"
+        class="bg-white br-10 h-100"
+      >
+        <div
+          :class="{
+            'mb-5': isScreenXS,
           }"
-              class="fs-20 fw-7 font-primary mb-0 rewards-title">
+          class="d-flex align-items-center justify-content-between"
+        >
+          <h1 class="fs-20 fw-7 font-primary mb-0 rewards-title">
             {{ $t('buyer_dashboard.dashobard_buyer.rewards') }}
           </h1>
           <div>
             <nuxt-link
-                class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 d-none d-sm-inline"
-                to='/profile/rewards'
-            >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}
+              :class="{
+                'body-18-regular text-link-blue-mobile': isScreenXS,
+                'text-link-blue': !isScreenXS,
+              }"
+              class="font-secondary fs-16 fw-400 text-decoration-underline text-nowrap rewards-link"
+              to="/profile/rewards"
+              >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}
             </nuxt-link>
           </div>
         </div>
 
-        <div class=" mt-3 mb-0 my-sm-4 text-center progressbar_wrapper mx-auto position-relative">
-          <RadialChart v-if="!isScreenXS"
-                       :progress="progress"
-                       :rewards="rewards"
+        <div
+          class="mt-3 mb-0 my-sm-4 text-center progressbar_wrapper mx-auto position-relative"
+        >
+          <RadialChart
+            v-if="!isScreenXS"
+            :progress="progress"
+            :rewards="rewards"
           />
           <MobileRewardGauge
-              v-else
-              :current-points="rewardPoints"
-              :show-next-expire="false"
+            v-else
+            :current-points="rewardPoints"
+            :height="'250px'"
+            :show-next-expire="false"
           />
           <!-- TODO -->
-          <h6 v-if='rewards.next_reward && !isScreenXS' class="fs-12 mb-0 fw-7 font-primary text-black mt-3">
-            {{ $t('buyer_dashboard.dashobard_buyer.your_next_reward') }}: {{ rewards.next_reward.name }}
-          </h6>
-          <b-button
-              class="mt-3 bg-blue-primary py-2 w-100 font-primary fw-5 d-none d-sm-inline-block"
-              pill
-              to="/shop"
-          >{{ $t('buyer_dashboard.dashobard_buyer.earn_money') }}
-          </b-button
+          <div
+            v-if="rewards.next_reward && !isScreenXS"
+            class="fs-12 mb-0 fw-7 font-primary text-black mt-3"
           >
+            {{ $t('buyer_dashboard.dashobard_buyer.your_next_reward') }}:
+            {{ rewards.next_reward.name }}
+          </div>
           <b-button
-              class="mt-5 px-4 py-2 font-primary fs-12 fw-6 border d-sm-none d-inline-block position-absolute reward-button text-nowrap"
-              pill
-              to="/profile/rewards"
-              variant="outline-secondary"
-          >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}
-          </b-button
-          >
-          <h6
-              v-if="last.length"
-              class="fs-12 mb-0 fw-4 font-primary mt-3 text-dark d-none d-sm-block"
+            class="mt-3 bg-blue-primary py-2 w-200 font-primary fw-5 d-none d-sm-inline-block"
+            pill
+            to="/shop"
+            >{{ $t('buyer_dashboard.dashobard_buyer.earn_more') }}
+          </b-button>
+
+          <div
+            v-if="last.length"
+            class="body-9-regular font-primary mt-3 text-black d-none d-sm-block"
           >
             {{ last[0].points.toLocaleString() }}
             {{ $t('buyer_dashboard.dashobard_buyer.points_will_expire_on') }}
             {{ new Date(last[0].expires_on).toLocaleDateString() }}
-          </h6>
+          </div>
         </div>
       </div>
     </div>
   </section>
 </template>
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex'
 import RadialChart from './RadialChart'
-import {CustomSelect} from '~/components/common'
-import {DEFAULT} from '~/static/constants'
-import screenSize from '~/plugins/mixins/screenSize';
-import MobileRewardGauge from '~/components/profile/rewards/MobileRewardGauge';
+import { CustomSelect } from '~/components/common'
+import { DEFAULT } from '~/static/constants'
+import screenSize from '~/plugins/mixins/screenSize'
+import MobileRewardGauge from '~/components/profile/rewards/MobileRewardGauge'
 
 export default {
   name: 'BuyerDashboardCharts',
-  components: {MobileRewardGauge, CustomSelect, RadialChart},
+  components: { MobileRewardGauge, CustomSelect, RadialChart },
   mixins: [screenSize],
   data() {
     return {
       progress: 25,
       activeTab: 'week',
       tabsOptions: [
-        {title: 'Week', value: 'week'},
-        {title: 'Month', value: 'month'},
-        {title: 'Year', value: 'year'}
+        { title: 'Week', value: 'week' },
+        { title: 'Month', value: 'month' },
+        { title: 'Year', value: 'year' },
       ],
       // TODO Dummy Data
       filterByTitle: this.$t('selling_page.status'),
@@ -180,7 +203,7 @@ export default {
           yAxes: [
             {
               scaleLabel: {
-                labelString: ['5k', '15k', '20k', '25k', '30k'],
+                labelString: [],
               },
               gridLines: {
                 drawOnChartArea: false,
@@ -190,6 +213,12 @@ export default {
                 fontColor: '#000',
                 fontSize: 12,
                 fontStyle: 'bold',
+                callback(value, index, ticks) {
+                  const formatter = Intl.NumberFormat('en', {
+                    notation: 'compact',
+                  })
+                  return formatter.format(value)
+                },
               },
             },
           ],
@@ -204,7 +233,7 @@ export default {
         },
       },
       dataChart: [],
-      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Friday', 'Saturday'],
+      labels: [],
       lineDatasets: {
         labels: this.labels,
         datasets: [
@@ -218,10 +247,10 @@ export default {
         ],
       },
       chartFilterOptions: {
-        week: 'Week',
-        month: 'Month',
-        year: 'Year',
-      }
+        week: 'Week To Date',
+        month: 'Month To Date',
+        year: 'Year To Date',
+      },
     }
   },
   computed: {
@@ -256,7 +285,27 @@ export default {
           },
         ],
       }
-    }
+    },
+  },
+  created() {
+    // eslint-disable-next-line no-undef
+    Chart.plugins.register({
+      afterDraw(chart) {
+        if (chart.data.datasets[0].data.every((item) => item === 0)) {
+          const ctx = chart.chart.ctx
+          const width = chart.chart.width
+          const height = chart.chart.height
+          ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.6)
+          ctx.fillStyle = '#626262'
+          ctx.textAlign = 'center'
+          ctx.textBaseline = 'middle'
+          ctx.font = '500 18px Montserrat'
+
+          ctx.fillText('No Data Found', width / 2, height / 2 - 30)
+          ctx.restore()
+        }
+      },
+    })
   },
   mounted() {
     this.handleFilterByChangeTotalSale('week')
@@ -265,16 +314,21 @@ export default {
   methods: {
     getRewards() {
       this.$axios
-          .get('/dashboard/buyer/rewards')
-          .then((res) => {
-            this.rewards = res.data.data;
-            if (res.data.data.current_points > 0) {
-              this.progress = parseInt(res.data.data.current_points / res.data.data.next_reward.redemption_points * 100) + 25
-            }
-          })
-          .catch((err) => {
-            this.logger.logToServer(err.response)
-          })
+        .get('/dashboard/buyer/rewards')
+        .then((res) => {
+          this.rewards = res.data.data
+          if (res.data.data.current_points > 0) {
+            this.progress =
+              parseInt(
+                (res.data.data.current_points /
+                  res.data.data.next_reward.redemption_points) *
+                  100
+              ) + 25
+          }
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
     },
     changeTab(tab) {
       this.activeTab = tab
@@ -282,20 +336,20 @@ export default {
     },
     handleFilterByChangeTotalSale(value) {
       this.$axios
-          .get('/dashboard/buyer/purchases-graph?group_by=' + value)
-          .then((res) => {
-            const labels = []
-            const dataSet = []
-            for (const property in res.data.data) {
-              labels.push(property)
-              dataSet.push(res.data.data[property])
-            }
-            this.dataChart = dataSet
-            this.labels = labels
-          })
-          .catch((err) => {
-            this.logger.logToServer(err.response)
-          })
+        .get('/dashboard/buyer/purchases-graph?group_by=' + value)
+        .then((res) => {
+          const labels = []
+          const dataSet = []
+          for (const property in res.data.data) {
+            labels.push(property)
+            dataSet.push(res.data.data[property])
+          }
+          this.dataChart = dataSet
+          this.labels = labels
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
     },
     handleFilterByChange(value) {
       this.searchFilters.filterBy = value === DEFAULT ? '' : value
@@ -305,14 +359,37 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.chat-web-padding
+  padding: 32px 31px 26px 22px
+.w-200
+  width: 200px
 .charts
+  &:not(.mobile)
+    height: 366px
+    &.chart-line
+      width: 730px
+      max-width: 730px
+      margin-right: 59px
+      &.XL
+        width: 100%
+        max-width: 70%
+        min-width: 730px
+    &.radial
+      width: 330px
+      max-width: 330px
+      margin-left: auto
+      &.XL
+        width: 100%
+        max-width: 30%
+        min-width: 330px
+
   &.mobile
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
     border-radius: 8px
-    padding: 21px 7px
+    padding: 10px 7px
 
     &.radial
-      padding-bottom: 80px
+      padding-bottom: 30px
 
 .reward-button
   right: 50px
@@ -324,11 +401,22 @@ export default {
   width: 200px
 
   .selected
-    @include body-13-normal
+    @include body-13-medium
     color: $color-black-1
     background-color: $color-white-4 !important
     font-family: $font-family-sf-pro-display
     border: none !important
+    padding-inline: 18px
+
+    label
+      display: none
+
+  .items
+    @include body-13-regular
+    color: $color-black-1
+    font-family: $font-family-sf-pro-display
+
+
 
 .line-chart
   #vendor-dashboard-line-chart
@@ -345,7 +433,6 @@ export default {
     font-size: 14px
     font-weight: $bold
     color: $color-gray-69
-    text-align: center
     width: 100%
 
 .tabs

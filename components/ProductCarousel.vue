@@ -6,13 +6,14 @@
         ref="carousel"
         :loop="loop"
         :nav="false"
-        :showArrows="showArrows"
+        :showArrows="showArrows || showArrowsOnHover"
         :center="true"
         :margin="0"
         :responsive="responsiveAttr"
         :mouse-drag="true"
         :dots="false"
         class="carousel"
+        :class="{ 'show-arrows-on-hover': showArrowsOnHover }"
       >
         <template #default>
           <slot name="product">
@@ -26,6 +27,8 @@
                   v-if="variant === 'detail'"
                   :product="product"
                   :pageName="pageName"
+                  :cardHeight="cardHeight"
+                  :showActions="showActions"
                 />
               </div>
               <nuxt-link
@@ -42,13 +45,19 @@
           </slot>
         </template>
         <template #prev>
-          <div class="owl-nav owl-prev">
+          <div
+            class="owl-nav navigation-arrows owl-prev"
+            :style="`--cardHeight: ${cardHeight}`"
+          >
             <img :src="require('~/assets/img/home/arrow-left.svg')" />
           </div>
         </template>
 
         <template #next>
-          <div class="owl-nav owl-next">
+          <div
+            class="owl-nav navigation-arrows owl-next"
+            :style="`--cardHeight: ${cardHeight}`"
+          >
             <img :src="require('~/assets/img/home/arrow-right.svg')" />
           </div>
         </template>
@@ -87,6 +96,18 @@ export default {
       type: Boolean,
       default: false,
     },
+    showActions: {
+      type: Boolean,
+      default: true,
+    },
+    showArrowsOnHover: {
+      type: Boolean,
+      default: false,
+    },
+    cardHeight: {
+      type: String,
+      default: '312px',
+    },
   },
 
   computed: {
@@ -119,6 +140,7 @@ export default {
 @import '~/assets/css/_variables'
 .product-carousel-wrapper
   padding: 0
+  margin: 0 -12px
   .no-text
     @include body-4-medium
     text-align: center
@@ -141,9 +163,7 @@ export default {
     .owl-carousel
       .item
         text-align: left
-        margin: 0
-        margin-left: 0.5em
-        margin-right: 0.5em
+        margin: 0 12px
         &.photo-item
           img
             border-radius: 5px
@@ -157,8 +177,20 @@ export default {
         background: none
       &.owl-next
         float: right
-        margin-right: -15px 
+        margin-right: -30px
       &.owl-prev
         float: left
-        margin-left: -15px
+        margin-left: -30px
+    &.show-arrows-on-hover
+      .navigation-arrows
+        display: none
+        height: calc(var(--cardHeight) + 66px)
+        width: 30px
+        img
+          width: 12px
+        &.owl-prev
+          justify-content: end          
+      &:hover
+        .navigation-arrows
+          display: flex
 </style>

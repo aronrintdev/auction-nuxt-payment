@@ -2,10 +2,10 @@
   <b-container
     fluid
     class="container-profile-create-listing h-100"
-    :class="isScreenXS ? 'p-4' : 'p-5'"
+    :class="isScreenXS ? 'p-4' : 'web-padding'"
   >
     <div v-if="modifyData">
-      <ModifyListing
+      <ModifyListingRevamp
         v-model="form"
         :action="`edit`"
         :listingId="modifyData.id"
@@ -18,13 +18,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import ModifyListing from '~/components/profile/vendor-selling/ModifyListing.vue'
 import screenSize from '~/plugins/mixins/screenSize'
+import ModifyListingRevamp from '~/components/profile/vendor-selling/ModifyListingRevamp'
 export default {
   name: 'Modify',
 
   components: {
-    ModifyListing,
+    ModifyListingRevamp,
   },
 
   mixins: [screenSize],
@@ -44,7 +44,6 @@ export default {
       },
     }
   },
-
   computed: {
     ...mapGetters({
       modifyData: 'sell-listing/getListingData',
@@ -109,3 +108,10 @@ export default {
   },
 }
 </script>
+<style scoped lang="sass">
+@import "~/assets/css/variables"
+.web-padding
+  padding: 30px 24px
+.container-profile-create-listing
+  background-color: $color-gray-1
+</style>

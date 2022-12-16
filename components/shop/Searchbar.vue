@@ -11,14 +11,16 @@
             :searchText="searchText"
             :placeholder="`${$t('common.search')} ${$t('common.shop')}`"
             @search="search"
+            @enter="searchProducts"
           />
           <div v-if="hasSearchResult" class="dropdown-options">
             <div
               v-for="prod in searchedProducts"
               :key="`${prod.sku}-${prod.category.name}`"
               class="dropdown-option d-flex align-items-center"
-              @click="selectProduct(prod)"
+              @click="goToDetail(prod.sku)"
             >
+            
               <div class="position-relative d-inline-flex">
                 <b-img
                   :src="`${
@@ -67,6 +69,7 @@ export default {
       searchText: null,
       hasSearchResult: false,
       searchedProducts: [],
+      selectedFilters:{}
     }
   },
   watch: {
@@ -119,30 +122,28 @@ export default {
             this.$toasted.error(error)
           })
       } else {
-        this.selectedProduct = null
-        this.emitChange()
+        this.$store.commit('browse/setSelectedSearch', null)
+        this.emitChange(value)
       }
     },
     // Select product
-    selectProduct(product) {
-      this.selectedProduct = product.sku
-      this.searchText = product.name
-      this.selectedFilters = {
-        ...this.selectedFilters,
-        product: this.selectedProduct,
-      }
-      this.$emit('change', this.selectedFilters)
+    searchProducts() {
+      this.$emit('enter',  this.searchText)
       this.hideDropdown()
     },
 
     // Submit updated filters
-    emitChange: debounce(function (filters) {
-      this.$emit('change', filters)
+    emitChange: debounce(function (search) {
+      this.$emit('enter',  search)
     }, 300),
     hideDropdown() {
       this.hasSearchResult = false
       this.searchedProducts = []
     },
+    goToDetail(sku){
+      this.$store.commit('browse/setSelectedSearch', null)
+      this.$router.push('shop/'+sku)
+    }
   },
 }
 </script>

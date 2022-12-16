@@ -1,7 +1,7 @@
 <template>
   <b-row class="h-100">
     <b-col md="12">
-      <b-tabs content-class="mt-0 mt-sm-3" nav-class="pb-2 pl-sm-3">
+      <b-tabs content-class="mt-0 mt-sm-3" nav-class="pb-3 pl-sm-3">
         <b-tab
           title-link-class="body-2-bold border-0 p-0 w-160 d-none d-sm-block"
           :title="$t('products.sales_graph')"
@@ -9,7 +9,7 @@
           <b-row class="d-none d-sm-block">
             <b-col md="12">
               <LatestSales
-                :value="product.latest_sales"
+                :value="salesData"
                 :sku="sku || product.sku"
                 :headerClass="chartHeaderClass"
                 :labelsStyle="chartLabelsStyle"
@@ -40,7 +40,7 @@
           </div>
           <div v-else>
             <LatestSales
-              :value="product.latest_sales"
+              :value="salesData"
               :sku="sku || product.sku"
               :headerClass="chartHeaderClass"
               :labelsStyle="chartLabelsStyle"
@@ -74,7 +74,7 @@
         >
           <b-row>
             <b-col md="4">
-              <Button v-b-toggle.recent-sales-collapse block variant="outline-dark">
+              <Button v-b-toggle.recent-sales-collapse block variant="outline-dark px-3">
                 <template #default>
                   <div class="d-flex align-items-center">
                     <span class="pull-left">{{ $t('products.recent_sales') }}</span>
@@ -90,7 +90,7 @@
               </b-collapse>
             </b-col>
             <b-col class="mt-2 mt-md-0" md="4">
-              <Button v-b-toggle.recent-offers-collapse block variant="outline-dark" class="text-left">
+              <Button v-b-toggle.recent-offers-collapse block variant="outline-dark" class="text-left px-3">
                 <template #default>
                   <div class="d-flex align-items-center">
                     <span class="pull-left dropdown-label">{{ $t('products.recent_offers') }}</span>
@@ -106,7 +106,7 @@
               </b-collapse>
             </b-col>
             <b-col class="mt-2 mt-md-0" md="4">
-              <Button v-b-toggle.recent-asks-collapse block variant="outline-dark" class="text-left">
+              <Button v-b-toggle.recent-asks-collapse block variant="outline-dark" class="text-left px-3">
                 <template #default>
                   <div class="d-flex align-items-center">
                     <span class="pull-left dropdown-label">{{ $t('products.recent_asks') }}</span>
@@ -169,6 +169,11 @@ export default {
       currentDataTab: ''
     }
   },
+  computed: {
+    salesData() {
+      return this.product?.latest_sales ?? null
+    }
+  },
   mounted() {
     this.$root.$on('bv::collapse::state', (id, state) => {
       switch (id) {
@@ -194,6 +199,11 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.editItem
+  .mobile-section
+    margin-left: 0 !important
+    margin-right: 0 !important
 
 .mobile-section
   box-shadow: 0px 1px 2px $color-black-rgb2

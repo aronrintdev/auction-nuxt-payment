@@ -12,8 +12,14 @@
       tbody-class="offers-table-head"
       tbody-tr-class="bg-white vd-selling-bt border-bottom-solid"
     >
-      <template #empty="scope">
-        <h4 class="text-center">{{ scope.emptyText }}</h4>
+      <template #head()="scope">
+        <div class="text-nowrap" role="button" @click="orderBy(scope)">
+          <span class="mr-1">{{ scope.label }}</span>
+          <img v-if="isSortActive(scope.field)"
+               :src="require('~/assets/img/icons/down-arrow-solid.svg')"
+               :alt="scope.label"
+               class="sort-icon" :class="reverseDirection(scope.column)">
+        </div>
       </template>
 
       <!-- Table Busy -->
@@ -51,11 +57,20 @@
               @error="imageLoadError"
             />
 
-            <span role="button" class="listing-id text-decoration-underline" @click="$router.push(`/profile/vendor-selling/details/${getListingID(row.item)}`)">{{
-              $t('placed_offers.listing_id', {
-                listingID: getListingID(row.item),
-              })
-            }}</span>
+            <span
+              role="button"
+              class="listing-id text-decoration-underline"
+              @click="
+                $router.push(
+                  `/profile/vendor-selling/details/${getListingID(row.item)}`
+                )
+              "
+              >{{
+                $t('placed_offers.listing_id', {
+                  listingID: getListingID(row.item),
+                })
+              }}</span
+            >
           </div>
         </div>
       </template>
@@ -100,7 +115,10 @@
 
       <template #cell(actions)="row" class="text-center">
         <div class="action-col">
-          <div v-if="row.item.status === PENDING_OFFER" class="d-flex justify-content-center">
+          <div
+            v-if="row.item.status === PENDING_OFFER"
+            class="d-flex justify-content-center"
+          >
             <Button
               variant="outline-success mr-4"
               class="br-10"
@@ -224,8 +242,9 @@ export default {
         },
         {
           key: 'products',
-          label: this.$t('placed_offers.table.products'),
+          label: this.$tc('common.product', 1),
           sortable: true,
+          thClass: 'active-row',
         },
         {
           key: 'product_details',
@@ -235,22 +254,22 @@ export default {
         {
           key: 'offer_amount',
           label: this.$t('placed_offers.table.offer_amount'),
-          sortable: false,
-          thClass: 'text-center',
+          sortable: true,
+          thClass: 'text-center active-row',
           tdClass: 'text-center',
         },
         {
           key: 'expires',
           label: this.$t('placed_offers.table.expires'),
           sortable: true,
-          thClass: 'text-center',
+          thClass: 'text-center active-row',
           tdClass: 'text-center',
         },
         {
           key: 'actions',
           label: this.$t('placed_offers.table.actions'),
           sortable: true,
-          thClass: 'text-center ',
+          thClass: 'text-center active-row',
           tdClass: 'text-center action-width',
         },
       ],
@@ -259,6 +278,8 @@ export default {
       selectedId: '',
       inputAmount: '',
       actionType: '',
+      orderByField: 'id',
+      orderByDirection: 'asc',
     }
   },
 
@@ -357,11 +378,34 @@ export default {
       const sizeId = value.size_id
       const conditionId = value.packaging_condition_id
 
-
       const result = value.product.inventories.find(
-        (i) => i.size_id === sizeId && i.product_id === productId && i.packaging_condition_id === conditionId
+        (i) =>
+          i.size_id === sizeId &&
+          i.product_id === productId &&
+          i.packaging_condition_id === conditionId
       )
-      return result && result.listing_items && result.listing_items[0].id || '--'
+      if (result && result.listing_items.length) {
+        return result.listing_items[0].id
+      } else {
+        return '--'
+      }
+    },
+
+    isSortActive(field){
+      return field.sortable
+    },
+    orderBy(field){
+      if (this.isSortActive(field.field)){
+        this.orderByDirection = this.reverseDirection(field.column)
+        this.orderByField = field.column
+        this.$emit('sort', {
+          orderByField: this.orderByField,
+          orderByDirection: this.orderByDirection,
+        })
+      }
+    },
+    reverseDirection(column){
+      return column === this.orderByField? (this.orderByDirection === 'asc'? 'desc' : 'asc'): 'desc'
     },
   },
 }
@@ -381,9 +425,9 @@ export default {
   @include body-4-normal
   color: $color-red-3
 .vd-product-title
-  font-style: normal
   font-family: $font-sp-pro
-  @include body-5-bold
+  font-style: normal
+  @include body-8-medium
   color: $color-black-1
 .vd-sku,
 .vd-color,
@@ -408,9 +452,11 @@ export default {
 .btn-outline-danger
   font-family: $font-sp-pro
 .offer-amount
+  font-family: $font-sf-pro-text
   font-style: normal
-  @include body-4-normal
+  @include body-13-normal
   color: $color-black-1
+
 .remove-from-list
   font-style: normal
   @include body-4-normal
@@ -418,6 +464,7 @@ export default {
 :deep(.offers-table-head > th)
   display: none
 .listing-id
+  font-family: $font-sf-pro-text
   font-style: normal
   @include body-5-bold
   color: $color-blue-1
@@ -447,4 +494,63 @@ export default {
       font-style: normal
       @include body-13-normal
       color: $color-red-3
+.offer-placed-table::v-deep
+  .offer-table
+    .table.b-table > thead > tr > [aria-sort=none]
+      background-size: 0px
+    .table.b-table > thead > tr > [aria-sort=ascending]
+      background-size: 0px
+    .table.b-table > thead > tr > [aria-sort=descending]
+      background-size: 0px
+    .expire-date
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-13-normal
+      color: $color-black-1
+
+    .active-row
+      div
+        width: 116px
+        height: 20px
+        left: 769px
+        top: 453px
+        font-family: $font-montserrat
+        font-style: normal
+        @include body-4-bold
+        display: inline
+        align-items: center
+        color: $color-black-1
+  .action-col
+    .btn-outline-success
+      width: 115px
+      left: calc(50% - 115px/2 + 463.5px)
+      top: 57.08%
+      bottom: 41.07%
+      border: 1px solid $color-green-2
+      border-radius: 10px
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-13-normal
+      display: flex
+      align-items: center
+      text-align: center
+      color: $color-green-2
+
+    .btn-outline-danger
+      width: 115px
+      left: calc(50% - 115px/2 + 602.5px)
+      top: 57.14%
+      bottom: 41.02%
+      border: 1px solid $color-red-3
+      border-radius: 10px
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-13-normal
+      display: flex
+      align-items: center
+      text-align: center
+      color: $color-red-3
+.sort-icon
+  &.asc
+    transform: rotate(180deg)
 </style>

@@ -2,47 +2,35 @@
   <div>
     <component :is="isMobileSize ? 'div' : 'b-row'"
       v-if="auction.auction_items"
-      :class="isMobileSize ? 'border shadow-sm' : 'ml-n1'"
-      class="mt-3 pr-1 text-center font-weight-bold w-100 bg-white collection-item position-relative"
+      :class="isMobileSize ? 'border shadow-sm' : ''"
+      class="text-center font-weight-bold w-100 mx-0 bg-white collection-item position-relative"
     >
-      <div v-if="isMobileSize" :class="`${bid.place}_mobile`"
-          class="position-absolute sf-pro-font text-left body-9-normal">
+      <div v-if="isMobileSize && bidType === BID_TYPE_OUTGOING" :class="`${bid.place}_mobile`"
+          class="position-absolute sf-pro-font text-left body-9-normal bid-status">
       {{ $t('bids.bid_status.' + bid.place) }}
       </div>
-      <div v-else
-        class="position-absolute tag-bid d-flex align-items-center justify-content-center text-white"
-        :class="bid.place"
-      >
-        {{ $t('bids.bid_status.' + bid.place) }}
-      </div>
       <b-row class="w-100 pr-0 mr-0">
-        <b-col sm="12" md="5" class="text-left mt-1 mt-md-4">
+        <b-col sm="12" md="5" class="text-left mt-1 mt-md-4 product-details">
           <b-row>
             <b-col cols="4" md="4" :class="isMobileSize ? 'text-right' : 'text-center'">
-              <div @click.stop>
-                <b-form-checkbox
-                  v-if="selectable"
-                  :checked="selected"
-                  class="position-absolute ml-n4 chekbox"
-                  @change="$emit('selected', bid.id)"
-                >
-                </b-form-checkbox>
-              </div>
               <div class="my-0 my-md-3" :class="{'mobile-collection-svg position-absolute' : isMobileSize}">
-                <img :src="CollectionSvg" alt="collection image my-2" />
+                <img :src="CollectionSvg" alt="collection image" />
               </div>
-              <NuxtLink v-if="!isMobileSize" :to="`/profile/auctions/${auction.id}`">
-                <div class="auction-id text-decoration-underline text-center">
-                  {{ $t('bids.auction_id') }}: {{ auction.id }}
-                </div>
-              </NuxtLink>
+              <template v-if="!isMobileSize">
+                <NuxtLink v-if="bidType === BID_TYPE_OUTGOING" :to="`/auction/collection/${auction.id}`">
+                  <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+                </NuxtLink>
+                <NuxtLink v-else :to="`/profile/auctions/${auction.id}`">
+                  <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+                </NuxtLink>
+              </template>
             </b-col>
             <b-col cols="8" md="8"
-                   class="pr-0 pl-4 d-flex justify-content-between align-items-center">
+                   class="pr-0 pl-md-4 d-flex justify-content-between align-items-center">
               <div
                 :class="isMobileSize
-                ? 'body-5-normal flex-grow-1 text-nowrap overflow-hidden text-truncate sf-pro-font'
-                : 'body-4-bold'"
+                ? 'body-5-medium flex-grow-1 text-nowrap overflow-hidden text-truncate sf-pro-text'
+                : 'body-4-bold sf-pro-text'"
               >
                 {{ auction.name }} ( {{ auction.auction_items.length }}
               {{ $t('bids.items') }} )
@@ -54,11 +42,13 @@
                 </div>
                 <!-- MOBILE BID MENU END -->
                 <!-- MOBILE ACCEPT BUTTON BEGIN -->
-                <div v-if="acceptable && isMobileSize">
-                  <Button size="sm" variant="primary" class="btn-dark-blue px-2" @click="$emit('accept', bid)">
-                    <div class="body-9-medium"> {{ $t('bids.accept') }}</div>
-                  </Button>
+                <div v-if="acceptable" class="ml-1">
+                  <a role="button" class="btn-mobile-accept d-flex align-items-center justify-content-center body-6-normal text-white rounded"
+                      @click="$emit('accept', bid)">
+                    {{ $t('bids.accept') }}
+                  </a>
                 </div>
+                <div v-if="(bidType !== BID_TYPE_OUTGOING && !acceptable)">-</div>
                 <!-- MOBILE ACCEPT BUTTON END -->
               </template>
             </b-col>
@@ -66,38 +56,32 @@
         </b-col>
         <template v-if="!isMobileSize">
         <b-col sm="12" md="1" class="d-flex justify-content-around flex-column pt-4">
-          <span class="body-4-medium">{{ $t('bids.auction_types.' + auction.type) }}</span>
+          <span class="body-4-normal sf-pro-text">{{ $t('bids.auction_types.' + auction.type) }}</span>
         </b-col>
-          <!--
-        <b-col sm="12" md="1" class="d-flex justify-content-around flex-column pt-4">
-          <span class="body-4-medium">{{ $t('bids.outbid_types.' + (haveAutoBidOn ? 'on' : 'off')) }}</span>
-        </b-col>
-        -->
-        <b-col sm="12" md="1" class="d-flex justify-content-around flex-column pt-4">
-          <span class="body-4-medium">{{ bid.price / 100 }}</span>
+        <b-col sm="12" md="2" class="d-flex justify-content-center flex-column pt-4">
+          <span class="body-4-normal sf-pro-text">${{ bid.price | formatPrice }}</span>
+          <div v-if="bidType === BID_TYPE_OUTGOING" class="d-none tag-bid d-md-flex align-items-center justify-content-center" :class="bid.place">
+            {{ $t('bids.bid_status.' + bid.place) }}
+          </div>
         </b-col>
         <b-col sm="12" md="2" class="d-flex justify-content-around flex-column pt-4">
-          <span class="body-4-medium">
+          <span class="body-4-normal sf-pro-font text-capitalize">
             {{ !isExpiredOrDelisted ? bid.auction.remaining_time : $t('bids.expired') }}
           </span>
         </b-col>
         <b-col
           v-if="bidType === BID_TYPE_OUTGOING && !isMobileSize"
           sm="12"
-          md="3"
+          md="2"
           class="d-flex justify-content-start align-items-center flex-column"
         >
-          <Button class="bg-blue-2 mt-4 border-0" pill @click="$emit('edit', bid)">
-            <span>
-              {{
-                isExpiredOrDelisted ? $t('bids.view') : $t('bids.edit_bid')
-              }}</span
-            >
+          <Button class="bg-dark-blue mt-4 border-0 body-4-normal sf-pro-font" pill @click="$emit('edit', bid)">
+            <span>{{ isExpiredOrDelisted ? $t('bids.view') : $t('bids.edit_bid') }}</span>
           </Button>
 
           <span
             role="button"
-            class="view-similar mt-2"
+            class="view-similar mt-2 pt-1 body-8-normal sf-pro-font"
             @click="viewSimilarAuction"
             >{{ $t('bids.view_similar') }}</span
           >
@@ -112,38 +96,45 @@
             <div class="px-0 px-md-1 px-lg-2 px-xl-3 body-4-medium"> {{ $t('bids.accept') }}</div>
           </Button>
         </b-col>
+        <b-col
+          v-if="(bidType !== BID_TYPE_OUTGOING && !acceptable)"
+          sm="12"
+          md="2"
+          class="d-flex justify-content-center align-items-center flex-column pt-4">-</b-col>
         </template>
       </b-row>
 
       <div v-if="isMobileSize" class="collection-items">
-        <b-carousel controls indicators>
-          <b-carousel-slide v-for="(item, i) in auction.auction_items" :key="i" class="h-auto">
+        <b-carousel indicators class="px-0">
+          <b-carousel-slide v-for="(item, i) in auction.auction_items" :key="i" class="h-auto px-2">
             <template #img>
               <b-row>
                 <b-col cols="4">
                   <ProductThumb :product="item.inventory.product" />
                 </b-col>
-                <b-col class="d-flex flex-column pl-3 mt-2">
-                  <div class="text-gray-6 body-6-normal sf-pro-font text-uppercase text-left mb-1">
-                    {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ item.inventory.product.sku }}
-                  </div>
-                  <div class="text-gray-6 body-6-normal sf-pro-font text-left mb-1">
-                   {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
-                     item.inventory.product.colorway.replace('/', ',')
-                   }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
-                     item.inventory.size.size
-                   }}
-                  </div>
-                  <div class="text-gray-6 body-6-normal sf-pro-font text-left mb-1">
-                     {{ $t('products.box_condition') }}&colon;&nbsp;{{ item.inventory.packaging_condition.name }}
+                <b-col class="d-flex align-items-center pl-0">
+                  <div>
+                    <div class="text-gray-6 body-6-normal sf-pro-font text-uppercase text-left mb-02 mb-md-1">
+                      {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ item.inventory.product.sku }}
+                    </div>
+                    <div class="text-gray-6 body-6-normal sf-pro-font text-left mb-02 mb-md-1">
+                    {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
+                      item.inventory.product.colorway.replace('/', ',')
+                    }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
+                      item.inventory.size.size
+                    }}
+                    </div>
+                    <div class="text-gray-6 body-6-normal sf-pro-font text-left mb-02 mb-md-1">
+                      {{ $t('products.box_condition') }}&colon;&nbsp;{{ item.inventory.packaging_condition.name }}
+                    </div>
                   </div>
                </b-col>
               </b-row>
             </template>
           </b-carousel-slide>
         </b-carousel>
-        <b-col class="py-1">
-          <div class="d-flex justify-content-between d-md-block align-items-end">
+        <b-col class="px-0">
+          <div class="d-flex justify-content-between align-items-center high-row-section">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.auction_id') }}:</span>
             <NuxtLink :to="`/profile/auctions/${auction.id}`" class="p-0">
               <span class="body-9-regular text-decoration-underline text-blue-30">
@@ -152,34 +143,26 @@
             </NuxtLink>
           </div>
         </b-col>
-        <b-col class="py-1 bg-lightgrey">
-          <div class="d-flex justify-content-between d-md-block">
+        <b-col class="px-0 bg-lightgrey">
+          <div class="d-flex justify-content-between align-items-center short-row-section">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.auction_type') }}:</span>
             <span class="body-9-regular text-gray-6">{{ $t('bids.auction_types.' + auction.type) }}</span>
           </div>
         </b-col>
-        <!--
-        <b-col sm="12" md="1" class="py-1">
-          <div class="d-flex justify-content-between d-md-block">
-            <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.auto_bid') }}:</span>
-            <span class="body-9-regular text-gray-6">{{ $t('bids.outbid_types.' + (haveAutoBidOn ? 'on' : 'off')) }}</span>
-          </div>
-        </b-col>
-        -->
-        <b-col sm="12" md="1" class="py-1">
-          <div class="d-flex justify-content-between d-md-block">
+        <b-col sm="12" md="1" class="px-0">
+          <div class="d-flex justify-content-between align-items-center high-row-section">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.highest_bid_amt') }}:</span>
-            <span class="body-9-regular text-gray-6">{{ bid.price | formatPrice }}</span>
+            <span class="body-9-regular text-gray-6">${{ bid.price | formatPrice }}</span>
           </div>
         </b-col>
-        <b-col sm="12" md="1" class="py-1" :class="{'bg-lightgrey': isMobileSize}">
-          <div class="d-flex justify-content-between d-md-block">
+        <b-col sm="12" md="1" class="px-0" :class="{'bg-lightgrey': isMobileSize}">
+          <div class="d-flex justify-content-between align-items-center short-row-section">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.time_remaining') }}:</span>
-            <span class="body-9-regular text-gray-6">{{ !isExpiredOrDelisted ? bid.auction.remaining_time : 'Expired' }}</span>
+            <span class="body-9-regular text-gray-6 text-capitalize">{{ !isExpiredOrDelisted ? bid.auction.remaining_time : 'Expired' }}</span>
           </div>
         </b-col>
       </div>
-      <b-row v-else>
+      <b-row v-else class="w-100">
         <b-col sm="12" md="2" class="text-left"> </b-col>
         <b-col sm="12" md="10">
           <b-row class="mt-2">
@@ -331,11 +314,11 @@ export default {
 
 // Setting the background color of the bid status.
 .highest_bid
-  background-color: $color-green-15
+  color: $color-green-15
 .outbid
-  background-color: $color-red-15
+  color: $color-red-15
 .winner
-  background-color: $color-blue-1
+  color: $color-blue-1
 
 .highest_bid_mobile
   color: $color-green-15
@@ -348,15 +331,9 @@ export default {
   z-index: 2
 
 .tag-bid
+  font-family: $font-sp-pro
   @include body-4
-  font-weight: $regular
-  height: 30px
-  width: 120px
-  left: 0
-  top: 0
-  z-index: 10
-  border-top-left-radius: 0px
-  border-bottom-right-radius: 10px
+  font-weight: $normal
 
 .view-similar
   @include body-4
@@ -367,39 +344,84 @@ export default {
 .bg-blue-2.btn.btn-primary
   background-color: $color-blue-2
 
-.collection-item
-  padding: 10px
-
 .border
   border: 1px solid $color-gray-60
   border-radius: 12px
   overflow: hidden
 
 .auction-id
-  color: $color-blue-31
-  @include body-5-bold
+  text-decoration: underline
+  font-family: $font-sf-pro-text
+  font-weight: $bold
+  text-align: center
+  @include body-5
+  color: $color-blue-1
 
 .text-blue-30
   color: $color-blue-30
-</style>
-<style lang="sass">
-@import '~/assets/css/_variables'
+
 .collection-items
   .carousel-indicators
     position: relative
     margin: 0
   .carousel-indicators li
     background-color: $color-gray-25
-    width: 12px
-    height: 12px
+    width: 4px
+    height: 4px
     border-radius: 50%
 .mobile-collection-svg
-  right: -18px
-  top: -3px
+  right: 0
+  top: -2px
   z-index: 2
   img
     width: 22px
 
 .sf-pro-font
   font-family: $font-family-sf-pro-display
+.bid-status
+  top: 7px
+  left: 12px
+
+.btn-mobile-accept
+  background-color: $color-blue-20
+  width: 54px
+  font-family: $font-sp-pro
+  font-weight: $medium
+  @include body-31
+  height: 22px
+
+.bg-dark-blue.btn.btn-primary
+  background-color: $color-blue-20
+  border-color: $color-blue-20
+
+.collection-item
+  padding: 12px 8px 12px 24px
+  margin-bottom: 11px
+  @media (max-width: 576px)
+    padding: 14px 0 6px
+    margin-bottom: 15px
+    .product-details
+      padding: 0 9px
+    .high-row-section
+      height: 22px
+      padding: 0 12px
+    .short-row-section
+      height: 20px
+      padding: 0 12px
+
+.mb-02
+  margin-bottom: 2px
+
+
+.sf-pro-text
+  font-family: $font-sf-pro-text
+
+.thumb-wrapper::v-deep
+  background-color: $white
+  @media (max-width: 576px)
+    text-align: left
+    img
+      padding: 0 !important
+      width: 86px
+      margin-left: 0
 </style>

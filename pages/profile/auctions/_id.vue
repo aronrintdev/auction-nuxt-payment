@@ -165,6 +165,7 @@ export default {
   name: 'Details',
   components: {AuctionSummary, Bid, Button, BulkSelectToolbar, Modal},
   layout: 'Profile',
+  middleware: ['vendor'],
   data(){
     return{
       EXPIRED_STATUS,
@@ -181,7 +182,6 @@ export default {
       totalCount: 0,
     }
   },
-
   computed: {
     ...mapGetters({
       selectedAuction: 'profile-auction/getSelectedAuction'

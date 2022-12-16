@@ -1,15 +1,16 @@
 <template>
   <div class="meter-wrapper d-flex flex-column justify-content-center align-items-center">
-    <div class="text-fair">{{$t(heading).toUpperCase()}} <sup><img :src="require('~/assets/img/trades/info-icon.svg')"></sup></div>
-    <div class="meter mx-auto mt-1 user-select-none">
-      <div class="label-excellent d-flex justify-content-center align-items-center">{{ $t('common.excellent') }}</div>
+    <div class="text-fair" :class="headingClass">{{$t(heading).toUpperCase()}} <sup><img :src="require('~/assets/img/trades/info-icon.svg')"></sup></div>
+    <div class="meter mx-auto mt-1 user-select-none" :class="{'empty-meter': pointerPos == null}">
+      <div v-if="pointerPos === fairVal" class="d-flex justify-content-center align-items-center"  :class="{'fair-meter' : pointerPos === fairVal}">{{ $t('common.fair') }}</div>
+      <div v-else-if="pointerPos === poorVal" class="d-flex justify-content-center align-items-center" :class="{'poor-meter': pointerPos === poorVal }">{{ $t('common.poor') }}</div>
+      <div v-else-if="pointerPos === execellent" class="label-excellent d-flex justify-content-center align-items-center" :class="{'excellent-meter': pointerPos === execellent}">{{ $t('common.excellent') }}</div>
     </div>
   </div>
 </template>
 <script>
-const START = -4
-const MID = 110
-const END = 226
+import {FILTER_CONDITION_EXCELLENT, FILTER_CONDITION_FAIR, FILTER_CONDITION_POOR} from '~/static/constants/trades';
+
 export default {
   name: 'Meter',
 
@@ -34,37 +35,34 @@ export default {
       type: String,
       default:  'common.fair',
     },
+    headingClass: {
+      type: String,
+      default: ''
+    }
   },
-
+  data(){
+    return{
+      execellent: FILTER_CONDITION_EXCELLENT,
+      fairVal: FILTER_CONDITION_FAIR,
+      poorVal: FILTER_CONDITION_POOR
+    }
+  },
   computed: {
     // Calculate the position of pointer.
     pointerPos() {
       if (this.value === null) return null
-      const pos =
-        this.getPosition(this.lowest, this.fair, this.value, START, MID) || // value is between lowest and fair
-        this.getPosition(this.fair, this.highest, this.value, MID, END) || // value is between fair and highest
-        this.getPosition(this.lowest, this.highest, this.value, START, END) || // value is between lowest and highest
-        MID // if nothing worked, we assumes it's MID (fair price)
-      return pos
-    },
-  },
-
-  methods: {
-    getPosition(lowValue, highValue, value, startPos, endPos) {
-      // if any of values is null, returns null;
-      if (lowValue === null || highValue === null || value === null) {
+      if(this.value >= this.highest){
+        return this.execellent
+      }
+      else if(this.value >= this.fair ){
+        return this.fairVal
+      }
+      else if(this.value === 0){
         return null
       }
-      // if value is not between lowValue and highValue, returns null;
-      if (value > highValue || value < lowValue) {
-        return null
+      else{
+        return this.poorVal
       }
-
-      // returns the position based on where value is placed between lowValue and highValue
-      return (
-        startPos +
-        ((highValue - value) / (value - lowValue)) * (endPos - startPos)
-      )
     },
   },
 }
@@ -83,11 +81,20 @@ export default {
     font-style: normal
     color: $color-black-1
 
+  .my-header
+    @include body-10-normal
+    width: 183px
+    text-align: left
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding-right: 15px
+    margin-bottom: 4px
+
   .meter
-    background: linear-gradient(90deg, $color-yellow-8 0%, $color-green-27 63.02%)
     border: 0.5px solid $color-gray-23
     box-shadow: inset 0 2px 3px $color-gray-85
-    width: 249px
+    width: 183px
     height: 24px
     position: relative
 
@@ -108,5 +115,28 @@ export default {
 
 .owl-carousel .owl-item img::v-deep
   width: unset
+.excellent-meter
+  background: linear-gradient(90deg, $color-yellow-8 0%, $color-green-27 63.02%)
+.fair-meter
+  background: linear-gradient(90deg, $color-orange-24 0%, $color-yellow-11 100%, $color-yellow-12 100%)
+  box-shadow: inset 0 2px 3px $color-gray-92
+  height: 24px
+  width: 139px
+  color: $color-white-1
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-8-bold
+.poor-meter
+  background: linear-gradient(90deg, $color-red-31 0%, $color-yellow-13 100%)
+  box-shadow: inset 0px 2px 3px $color-gray-92
+  width: 99px
+  height: 24px
+  color: $color-white-1
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-8-bold
+.empty-meter
+  background: $color-white-5
+  box-shadow: inset 0px 2px 3px $color-gray-92
 
 </style>

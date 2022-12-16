@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="mobileClass" class="d-flex justify-content-between align-items-center mb-3">
+    <div v-if="mobileClass" class="d-flex justify-content-between align-items-center mb-30px">
       <MobileSearchInput :value="''" class="flex-grow-1" />
       <a role="button" @click="showMobileFilter">
         <img
@@ -16,16 +16,16 @@
           {{ $t('vendor_hub.commission.overview') }}
         </div>
       </div>
-      <b-row class="mt-3 mt-sm-5">
+      <b-row class="mt-1 mt-sm-3">
         <div v-for="(item, ind) in commissionItems" :key="ind" :class="mobileClass.length ? 'commission-item-box' : 'col'">
           <CommissionItem :item="item" />
         </div>
       </b-row>
     </div>
 
-    <div :class="mobileClass ? '' : 'commission p-4'" class="mt-3">
+    <div :class="mobileClass.length ? 'mt-30px' : 'commission p-4 mt-3'">
       <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
-        <div class="d-flex justify-content-between w-100 mb-4 mb-sm-0">
+        <div class="d-flex justify-content-between w-100 mb-2 mb-sm-4">
           <div class="title" :class="mobileClass.length ? 'body-10-medium color-blue-20' : 'heading-3-normal'">
           {{ $t('vendor_hub.commission.commission_details') }}
           </div>
@@ -41,7 +41,7 @@
 
         <Button
           v-if="!mobileClass"
-          variant="dark"
+          variant="dark export-button"
           @click="toggleExport"
         >
             {{ $t('vendor_hub.commission.export_to_csv') }}
@@ -77,12 +77,13 @@
           <span class="label-text thin">{{ $t('vendor_hub.commission.filter_by') }}</span>
           <div class="mt-1">
             <CustomSelectwithCheckbox
+              style="max-width: 262px"
                 :options="STATUSES"
                 :title="$t('bids.status')"
                 :updateFilters="filterForm.activeStatusFilters"
                 :value="filterForm.statusType"
                 class="mr-4 dropdown-filters"
-                @filters="getCommissions(true)"
+                @filters="onStatusHandler"
             />
           </div>
         </div>
@@ -90,11 +91,10 @@
       <div v-else class="d-flex justify-content-between">
         <span class="text-color-gray-5 body-10-medium">{{ itemsTotal  }} {{ $t('vendor_hub.commission.entries') }}</span>
         <!-- Hide it right now there aren't API yet -->
-        <!--
-        <a role="button" class="color-blue-20 body-10-normal" @click="toggleExport">
-          <i class="fa fa-upload" aria-hidden="true"></i> {{ $t("vendor_hub.commission.email_cvs") }}
+        <a role="button" class="d-flex align-items-center" @click="toggleExport">
+          <img :src="require('~/assets/img/vendorhub/upload-icon.svg')" class="px-1">
+          <span class="color-gray-5 body-5-normal">{{ $t("vendor_hub.commission.email_cvs") }}</span>
         </a>
-        -->
       </div>
 
       <!-- Mobile list view -->
@@ -118,7 +118,11 @@
             <b-col cols="12" class="py-1">
               <div class="d-flex justify-content-between">
                 <span class="d-sm-block d-md-none body-9-medium">{{ $t('vendor_hub.commission.table.order_id') }}</span>
-                <span class="body-9-regular text-decoration-underline text-blue-30">{{ item.order.order_id }}</span>
+                <NuxtLink :to="`/orders/${item.order.order_id}-1`">
+                  <span class="body-9-regular text-decoration-underline text-blue-30">
+                  {{ item.order.order_id }}
+                  </span>
+                </NuxtLink>
               </div>
             </b-col>
             <b-col cols="12" class="py-1 bg-lightgrey">
@@ -162,7 +166,7 @@
       </template>
 
       <!-- Desktop list (table) view -->
-      <div v-else class="mt-3 flex-wrap overflow-auto">
+      <div v-else class="mt-3 flex-wrap overflow-auto commission-table">
         <b-table
             :borderless="true"
             :busy="dataLoading"
@@ -170,6 +174,25 @@
             :items="items"
             :show-empty="true"
         >
+          <template #head()="scope">
+
+            <div class="d-flex">
+              <b-form-checkbox
+                v-if="isExportActive && scope.column == 'order_id'"
+                v-model="isAllSelected"
+                @change="allSelected"
+              />
+              <div class="text-nowrap" role="button" @click="orderBy(scope)">
+                <span class="mr-1">{{ scope.label }}</span>
+                <img v-if="isSortActive(scope.field)"
+                     :src="require('~/assets/img/icons/down-arrow-solid.svg')"
+                     :alt="scope.label"
+                     class="sort-icon" :class="reverseDirection(scope.column)">
+              </div>
+
+            </div>
+          </template>
+
           <template #empty>
             <div class="d-flex justify-content-around">{{ $t('vendor_hub.commission.no_data') }}</div>
           </template>
@@ -204,7 +227,9 @@
               >
               </b-form-checkbox>
 
-              <span class="link-text" role="button">{{ data.item.order.order_id }}</span>
+              <span class="link-text" role="button" @click="$router.push(`/orders/${data.item.order.order_id}-1`)">
+                {{ data.item.order.order_id }}
+              </span>
             </div>
           </template>
 
@@ -213,43 +238,26 @@
               {{ data.item.product && data.item.product.name ? data.item.product.name : '-' }}
             </div>
           </template>
-
           <template #cell(commission)="data">
             <span>
               {{ data.value | toCurrency }}
             </span>
           </template>
-
           <template #cell(shipped_to_ds)="data">
             <span>
               {{ data.item.status === 'paid' ? 'Yes' : 'No' }}
             </span>
           </template>
-
           <template #cell(date_ordered)="data">
             <span>
               {{ data.item.order.created_at | formatDate }}
             </span>
           </template>
-
           <template #cell(status)="data">
             <span class="text-capitalize">
               {{ data.value }}
             </span>
           </template>
-
-          <template #head(order_id)="data">
-            <div class="d-flex">
-              <b-form-checkbox
-                  v-if="isExportActive"
-                  v-model="isAllSelected"
-                  @change="allSelected"
-              >
-              </b-form-checkbox>
-              <span>{{ data.label }}</span>
-            </div>
-          </template>
-
         </b-table>
       </div>
     </div>
@@ -280,6 +288,7 @@
 
 <script>
 import Vue from 'vue'
+import debounce from 'lodash.debounce';
 import {mapActions} from 'vuex';
 import JsonCSV from 'vue-json-csv'
 import CommissionItem from '~/components/profile/vendor-hub/CommissionItem';
@@ -289,6 +298,7 @@ import Loader from '~/components/common/Loader';
 import {COMMISSIONS_PAGE_OPTIONS, COMMISSIONS_PER_PAGE} from '~/static/constants';
 import screenSize from '~/plugins/mixins/screenSize'
 import CommissionMobileFilter from '~/components/profile/vendor-hub/CommissionMobileFilter';
+
 
 Vue.component('DownloadCsv', JsonCSV)
 export default {
@@ -309,7 +319,9 @@ export default {
         return {
           label: this.$t('vendor_hub.commission.table.' + a),
           key: a,
-          class: a !== 'order_id' ? ['text-center', 'table-bold', 'pt-3'] : ['table-bold', 'pt-3']
+          column: a,
+          class: a !== 'order_id' ? ['text-center', 'table-bold', 'pt-3'] : ['table-bold', 'pt-3'],
+          sortable: true
         }
       }),
       items: [],
@@ -365,7 +377,9 @@ export default {
       ],
       selected: [],
       isAllSelected: false,
-      dataLoading: false
+      dataLoading: false,
+      orderByField: 'id',
+      orderByDirection: 'asc',
     }
   },
   computed: {
@@ -453,7 +467,9 @@ export default {
             status: this.filterForm.activeStatusFilters.map(filter => filter.value),
             startDate: this.filterForm.startDate,
             endDate: this.filterForm.endDate,
-            page: this.page
+            page: this.page,
+            order_by_column: this.orderByField,
+            order_by_direction: this.orderByDirection,
           }
       ).then(res => {
         this.items.push(...res.data.data.data)
@@ -553,6 +569,23 @@ export default {
         mobileFilter.open()
       }
     },
+    onStatusHandler: debounce(function (e) {
+     this.getCommissions(true)
+    }, 500),
+
+    isSortActive(field){
+      return field.sortable
+    },
+    orderBy(headerItem){
+      if (this.isSortActive(headerItem.field)){
+        this.orderByDirection = this.reverseDirection(headerItem.field.column)
+        this.orderByField = headerItem.field.column
+        this.getCommissions(true, 1)
+      }
+    },
+    reverseDirection(column){
+      return column === this.orderByField ? (this.orderByDirection === 'asc'? 'desc' : 'asc'): 'desc'
+    },
   }
 }
 </script>
@@ -578,10 +611,9 @@ export default {
   font-weight: $normal
 
 .label-text
-  @include body-3
+  @include body-8-normal
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $bold
   color: $color-black-1
 
 .commission
@@ -599,8 +631,10 @@ export default {
 .apply-button.btn
   width: max-content
   font-weight: $normal
-  background-color: $color-blue-2
+  background-color: $color-blue-20
   border: none
+  &:hover
+    background-color: rgba($color-blue-20, .9)
 
 ::v-deep
   .custom-control-input:checked
@@ -626,6 +660,9 @@ export default {
 .color-blue-20
   color: $color-blue-20
 
+.color-gray-5
+  color: $color-gray-5
+
 .commission-item-box
   flex: 50%
 
@@ -640,4 +677,32 @@ export default {
 
 .text-blue-30
   color: $color-blue-30
+
+.export-button
+  width: 260px
+  font-family: $font-sp-pro
+  @include body-8-normal
+
+.header
+  font-family: $font-sp-pro
+  font-style: normal
+  @include body-8-bold
+
+.mb-30px
+  margin-bottom: 30px
+
+.mt-30px
+  margin-top: 30px
+
+.commission-table::v-deep
+  .table.b-table > thead > tr > [aria-sort=none]
+    background-size: 0px
+  .table.b-table > thead > tr > [aria-sort=ascending]
+    background-size: 0px
+  .table.b-table > thead > tr > [aria-sort=descending]
+    background-size: 0px
+
+.sort-icon
+  &.asc
+    transform: rotate(180deg)
 </style>

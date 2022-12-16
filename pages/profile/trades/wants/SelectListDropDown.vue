@@ -292,9 +292,9 @@ div.label-wrapper label
   border: 1px solid $color-gray-3
   border-radius: 10px
   height: 49px
-  paddingLeft: 16px
+  padding-left: 16px
   @media (min-width: 576px)
-    border-color: $color-blue-20 !important
+    border: 1px solid $color-blue-20 !important
     border-radius: 4px !important
     height: 40px !important
 

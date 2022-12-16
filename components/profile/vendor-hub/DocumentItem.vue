@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <div class="mt-3 mr-3">
+    <div class="mr-3 file-icon">
       <img :src="require('~/assets/img/profile/vendor-hub/document.svg')">
     </div>
     <b-col sm="12" md="3" class="d-flex flex-column">
@@ -22,7 +22,7 @@
       <Button
         v-if="!fieldExist('url')"
         pill
-        class="mt-3 action-button"
+        class="mt-4 action-button"
         @click="$emit('upload', document)"
       >
         {{$t('vendor_hub.documents_tab.upload_form')}}
@@ -64,7 +64,9 @@ export default {
   },
   computed: {
     documentStatusText(){
-      return this.fieldExist('url')? this.$t('vendor_hub.documents_tab.document_status_'+ this.documentFile.status.toLowerCase()) : ''
+      return this.fieldExist('url')
+        ? this.$t('vendor_hub.documents_tab.document_status_'+ this.documentFile.status.toLowerCase())
+        : this.$t('vendor_hub.documents_tab.document_status_not_started')
     },
     documentFile(){
       return this.document.document
@@ -115,30 +117,33 @@ export default {
   color: $color-blue-1
 
 .row-body
-  margin-top: 10px
+  margin-top: 22px
   @include body-3
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $normal
 
 .btn-primary.btn
-  background: $color-blue-2
+  background: $color-blue-20
   &:hover
-    background: $color-blue-3
+    background: rgba($color-blue-20, .9)
 
 .btn-outline-primary.btn
-  color: $color-blue-2
+  color: $color-blue-20
   &:hover
-    background: $color-blue-2
+    background: rgba($color-blue-20, .9)
 
 .action-button.btn
   padding-block: 20px
   max-width: max-content
-  border: 1px solid $color-blue-2
+  border: 1px solid $color-blue-20
 
 .column-label
   @include body-4
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $regular
+
+.file-icon
+  margin-top: 40px
 </style>

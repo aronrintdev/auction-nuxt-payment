@@ -1,28 +1,32 @@
 <template>
-  <div class="main-container p-2">
+  <div class="main-container py-2 px-3">
     <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeOffer"/>
     <div v-else>
-      <div class="d-flex mt-2">
-        <div>
+      <div class="d-flex mt-2 justify-content-between">
+        <div class="col-11 px-0">
           <SearchInput
             :value="searchText"
             variant="light"
             :placeholder="$t('home_page.search')"
             :clearSearch="true"
             inputHeight="33px"
-            class="create-trade-search"
+            class="create-trade-search w-100"
             @change="onSearchInput"
           />
-          <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="700px" class="position-absolute"/>
+          <SearchedProductsBelowSearchTextBox 
+            v-if="searchedItems.length > 0" 
+            :productItems="searchedItems" 
+            productsFor="tradeItem" 
+            class="position-absolute"
+            listGroupItemClass="w-100 justify-content-between px-2"
+          />
         </div>
-        <div @click="showFilters">
-          <img class="ml-3 mt-1" :src="require('~/assets/img/filters.svg')" />
-        </div>
+        <img :src="require('assets/img/icons/filter.svg')" @click="showFilters" />
       </div>
       <!-- Filters Section -->
         <client-only>
          <vue-bottom-sheet ref="filterSheet" max-height="90%" :is-full-screen="true" >
-           <trade-arena-filters @change="applyFilters" :orderFilter="true"/>
+           <trade-arena-filters :orderFilter="true" @change="applyFilters"/>
          </vue-bottom-sheet>
         </client-only>
       <div>
@@ -76,6 +80,7 @@
         </div>
         <infinite-loading :identifier="infiniteId" @infinite="getInventory">
           <span slot="no-more"></span>
+          <span slot="no-results"></span>
         </infinite-loading>
         <div v-if="showOffer" class="show-offers">
           <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center position-relative"
@@ -137,13 +142,13 @@
           </div>
         </div>
         <div class="d-flex justify-content-center">
-          <b-btn class="create-trade-next-btn position-fixed" :disabled="getTradeItems.length < 1"
+          <b-btn class="create-trade-next-btn position-fixed mr-0" :disabled="getTradeItems.length < 1"
                  @click="$router.push('/profile/create-listing/trades/wants')">
             {{ $t('create_listing.trade.offer_items.next') }}
           </b-btn>
         </div>
         <b-col class="position-relative">
-          <div v-if="!showOffer" @click="showOffer = !showOffer" class="offers-items d-flex align-items-center" role="button">
+          <div v-if="!showOffer" class="offers-items d-flex align-items-center" role="button" @click="showOffer = !showOffer">
             <img :src="require('~/assets/img/trades/updown.svg')">
             <span class="offer-text">{{$t('trades.offer')}}</span>
             <div v-if="getTradeItems.length" class="counter-icon position-absolute d-flex justify-content-center align-items-center">{{getTradeItems.length}}</div>
@@ -673,18 +678,11 @@ export default {
   @media (min-width: 400px)  and (max-width: 500px)
     width: 160px
 .create-trade-drag-drop-item-mobile
-  width: 343px
   min-height: 140px
   max-height: 201px
-  margin-left: 5px
-  margin-right: 0px
   border-radius: 3px
   background-color: $color-white-1
   border: 0.5px solid $color-gray-23
-  @media (min-width: 300px)  and (max-width: 349px)
-    width: 294px
-  @media (min-width: 400px)  and (max-width: 500px)
-    width: 400px
 
 .create-trade-drag-drop-heading
   font-family: $font-sp-pro
@@ -800,6 +798,7 @@ export default {
   height: 112px
 .show-offers
   position: fixed
-  bottom: 120px
+  bottom: 160px
   z-index: 80
+  width: 92%
 </style>

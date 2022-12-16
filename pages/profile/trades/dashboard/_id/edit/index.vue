@@ -40,10 +40,10 @@
             </div>
           </div>
         </b-col>
-        <b-col cols="2">
+        <b-col cols="2" class="d-flex align-items-center">
           <div class="confirm-trade-item-quantity">{{ item.quantity }}</div>
         </b-col>
-        <b-col cols="2" class="confirm-trade-icons d-flex">
+        <b-col cols="2" class="confirm-trade-icons d-flex align-items-center">
           <div>
             <img :src="require('~/assets/img/box-pencil.svg')" :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="addOfferProduct(item.product, item, 0)" />
           </div>
@@ -85,10 +85,10 @@
             </div>
           </div>
         </b-col>
-        <b-col cols="2">
+        <b-col cols="2" class="d-flex align-items-center">
           <div class="confirm-trade-item-quantity">{{ wantItem.selected_quantity }}</div>
         </b-col>
-        <b-col cols="2" class="confirm-trade-icons d-flex">
+        <b-col cols="2" class="confirm-trade-icons d-flex align-items-center">
           <div v-if="getTradeItemsWantCount < MAX_ITEMS_ALLOWED">
             <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"
                 :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="addProductWant(wantItem.product, 0, getTradeItemsWantCount)" />
@@ -252,7 +252,7 @@ export default {
     })
 
     // fetch trade details
-    if(this.getEditTradePageReferrer !== null){
+    if(this.getEditTradePageReferrer !== null && this.getTradeId){
       this.$store.commit('trades/removeAllOfferItems')
       this.$store.commit('trades/removeAllWantItems')
       this.$axios
@@ -525,3 +525,8 @@ export default {
   }
 }
 </script>
+<style lang="sass" scoped>
+.confirm-trade-item-quantity
+  padding-top: unset
+
+</style>

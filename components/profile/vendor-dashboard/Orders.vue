@@ -1,80 +1,115 @@
 <template>
   <div>
-    <div v-if="!isScreenXS" class="d-flex align-items-center justify-content-between">
-      <h1 class="heading-1-bold mb-0 heading font-secondary">
+    <div
+      v-if="!isScreenXS"
+      class="d-flex align-items-center justify-content-between"
+    >
+      <h1 class="heading-1-bold mb-0 font-secondary">
         {{ $t('vendor_dashboard.orders') }}
       </h1>
-      <NavGroup :data="menus" :value="activeNav" @change="navItem"/>
-      <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
+      <NavGroup
+        :data="menus"
+        :value="activeNav"
+        :class="mobileClass"
+        class="nav-grp"
+        @change="navItem"
+      />
+      <div class="d-flex justify-content-end align-items-center">
         <nuxt-link
-            to="/orders"
-            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
-        >{{ $t('vendor_dashboard.view_all') }}
-        </nuxt-link
-        >
+          to="/orders"
+          class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link"
+          >{{ $t('vendor_dashboard.view_all') }}
+        </nuxt-link>
       </div>
     </div>
-    <div v-if="isScreenXS" class="d-flex ">
-      <div class="flex-grow-1 text-center body-5-medium ml-5">
+    <div
+      v-if="isScreenXS"
+      class="d-flex align-items-center justify-content-between"
+    >
+      <div class="body-5-medium">
         {{ $t('vendor_dashboard.orders') }}
       </div>
-      <div class="d-flex align-items-center body-9-regular"
-           role="button"
-           @click="$router.push('/orders')">
-        <img :alt="$t('vendor_dashboard.view_all')" :src="require('~/assets/img/icons/eye2.svg')"
-             class="mr-1">{{ $t('vendor_dashboard.view_all') }}
-      </div>
+      <nuxt-link
+        class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 text-link-blue-mobile"
+        to="/orders"
+        >{{ $t('vendor_dashboard.view_all') }}
+      </nuxt-link>
     </div>
-    <div :class="{
-      'my-5': !isScreenXS
-    }">
+    <NavGroup
+      v-if="isScreenXS"
+      :data="mobileMenu"
+      :value="activeNav"
+      :class="mobileClass"
+      class="mt-2 nav-grp"
+      @change="navItem"
+    />
+
+    <div
+      :class="{
+        'my-5': !isScreenXS,
+      }"
+    >
       <b-table
-          class="ordersTable"
-          borderless
-          no-border-collapse
-          :fields="tableFields"
-          :items="topOrders"
-          tbody-tr-class="bg-white"
-          :busy="loading"
-          :show-empty="!loading && topOrders.length === 0"
+        class="ordersTable"
+        borderless
+        no-border-collapse
+        :fields="tableFields"
+        :items="topOrders"
+        tbody-tr-class="bg-white"
+        :busy="loading"
+        :show-empty="!loading && topOrders.length === 0"
       >
         <template #table-busy>
-          <div class="d-flex align-items-center justify-content-center">
-            <Loader :loading="loading"/>
+          <div class="d-flex align-items-center justify-content-center w-100">
+            <Loader :loading="loading" />
+          </div>
+        </template>
+        <template #head()="scope">
+          <div class="text-nowrap" role="button" @click="orderBy(scope)">
+            <span class="mr-1">{{ scope.label }}</span>
+            <img
+              v-if="scope.label !== $t('vendor_dashboard.actions')"
+              :src="require('~/assets/img/icons/down-arrow-solid.svg')"
+              :alt="scope.label"
+              class="sort-icon"
+              :class="reverseDirection(scope.column)"
+            />
           </div>
         </template>
         <template #cell(product)="data">
           <div
-              class="d-flex align-items-center align-items-sm-baseline justify-content-center flex-sm-column gap-2 tdHeightSm mb-2 mb-sm-0"
-              :class="mobileClass"
+            class="d-flex align-items-center align-items-sm-baseline justify-content-center flex-sm-column gap-2 tdHeightSm mb-2 mb-sm-0"
+            :class="mobileClass"
           >
             <div class="col-thumb d-flex d-sm-none">
               <ProductThumb
-                  v-if="data.item.listing_item"
-                  :src="data.item.listing_item.inventory.product.image"
-                  :product="data.item.listing_item.inventory.product"
+                v-if="data.item.listing_item"
+                :src="data.item.listing_item.inventory.product.image"
+                :product="data.item.listing_item.inventory.product"
               />
             </div>
             <div v-if="data.item.listing_item">
               <h4
-                  :class="{
-                 'body-5-medium mobile': isScreenXS,
+                :class="{
+                  'body-5-medium mobile': isScreenXS,
                   'font-secondary': !isScreenXS,
                 }"
-                  class="fw-6 fs-15 border-primary mb-1 text-nowrap text-truncate mw-300"
+                class="fw-6 fs-15 border-primary mb-1 text-nowrap text-truncate mw-220"
               >
                 {{ data.item.listing_item.inventory.product.name }}
               </h4>
-              <h4 class="font-secondary fs-13 fw-5 mb-0 text-secondary-6">
+              <h4 class="font-secondary body-6-normal mb-0 text-secondary-6">
                 {{ $t('vendor_dashboard.sku') }}:
                 {{ data.item.listing_item.inventory.product.sku }}
               </h4>
-              <h4 :class="mobileClass"
-                  class="font-secondary fs-13 fw-5 mb-0 text-secondary-6 text-nowrap text-truncate mw-300">
+              <h4
+                :class="mobileClass"
+                class="font-secondary body-6-normal mb-0 text-secondary-6 text-nowrap text-truncate mw-220"
+              >
                 {{ $t('vendor_dashboard.colorway') }}:
                 {{ data.item.listing_item.inventory.product.colorway }}
               </h4>
-              <h4 class="font-secondary fs-13 fw-5 mb-0 text-secondary-6">
+              <h4 class="font-secondary body-6-normal mb-0 text-secondary-6">
                 {{ $t('vendor_dashboard.box_condition') }}:
                 {{ data.item.listing_item.inventory.packaging_condition.name }}
               </h4>
@@ -82,21 +117,24 @@
           </div>
         </template>
         <template #cell(order_id)="data">
-          <div :aria-label="$t('vendor_dashboard.order_id')" class="d-flex align-items-center  w-fit-content tdHeight"
-               :class="{
-                  'flex-column': !isScreenXS
-               }"
-               role="button"
-               @click="$router.push(`/orders/${orderId(data.item)}`)">
+          <div
+            :aria-label="$t('vendor_dashboard.order_id')"
+            class="d-flex align-items-center w-fit-content tdHeight"
+            :class="{
+              'flex-column': !isScreenXS,
+            }"
+            role="button"
+            @click="$router.push(`/orders/${orderId(data.item)}`)"
+          >
             <div v-if="!isScreenXS" class="col-thumb mb-1">
               <ProductThumb
-                  v-if="data.item.listing_item"
-                  :product="data.item.listing_item.inventory.product"
-                  :src="data.item.listing_item.inventory.product.image"
+                v-if="data.item.listing_item"
+                :product="data.item.listing_item.inventory.product"
+                :src="data.item.listing_item.inventory.product.image"
               />
             </div>
             <h4
-                class="fw-7 fs-14 font-secondary border-bottom border-primary text-primary mb-0 mx-auto text-nowrap"
+              class="fw-7 fs-14 font-secondary text-decoration-underline text-link-blue-mobile mb-0 mx-auto text-nowrap"
             >
               #{{ orderId(data.item) }}
             </h4>
@@ -104,8 +142,8 @@
         </template>
         <template #cell(date_ordered)="data">
           <div
-              class="d-flex align-items-center justify-content-center tdHeight"
-              :aria-label="$t('vendor_dashboard.date_ordered')"
+            class="d-flex align-items-center justify-content-center tdHeight"
+            :aria-label="$t('vendor_dashboard.date_ordered')"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
               {{ new Date(data.item.created_at).toLocaleDateString() }}
@@ -114,10 +152,14 @@
         </template>
         <template #cell(type)="data">
           <div
-              class="d-flex align-items-center justify-content-center tdHeight text-capitalize"
-              :aria-label="$t('vendor_dashboard.type')"
+            class="d-flex align-items-center justify-content-center tdHeight text-capitalize"
+            :aria-label="$t('vendor_dashboard.type')"
           >
-            <h4 v-if="data.item.order" class="font-secondary fw-5 fs-16 mb-0">{{ data.item.order.type.label }}</h4>
+            <h4 v-if="data.item.order" class="font-secondary fw-5 fs-16 mb-0">
+              {{ data.item.order.type.label === 'buy'
+                ? $t('common.shop')
+                : data.item.order.type.label }}
+            </h4>
           </div>
         </template>
         <template #cell(vendor_payout)="data">
@@ -125,59 +167,119 @@
             class="d-flex align-items-center justify-content-center tdHeight"
             :aria-label="$t('vendor_dashboard.vendor_payout')"
           >
-            <h4 class="font-secondary fw-5 fs-16 mb-0">{{
-                (data.item.commission ? data.item.commission.commission : 0) | toCurrency
-              }}</h4>
+            <h4 class="font-secondary fw-5 fs-16 mb-0">
+              {{
+                (data.item.commission ? data.item.commission.commission : 0)
+                  | toCurrency
+              }}
+            </h4>
           </div>
         </template>
         <template #cell(status)="data">
           <div
-              :class="{
-                'text-center': !isScreenXS
-              }"
-              class="d-flex align-items-center justify-content-center tdHeight "
-              :aria-label="$t('vendor_dashboard.status')"
+            :class="{
+              'text-center': !isScreenXS,
+            }"
+            class="d-flex align-items-center justify-content-center tdHeight"
+            :aria-label="$t('vendor_dashboard.status')"
           >
-            <h4 :class="styleFor(data.item.status) + ` ${mobileClass}` + `${isScreenXS? 'text-nowrap': ''}`"
-                class="text-capitalize status body-13-normal">
-              {{ data.item.status_label }}
+            <h4
+              :class="
+                styleFor(data.item.status) +
+                ` ${mobileClass}` +
+                `${isScreenXS ? 'text-nowrap' : ''}`
+              "
+              class="text-capitalize status body-13-normal mb-0"
+            >
+              {{ getLabelForStatus(data.item.status, 'vendor') }}
             </h4>
           </div>
         </template>
         <template #cell(actions)="data">
           <div
-              class="d-flex align-items-center justify-content-center tdHeight"
-              :aria-label="$t('vendor_dashboard.actions')"
+            class="d-flex align-items-center justify-content-center tdHeight text-link-blue-mobile"
+            :aria-label="$t('vendor_dashboard.actions')"
           >
-            <div :class="{
-              'text-nowrap': isScreenXS
-            }"
-                 class="font-secondary fw-5 fs-16 mb-0 text-primary text-center mw-140">
-              <div v-if="data.item.status === PROCESSING && !isScreenXS"
-                   class="d-flex align-items-center justify-content-center">
-                <img :src="require('~/assets/img/paper.svg')"/>
+            <div
+              :class="{
+                'text-nowrap': isScreenXS,
+              }"
+              class="font-secondary fw-5 fs-16 mb-0 text-primary text-center mw-140"
+            >
+              <div
+                v-if="data.item.status === PROCESSING && !isScreenXS"
+                class="d-flex align-items-center justify-content-center"
+              >
+                <img :src="require('~/assets/img/paper.svg')" />
               </div>
               <div v-if="data.item.status === PROCESSING">
-                <a href="#generate-label" @click="generateLabel(data.item)">{{ $t('orders.generate_shipping_label') }}
-                  <img v-if="isScreenXS" :src="require('~/assets/img/paper.svg')" height="16" width="12"/>
-                  <img v-if="!isScreenXS" :src="require('~/assets/img/rewards/arrow-right-blue.svg')"/>
+                <a
+                  href="#generate-label"
+                  class="text-link-blue-mobile"
+                  @click="generateLabel(data.item)"
+                  >{{ $t('orders.generate_shipping_label') }}
+                  <img
+                    v-if="isScreenXS"
+                    :src="require('~/assets/img/paper.svg')"
+                    height="16"
+                    width="12"
+                  />
+                  <img
+                    v-if="!isScreenXS"
+                    :src="require('~/assets/img/rewards/arrow-right-blue.svg')"
+                  />
                 </a>
               </div>
               <div v-if="data.item.status === AWAITING_SHIPMENT_TO_DEADSTOCK">
-                <a href="#generate-label" @click="generateLabel(data.item)">{{ $t('orders.delivered_to_deadstock') }}
-                  <img v-if="isScreenXS" :src="require('~/assets/img/paper.svg')" height="16" width="12"/>
-                  <img v-if="!isScreenXS" :src="require('~/assets/img/rewards/arrow-right-blue.svg')"/>
+                <a
+                  href="#generate-label"
+                  class="text-link-blue-mobile"
+                  @click="generateLabel(data.item)"
+                  >{{ $t('orders.delivered_to_deadstock') }}
+                  <img
+                    v-if="isScreenXS"
+                    :src="require('~/assets/img/paper.svg')"
+                    height="16"
+                    width="12"
+                  />
+                  <img
+                    v-if="!isScreenXS"
+                    :src="require('~/assets/img/rewards/arrow-right-blue.svg')"
+                  />
                 </a>
               </div>
-              <div v-if="data.item.status !== PROCESSING && data.item.vendor_shipment">
-                <a :download="`${data.item.vendor_shipment.tracking_no}.pdf`" :href="downloadPdf(data.item)">{{
-                    $t('orders.print_shipping_label')
-                  }} <img v-if="isScreenXS" :src="require('~/assets/img/paper.svg')" height="16" width="12"/></a>
+              <div
+                v-if="
+                  data.item.status !== PROCESSING && data.item.vendor_shipment
+                "
+              >
+                <a
+                  class="text-link-blue-mobile"
+                  :download="`${data.item.vendor_shipment.tracking_no}.pdf`"
+                  :href="downloadPdf(data.item)"
+                  >{{ $t('orders.print_shipping_label') }}
+                  <img
+                    v-if="isScreenXS"
+                    :src="require('~/assets/img/paper.svg')"
+                    height="16"
+                    width="12"
+                /></a>
               </div>
-              <span v-if="data.item.status !== PROCESSING && data.item.vendor_shipment">
-                <span>{{ data.item.vendor_shipment.shipping_method_text }}</span>
-                <a :href="data.item.vendor_shipment.tracking_url" class="text-decoration-underline"
-                   target="_blank">{{ data.item.vendor_shipment.tracking_no }}</a>
+              <span
+                v-if="
+                  data.item.status !== PROCESSING && data.item.vendor_shipment
+                "
+                class="text-link-blue-mobile"
+              >
+                <span>{{
+                  data.item.vendor_shipment.shipping_method_text
+                }}</span>
+                <a
+                  :href="data.item.vendor_shipment.tracking_url"
+                  class="text-decoration-underline text-link-blue-mobile"
+                  target="_blank"
+                  >{{ data.item.vendor_shipment.tracking_no }}</a
+                >
               </span>
             </div>
           </div>
@@ -189,85 +291,93 @@
 <script>
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
-import screenSize from '~/plugins/mixins/screenSize';
-import {AWAITING_SHIPMENT_TO_DEADSTOCK, PROCESSING} from '~/static/constants';
-import Loader from '~/components/common/Loader';
+import screenSize from '~/plugins/mixins/screenSize'
+import { AWAITING_SHIPMENT_TO_DEADSTOCK, PROCESSING } from '~/static/constants'
+import Loader from '~/components/common/Loader'
+import orderStatus from '~/plugins/mixins/order-status';
 
 export default {
   name: 'TopOrdersTable',
-  components: {Loader, NavGroup, ProductThumb},
-  mixins: [screenSize],
+  components: { Loader, NavGroup, ProductThumb },
+  mixins: [screenSize, orderStatus],
   data() {
     return {
       PROCESSING,
       AWAITING_SHIPMENT_TO_DEADSTOCK,
-      // Active Nav for the Toggle Button
-      activeNav: '',
+      activeNav: '1',
       topOrders: [],
       statusColors: {
-        'pending': 'orange',
-        'processing': 'orange',
-        'arrived_to_ds': 'green',
-        'send_to_ds': 'purple',
-        'processing_payment': '',
-        'authenticated_and_shipped': '',
-        'delivered': 'black',
-        'cancelled': 'red',
-        'shipped_and_auth': '',
-        'multiple': ''
+        pending: 'orange',
+        processing: 'orange',
+        arrived_to_ds: 'green',
+        send_to_ds: 'purple',
+        processing_payment: '',
+        authenticated_and_shipped: '',
+        delivered: 'black',
+        cancelled: 'red',
+        shipped_and_auth: '',
+        multiple: '',
       },
       fields: [
         {
           key: 'order_id',
           label: this.$t('vendor_dashboard.order_id'),
-          sortable: true,
+          sortable: false,
           tdClass: 'product-img-cell ',
-          thClass: ' body-4-bold',
+          thClass: 'text-nowrap  body-4-bold',
         },
         {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
-          sortable: true,
+          sortable: false,
           tdClass: 'product-info-cell',
-          thClass: 'body-4-bold',
+          thClass: 'text-nowrap body-4-bold',
         },
         {
           key: 'date_ordered',
           label: this.$t('vendor_dashboard.date_ordered'),
-          sortable: true,
-          thClass: 'text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'type',
           label: this.$t('vendor_dashboard.type'),
-          sortable: true,
-          thClass: 'text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'vendor_payout',
           label: this.$t('vendor_dashboard.vendor_payout'),
-          sortable: true,
-          thClass: 'text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'status',
           label: this.$t('vendor_dashboard.status'),
-          sortable: true,
-          thClass: 'text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'actions',
           label: this.$t('vendor_dashboard.actions'),
           sortable: false,
-          thClass: 'text-center body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold',
         },
       ],
+      orderStatuses: Object.keys(this.$t('orders.order_statuses')).map(a => {
+        return {
+          text: this.$t('orders.order_statuses.' + a),
+          value: a
+        }
+      }),
       loading: false,
+      orderByField: 'id',
+      orderByDirection: 'asc',
       /** Todo need to make dynamic onces we have way of main categories in DB */
       menus: [
-        {label: this.$t('vendor_dashboard.all'), value: ''},
-        {label: this.$t('vendor_dashboard.footwear'), value: '1'},
-        {label: this.$t('vendor_dashboard.apparel'), value: '2'},
+        { label: this.$t('vendor_dashboard.all'), value: '' },
+        { label: this.$t('vendor_dashboard.footwear'), value: '1' },
+        { label: this.$t('vendor_dashboard.apparel'), value: '2' },
         {
           label: this.$t('vendor_dashboard.accessories'),
           value: '3',
@@ -277,23 +387,38 @@ export default {
   },
   computed: {
     tableFields() {
-      if (!this.isScreenXS)
-        return this.fields
-      else
-        return this.swapElementTable()
-    }
+      if (!this.isScreenXS) return this.fields
+      else return this.swapElementTable()
+    },
+    mobileMenu() {
+      return this.menus.filter((menu) => menu.value !== '')
+    },
   },
   mounted() {
     this.getTopOrders()
   },
   methods: {
+    orderBy(scope) {
+      if (scope.column !== 'actions') {
+        this.orderByDirection = this.reverseDirection(scope.column)
+        this.orderByField = scope.column
+        this.getTopOrders()
+      }
+    },
+    reverseDirection(column) {
+      return column === this.orderByField
+        ? this.orderByDirection === 'asc'
+          ? 'desc'
+          : 'asc'
+        : 'desc'
+    },
     async generateLabel(item) {
       const len = item.status_markable.length
       if (len < 1) {
         return false
       }
       const status = item.status_markable[len - 1]
-      const url = `/order-items/${item.id}/status?status=${status.key}`;
+      const url = `/order-items/${item.id}/status?status=${status.key}`
 
       const resp = await this.$axios.put(url)
       if (resp.status === 200) {
@@ -303,29 +428,29 @@ export default {
     styleFor(statusLabel) {
       switch (statusLabel.toLowerCase()) {
         case 'arrived_at_deadstock':
-          return 'arrived';
+          return 'arrived'
         case 'arrived_at_ds':
-          return 'arrived';
+          return 'arrived'
         case 'delivered':
-          return 'delivered';
+          return 'delivered'
         case 'completed':
-          return 'arrived';
+          return 'arrived'
         case 'cancel':
-          return 'cancel';
+          return 'cancel'
         case 'refunded':
-          return 'cancel';
+          return 'cancel'
         case 'cancelled':
-          return 'cancel';
+          return 'cancel'
         case 'shipped_to_deadstock':
-          return 'shipped';
+          return 'shipped'
         case 'shipped_to_ds':
-          return 'shipped';
+          return 'shipped'
         case 'awaiting_authentication':
-          return 'awaiting-auth';
+          return 'awaiting-auth'
         case 'auth_completed':
-          return 'auth-completed';
+          return 'auth-completed'
         case 'order_taken_over':
-          return 'order-taken-over';
+          return 'order-taken-over'
       }
 
       return 'awaiting'
@@ -334,11 +459,15 @@ export default {
       return `data:application/pdf;base64,${item.vendor_shipment.shipment_pdf}`
     },
     swapElementTable() {
-      return [this.fields[1], this.fields[0], ...this.fields.slice(2, this.fields.length)]
+      return [
+        this.fields[1],
+        this.fields[0],
+        ...this.fields.slice(2, this.fields.length),
+      ]
     },
     orderId(order) {
       const length = order.order.items.length
-      return `${order.order.order_id}${(length > 0 ? '-1' : '')}`
+      return `${order.order.order_id}${length > 0 ? '-1' : ''}`
     },
     // On Tab Change (All/ Footwear/ Apparel/ Accessories)
     navItem(val) {
@@ -348,21 +477,45 @@ export default {
     getTopOrders() {
       this.loading = true
       this.$axios
-          .get('/dashboard/vendor/orders?category_id=' + this.activeNav)
-          .then((res) => {
-            this.topOrders = res.data.data.data
-          })
-          .catch((err) => {
-            this.logger.logToServer(err.response)
-          }).finally(() => {
-        this.loading = false
-      })
+        .get('/dashboard/vendor/orders', {
+          params: {
+            category_id: this.activeNav,
+            order_by_column: this.orderByField,
+            order_by_direction: this.orderByDirection,
+          },
+        })
+        .then((res) => {
+          this.topOrders = res.data.data.data
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
   },
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.sort-icon
+  &.asc
+    transform: rotate(180deg)
+
+::v-deep.nav-grp
+  width: 460px
+  &.mobile
+    width: 100%
+  .btn-group
+    height: 36px
+    button.btn
+      @include body-6-regular
+      font-family: $font-montserrat
+      width: 103px
+      padding-block: 1px
+      &.active
+        font-weight: $medium
 
 .status
   &.mobile
@@ -435,8 +588,8 @@ export default {
 .mw-140
   max-width: 160px
 
-.mw-300
-  max-width: 300px
+.mw-220
+  max-width: 220px
 
   &.mobile
     max-width: 200px
@@ -445,20 +598,9 @@ export default {
   color: $color-gray-6
   font-family: $font-sf-pro-text
 
-.ordersTable
+::v-deep.ordersTable
   &.table.b-table.b-table-no-border-collapse
     border-spacing: 0 10px
-
-  thead
-    tr
-      [aria-sort=none]
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 1l25 23 24 22H1l25-22zM51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important
-
-      [aria-sort=descending]
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important
-
-      [aria-sort=ascending]
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 1l25 23 24 22H1l25-22z'/%3e%3c/svg%3e") !important
 
   thead th div
     font-family: $font-family-base
@@ -502,7 +644,7 @@ export default {
       outline: 1px solid $color-gray-3
       display: block
       margin: 12px 0
-      padding: 15px 0
+      padding: 15px 0 6px 0
 
       div.font-secondary
         font-size: 12px
@@ -510,16 +652,16 @@ export default {
         font-weight: $normal
         font-family: $font-family-base
     .tdHeight
-      font-size: 12px
+      @include body-9-medium
       color: $color-black-1
-      font-weight: $bold
       width: 100%
+      padding: 1px 0
+
       .status-badge
         background: none
         padding: 0
       h4
-        font-size: 12px
-        font-weight: $normal
+        @include body-9-normal
         font-family: $font-family-base
         &.actions
           display: flex

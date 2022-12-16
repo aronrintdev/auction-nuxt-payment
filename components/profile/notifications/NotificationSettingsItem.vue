@@ -14,6 +14,9 @@
       </div>
       <div :class="{ 'w-75': isScreenXS }" class="sub-title mt-2 mr-2">
         {{ settings.desc }}
+        <div v-if="settings.desc_next" class="mt-4">
+          {{ settings.desc_next }}
+        </div>
       </div>
     </b-col>
     <b-col v-if="!isScreenXS" class="title-labels w-50" md="4">
@@ -334,7 +337,7 @@ export default {
       return (
         this.getSettings.filter(
           (sett) => sett.key === this.settings.key && sett.channel === channel
-        )[0].is_active === 1
+        )[0]?.is_active === 1
       )
     },
     selectAllWhenOptions(check) {
@@ -406,28 +409,32 @@ export default {
   opacity: 0.66
 
 .label
-  @include body-8
+  @include body-8-regular
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $regular
   color: $color-gray-5
+  white-space: nowrap
 
 
 .title
   @include body-8
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $medium
   color: $color-black-1
 
 .sub-title
   @include body-8
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $regular
   color: $color-gray-5
 
 ::v-deep.vue-slider-ltr-shop
+  .vue-slider-process
+    background-color: $color-blue-20
+  .vue-slider-dot
+    .vue-slider-dot-handle
+      background-color: $color-blue-20
+
   .vue-slider-dot-tooltip-text
     @include body-10
     background-color: transparent
@@ -442,7 +449,6 @@ export default {
 
 .type-radios::v-deep
   .custom-radio
-
     label
       @include body-13
       font-family: $font-family-sf-pro-display

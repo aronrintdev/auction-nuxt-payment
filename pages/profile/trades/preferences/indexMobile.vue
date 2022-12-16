@@ -1,6 +1,6 @@
 <template>
   <div class="pt-3 pb-5">
-    <div class="main-container ml-3" v-if="mainPageList">
+    <div v-if="mainPageList" class="main-container ml-3">
       <div class="p-2 mt-1" @click="inventorySettings()">
         <div class="d-flex mb-1">
           <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{$t('trades.preferences.inventory_settings')}}</div>
@@ -54,79 +54,66 @@
           {{$t('trades.preferences.set_what_other_traders_are_able_to_view_when_placing')}}
         </div>
         <div  v-for="(status, index) in inventoryStatusOptions" :key="index">
-         <div  @click="changeStatus(status.value)" class="option-status p-3">
-           {{status.text}}  <img class="image-tick" v-if="status.value == inventoryStatus" src="~/assets/img/tick.svg" />
+         <div  class="option-status p-3" @click="changeStatus(status.value)">
+           {{status.text}}  <img v-if="status.value == inventoryStatus" class="image-tick" src="~/assets/img/tick.svg" />
          </div>
         </div>
       </div>
-      <div>
-       <b-btn class="save-changes-btn ml-5" @click="savePreference">
-         {{$t('common.save_changes')}}
-       </b-btn>
-      </div>
     </div>
-    <div class="customize-cont ml-3 m-2 p-3" v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM" >
+    <div v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM" class="customize-cont ml-3 m-2 p-3" >
      <div>
        <your-inventory @updateTotal="setTotalInventory" @change="changePublicInventories" />
      </div>
     </div>
-    <div class="mt-2 ml-3 mr-3 mb-5 offer-sections p-2" v-if="showOfferSetting">
+    <div v-if="showOfferSetting" class="mt-2 ml-3 mr-3 mb-5 offer-sections p-2">
       <div>
-        <div class="offer-head">  {{$t('trades.preferences.offer_settings')}}</div>
-        <div class="offer-start"> {{$t('trades.preferences.starting_at')}}</div>
+        <div class="offer-head ml-2">  {{$t('trades.preferences.offer_settings')}}</div>
+        <div class="offer-start mt-1 ml-2"> {{$t('trades.preferences.starting_at_new')}}</div>
+        <hr class="hr mt-3" />
         <div class="fair-text">
-          <single-slider :value="fairTrade"
-                         :minValue="0"
-                         :maxValue="DEFAULT_INTERESTS"
-                         :textToShow="$t('trades.preferences.of_fair_offer')"
-                         :meterText="true" @slide="changeFairTrade"
+          <single-slider-offer
+            :value="fairTrade"
+            :minValue="0"
+            :maxValue="DEFAULT_INTERESTS"
+            :textToShow="$t('trades.preferences.of_fair_offer')"
+            :meterText="true"
+            @slide="changeFairTrade"
           />
         </div>
       </div>
-      <div class="offer-subtext pt-2">
-        {{$t('trades.preferences.other_traders_will_only_be_able')}}
-      </div>
-      <div>
-        <b-btn class="save-btn-offer-setting ml-4" @click="savePreference">
-          {{$t('common.save_changes')}}
-        </b-btn>
-      </div>
     </div>
 
-    <div class="mt-2 ml-3 mr-3 mb-5 refine-sections p-2" v-if="showrefineMatch">
+    <div v-if="showrefineMatch" class="mt-2 ml-3 mr-3 refine-sections p-2">
       <div>
-        <div class="offer-head">  {{$t('trades.preferences.refine_your_matches')}}</div>
-       <div class="refine-headings">
+        <div class="offer-head ml-2">  {{$t('trades.preferences.refine_your_matches')}}</div>
+        <div class="update-urs ml-2 mt-1">{{$t('trades.preferences.update_your_interests')}}</div>
+        <hr class="hr" />
+       <div class="refine-headings ml-2">
          {{$t('trades.preferences.sneaker')}}
        </div>
         <div>
           <single-slider :value="sneakerInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeSneakerInterest" />
         </div>
-        <div class="refine-headings">
+        <div class="refine-headings ml-2 mt-2">
           {{$t('trades.preferences.apparel')}}
         </div>
         <div>
           <single-slider :value="apparelInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeApparelInterest" />
         </div>
-        <div class="refine-headings">
+        <div class="refine-headings ml-2 mt-2">
           {{$t('trades.preferences.accessories')}}
         </div>
         <div>
           <single-slider :value="accessoriesInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeAccessoriesInterest" />
         </div>
-      <div>
-        <b-btn class="save-btn-refine ml-4" @click="savePreference">
-          {{$t('common.save_changes')}}
-        </b-btn>
-      </div>
     </div>
     </div>
 
-    <div class="mt-2 ml-2 mr-3 p-2" v-if="sizePre">
+    <div v-if="sizePre" class="mt-2 ml-2 mr-3 p-2">
       <div  class="sizePre-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
         <div class="mt-2 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-1'">
+          <div v-b-toggle="'collapse-1'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$tc('common.size_type')}}</b-col>
               <b-col class="col-sm-6">
@@ -150,7 +137,7 @@
         </div>
         <hr class="hr" />
         <div class="mt-1 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-2'">
+          <div v-b-toggle="'collapse-2'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$tc('common.size')}}</b-col>
               <b-col class="col-sm-6">
@@ -174,7 +161,7 @@
         </div>
         <hr class="hr" />
         <div class="mt-1 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-3'">
+          <div v-b-toggle="'collapse-3'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$t('common.apparel')}}</b-col>
               <b-col class="col-sm-6">
@@ -197,27 +184,33 @@
           </b-collapse>
         </div>
       </div>
-      <div>
-        <b-btn class="save-btn-size" @click="savePreference">
-          {{$t('common.save_changes')}}
-        </b-btn>
-      </div>
     </div>
-    <div class="mt-2 ml-2 mr-3 p-2" v-if="brandsPre">
+    <div v-if="brandsPre" class="mt-2 ml-2 mr-3 p-2">
       <div  class="brand-sections">
-        <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
-        <b-row>
-          <b-col v-for="(brand,index) in filters.brands" :key="index">
-              <div class="m-2" :class="selectedBrands.includes(brand._id) ?'selected-brand':'unselected-brand'">
-                <img :src="brand.image" class="brand-image" @click="changeSelectedBrands(brand._id)">
+        <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.brand_preferences')}}</div>
+        <div class="offer-start mt-1 ml-3 mb-3"> {{$t('trades.preferences.looking_for')}}</div>
+        <hr />
+        <div class="form-group rounded-search-input ml-2">
+          <img :src="searchIcon" class="icon-search" alt="" />
+          <input type="text" v-model="search" placeholder="Search Brands" />
+        </div>
+        <div class="brands-container">
+          <div class="brand-border" v-for="(brand,index) in filteredList" :key="index">
+            <div class="m-2" >
+              <div @click="changeSelectedBrands(brand._id)">
+                <div class="brand-name">
+                  {{brand.name}}
+                </div>
+                <div class="right-tick">
+                  <div v-if="selectedBrands.includes(brand._id)"  class="tick-circle">
+                    <img  src="~/assets/img/white-tick.svg" class="white-tick" />
+                  </div>
+                </div>
               </div>
-          </b-col>
-        </b-row>
-      </div>
-      <div>
-        <b-btn class="save-btn-brand" @click="savePreference">
-          {{$t('common.save_changes')}}
-        </b-btn>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
     <div v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM">
@@ -225,13 +218,10 @@
         {{$t('common.save_changes')}}
       </b-btn>
     </div>
-    <div class="main-pref-container">
-      <b-row class="justify-content-center pt-4">
-        <Button variant="grey-light" pill @click="$bvModal.show('resetModel')">
-          {{$t('trades.preferences.reset_to_default_preferences')}}
-        </Button>
-      </b-row>
-
+    <div class="main-pref-container d-flex justify-content-center align-items-center" v-if="showInventory || showOfferSetting || showrefineMatch || sizePre || brandsPre">
+      <b-btn class="save-changes-btn" @click="savePreference">
+        {{$t('common.save_changes')}}
+      </b-btn>
     </div>
     <reset-modal @reset="resetToDefaultPreferences()" />
   </div>
@@ -241,9 +231,11 @@
 
 import {mapActions, mapGetters} from 'vuex';
 import SingleSlider from '~/components/common/SingleSliderMobile';
-import Button from '~/components/common/Button';
+import SingleSliderOffer from '~/components/common/SingleSliderMobileOfferSetting';
 import YourInventory from '~/pages/profile/trades/preferences/YourInventoryMobile';
 import ResetModal from '~/pages/profile/trades/preferences/ResetModal';
+import searchIcon from '~/assets/img/icons/search.svg';
+
 import {
   INVENTORY_STATUS_OPTIONS,
   APPAREL_SIZE_TYPE,
@@ -255,10 +247,11 @@ import {
 
 export default {
   name: 'Index',
-  components: {ResetModal, YourInventory, Button, SingleSlider},
+  components: {ResetModal, YourInventory, SingleSlider,SingleSliderOffer},
   layout: 'Profile',
   data(){
     return {
+      searchIcon,
       showInventory:false,
       showOfferSetting:false,
       showrefineMatch:false,
@@ -297,12 +290,18 @@ export default {
       sneakerInterest: DEFAULT_INTERESTS,
       apparelInterest: DEFAULT_INTERESTS,
       accessoriesInterest: DEFAULT_INTERESTS,
-      publicInventories: []
+      publicInventories: [],
+      search:'',
 
     }
   },
   computed:{
-    ...mapGetters('browse', ['filters','selectedBrands']), // getter for getting list of filters data
+    ...mapGetters('browse', ['filters','selectedBrands']),
+    filteredList() {
+      return this.filters.brands.filter(post => {
+        return post.name.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
   },
   mounted() {
     this.filterApparelSizes = this.filters?.sizes?.filter(function (size) {
@@ -500,7 +499,6 @@ export default {
     },
 
     changeSelectedBrands(brandId){
-      console.log('brandId',brandId)
       if(this.selectedBrands.includes(brandId)){
         this.selectedBrands = this.selectedBrands.filter(brand => brand !== brandId)
       }else{
@@ -633,9 +631,16 @@ export default {
 .image-tick
   height: 20px
   width: 12px
-  margin-left: 10rem
+  margin-left: 13rem
 .option-status
   border-bottom: 1px solid $color-white-28
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  @mixin body-14
+  line-height: 19px
+  letter-spacing: 0.01em
+  color: $color-black-16
 .save-btn
   background: $color-blue-20
   border-radius: 20px
@@ -647,7 +652,8 @@ export default {
   border-radius: 20px
   height: 40px
   width: 270px
-  margin-top: 1rem
+  bottom: 150px
+  position: absolute
 .save-btn-size
   background: $color-blue-20
   border-radius: 20px
@@ -688,17 +694,27 @@ export default {
   box-shadow: 0 1px 4px $color-black-rgb1
   padding-top: 20px
 .offer-head
-  font-family: $font-family-sf-pro-display
+  font-family: $font-sp-pro
   font-style: normal
   font-weight: $medium
   font-size: 16px
   color: $color-blue-20
-.offer-start
-  font-family: $font-family-sf-pro-display
+  line-height: 19px
+  letter-spacing: 0.02em
+.update-urs
+  font-family: $font-sp-pro
   font-style: normal
-  font-weight: $normal
-  font-size: 14px
-  color: $color-gray-5
+  font-weight: $regular
+  @include body-10
+  line-height: 16px
+  color: $color-black-17
+.offer-start
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $regular
+  @include body-10
+  color: $color-black-17
+  line-height: 16px
 .offer-subtext
   font-family: $font-family-montserrat
   font-style: normal
@@ -711,7 +727,7 @@ export default {
   color: $color-black-1
 .refine-sections
   width: 343px
-  height: 400px
+  height: 320px
   background: $color-white-1
   border-radius: 10px
   box-shadow: 0 1px 4px $color-black-rgb1
@@ -721,8 +737,10 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $medium
-  font-size: 14px
+  font-size: 16px
   color: $color-black-1
+  line-height: 19px
+  letter-spacing: 0.01em
 .sizePre-sections
   width: 343px
   background: $color-white-1
@@ -782,4 +800,52 @@ export default {
 .images-row
   height: 300px
   overflow-y: scroll
+.brand-name
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  @include body-5
+  line-height: 17px
+  color: $color-black-16
+.tick-circle
+  background-color: $color-grey-101
+  height: 19px
+  width: 19px
+  border-radius: 50%
+.white-tick
+  position: absolute
+  height: 8px
+  width: 10px
+  margin-left: 4px
+  margin-top: 5px
+.brand-border
+  border: 1px solid $color-gray-62
+.right-tick
+  float: right
+  margin-top: -1rem
+.rounded-search-input
+  align-items: center
+  background: $color-white-5
+  border-radius: 8px
+  display: flex
+  margin-bottom: 1rem
+  padding: 6px 12px
+  width: 315px
+  .icon-search
+      height: 18px
+      width: 18px
+  input
+      background: transparent
+      border: 0
+      color: $dark-gray
+      font-size: 15px
+      line-height: 18px
+      outline: none
+      padding: 0 8px
+      width: 300px
+.brands-container
+  height: 520px
+  overflow-y: scroll
+  margin-left: 10px
+  margin-bottom: 10px
 </style>

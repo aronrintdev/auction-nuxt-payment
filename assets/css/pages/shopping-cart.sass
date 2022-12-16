@@ -1,11 +1,25 @@
+.checkout-wrapper
+  @media (min-width: 576px)
+    min-height: 1031px
+
 /* Custom card for the shopping cart components styles */
 .order-summary,
 .product-preview
   background: $color-white-5
 
+  @media (min-width: 576px)
+    padding-top: 76px
+    min-width: 404px
+
+.items-list
+  @media (min-width: 576px)
+    padding-top: 76px
+    max-width: 1036px
+
 div
   &.custom-card
     &.card
+      font-family: 'SF Pro Display', serif
       -ms-flex-direction: column
       background-clip: border-box
       background-color: $color-white-1
@@ -30,6 +44,7 @@ div
 input.custom-form-element,
 select.custom-select,
 div.custom-form-element
+  font-family: 'SF Pro Display', serif
   background-clip: padding-box
   background-color: $color-white-1
   border: 0

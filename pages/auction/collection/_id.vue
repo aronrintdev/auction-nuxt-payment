@@ -51,7 +51,7 @@
         <div class="d-none d-md-block">
           <!-- Sold -->
           <div v-if="isSold" class="d-flex flex-column align-items-center justify-content-center sold-status">
-            <span>{{ $t('auction.status_array.sold') }}</span>
+            <span>{{ $t('auction.status_array.completed') }}</span>
             <div class="d-flex mt-3"><span class="date">{{ formatDate(activeAuction.updated_at) }}</span><span class="ml-2 time">@ {{ formatTime(activeAuction.end_date) }}</span></div>
           </div>
           <!-- Expired mark -->
@@ -67,19 +67,19 @@
           <div v-else class="d-flex justify-content-center time-remaining">
             <div class="time d-flex flex-column justify-content-center align-items-center">
               <div class="time-value">{{ timeRemaining.days }}</div>
-              <div class="time-unit mt-4 text-lowercase ">{{ $t('promotions.days') }}</div>
+              <div class="time-unit text-lowercase ">{{ $t('promotions.days') }}</div>
             </div>
             <div class="time d-flex flex-column justify-content-center align-items-center">
               <div class="time-value">{{ timeRemaining.hours }}</div>
-              <div class="time-unit mt-4 text-lowercase">{{ $t('promotions.hours') }}</div>
+              <div class="time-unit text-lowercase">{{ $t('promotions.hours') }}</div>
             </div>
             <div class="time d-flex flex-column justify-content-center align-items-center">
               <div class="time-value">{{ timeRemaining.mins }}</div>
-              <div class="time-unit mt-4 text-lowercase">{{ $t('promotions.mins') }}</div>
+              <div class="time-unit text-lowercase">{{ $t('promotions.mins') }}</div>
             </div>
             <div class="time d-flex flex-column justify-content-center align-items-center">
               <div class="time-value">{{ timeRemaining.secs }}</div>
-              <div class="time-unit mt-4 text-lowercase">{{ $t('promotions.secs') }}</div>
+              <div class="time-unit text-lowercase">{{ $t('promotions.secs') }}</div>
             </div>
           </div>
         </div>
@@ -158,9 +158,11 @@ import Icon from '~/components/common/Icon.vue'
 import MobileTimeRemaining from '~/components/Auctions/MobileTimeRemaining'
 import {
   EXPIRED_STATUS,
-  COMPLETED_STATUS,
   SCHEDULED_STATUS,
 } from '~/static/constants'
+import {
+  COMPLETED_STATUS
+} from '~/static/constants/trades'
 
 export default {
   name: 'AuctionCollectionBrowser',
@@ -202,10 +204,10 @@ export default {
       return this.activeAuction.end_date
     },
     estimatedLowPrice() {
-      return this.activeAuction ? this.activeAuction.start_bid_price : 0
+      return this.activeAuction ? Math.ceil(this.activeAuction.start_bid_price / 1000) * 1000 : 0
     },
     estimatedHighPrice() {
-      return this.activeAuction ? Math.round(this.activeAuction.start_bid_price * 1.84 / 1000) * 1000 : 0
+      return this.activeAuction ? Math.ceil(this.activeAuction.start_bid_price * 1.84 / 1000) * 1000 : 0
     }
   },
   watch: {
@@ -303,6 +305,8 @@ export default {
         font-weight: $light
         @include body-4
         color: $black
+        margin-top: 22px
+        line-height: 19px
   .auction-details
     flex: 1
     padding: 20px 30px

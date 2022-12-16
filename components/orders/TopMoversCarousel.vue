@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-baseline">
-      <h2 class="top-movers-heading px-md-2">{{ $t('orders.your_top_movers') }} <small>({{ $t('orders.this_month') }})</small>
+      <h2 class="top-movers-heading px-md-2">{{ $t('orders.your_top_movers') }} <small class="text-capitalize">({{ $t('orders.this_month') }})</small>
       </h2>
       <div class="d-none d-md-block">
         <span class="cursor-pointer" @click="prev"><img :src="require('~/assets/img/icons/arrow-left-gray.svg')"></span>
@@ -142,6 +142,7 @@ export default {
     font-family: $font-montserrat
     @include body-5
     text-transform: capitalize
+    margin: 34px 0
 
     small
       @include body-9

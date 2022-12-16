@@ -108,7 +108,11 @@ export function updateOfferItemsTrade(state, val) {
  */
 export function decrementTradeItemQuantity(state, id) {
     const index = state.trade_items.findIndex(item => item.id === id)
-    state.trade_items[index].quantity--
+    if(index){
+      state.trade_items[index].quantity--
+    }else{
+      state.trade_items[id].quantity--
+    }
 }
 
 /**

@@ -6,9 +6,9 @@
         }}</span>
       <!-- Export to PDF -->
       <Button
-          v-if="exportStatus.includes(purchaseStatus) || orderType === giftCard"
-          variant="dark-blue"
-          @click="exportToPDF(orderDetails.id)"
+        v-if="exportStatus.includes(purchaseStatus) || orderType === giftCard"
+        variant="dark-blue"
+        @click="exportToPDF(orderDetails.id)"
       >
         {{ $t('vendor_purchase.export_to_pdf') }}
       </Button>
@@ -30,17 +30,17 @@
           <!-- Order Status -->
           <div class="order-bar">
             <div
-                v-if="ORDERS_HAS_ITEMS.includes(orderType) && purchaseStatus !== multiple"
-                :id="purchaseStatus.toLowerCase()"
+              v-if="ORDERS_HAS_ITEMS.includes(orderType) && purchaseStatus !== multiple"
+              :id="purchaseStatus.toLowerCase()"
             >
               <div>
                 {{ orderDetails.status_label }}
               </div>
             </div>
             <div
-                v-if="orderType === giftCard"
-                :id="orderDetails.orderable.status.toLowerCase()"
-                class="success-status d-flex align-items-center float-right"
+              v-if="orderType === giftCard"
+              :id="orderDetails.orderable.status.toLowerCase()"
+              class="success-status d-flex align-items-center float-right"
             >
               <div class="p-3 text-uppercase">
                 {{ $t(`vendor_purchase.orderstatus.${purchaseStatus}`) }}
@@ -53,13 +53,13 @@
         <div>
           <!-- Ordered on Date -->
           <div
-              v-if="orderDetails.quantity === 1"
-              class="body-12-medium font-secondary text-capitalize  mb-14"
+            v-if="orderDetails.quantity === 1"
+            class="body-12-medium font-secondary text-capitalize  mb-14"
           >
             {{
               $t('vendor_purchase.ordered_on', {
                 orderedDate: $options.filters.formatDateTimeString(
-                    orderDetails.created_at
+                  orderDetails.created_at
                 ),
               })
             }}
@@ -69,8 +69,8 @@
           >
           <!-- Ordered on Date -->
           <span
-              v-if="orderType !== giftCard && orderDetails.quantity === 1 && orderDetails.items.length>=1 && orderDetails.items[0].shipment"
-              class="d-flex shipping-label"
+            v-if="orderType !== giftCard && orderDetails.quantity === 1 && orderDetails.items.length>=1 && orderDetails.items[0].shipment"
+            class="d-flex shipping-label"
           >
             {{ $t('vendor_purchase.shipping_carrier') }}&colon;
             {{
@@ -86,8 +86,8 @@
             {{ shippingAddress }}
           </div>
           <span
-              v-if="orderType !== giftCard && orderDetails.quantity === 1 && orderDetails.items.length>=1 && orderDetails.items[0].shipment"
-              class="d-flex tracking-number"
+            v-if="orderType !== giftCard && orderDetails.quantity === 1 && orderDetails.items.length>=1 && orderDetails.items[0].shipment"
+            class="d-flex tracking-number"
           >
             {{ $t('vendor_purchase.tracking_no') }}&colon;
             <a v-if="orderDetails.items[0].shipment" :href="orderDetails.items[0].shipment.tracking_url"
@@ -97,27 +97,27 @@
         <!-- ./Shipping Address -->
         <!-- Details: Single Order-->
         <SingleOrderVue
-            v-if=" ORDERS_HAS_ITEMS.includes(orderType)"
-            :orderDetails="orderDetails.items"
-            :fullOrderDetails='orderDetails'
-            :fields="fields"
-            :orderType="orderType"
-            :itemCount="orderDetails.quantity"
-            :timelineStatus="timelineStatus"
-            :itemStatus="purchaseStatus"
-            :updatedAt="orderDetails.updated_at"
+          v-if=" ORDERS_HAS_ITEMS.includes(orderType)"
+          :orderDetails="orderDetails.items"
+          :fullOrderDetails='orderDetails'
+          :fields="fields"
+          :orderType="orderType"
+          :itemCount="orderDetails.quantity"
+          :timelineStatus="timelineStatus"
+          :itemStatus="purchaseStatus"
+          :updatedAt="orderDetails.updated_at"
         />
 
         <SingleOrderVue
-            v-if="orderType === giftCard"
-            :orderDetails="orderDetails.orderable"
-            :fullOrderDetails='orderDetails'
-            :fields="fields"
-            :orderType="orderType"
-            :itemCount="orderDetails.quantity"
-            :timelineStatus="timelineStatus"
-            :itemStatus="purchaseStatus"
-            :updatedAt="orderDetails.updated_at"
+          v-if="orderType === giftCard"
+          :orderDetails="orderDetails.orderable"
+          :fullOrderDetails='orderDetails'
+          :fields="fields"
+          :orderType="orderType"
+          :itemCount="orderDetails.quantity"
+          :timelineStatus="timelineStatus"
+          :itemStatus="purchaseStatus"
+          :updatedAt="orderDetails.updated_at"
         />
         <!-- ./Details:Single Order -->
 
@@ -135,9 +135,9 @@
         </div>
 
         <div
-            v-if="ORDERS_HAS_ITEMS.includes(orderType) && isSingle"
-            :class="{[purchaseBtnClass]: purchaseBtnClass}"
-            class="m-auto body-13-normal font-secondary text-capitalize text-center status-badge position-absolute"
+          v-if="ORDERS_HAS_ITEMS.includes(orderType) && isSingle"
+          :class="{[purchaseBtnClass]: purchaseBtnClass}"
+          class="m-auto body-13-normal font-secondary text-capitalize text-center status-badge position-absolute"
         >
           {{ $t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
         </div>
@@ -299,6 +299,8 @@ export default {
             class: (index + 1) === vm.orderDetails.items[0].status_history.length ? 'tracking-end' : ''
           }
         })
+      }else{
+        return []
       }
     },
 

@@ -147,11 +147,9 @@ export default {
     searchChanged(e) {
       this.filtersChanged({ search: e })
     },
-    infiniteScroll() {
-      if (this.total > this.perPage) {
-        this.perPage += NOTIFICATION_PER_PAGE
-        this.filtersChanged({})
-      }
+    infiniteScroll(perPage) {
+      this.perPage = perPage
+      this.filtersChanged({})
     },
     filtersChanged(filters) {
       const allFilters = {
@@ -177,6 +175,10 @@ export default {
 .profile-notification::v-deep
   &.mobile
     background-color: $color-white-1
+
+  .notification-tabs
+    max-width: 236px
+    margin-bottom: 26px
 
   .title
     @include body-16

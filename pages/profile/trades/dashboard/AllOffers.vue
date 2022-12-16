@@ -1,6 +1,6 @@
 <template>
   <div class="container-trade-dashboard">
-    <b-row class="heading-dashboard mt-lg-5 mx-0 d-none d-sm-flex">
+    <b-row class="heading-dashboard pt-sm-4 mt-lg-5 mx-0 d-none d-sm-flex">
       {{$t('trades.my_trade_offer')}}
     </b-row>
     <b-row class="m-0 mt-sm-3 justify-content-lg-between pt-3">
@@ -48,7 +48,7 @@
             class="w-100"
             :value="searchText"
             variant="primary"
-            inputClass="search-offers-input"
+            inputClass="search-offers-input bg-white"
             :placeholder="$t('trades.search_trades_offers')"
             :clearSearch="true"
             :isOpen="searchedProducts.length > 0"
@@ -181,6 +181,7 @@
               :value="start_date"
               :placeholder="$t('trades.start_date')"
               groupClass="w-100"
+              inputClass="bg-white"
               @context="(context) => start_date = context.selectedYMD"
             />
           </b-col>
@@ -189,6 +190,7 @@
               :value="end_date"
               :placeholder="$t('trades.end_date')"
               groupClass="w-100"
+              inputClass="bg-white"
               @context="(context) => end_date = context.selectedYMD"
             />
           </b-col>
@@ -260,6 +262,8 @@
           borderRadius: '4px',
           borderColor: '#667799'
         }"
+        borderRadius="5px"
+        borderRadiusClose="5px 5px 0 0"
         :labelStyle="{
           fontSize: '14px',
           letterSpacing: '0.06em',
@@ -272,7 +276,8 @@
         }"
         :dropdownStyle="{
           position: 'relative',
-          borderColor: '#667799'
+          borderColor: '#667799',
+          borderRadius: '0 0 5px 5px'
         }"
         @change="changeAction"
       />
@@ -447,8 +452,8 @@ export default {
     ConfirmModal,
     AlertModal
   },
-  layout: 'Profile',
   mixins: [screenSize],
+  layout: 'Profile',
   data () {
     return {
       ALL_OFFER_TYPE,

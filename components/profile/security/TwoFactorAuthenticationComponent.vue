@@ -2,11 +2,13 @@
   <div>
     <div class="two-fa-component">
       <div id="two-factor-auth-component-title">{{ $t('home.2fa') }}</div>
-      <p class="mt-2 gray">{{ $t('features.2fa_security.add_additional_security') }}</p>
-      <div>
-        <toggle-switch :value="enable2fa" :label-on="$t('features.2fa_security.2fa_enabled').toString()"
-                       :label-off="$t('features.2fa_security.2fa_disabled').toString()"
-                       @change="change"/>
+      <p :class="{
+        'body-5-regular font-primary text-gray-simple': !isScreenXS,
+        'gray': isScreenXS
+      }" class="mt-2">{{ $t('features.2fa_security.add_additional_security') }}</p>
+      <div class="body-3-normal text-black font-primary d-flex align-items-center">
+        <span class="mr-2 mt-3">{{ $t('features.2fa_security.2fa_disabled').toString() }}</span>
+        <NotificationSwitch :disabled="(this.$store.state.auth.user.phoneNumber) ? false : true" :value="enable2fa" @change="change"/>
       </div>
       <div v-if="enable2fa" class="mt-2">
         <text-verification-component></text-verification-component>
@@ -26,17 +28,19 @@
 </template>
 
 <script>
-import ToggleSwitch from '~/components/common/ToggleSwitch';
 import TextVerificationComponent from '~/components/profile/security/TextVerificationComponent';
 import ReadMore from '~/components/common/ReadMore';
+import screenSize from '~/plugins/mixins/screenSize';
+import NotificationSwitch from '~/components/profile/notifications/Switch';
 
 export default {
   name: 'TwoFactorAuthenticationComponent',
   components: {
-    ToggleSwitch,
+    NotificationSwitch,
     TextVerificationComponent,
     ReadMore
   },
+  mixins: [screenSize],
   data() {
     return {
       enable2fa: false,

@@ -1,50 +1,55 @@
 <template>
-  <b-container fluid class="h-100 p-3 p-md-5" :class="{'container-profile-bids': !isMobileSize}">
+  <b-container fluid class="h-100 container-profile-bids-page" :class="{'container-profile-bids': !isMobileSize}">
+    <div class="d-none mb-3 d-md-flex justify-content-center justify-content-md-between align-items-center">
+      <h2 class="title mb-0" :class="{'body-4-medium' : isMobileSize}">{{ $tc('common.bid', 2) }}</h2>
+    </div>
     <!--    Bids Filters and mobile search    -->
     <div v-if="isMobileSize" class="d-flex align-items-center">
       <MobileSearchInput :value="filters.search" class="flex-grow-1" @input="mobileSearch" />
-      <span class="ml-3" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
+      <span class="ml-3 mr-1" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
 
     <BidsFilters v-else @update="FetchBids(true)"/>
 
 
-    <div v-if="isVendor" class="d-flex justify-content-between align-items-center">
+    <div v-if="isVendor" class="d-none d-md-flex justify-content-between align-items-center">
+      <b-row class=" w-100">
+        <b-col md="6"></b-col>
+        <b-col md="6" class="text-right pr-0">
+          <Button
+            variant="link"
+            size="sm"
+            class="delete-expired"
+            @click="deleteAction = true"
+          >
+            {{ $t('bids.delete_expired') }}
+          </Button>
+        </b-col>
+      </b-row>
+    </div>
+
+    <div class="d-md-none d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center mt-0">
+        <h4 class="title">
+          {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
+        </h4>
+      </div>
       <Button
-        v-if="haveExpired"
         variant="link"
         size="sm"
-        class="mobile px-4 py-3 mt-0 mt-mb-5"
-        :class="isMobileSize ? 'delete-expired-mobile' : 'delete-expired'"
+        class="delete-expired-mobile"
         @click="deleteAction = true"
       >
-        <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
-        {{ $t('bids.delete_expired') }}
+        <img src="~/assets/img/profile/mobile/mobile-delete.svg" class="mr-1" />
+        <span>{{ $t('bids.delete_expired') }}</span>
       </Button>
     </div>
 
-    <div v-if="bidsCount > 0" class="d-flex justify-content-between align-items-center mt-4">
-      <div class="d-flex align-items-center mt-0 mt-md-5">
-        <h3 class="title">
-          <span :class="{ 'body-5-medium' : isMobileSize }">
-            {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
-          </span>
-        </h3>
-        <span class="mx-4 d-none d-md-inline-flex">{{ $t('bids.highest_bid_info') }}</span>
-      </div>
-      <Button
-        v-if="haveExpired && !isVendor"
-        variant="link"
-        size="sm"
-        class="mobile px-4 py-3 mt-0 mb-md-5"
-        :class="isMobileSize ? 'delete-expired-mobile' : 'delete-expired'"
-        @click="deleteAction = true"
-      >
-        <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
-        <span class="body-9-regular" :class="isMobileSize ? 'expire-button-gray' : 'text-black'">
-          {{ $t('bids.delete_expired') }}
-        </span>
-      </Button>
+    <div class="d-none d-md-flex align-items-center">
+      <h4 class="title mb-0">
+        {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
+      </h4>
+      <span class="mx-4 mt-1 d-none d-md-inline-flex body-5-normal text-gray-5">{{ $t('bids.highest_bid_info') }}</span>
     </div>
 
     <BulkSelectToolbar
@@ -69,17 +74,14 @@
          class="d-flex align-items-center justify-content-center flex-column h-50">
       <div :class="isMobileSize ? 'body-5-medium' : 'not-found-text'">{{ $t('bids.no_bids') }}</div>
     </div>
-    <div v-if="bidsCount>0">
-      <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex">
+    <div v-if="bidsCount>0" class="bids-listing">
+      <b-row class="mt-5 mb-13 text-center p-0 font-weight-bold d-none d-md-flex">
         <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
         <b-col sm="12" md="3" class="text-left px-0">{{ $t('bids.headers.product') }}</b-col>
         <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }}
           <span role="button"><img :src="FilterDown" alt="donw"></span>
         </b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }}
-          <span role="button"><img :src="FilterDown" alt="donw"></span>
-        </b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.bid_amt') }}
+        <b-col sm="12" md="2">{{ $t('bids.headers.bid_amt') }}
           <span role="button"><img :src="FilterDown" alt="donw"></span>
         </b-col>
         <b-col sm="12" md="2">{{ $t('bids.headers.time_remaining') }}
@@ -95,8 +97,9 @@
               v-if="bid.auction.type===BID_AUCTION_TYPE_SINGLE"
               :bid-type="bidType"
               :selected="selected.includes(bid.id)"
-              :bid="bid" :selectable="isSelectable(bid)"
-              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
+              :bid="bid"
+              :selectable="isSelectable(bid)"
+              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING && isAuctionActive(bid)"
               @selected="selectBidAction"
               @accept="acceptBid"
               @edit="handleEdit"
@@ -106,7 +109,7 @@
               :selected="selected.includes(bid.id)"
               :bid-type="bidType"
               :bid="bid"
-              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
+              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING && isAuctionActive(bid)"
               :selectable="isSelectable(bid)"
               @selected="selectBidAction"
               @accept="acceptBid"
@@ -177,9 +180,9 @@
       max-height="90vh"
       :rounded="true"
     >
-      <div class="px-4">
-        <b-row class="my-3">
-          <b-col md="12" class="text-center">
+      <div class="px-4 bid-accept-sheet">
+        <b-row class="mt-3">
+          <b-col md="12" class="text-center bid-accept-sheet-content">
             <span v-if="acceptedBid">
               {{ $tc('bids.accept_body', 1).replace(':amount:', acceptedBid.price / 100) }}
             </span>
@@ -188,7 +191,7 @@
         <b-row class="d-flex flex-column">
           <Button
             variant="primary"
-            class="bg-dark-blue my-3 mx-5"
+            class="bg-dark-blue d-flex align-items-center justify-content-center accept-btn"
             pill
             :disabled="modalActionLoading"
             @click="acceptBidModalOk"
@@ -196,7 +199,7 @@
           </Button>
           <Button
             variant="outline"
-            class="mt-2 mb-3 text-dark-blue"
+            class="text-dark-blue cancel-btn"
             pill
             :disabled="modalActionLoading"
             @click="$refs.mobileBidAcceptConfirm.close()"
@@ -353,10 +356,13 @@ export default {
     },
     // Checking if the auction has expired or not.
     haveExpired() {
-      return this.bids.filter(a => a.auction.status === EXPIRED_STATUS || a.auction.status === DELISTED_STATUS).length > 0
+      return this.bids.filter(a => a.auction.remaining_time === EXPIRED_STATUS || a.auction.status === DELISTED_STATUS).length > 0
     },
     isMobileSize() {
       return this.isScreenXS || this.isScreenSM
+    },
+    isAuctionActive() {
+      return (item) => (item.auction.remaining_time !== EXPIRED_STATUS && item.auction.status !== DELISTED_STATUS)
     }
   },
   mounted() {
@@ -457,7 +463,7 @@ export default {
      * @returns {boolean}
      */
     isExpiredOrDelisted(item) {
-      return this.deleteAction && (item.auction.status === EXPIRED_STATUS || item.auction.status === DELISTED_STATUS)
+      return this.deleteAction && (item.auction.remaining_time === EXPIRED_STATUS || item.auction.status === DELISTED_STATUS)
     },
 
     /**
@@ -682,13 +688,20 @@ export default {
         background-color: $white-2
 
 .delete-expired.btn
-  @include body-5-regular
+  @include body-5-normal
   background-color: $white
   color: $black
+  width: 228px
+  height: 38px
+  font-family: $font-montserrat
+  margin: 46px 0 40px
 
 .delete-expired-mobile.btn
-  @include body-5-regular
-  color: $color-gray-30
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-1214
+  color: $color-gray-47
+  height: auto
 
 .container-profile-bids
   background-color: $color-white-5
@@ -709,5 +722,59 @@ export default {
 
 .expire-button-gray
   color: $color-gray-30
+
+h4.title
+  font-family: $font-sp-pro
+  font-weight: $bold
+  @include body-1
+  @media (max-width: 576px)
+    margin: 22px 0 23px
+    @include body-4
+    font-weight: $medium
+    font-family: $font-montserrat
+    color: $black
+.bids-listing
+  margin: 0 -25px
+  @media (max-width: 576px)
+    margin: 0
+
+.container-profile-bids-page
+  padding: 47px 54px
+  background-color: $color-white-5
+
+  h2.title
+    @include heading-3
+    font-weight: $bold
+    color: $color-black-1
+  .mb-13
+    margin-bottom: 13px
+
+  @media (max-width: 576px)
+    padding: 20px 16px 
+    background-color: $white
+
+    .bid-accept-sheet
+      &-content
+        font-family: $font-sp-pro
+        font-weight: $normal
+        @include body-32
+        color: $black
+        margin-bottom: 35px
+      .accept-btn
+        font-family: $font-sp-pro
+        font-weight: $medium
+        @include body-13
+        color: $white
+        height: 40px
+        width: 216px
+      .cancel-btn
+        font-family: $font-sp-pro
+        font-weight: $medium
+        @include body-17
+        color: $color-blue-20
+        height: 24px
+        width: 54px
+        padding: 0
+        margin: 19px auto 20px
 </style>
 

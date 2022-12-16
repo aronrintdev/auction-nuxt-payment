@@ -2,67 +2,170 @@
   <b-overlay
     :show="loading"
     rounded="sm"
-    class="container-style-detail mx-auto"
+    class="container-style-detail container"
   >
-    <b-row v-if="style">
-      <b-col lg="12">
-        <b-row>
-          <b-col lg="4" class="d-none d-sm-block">
-            <nuxt-link
-              :to="`/shop-by-style`">
-              <p class="mt-2 backto-css fw-normal">{{ $t('shop_by_style.general.back_to_style') }}</p>
-            </nuxt-link>
-          </b-col>
-          <b-col lg="4" class="d-none d-sm-block">
-            <div class="text-right share-wrapper">
+    <div
+      v-if="style"
+      class="style-details-wrapper d-flex flex-column flex-sm-row"
+    >
+      <div class="left-side-details ml-auto">
+        <div
+          class="topbar d-none d-sm-flex justify-content-between align-items-center"
+        >
+          <nuxt-link :to="`/shop-by-style`">
+            <p class="backto-css">
+              {{ $t('shop_by_style.general.back_to_style') }}
+            </p>
+          </nuxt-link>
 
-              <Button
-                variant="white"
-                icon="share.svg"
-                icon-only
-                pill
-                class="mr-3"
-              />
-              <Button
-                :id="`popover-wishlist-${style.id}`"
-                variant="white"
-                :icon="wishList ? `heart-red.svg` : 'heart2.svg'"
-                icon-only
-                tabindex="0"
-                :tooltip-text="wishList ? wishList.name : ''"
-                pill
+          <div class="text-right share-wrapper">
+            <Button
+              :id="`popover-share-${style.id}`"
+              variant="white"
+              icon="share.svg"
+              icon-only
+              pill
+              class="mr-3"
+            />
+            <Button
+              :id="`popover-wishlist-${style.id}`"
+              variant="white"
+              :icon="wishList ? `heart-red.svg` : 'heart2.svg'"
+              icon-only
+              tabindex="0"
+              :tooltip-text="wishList ? wishList.name : ''"
+              pill
+            >
+            </Button>
+          </div>
+        </div>
+        <b-popover
+          ref="sharePopover"
+          :target="`popover-share-${style.id}`"
+          triggers="click"
+          placement="bottom"
+          container="body"
+          custom-class="wishlist-popover w-auto"
+          delay="200"
+          @show="shareShow = true"
+          @hidden="shareShow = false"
+        >
+          <ShareButton
+            :url="shareUrl + style.id"
+            :title="style.name"
+            :description="style.name"
+          />
+        </b-popover>
+        <div class="style-image mt-4 position-relative">
+          <div class="position-absolute add-to-wishlist d-block d-sm-none">
+            <HeartIcon />
+          </div>
+          <ShopByStyleImageCarousel
+            v-if="!has360Images"
+            :images="style.images"
+            :mainImage="true"
+          />
+          <ProductImageViewerMagic360
+            v-if="has360Images"
+            :product="style.style"
+          />
+        </div>
+      </div>
+      <div class="right-side-details">
+        <p class="items-counter mb-2">
+          {{ style.products.length }} {{ $t('common.items') }}
+        </p>
+        <div class="d-none d-sm-flex flex-column row-gap-60">
+          <ShopByStyleProductCard
+            v-for="product in style.products"
+            :key="`product-${product.id}`"
+            :product="product"
+            @styleProduct="productDetail"
+          />
+        </div>
+        <div class="d-block d-sm-none mb-4">
+          <ProductCarousel
+            v-show="showStyleProduct ? showStyleProduct : true"
+            :products="style.products"
+            :pageName="pageName"
+            itemWidth="164px"
+            autoWidth
+          >
+            <template #product>
+              <div
+                v-for="(product, index) in style.products"
+                :key="`product-carousel-${index}`"
+                class="item"
               >
-              </Button>
-            </div>
-
-          </b-col>
-        </b-row>
-      </b-col>
-      <b-col lg="7">
-        <ShopByStyleImageCarousel v-if="!has360Images" :images="style.images" class="mt-4" :mainImage="true" />
-        <ProductImageViewerMagic360 v-if="has360Images" :product='style.style' class="mt-4" />
-      </b-col>
-      <b-col lg="5" class="product-list">
-        <p class="items-counter">{{ style.products.length }} {{ $t('common.items') }}</p>
-        <ShopByStyleProductCard
-          v-for="product in style.products"
-          v-show="showStyleProduct ? showStyleProduct : true"
-          :key="`product-${product.id}`"
-          :product="product"
-          @styleProduct="productDetail"
+                <DetailCard
+                  :product="product"
+                  :showActionBtn="false"
+                  :showActions="false"
+                  cardHeight="137px"
+                  cardHeightSm="180px"
+                  cardWidthSm="164px"
+                  :showSize="false"
+                  :showPrice="true"
+                  noRedirect
+                >
+                  <template #badge>
+                    <div
+                      class="d-flex justify-content-end"
+                      @click="redirectToDetail(product)"
+                    >
+                      <PlusCircle />
+                    </div>
+                  </template>
+                </DetailCard>
+              </div>
+            </template>
+          </ProductCarousel>
+        </div>
+      </div>
+    </div>
+    <Portal to="back-icon-slot">
+      <nuxt-link :to="`/shop-by-style`">
+        <img
+          :src="require('~/assets/img/icons/back.svg')"
+          alt="back-arrow"
+          @click="moveBack()"
         />
-      </b-col>
-    </b-row>
+      </nuxt-link>
+    </Portal>
+    <Portal to="notification-icon-slot">
+      <ShareIcon class="share-icon" />
+    </Portal>
+    <Portal to="cart-icon-slot">
+      <Cart class="cart-icon" />
+    </Portal>
   </b-overlay>
 </template>
 <script>
 import { Button } from '~/components/common'
 import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
+import PlusCircle from '~/assets/icons/PlusCircle'
 import ShopByStyleProductCard from '~/components/shop-by-style/ProductCard'
+import DetailCard from '~/components/shop-by-style/DetailCard'
+import ProductCarousel from '~/components/shop-by-style/ProductCarousel'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
-
+import ShareIcon from '~/assets/icons/ShareIcon'
+import HeartIcon from '~/assets/icons/HeartIcon'
+import Cart from '~/assets/icons/Cart'
+import ShareButton from '~/components/common/ShareButton'
 export default {
-  components: { Button, ShopByStyleProductCard, ShopByStyleImageCarousel, ProductImageViewerMagic360 },
+  components: {
+    Button,
+    PlusCircle,
+    ShopByStyleImageCarousel,
+    ProductImageViewerMagic360,
+    ShareIcon,
+    HeartIcon,
+    ShareButton,
+    ShopByStyleProductCard,
+    Cart,
+    ProductCarousel,
+    DetailCard,
+  },
 
   layout: 'IndexLayout',
 
@@ -74,32 +177,30 @@ export default {
       style: null,
       loading: true,
       wishList: false,
-      showStyleProduct: ''
+      showStyleProduct: '',
+      shareUrl: process.env.APP_URL + '/shop-by-style/',
     }
   },
 
   fetch() {
     const { id } = this.$route.params
     this.$axios
-      .get('/shop-by-style/'+id)
+      .get('/shop-by-style/' + id)
       .then((res) => {
         this.style = {
           id,
           images: res.data.data.images,
           products: res.data.data.products,
-          style: res.data.data.style
+          style: res.data.data.style,
         }
-        console.log('360 image data is',this.style.images);
-        console.log('360 image data is');
       })
-      .catch(error => {
+      .catch((error) => {
         this.$toasted.error(error)
       })
     this.loading = false
   },
   computed: {
     has360Images() {
-      console.log('response data is',this.style);
       return this.style.style?.has360Images
     },
   },
@@ -109,14 +210,41 @@ export default {
     },
     productDetail(value) {
       this.showStyleProduct = value
-    }
-  }
+    },
+    redirectToDetail(product) {
+      this.$router.push(`/shop-by-style/${this.style.id}/${product.sku}`)
+    },
+  },
 }
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 @import '~/assets/css/_typography'
 
+.style-details-wrapper
+  .left-side-details
+    width: 100%
+    max-width: 562px
+  .right-side-details
+    margin-top: 43px
+    width: 100%
+    max-width: 498px
+    @media (min-width: 576px)
+      margin-top: 14px
+      margin-left: 202px
+
+.row-gap-60
+  row-gap: 60px
+
+.style-bag
+  z-index: 999
+  background: $color-white-1
+  display: flex
+  align-items: center
+  left: 0
+  width: 100%
+  bottom: 95px
+  padding: 30px 18px 24px 18px
 .items-counter
   color: $color-gray-6
 .backto-css
@@ -126,12 +254,10 @@ export default {
   letter-spacing: -0.02em
   color: $color-gray-6
 .container-style-detail
-  max-width: 1440px
-  padding: 30px 47px
   min-height: 925px
-
-  .share-wrapper
-    padding-right: 79px
+  padding-bottom: 60px
+  @media (min-width: 576px)
+    margin-top: 27px
   .product-list
     padding: 64px 0 0 89px
     > div
@@ -143,5 +269,15 @@ export default {
       padding: 64px 0 0 0
 @media (max-width: 460px)
   .container-style-detail
-    padding: 30px 20px
+    padding: 0 20px
+    .product-list
+      padding: 26px 0 64px 0
+.share-icon::v-deep
+  .strokeColor
+    stroke: $color-gray-47
+  .fillColor
+    fill: $color-gray-47
+
+.add-to-wishlist
+  right: 0
 </style>

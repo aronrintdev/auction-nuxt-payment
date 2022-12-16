@@ -9,8 +9,7 @@
             d-flex
             align-items-center
             justify-content-center
-            text-capitalize
-            text-center
+            text-capitalize text-center
           "
           :class="offerStatus"
         >
@@ -60,9 +59,9 @@
         />
       </div>
 
-      <div v-if="hideButtons" class="col-xs-4" @click="showDetailPage">
+      <div v-if="hideButtons" class="col-xs-4 m-auto" @click="showDetailPage">
         <img
-          class="product-mobile-img"
+          class="product-mobile-img d-flex m-auto"
           :src="productImg || fallBackImg"
           alt="product-img"
           @error="imageLoadError"
@@ -70,11 +69,12 @@
       </div>
 
       <div class="col-xs-8 product-mobile-details">
-        <div v-if="!hideButtons" class="product-name">{{ productName }}</div>
-        <div v-if="hideButtons" class="product-name" @click="showDetailPage">
+        <div v-if="!hideButtons" class="product-name text-truncate">{{ productName }}</div>
+        <div v-if="hideButtons" class="product-name text-truncate" @click="showDetailPage">
           {{ productName }}
         </div>
-        <div v-if="hideButtons" class="product-sku mt-2">
+        <div class="custom-height"></div>
+        <div v-if="hideButtons" class="product-sku">
           {{ $t('common.sku') }}&colon; {{ productSku }}
         </div>
         <div v-if="!hideButtons" class="product-sku">
@@ -90,19 +90,27 @@
       </div>
     </div>
     <div class="row product-offer-details">
-      <div class="col-xs-12 d-flex justify-content-between">
-        <span class="offer-details-key">
+      <div class="col-xs-12 d-flex justify-content-between list-item-details">
+        <span class="offer-details-key my-auto">
           {{ $t('selling_page.offer_amount') }}&colon;
         </span>
-        <span class="offer-details-value text-right">{{
+        <span class="offer-details-value text-right my-auto">{{
           offerAmount | toCurrency('USD', 'N/A')
         }}</span>
       </div>
-      <div class="col-xs-12 d-flex justify-content-between background-grey">
-        <span class="offer-details-key">
+      <div
+        class="
+          col-xs-12
+          d-flex
+          justify-content-between
+          background-grey
+          list-item-details
+        "
+      >
+        <span class="offer-details-key my-auto mx-2">
           {{ $t('selling_page.offer_date') }}&colon;
         </span>
-        <span class="offer-details-value text-right">{{
+        <span class="offer-details-value text-right my-auto mx-2">{{
           offerDate | formatDate
         }}</span>
       </div>
@@ -219,7 +227,7 @@ export default {
       declinedOffer: DECLINED_OFFER,
       pendingOffer: PENDING_OFFER,
       hideOnConfirm: false,
-      selected: false
+      selected: false,
     }
   },
 
@@ -332,7 +340,7 @@ export default {
       this.$axios
         .put(`/listing-items/offers/${this.action}/${this.offer.id}`)
         .then((res) => {
-          this.$parent.getOffers()
+          this.$emit('reload')
           this.hideOnConfirm = true
           this.action = null
           this.showConfirmation = false
@@ -362,67 +370,75 @@ export default {
     right: 1rem
   .product-details
     box-sizing: border-box
-    padding: 12px
+    padding: 12px 12px 18px 12px
   .product-offer-details
     box-sizing: border-box
-    padding: 9px
+    padding: 0 9px 9px 9px
+    .list-item-details
+      height: 20px
 
     .background-grey
       background: $color-white-5
 
     .offer-details-key
-      font-family: $font-sp-pro
+      width: 97px
+      height: 15px
+      left: 36px
+      top: 511px
+      font-family: $font-montserrat
       font-style: normal
       @include body-9-medium
       color: $color-black-1
-      box-sizing: border-box
-      padding: 9px
+      padding-left: 14px
+
     .offer-details-value
-      font-family: $font-sp-pro
+      font-family: $font-montserrat
       font-style: normal
       @include body-9-normal
       color: $color-gray-6
       box-sizing: border-box
-      padding: 9px
+      padding-left: 14px
 
   .product-mobile-img
     width: 86px
+    margin-left: 14px
 
   .product-mobile-details
+    .custom-height
+      height: 12px
     .product-name
-      width: 90%
       left: 124px
       top: 12px
       font-family: $font-sp-pro
       font-style: normal
       @include body-5-medium
       color: $color-black-1
+      width: 150px
+      height: 17px
+      left: 140px
+      top: 989px
     .product-sku
-      left: 124px
-      top: 41px
       font-family: $font-sp-pro
       font-style: normal
-      @include body-20-normal
+      @include body-6-normal
       color: $color-gray-5
     .product-colorway-size
-      left: 124px
-      top: 56px
       font-family: $font-sp-pro
       font-style: normal
-      @include body-20-normal
+      @include body-6-normal
       color: $color-gray-5
+      margin-top: 2px
     .product-condition
-      left: 124px
-      top: 71px
       font-family: $font-sp-pro
       font-style: normal
-      @include body-20-normal
+      @include body-6-normal
       color: $color-gray-6
+      margin-top: 2px
   .decline-btn
     box-sizing: border-box
     border: 1px solid $color-red-25
     border-radius: 8px
-    font-family: $font-sp-pro
+    font-family: $font-montserrat
     font-style: normal
     @include body-9-medium
     color: $color-red-25
@@ -433,7 +449,7 @@ export default {
     box-sizing: border-box
     border: 1px solid $color-green-2
     border-radius: 8px
-    font-family: $font-sp-pro
+    font-family: $font-montserrat
     font-style: normal
     @include body-9-medium
     color: $color-green-2
@@ -488,5 +504,5 @@ export default {
     height: 1.1rem
 @media (min-width: 417px) and (max-width: 575px)
   .offer-received-item-wrapper
-    height: 293px
+    height: 229px
 </style>

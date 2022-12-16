@@ -1,13 +1,13 @@
 <template>
   <div class="create-listing-page h-100">
     <div class="wrapper" :class="isScreenXS && 'bg-white'">
-      <section class="content p-3 p-md-4">
+      <section class="content">
         <div v-if="vendorPayoutMethod" class="content-header border-0">
           <div
             class="
               content-head
               d-flex
-              align-items-center
+              align-items-start
               justify-content-between
               m-auto
             "
@@ -46,12 +46,12 @@
             >
               <div class="position-relative listing-type-img">
                 <img
-                  src="~/assets/img/create-listing/selling1.svg"
+                  src="~/assets/img/create-listing/selling-listing.png"
                   class="position-absolute w-100"
                 />
               </div>
               <div class="listing-type-content">
-                <div class="mt-0 mt-md-4 listing-type-title selling">
+                <div class="listing-type-title selling">
                   {{ $t('create_listing.index.selling') }}
                 </div>
                 <div class="listing-type-desc">
@@ -73,12 +73,12 @@
             >
               <div class="position-relative listing-type-img">
                 <img
-                  src="~/assets/img/create-listing/auctions1.svg"
+                  src="~/assets/img/create-listing/auction-listing.png"
                   class="position-absolute w-100"
                 />
               </div>
               <div class="listing-type-content">
-                <div class="mt-0 mt-md-4 listing-type-title auction">
+                <div class="listing-type-title auction">
                   {{ $t('create_listing.index.auction') }}
                 </div>
                 <div class="listing-type-desc">
@@ -95,21 +95,24 @@
             <!-- ./Auction -->
             <!-- Trade -->
             <div
-              class="d-flex flex-row flex-md-column listing-type  p-0 border-0"
+              class="d-flex flex-row flex-md-column listing-type p-0 border-0"
               @click="routeTo('trade')"
             >
               <div class="position-relative listing-type-img">
                 <img
-                  src="~/assets/img/create-listing/trade1.svg"
+                  src="~/assets/img/create-listing/trade-listing.png"
                   class="position-absolute w-100"
                 />
               </div>
               <div class="listing-type-content">
-                <div class="mt-0 mt-md-4 listing-type-title trade">
+                <div class="listing-type-title trade">
                   {{ $t('create_listing.index.trade') }}
                 </div>
-                <div class="listing-type-desc">
+                <div v-if="!isScreenXS" class="listing-type-desc">
                   {{ $t('create_listing.index.trade_desc') }}
+                </div>
+                <div v-else class="listing-type-desc">
+                  {{ $t('create_listing.index.trade_desc_mobile') }}
                 </div>
                 <div class="d-md-none mt-1 ml-auto arrow-icon">
                   <img
@@ -256,18 +259,32 @@ export default {
 @import '~/assets/css/_typography'
 .create-listing-page
   background: $color-white-4
+  .content
+    padding: 36px 35px
+    @media (max-width: 576px)
+      padding: 48px 16px 0
   .content-header
     border: none
+    padding: 0
+    margin-bottom: 60px
     &-title
       @media (max-width: 576px)
         font-size: 14px
         line-height: 17px
+        font-family: $font-montserrat
+    .drafts-btn
+      margin-top: 12px
+      @media (max-width: 576px)
+        margin: 0
     span
       @media (max-width: 576px)
         font-size: 14px
         line-height: 17px
-    @media (max-width: 576px)
-      margin-bottom: 0
+  .listing-types
+    & > div:last-child
+      margin-right: 10px
+      @media (max-width: 576px)
+        margin-right: 14px
   .listing-type
     border: none
     margin-right: 100px
@@ -346,13 +363,14 @@ export default {
       @media (max-width: 576px)
         @include body-5
     @media (max-width: 576px)
-      margin-bottom: 0
+      margin-bottom: 14px
   .listing-type
     margin-right: 100px
     margin-bottom: 36px
     background: transparent
     &-title
       font-family: $font-family-sf-pro-text
+      margin: 28px 0 10px
       &.selling
         color: $color-orange-11
       &.auction
@@ -361,7 +379,10 @@ export default {
         color: $color-blue-20
     &-desc
       font-family: $font-family-sf-pro-text
-      font-weight: $normal
+      font-weight: $regular
+      @incldue body-4
+      letter-spacing: -0.02em
+      color: $color-gray-6
     &-img
       width: 100%
       height: 0
@@ -372,7 +393,7 @@ export default {
         width: 100%
         height: 100%
     @media (max-width: 576px)
-      margin-right: 15px
+      margin-right: 14px
       align-items: flex-end
       &-img
         width: 140px
@@ -384,6 +405,7 @@ export default {
         font-size: 15px
         line-height: 18px
         margin-bottom: 8px
+        font-family: $font-montserrat
         &.selling
           color: $black
         &.auction
@@ -391,6 +413,7 @@ export default {
         &.trade
           color: $black
       &-desc
+        font-family: $font-montserrat
         font-size: 12px
         line-height: 15px
       .arrow-icon

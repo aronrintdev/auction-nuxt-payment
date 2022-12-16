@@ -20,21 +20,6 @@
     />
     <!-- End of Shopping Cart Order Summary Card -->
 
-    <!-- Shopping Cart Promo Code -->
-    <b-row v-if="!promoCode" class="mt-3">
-      <b-col md="12">
-        <div class="body-4-medium">
-          {{ $t('shopping_cart.promo_code') }}&colon;
-        </div>
-      </b-col>
-    </b-row>
-    <PromoCodeInput
-      v-if="!promoCode"
-      class="mt-2"
-      @click="applyPromoCode"
-    />
-    <!-- End of Shopping Cart Promo Code -->
-
     <!-- Shopping Cart Billing Address -->
     <b-row v-if="billingAddress" class="mt-4">
       <b-col md="12">
@@ -127,7 +112,6 @@ import { mapActions, mapGetters } from 'vuex'
 import emitEvent from '~/plugins/mixins/emit-event'
 import OrderTitle from '~/components/checkout/common/OrderTitle'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
-import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import AddressCard from '~/components/checkout/common/AddressCard'
 import PaymentCardDetailsCard from '~/components/checkout/common/PaymentCardDetailsCard'
 import {
@@ -146,7 +130,6 @@ export default {
   components: {
     OrderTitle,
     OrderSummaryCard,
-    PromoCodeInput,
     AddressCard,
     PaymentCardDetailsCard,
   },
@@ -315,7 +298,13 @@ export default {
         reserve_price: item.reserve_price * 100,
         start_bid_price: item.start_bid_price * 100,
         payment_token: this.paymentToken,
-        payment_method: this.paymentMethod,
+        payment_method: {
+          card_holder_name: this.paymentMethod.cardHolderName,
+          card_brand: this.paymentMethod.cardBrand,
+          card_last_digits: this.paymentMethod.cardLastDigits,
+          card_expiry_date: this.paymentMethod.cardExpiryDate,
+          is_default: this.paymentMethod.isDefault,
+        },
         billing_address: {
           first_name: this.billingAddress.firstName,
           last_name: this.billingAddress.lastName,
@@ -374,10 +363,10 @@ export default {
             this.emitRenderComponentEvent(this.$parent.$options.components.ThankYou.name)
           }
         })
-        .catch((error) => {
+        .catch(() => {
           this.loading = false
           this.removePaymentToken()
-          this.$toasted.error(error)
+          this.removePaymentMethod()
         })
     },
   },

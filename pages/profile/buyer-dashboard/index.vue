@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <div class="pt-2 pt-sm-5 px-4">
+    <div class="buyer-dashboard" :class="mobileClass">
       <div class="d-sm-flex d-none">
         <h1 class="fs-24 fw-7 mb-0 font-primary">
           {{ $t('buyer_dashboard.dashobard_buyer.dashboard') }}
@@ -10,59 +10,66 @@
       <section :class="mobileClass" class="row my-3 my-sm-5">
         <div class="col-3 col-md-3">
           <StatsCard
-            :icon="require('~/assets/img/icons/profile/total-sales.svg')"
-            :title="$t('vendor_purchase.purchases')"
-            :value="totalPurchases"
-            color="#667799"
+              :coloredText="false"
+              :icon="require('~/assets/img/icons/profile/total-sales.svg')"
+              :title="$t('vendor_purchase.purchases')"
+              :value="totalPurchases"
+              color="#667799"
           />
         </div>
         <div class="col-3 col-md-3">
           <StatsCard
-            :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
-            :title="$t('buyer_dashboard.dashobard_buyer.rewards_points')"
-            :value="
+              :coloredText="false"
+              :icon="require('~/assets/img/icons/profile/trophy-green.svg')"
+              :title="$t(`buyer_dashboard.dashobard_buyer.rewards_points${isScreenXS? '_mobile': ''}`)"
+              :value="
               '' + analytics.reward_points !== 'undefined'
                 ? analytics.reward_points + ''
                 : '...'
             "
-            color="#CE745F"
+              color="#CE745F"
           />
         </div>
         <div class="col-3 col-md-3">
           <StatsCard
-            :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
-            :title="$t('buyer_dashboard.dashobard_buyer.items_bought')"
-            :value="
+              :coloredText="false"
+              :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
+              :title="$t(`buyer_dashboard.dashobard_buyer.items_bought${isScreenXS? '_mobile': ''}`)"
+              :value="
               '' + analytics.items_bought !== 'undefined'
                 ? analytics.items_bought + ''
                 : '...'
             "
-            color="#7196B1"
+              color="#7196B1"
           />
         </div>
         <div class="col-3 col-md-3">
           <StatsCard
-            :icon="require('~/assets/img/icons/profile/item-sold.svg')"
-            :title="$t('buyer_dashboard.dashobard_buyer.offers_placed')"
-            :value="
+              :coloredText="false"
+              :icon="require('~/assets/img/icons/profile/item-sold.svg')"
+              :title="$t(`buyer_dashboard.dashobard_buyer.offers_placed${isScreenXS? '_mobile': ''}`)"
+              :value="
               '' + analytics.offers_placed !== 'undefined'
                 ? analytics.offers_placed + ''
                 : '...'
             "
-            color="#909090"
+              color="#909090"
           />
         </div>
       </section>
       <section>
-        <BuyerDashboardCharts />
+        <BuyerDashboardCharts/>
       </section>
       <section class="my-sm-5">
-        <Promotions />
+        <Promotions/>
       </section>
-      <section>
-        <Purchases />
+      <section :class="{
+        'mt-20': isScreenXS,
+        'mb-104 px-27': !isScreenXS,
+      }">
+        <Purchases/>
       </section>
-      <Portal to="page-title"> {{ $t('profile_menu.dashboard') }} </Portal>
+      <Portal to="page-title"> {{ $t('profile_menu.dashboard') }}</Portal>
     </div>
   </client-only>
 </template>
@@ -131,6 +138,20 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.buyer-dashboard
+  padding: 97px 30px 0 30px
+  &.mobile
+    padding: 16px
+    margin-bottom: -60px
+.mt-20
+  margin-top: 20px
+
+.mb-104
+  margin-bottom: 104px
+
+.px-27
+  padding-inline: 27px 33px
+
 .row
   &.mobile
     .col-3

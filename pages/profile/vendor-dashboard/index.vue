@@ -1,26 +1,33 @@
 <template>
   <client-only>
-    <div class="dashboard pt-3 pt-sm-5 p-4">
+    <div class="dashboard  pt-sm-5 p-3" :class="mobileClass">
       <div class="d-flex justify-content-between align-items-baseline">
         <h1 class="heading-1-bold d-none d-sm-block">
           {{ $t('vendor_dashboard.title') }}
         </h1>
         <div
           class="d-flex gap-2 align-items-center justify-content-sm-start full-width-sm"
+          :class="{
+            'justify-content-between': isScreenXS,
+          }"
         >
           <h3
             :class="mobileClass"
             class="medal-badge body-5-medium mb-0 bg-white br-10 px-3 py-2 d-flex align-items-center"
           >
             <img
-              :src="require('~/assets/img/icons/bronze-badge.svg')"
+              :src="
+                require(`~/assets/img/icons/${
+                  vendor.rank ? vendor.rank.toLowerCase() : 'bronze'
+                }-badge.svg`)
+              "
               aria-hidden="true"
               class="mr-2"
             />
             {{ vendor.rank }} {{ $t('vendor_dashboard.seller') }}
           </h3>
           <a
-            class="font-secondary fs-14 fw-5 mb-0 border-bottom border-primary font-primary"
+            class="font-secondary fs-14 fw-5 mb-0 text-decoration-underline text-link-blue-mobile font-primary"
             role="button"
             @click="detailsMenu = true"
             >{{ $t('vendor_dashboard.view_details') }}</a
@@ -32,6 +39,7 @@
       <section :class="mobileClass" class="row my-3 my-sm-5">
         <div class="col-3 col-md-3">
           <StatsCard
+            :coloredText="false"
             :icon="require('~/assets/img/icons/profile/total-sales.svg')"
             :title="$tc('vendor_dashboard.total_sales', 1).toString()"
             :value="totalSales"
@@ -40,14 +48,22 @@
         </div>
         <div class="col-3 col-md-3">
           <StatsCard
+            :coloredText="false"
             :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
-            :title="$t('vendor_dashboard.commision_pending')"
+            :title="
+              $t(
+                isScreenXS
+                  ? 'vendor_dashboard.pending_percentage'
+                  : 'vendor_dashboard.commision_pending'
+              ).toString()
+            "
             :value="commissionPending"
             color="#CE745F"
           />
         </div>
         <div class="col-3 col-md-3">
           <StatsCard
+            :coloredText="false"
             :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
             :title="$t('vendor_dashboard.inventory')"
             :value="'' + analytics.inventory_amount"
@@ -56,6 +72,7 @@
         </div>
         <div class="col-3 col-md-3">
           <StatsCard
+            :coloredText="false"
             :icon="require('~/assets/img/icons/profile/item-sold.svg')"
             :title="$t('vendor_dashboard.items_sold')"
             :value="'' + analytics.items_sold"
@@ -170,6 +187,9 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.dashboard
+  &.mobile
+    margin-bottom: -60px
 
 .medal-badge
   &.mobile

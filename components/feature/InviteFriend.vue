@@ -111,7 +111,7 @@ export default {
         h2.give-500-get-500
           letter-spacing: -0.02em
           line-height: 39px
-          color: $color-green-33
+          color: $color-green-35
         p
           line-height: 17px
           letter-spacing: -0.02em

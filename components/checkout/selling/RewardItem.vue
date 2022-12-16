@@ -14,13 +14,18 @@
       <b-col md="9" class="pl-3">
         <b-row class="mb-2 d-block">
           <div class="body-4-bold mb-2">{{ product.name }}</div>
-          <div class="body-4-normal mb-2 text-gray-6 text-uppercase">
-            {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ product.sku }} &nbsp;
-            {{ $tc('common.size', 1) }}&colon;&nbsp;{{ product.size }}
+          <div class="body-4-normal mb-2 text-gray-6">
+            <span class="text-uppercase">{{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ product.sku }} &nbsp;</span>
+            <span>{{ $tc('common.size', 1) }}&colon;&nbsp;{{ product.size.size }}</span>
           </div>
           <div class="body-4-normal mb-2 text-gray-6">
             {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
               product.colorWay
+            }}
+          </div>
+          <div class="body-4-normal mb-2 text-gray-6">
+            {{ $t('shopping_cart.box_condition') }}&colon;&nbsp;{{
+              product.packaging_condition
             }}
           </div>
         </b-row>

@@ -25,7 +25,7 @@
         :benefitDescription="benefit.benefitDescription"
       />
 
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('features.buying.purchase_methods') }}
       </FeatureTitle>
       <b-row class="cards-wrapper">
@@ -183,8 +183,8 @@ export default {
         font-weight: 600 !important
         font-size: 16px !important
         margin: 0px 0px 20px 0px !important
-      .title
-        margin: 40px 0px 24px 0px !important
+      // .title
+      //   margin: 40px 0px 24px 0px !important
 
       .feature-item::v-deep
         flex-direction: column
@@ -198,4 +198,11 @@ export default {
           text-align: center
       .vertical-cards
         gap: 40px
+@media screen and (max-width: 577px)
+  .features-container
+    .feature-content
+      .feature-title-my
+        width: 100%
+        margin-top: 48px !important
+        margin-bottom: 24px !important
 </style>

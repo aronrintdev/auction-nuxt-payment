@@ -1,5 +1,5 @@
 <template>
-  <div v-if="active" class="bulk-select-toolbar-wrapper py-2">
+  <div v-if="active" class="bulk-select-toolbar-wrapper">
     <div v-if="successLabel" class="d-flex align-items-center w-100">
       <div class="mx-3">
         <Icon
@@ -27,8 +27,8 @@
     <div v-else class="d-flex align-items-center w-100">
       <div class="mx-3">
         <Icon
-          src="close-circle.svg"
-          hoverSrc="close-circle.svg"
+          src="minus-toolbar.svg"
+          hoverSrc="minus-toolbar.svg"
           width="16"
           height="16"
           @click="$emit('close')"
@@ -44,20 +44,11 @@
       </div>
       <div class="ml-auto ml-md-2 mr-3 mr-md-0">
         <Button
-          v-if="selected.length === total"
           variant="link"
           class="text-decoration-underline"
           @click="$emit('deselectAll')"
         >
-          {{ $t('common.deselect_all') }}
-        </Button>
-        <Button
-          v-else
-          variant="link"
-          class="text-decoration-underline"
-          @click="$emit('selectAll')"
-        >
-          {{ $t('common.select_all') }}
+          {{ $t('common.deselect') }}
         </Button>
       </div>
       <div v-if="error" class="mx-5 error-msg pl-4 pr-4" >{{ error }}</div>
@@ -65,7 +56,7 @@
         <Button
           :disabled="actionDisabled"
           variant="link"
-          class="text-decoration-underline float-right"
+          class="continue-btn"
           @click="$emit('submit')"
         >
           {{ actionLabel }}
@@ -146,14 +137,27 @@ export default {
   @include body-4-normal
   background-color: $color-black-7
   color: $color-white-1
-  min-height: 38px
-  width: 100%
+  font-family: $font-sp-pro
   display: flex
   align-items: center
+  z-index: 4
+  padding: 13px 0 12px
+  border-radius: 4px 4px 0px 0px
+  position: sticky
+  bottom: 0
+  margin: 0 -51px
+  width: auto
 
   .btn
     @include body-4-normal
     color: $color-white-1
+    font-family: $font-sp-pro
+    color: $white
+    &.continue-btn
+      border: 1px solid $white
+      border-radius: 7px
+      width: 159px
+      height: 33px
 
 .error-msg
   font-family: $font-family-sf-pro-display

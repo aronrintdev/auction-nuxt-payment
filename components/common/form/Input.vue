@@ -1,6 +1,6 @@
 <template>
   <div class="form-input-wrapper">
-    <div v-if="label" class="input-label ml-2">
+    <div v-if="label" class="input-label" :class="labelClass">
       {{ label }}{{ required ? '*' : '' }}
     </div>
     <b-form-input
@@ -69,6 +69,10 @@ export default {
     backgroundColor: {
       type: String,
       default: 'bg-white',
+    },
+    labelClass: {
+      type: String,
+      default: 'ml-2',
     },
   },
 

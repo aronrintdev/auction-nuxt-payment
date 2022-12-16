@@ -1,5 +1,5 @@
 <template>
-  <div v-if="auction" class="mb-4 item">
+  <div v-if="auction" class="item">
     <div class="thumbnail auct-card">
       <div
         v-if="auction.status === 'completed'"
@@ -44,17 +44,17 @@
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-between align-items-end mt-3">
-      <div class="flex-grow-1 overflow-hidden mr-4">
+    <div class="d-flex justify-content-between align-items-end mt-2 mt-md-3">
+      <div class="flex-grow-1 overflow-hidden mr-2 mr-md-4">
         <div v-if="auction.type === AUCTION_TYPE_SINGLE">
-          <h5 class="auct-card-title mb-1">{{ auction.auction_items[0].inventory.product.name }}</h5>
+          <h5 class="auct-card-title mb-03">{{ auction.auction_items[0].inventory.product.name }}</h5>
           <div class="auct-card-text mb-1">
             <span class="auct-card-text-colorway">{{ auction.auction_items[0].inventory.color }},&nbsp;</span>
             <span class="auct-card-text-size">{{ `${$t('auctions.frontpage.size')} ${auction.auction_items[0].inventory.size.size}` }}</span>
           </div>
         </div>
         <div v-else>
-          <h5 class="auct-card-title mb-1 text-capitalize">{{ auction.name }}</h5>
+          <h5 class="auct-card-title mb-03 text-capitalize">{{ auction.name }}</h5>
           <div class="auct-card-text mb-1">
             <span v-for="(cat, idx) in auction.categories" :key="cat" class="auct-card-text-colorway">
               <span v-if="idx !== 0">&nbsp;&amp;&nbsp;</span>
@@ -66,7 +66,7 @@
         <div v-else class="auct-card-price">${{ auction.start_bid_price | formatPrice }}</div>
       </div>
       <nuxt-link :to="auction.type === AUCTION_TYPE_COLLECTION ? `/auction/collection/${auction.id}` : `/auction/${auction.id}`">
-        <button class="w-100 btn bid-now-btn text-nowrap">{{ $t('home_page.bid_now') }}</button>
+        <button class="btn bid-now-btn text-nowrap">{{ $t('home_page.bid_now') }}</button>
       </nuxt-link>
     </div>
     <div class="auct-card-quick-btns" :class="{ 'show-actions' : watchlistShow || shareShow }">
@@ -214,6 +214,10 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.item
+  margin-bottom: 44px
+  @media (max-width: 576px)
+    margin-bottom: 31px
 .auct-card
   &-quick-btns.show-actions
     opacity: 1
@@ -233,8 +237,10 @@ export default {
       @include body-5-medium
 ::v-deep
   .thumb-wrapper
+    img
+      padding: 0 !important
     .overlay
-      background: rgba(153, 153, 153, 0.05)
+      background: rgba(180, 180, 180, 0.08)
 .collection-product-imgs
   ::v-deep
     .thumb-wrapper
@@ -256,4 +262,6 @@ export default {
       div
         font-size: 10px
         line-height: 11px
+.mb-03
+  margin-bottom: 3px
 </style>

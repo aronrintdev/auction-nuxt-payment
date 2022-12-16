@@ -1,7 +1,7 @@
 <template>
-  <b-row>
+  <b-row class="checkout-wrapper">
     <!-- Checkout selling normal version (md, lg & xl) -->
-    <ItemsList v-if="! isResponsive" />
+    <ItemsList v-if="! isResponsive" class="items-list" />
 
     <ShoppingCartOrder v-if="! isResponsive" class="order-summary" />
     <!-- End of Checkout selling normal version (md, lg & xl) -->
@@ -38,6 +38,7 @@ export default {
   },
   beforeMount() {
     this.$root.$emit('hide-header', { hideHeader: true })
+    this.$root.$emit('hide-footer', { hideFooter: true })
 
     if (this.$store.$auth.loggedIn) {
       this.getUserDetails()
@@ -55,6 +56,7 @@ export default {
   },
   beforeDestroy() {
     this.$root.$emit('hide-header', { hideHeader: false })
+    this.$root.$emit('hide-footer', { hideFooter: false })
   },
   methods: {
     ...mapActions({

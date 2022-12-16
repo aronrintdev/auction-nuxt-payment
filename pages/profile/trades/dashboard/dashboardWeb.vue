@@ -1,8 +1,8 @@
 <template>
   <div class="container-trade-dashboard">
-    <b-row class="heading-dashboard mt-4">
-      {{$t('trades.trade_dashboard')}}
-    </b-row>
+    <div class="heading-dashboard pt-4">
+      {{ $t('trades.trade_dashboard') }}
+    </div>
     <b-row>
       <b-col md="7" class="mt-4">
         <SearchInput
@@ -10,10 +10,22 @@
           variant="primary"
           :placeholder="$t('trades.search_trades')"
           :clearSearch="true"
+          :isOpen="searchedProducts.length > 0"
+          :onOpenStyle="{
+            borderBottomLeftRadius: '0 !important',
+            borderBottomRightRadius: '0 !important',
+          }"
+          bordered
           @change="onSearchInput"
           @clear="onSearchInput"
         />
-        <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute"/>
+        <SearchBarProductsList 
+          v-if="searchedProducts.length > 0" 
+          :productItems="searchedProducts" 
+          class="position-absolute rounded-bottom"
+          listGroupClass="rounded-0"
+          listItemClass="border-top-0"
+        />
       </b-col>
     </b-row>
 
@@ -33,11 +45,11 @@
           </div>
         </b-col>
         <b-col md="4" class="text-right">
-          <div class="d-flex mt-4 pt-3 pr-3 justify-content-end" role="button" @click="$router.push('/profile/trades/preferences')"><img :src="require('~/assets/img/icons/cog.svg')"><span class="ml-1 preferences">{{$t('trades.trade_preferences')}}</span></div>
+          <div class="d-flex mt-4 pt-3 justify-content-end" role="button" @click="$router.push('/profile/trades/preferences')"><img :src="require('~/assets/img/icons/cog.svg')"><span class="ml-1 preferences">{{$t('trades.trade_preferences')}}</span></div>
         </b-col>
       </b-row>
       <div v-if="tradeListing && tradeListing.length">
-      <trade-listing-items :tradesList="tradeListing"></trade-listing-items>
+      <trade-listing-items-web :tradesList="tradeListing"></trade-listing-items-web>
       <b-row class="justify-content-center mt-3">
         <Button variant="blue" @click="$router.push('/profile/trades/dashboard/alltradelistings')">{{$t('trades.view_all')}}</Button>
       </b-row>
@@ -76,11 +88,14 @@
             v-model="offerType"
             :data="offerTypeData"
             nav-key="type"
-            class="type-nav mt-3 mb-3"
+            class="type-nav mt-3 mb-3 col-lg-8 col-xl-6 mx-auto"
+            :btnGroupStyle="{
+              margin: 0
+            }"
             @change="handleMethodNavClick"
           />
-          <div class="row justify-content-center">
-          <trade-offer-items :offers="tradeOffers"></trade-offer-items>
+          <div class="d-flex justify-content-center">
+            <trade-offer-items :offers="tradeOffers"></trade-offer-items>
           </div>
           <b-row class="justify-content-center mt-3">
             <Button variant="blue" @click="$router.push('/profile/trades/dashboard/alloffers')">{{$t('trades.view_all')}}</Button>
@@ -119,7 +134,6 @@
 import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput';
 import Button from '~/components/common/Button';
-import TradeListingItems from '~/pages/profile/trades/dashboard/TradeListingItems';
 import { NavGroup } from '~/components/common';
 import TradeOfferItems from '~/pages/profile/trades/dashboard/TradeOfferItems'
 import SearchBarProductsList from '~/components/product/SearchBarProductsList'
@@ -135,11 +149,11 @@ export default {
   name: 'Index',
   components:{
     TradeOfferItems,
-    TradeListingItems,
     Button,
     SearchInput,
     NavGroup,
-    SearchBarProductsList
+    SearchBarProductsList,
+    tradeListingItemsWeb: ()=>import('./TradeListingItemsWeb'),
   },
   layout: 'Profile',
   data(){
@@ -323,5 +337,12 @@ export default {
   font-size: 16px
 
 .container-trade-dashboard
-  padding-left: 54px
+  padding-left: 20px
+  padding-right: 20px
+  @media (min-width: 576px)
+    background: $color-white-5
+    padding-bottom: 20px
+  @media (min-width: 768px)
+    padding-left: 54px
+    padding-right: 54px
 </style>

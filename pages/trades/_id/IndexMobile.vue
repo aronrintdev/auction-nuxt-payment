@@ -6,22 +6,63 @@
       <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeArena" :progressBar="false" :padding="true" />
       <div v-else>
         <b-col v-if="Object.keys(trade).length && !trade_completed">
-          <div class="d-flex justify-content-between price-container">
+          <div class="d-flex  price-container">
             <div class="theirs-total d-flex align-items-center">
               <img class="list-icon" :src="require('~/assets/img/trades/list-icon.svg')">
-              <div class="price-text">
+              <div class="price-text" @click="leftDataShow = !leftDataShow">
                 {{$t('trades.trade_arena.theirs')}}: {{theirTotal()}}
               </div>
             </div>
-            <div class="theirs-total d-flex align-items-center">
+            <div class="yours-total d-flex align-items-center">
               <img class="list-icon" :src="require('~/assets/img/trades/list-icon.svg')">
               <div class="price-text">
                 {{$t('trades.trade_arena.yours')}}: {{yourTotal()}}
               </div>
             </div>
           </div>
-          <div class="center-container">
-              <div class="left-item" :class="{'right-item-margin-top':trade.offers.length === ITEM_COUNT_TWO,'left-item-one':trade.offers.length === ITEM_COUNT_ONE}">
+          <div  :class="trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_ONE ? 'center-container-one'
+             :trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ? 'center-container-one'
+             :trade.offers.length  === ITEM_COUNT_TWO && getYourTradeItems.length === ITEM_COUNT_0 ? 'center-container-20'
+             : trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_TWO ? 'center-container-two'
+ : trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_THREE ?'center-container-three'
+ : 'center-container' ">
+
+
+            <div v-if="leftDataShow" class="left-item"  :class="trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_0 ? 'left-item-one-zero'
+                :getYourTradeItems.length === ITEM_COUNT_ONE && trade.offers.length === ITEM_COUNT_ONE  ?  'left-item-one'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_0 ? 'left-item-two-zero'
+                : trade.offers.length === ITEM_COUNT_THREE && getYourTradeItems.length === ITEM_COUNT_0 ? 'left-item-three-zero'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_ONE ? 'left-item-21'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'left-item-22'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_THREE ? 'left-item-23'
+                : trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'left-item-one-two' : trade.offers.length === ITEM_COUNT_ONE
+                &&  getYourTradeItems.length === ITEM_COUNT_THREE ? 'left-item-one-three' : ''">
+
+               <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'card-'+index : ''" :key="index" class="item mb-4">
+                  <div class="image-wrapper">
+                    <img class="pro-image" :src="getProductImageUrl(item.inventory.product)"/>
+                    <div class="overlay-black"></div>
+                    <div class="item-caption-black">
+                    <span class="wants-size-hover">{{ item.inventory.product.name}}</span>
+                    <div class="wants-size-hover">{{item.inventory.product.colorway}},{{$t('trades.trade_arena.size')}} {{item.inventory.size.size}}</div>
+                    <div class="wants-box-hover">Box: {{item.inventory.packaging_condition.name}}</div>
+                    <div></div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="left-item" :class="trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_0 ? 'left-item-one-zero'
+                :getYourTradeItems.length === ITEM_COUNT_ONE && trade.offers.length === ITEM_COUNT_ONE  ?  'left-item-one'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_0 ? 'left-item-two-zero'
+                : trade.offers.length === ITEM_COUNT_THREE && getYourTradeItems.length === ITEM_COUNT_0 ? 'left-item-three-zero'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_ONE ? 'left-item-21'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'left-item-22'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_THREE ? 'left-item-23'
+                : trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'left-item-one-two' : trade.offers.length === ITEM_COUNT_ONE
+                &&  getYourTradeItems.length === ITEM_COUNT_THREE ? 'left-item-one-three' : ''">
+
+
+
                 <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'card-'+index : ''" :key="index" class="item mb-4">
                   <div class="image-wrapper">
                     <img class="pro-image" :src="getProductImageUrl(item.inventory.product)"/>
@@ -35,14 +76,16 @@
               <div class="center-item">
                 <div v-if="trade.offers.length > ITEM_COUNT_ONE" class="pointer-left" :class="{'pointer-right-two-items':trade.offers.length === ITEM_COUNT_TWO}"></div>
                 <div class="position-relative center-img d-flex justify-content-between">
-                <div v-if="trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE" class="line-bar"></div>
+                <div v-if="(trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE || trade.offers.length === ITEM_COUNT_TWO)" class="line-bar"></div>
                 <div class="fair-text position-absolute">{{$t('trades.fair')}}</div>
                 <img class="trade-img position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
-                <div v-if="getYourTradeItems.length === ITEM_COUNT_THREE || getYourTradeItems.length === ITEM_COUNT_ONE" class="line-bar"></div>
+                <div v-if="(trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE || trade.offers.length === ITEM_COUNT_TWO)" class="line-bar-2"></div>
+                <div v-if="(getYourTradeItems.length === ITEM_COUNT_THREE || getYourTradeItems.length === ITEM_COUNT_ONE || getYourTradeItems.length === ITEM_COUNT_TWO)" class="line-bar"></div>
                 </div>
                 <div v-if="getYourTradeItems.length > ITEM_COUNT_ONE" class="pointer-right" :class="{'pointer-right-two-items':getYourTradeItems.length === ITEM_COUNT_TWO}"></div>
               </div>
-              <div class="right-item" :class="{'right-item-margin-top':getYourTradeItems.length === ITEM_COUNT_TWO,'right-item-one':getYourTradeItems.length === ITEM_COUNT_ONE}">
+              <div class="right-item" :class="trade.offers.length === ITEM_COUNT_TWO &&
+               getYourTradeItems.length === ITEM_COUNT_ONE ?  'right-item-one' : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'right-item-two-two' : trade.offers.length === ITEM_COUNT_THREE &&  getYourTradeItems.length === ITEM_COUNT_ONE ? 'right-item-three-one': trade.offers.length === ITEM_COUNT_THREE &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'right-item-three-two' : trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_ONE ? 'right-item-one-one' : trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'right-item-one-two' : trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_THREE ? 'right-item-one-three' : ''">
                 <div  v-if="getYourTradeItems.length" class="">
                   <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_ONE ?'your-card-'+index : 'your-item'" :key="index" class="preview mb-4">
                     <div class="remove-item" @click="decrementOrRemoveItem(item)">
@@ -57,22 +100,32 @@
                     </div>
                   </div>
                 </div>
+                <div v-if="getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length < ITEM_COUNT_THREE"
+                >
+            <img v-if="getYourTradeItems.length <= 0 " :class="trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image'
+              : trade.offers.length  === ITEM_COUNT_TWO  && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image-0'
+              : trade.offers.length  === ITEM_COUNT_THREE  && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image-03'
+        : getYourTradeItems.length  === ITEM_COUNT_ONE ? 'dumy-image-1'
+        : getYourTradeItems.length  === ITEM_COUNT_TWO ? 'dumy-image-2'
+        : 'dumy-image-3'" :src="require('~/assets/img/box3.svg')">
+            </div>
               </div>
             </div>
           <div class="d-flex justify-content-center">
             <!-- Meter -->
-            <Meter :fair="70" heading="trades.trade_arena.fair_trade_meter" :highest="100" :lowest="0" :value="60"/>
+            <Meter :fair="getFairTradeValue()" heading="trades.trade_arena.fair_trade_meter" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>
           </div>
           <div>
-            <Button variant="outline-secondary-blue" class="add-cash" @click="cashAdd">{{buttonText}}</Button>
+            <b-btn  class="add-cash" @click="cashAdd">{{buttonText}}</b-btn>
             <div v-if="!isExpire && !isPayment" >
-            <div class="authenticity d-flex justify-content-center align-items-center">
-              <img :src="require('~/assets/img/trades/authenticity.svg')">
-              <div class="pl-1">{{$t('products.authenticity_guaranteed')}}</div>
-            </div>
-            <div class="authenticity-text d-flex justify-content-center text-center">
-              {{$t('features.auctions.certified_authentic_products_desc')}}
-            </div>
+              <div class="d-flex guranty-box">
+                 <div>
+                  <img class="granty-img" :src="require('~/assets/img/guranty.png')">
+                 </div>
+                 <div class="authenticity-text">
+                   {{$t('features.auctions.certified_authentic_products_desc_new')}}
+                 </div>
+              </div>
             </div>
 
             <div v-if="!isExpire && !isPayment" >
@@ -119,14 +172,14 @@
                 </div>
                 <div class="wants-name">{{item.product.name}}</div>
                 <div class="wants-size">{{item.product.colorway}},{{$t('trades.trade_arena.size')}} {{item.size.size}}</div>
-                <div class="wants-box">{{item.packaging_condition.name}}</div>
+                <div class="wants-box">Box: {{item.packaging_condition.name}}</div>
               </div>
             </div>
             </div>
             <!-- Buttons Section -->
             <div v-if="!isExpire && !isPayment"  class="d-flex justify-content-between mt-3 mb-4  ml-1 mr-1">
-              <Button variant="outline-info" pill class="invent-btn" @click="showInventory">{{$t('orders.inventory')}}</Button>
-              <Button variant="info" pill class="next-btns" @click="showPoorTradeConfirmationModal">{{$t('trades.trade_arena.next')}}</Button>
+              <b-btn   class="invent-btn" @click="showInventory">{{$t('orders.inventory')}}</b-btn>
+              <b-btn   class="next-btns" @click="showPoorTradeConfirmationModal">{{$t('trades.trade_arena.next')}}</b-btn>
             </div>
           </div>
           <inventory-bottom-sheet ref="inventory"/>
@@ -176,9 +229,8 @@ import {
   OFFER_TYPE_YOURS,
   OFFER_TYPE_THEIR,
   OFFER_TYPE,
-  TAKE_SEARCHED_PRODUCTS
+  TAKE_SEARCHED_PRODUCTS, CASH_TYPE_REQUESTED
 } from '~/static/constants/trades'
-import Button from '~/components/common/Button';
 import InventoryBottomSheet from '~/pages/trades/_id/InventoryBottomSheet';
 import Meter from '~/components/common/Meter';
 import AddCash from '~/pages/trades/_id/AddCash';
@@ -189,7 +241,6 @@ export default {
     AddCash,
     Meter,
     InventoryBottomSheet,
-    Button,
     CreateTradeSearchItem,
     TraderWants,
     PoorTradeConfirmationModal,
@@ -250,7 +301,10 @@ export default {
       OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
       OFFER_TYPE,
+      cashTypeAdded:CASH_TYPE_ADDED,
+      cashTypeReq:CASH_TYPE_REQUESTED,
       addCash: false,
+      leftDataShow:false,
     }
   },
   head() {
@@ -265,7 +319,7 @@ export default {
     }
   },
   computed:{
-    ...mapGetters('browse', ['filters']),
+    ...mapGetters('browse', ['filters'                            ]),
     ...mapGetters('trade', ['getYourTradeItems', 'getSubmittedOffer', 'getVendorTradeSummary']),// List of your trade items from store
 
     isExpire(){
@@ -302,7 +356,6 @@ export default {
     this.$store.commit('trade/addTrade',null) // commit is used to set state empty
     this.fetchFilters()
     this.fetchVendorTradeSummary()
-    this.getInventory()
 
     this.trade_completed = this.getSubmittedOffer
 
@@ -326,7 +379,6 @@ export default {
       }
       return this.tradeCondition === FILTER_CONDITION_POOR
     },
-
     getFairTradeValue(){
       return (this.theirTotal(false) * this.fairTradePercentage)
     },
@@ -393,11 +445,11 @@ export default {
      * This function is used to add or increment your trade item in store
      * @param item
      */
-    addOrIncrementYourItem(item) {
+    addOrIncrementYourItem: debounce(function (item) {
       this.$store.commit('trade/setYourTradeItems', item)
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
-    },
+    }, 100),
     /**
      * This function is used to get trade items against trade id
      * get trade ID from route parameter
@@ -597,6 +649,7 @@ export default {
       this.$store.commit('trade/updateActiveTrade', {
         yourItems: this.getYourTradeItems,
         cashAdded: parseInt(parseFloat(this.optional_cash)*100),
+        cashType: this.optional_cash_type === 'add_cash' ? this.cashTypeAdded : this.cashTypeReq,
         tradeCondition: this.tradeCondition
       })
     },
@@ -692,7 +745,6 @@ export default {
     handlePageClick(bvEvent, page) {
       if (this.page !== page) {
         this.page = page
-        this.getInventory()
       }
     },
     /**
@@ -703,7 +755,6 @@ export default {
       if (this.perPage !== value) {
         this.perPage = value
         this.page = 1
-        this.getInventory()
       }
     },
     /**
@@ -731,7 +782,6 @@ export default {
     },
     showInventory(){
       this.$refs.inventory.open();
-      this.$refs.inventory.getInventory();
     },
     cashAdd(){
       this.addCash = true;
@@ -744,6 +794,7 @@ export default {
       this.optional_cash_type = value.add_cash ? 'add_cash':'request_cash'
       this.addCash = false
       this.yourTotal(false)
+      this.updateActiveTrade()
     }
   }
 }
@@ -838,16 +889,43 @@ export default {
   margin-left: 3px
 
 .item-name
-  width: 85px
+  @include body-6
+  font-weight: $light
+  font-family: $font-sp-pro
+  font-style: normal
+.item-name-hover
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
   font-size: 11px
-  color: $color-gray-69
+  color: $color-white-1
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
 
 .center-item
   min-width: 10px
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding-top: 21px
+  margin: 0 10px
+  width: unset
+  max-width: 780px
 
 .pointer-left,.pointer-right
   width: 25px
   height: 370px
+
+.pointer-left
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+
+.pointer-right
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-left: 0.5px solid $light-gray-2
 
 .long-line
   width: 17px
@@ -857,12 +935,38 @@ export default {
 .trade-img
   background: $color-white-1
   margin-left: -5px
-  height: 40px
-  width: 40px
+  height: 25px
+  width: 25px
 
 .center-container
-  min-height: 550px
+  min-height: 450px
   margin: 0 15px
+  display: flex
+  justify-content: center
+  margin-bottom: 140px
+.center-container-one
+  min-height: 100px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+.center-container-20
+  min-height: 450px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+
+.center-container-two
+  min-height: 420px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+  margin-bottom: 60px
+.center-container-three
+  min-height: 510px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+  margin-bottom: 60px
 
 .image-wrapper
   .overlay
@@ -872,15 +976,28 @@ export default {
     width: 100%
     height: 100%
     background: $color-grey-70
-
+  .overlay-black
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: #0c0c0ccf
 .pro-image
   width: 117px
   height: 100%
 .line-bar
   width: 9px
   height: 2px
-  background: $color-white-18
-  margin: 15px -20px 0 -20px
+  background: #E3E3E3
+  margin: 15px 9px 6px -20px
+.line-bar-2
+  width: 9px
+  height: 2px
+  background: #E3E3E3
+  margin-right: -4px
+  margin-top: 15px
+  margin-left: 9px
 
 .item-caption
   background: $color-white-1
@@ -891,18 +1008,84 @@ export default {
 .pointer-right-two-items
   height: 223px
 .right-item-margin-top
-  margin-top: 115px
+  margin-top: 60px
 .right-item-one
-  margin-top: 183px
+  margin-top: 148px
+  margin-bottom: 60px
+  margin-left: 15px
+.right-item-one-one
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-left: 15px
+.right-item-two-two
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-left: 15px
+.right-item-one-two
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-left: 15px
+.right-item-one-three
+  margin-top: 6px
+  margin-bottom: 17px
+  margin-left: 15px
+.right-item-three-one
+  margin-top: 148px
+  margin-bottom: 60px
+  margin-left: 15px
+.right-item-three-two
+  margin-top: 60px
+  margin-bottom: 60px
   margin-left: 15px
 .left-item-one
-  margin-top: 183px
+  margin-top: 60px
+  margin-bottom: 60px
   margin-right: 15px
+.left-item-21
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-right: 15px
+.left-item-22
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-right: 15px
+.left-item-23
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-right: 15px
+.left-item-one-zero
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-right: 15px
+.left-item-two-zero
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-right: 15px
+.left-item-one-one
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-left: 15px
+.left-item-two-two
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-left: 15px
+.left-item-one-two
+  margin-top: 148px
+  margin-bottom: 60px
+.left-item-three-one
+  margin-top: 148px
+  margin-bottom: 60px
+.left-item-three-two
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-left: 15px
+.left-item-one-three
+   margin-top: 148px
 .fair-text
   background: $color-white-1
   color: $color-black-1
   height: 30px
-  width: 50px
+  width: 40px
   text-align: center
   z-index: 98
   font-family: $font-family-sf-pro-display
@@ -912,16 +1095,21 @@ export default {
   margin-left: -10px
   padding-top: 5px
 .price-container
-  margin-bottom: 8px
-  margin-top: 7px
-  padding: 0 15px
+  margin-top: 20px
+  margin-left: 30px
+  margin-right: 30px
 
 .theirs-total
   background: $color-white-4
   border-radius: 2px
   height: 38px
   width: 118px
-
+.yours-total
+  background: $color-white-4
+  border-radius: 2px
+  height: 38px
+  width: 118px
+  margin-left: 79px
 .price-text
   font-family: $font-family-montserrat
   font-style: normal
@@ -941,6 +1129,13 @@ export default {
   margin-left: 20px
   border-radius: unset
   margin-top: 19px
+  font-family: $font-montserrat
+  @include body-5
+  font-weight: $normal
+  font-style: normal
+  line-height: 17px
+  background-color: $color-white-1
+  color: #7196B1
 .authenticity
   font-family: $font-family-montserrat
   font-style: normal
@@ -951,18 +1146,23 @@ export default {
   color: $color-black-1
   padding-top: 25px
 .authenticity-text
-  font-family: $font-family-montserrat
+  font-family: $font-montserrat
   font-style: normal
-  @include body-9-regular
+  @include body-9
   color: $color-black-1
-  margin-top: 15px
+  border-left : 1px solid #EFEFEF
+  padding-left : 10px
+  height : 80px
+  width: 236px
+  line-height: 16px
+
 
 .detail-heading
   font-family: $font-family-montserrat
   font-style: normal
   @include body-4-medium
   color: $color-black-1
-  margin-top: 38px
+  margin-top: 24px
   padding-left: 10px
   padding-bottom: 15px
 .details
@@ -1017,6 +1217,17 @@ export default {
   text-overflow: ellipsis
   overflow: hidden
   white-space: nowrap
+
+.wants-size-hover,.wants-box-hover
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  font-size: 12px
+  line-height: 130%
+  color: $color-white-1
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
 .wants-heading
   font-family: $font-family-montserrat
   font-style: normal
@@ -1028,7 +1239,7 @@ export default {
 .invent-btn,.next-btns
   width: 162px
   height: 40px
-  
+
 @media (max-width: 576px)
   .order-summary::v-deep
     min-width: 0
@@ -1045,5 +1256,53 @@ export default {
       background: $color-white-5
 .pb-100
   padding-bottom: 100px
-
+.dumy-image
+  width : 118px
+  height : 134px
+  margin-top: 60px
+  margin-bottom: 60px
+.dumy-image-0
+  width : 118px
+  height : 134px
+  margin-top: 148px
+  margin-bottom: 60px
+  margin-left : 10px
+.dumy-image-1
+  width : 118px
+  height : 134px
+  margin-top: 60px
+  margin-bottom: 60px
+.dumy-image-2
+  width : 118px
+  height : 134px
+  margin-top: 148px
+  margin-bottom: 60px
+.dumy-image-3
+  width : 118px
+  height : 134px
+  margin-top: 148px
+  margin-bottom: 60px
+.dumy-image-03
+  width : 118px
+  height : 134px
+  margin-top: 148px
+  margin-bottom: 60px
+.guranty-box
+  margin-top : 24px
+.granty-img
+  margin-left : 21px
+  height : 70px
+  width: 68px
+.invent-btn
+  background: #FFFFFF
+  border: 1px solid #667799
+  border-radius: 21px
+  color: #667799
+.next-btns
+  background: #667799
+  border-radius: 21px
+.item-caption-black
+  position: relative
+  top: -100px
+  padding: 10px
 </style>

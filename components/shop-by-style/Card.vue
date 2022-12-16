@@ -1,19 +1,12 @@
 <template>
   <div>
-
-  <div
-
-    class="style-card-wrapper position-relative user-select-none"
-    @click="handleClick"
-  >
-    <img :src="imageUrl" class=""/>
-    <div class="overlay position-absolute w-100 h-100"></div>
-    <div class="view-style position-absolute text-right">
-      {{ $t('shop_by_style.view_style') }}
-      <img :src="require('~/assets/img/icons/view.svg')" />
+    <div
+      class="style-card-wrapper position-relative user-select-none"
+      @click="handleClick"
+    >
+      <img :src="imageUrl" class="" />
+      <div class="overlay position-absolute w-100 h-100"></div>
     </div>
-  </div>
-
   </div>
 </template>
 <script>
@@ -45,17 +38,12 @@ export default {
   cursor: pointer
 
   &:hover
-    transform: rotateY(180deg)
-    .overlay
-      visibility: visible
-      opacity: 0.5
-
     .view-style
       display: block
 
   img
     width: 100%
-    height: 372px
+    height: 100%
     object-fit: contain
 
   .overlay
@@ -77,4 +65,10 @@ export default {
     img
       width: 54px
       height: 40px
+@media(max-width: 460px)
+  .style-card-wrapper
+    img
+      width: 115px
+      height: auto
+      margin-bottom: 30px
 </style>

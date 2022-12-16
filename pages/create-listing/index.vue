@@ -46,7 +46,7 @@ export default {
   name: 'CreateListingPage',
   components: {ListingType},
   layout: 'Profile',
-  middleware: 'auth',
+  middleware: ['vendor'],
   data() {
     return {
       sellingImage,

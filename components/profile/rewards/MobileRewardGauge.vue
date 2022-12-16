@@ -1,6 +1,6 @@
 <template>
   <div class="reward-gauge text-center position-relative">
-    <canvas ref="gauge" class="gauge position-absolute" height="300px" width="340px"></canvas>
+    <canvas ref="gauge" :height="height" :width="width" class="gauge position-absolute"></canvas>
     <div class="title-points">{{ currentPoints.toLocaleString() }}</div>
     <div class="ds-points">{{ $t('rewards.ds_points') }}</div>
     <div class="next-reward">{{ $t('rewards.till_next_reward', [tillNext.toLocaleString()]) }}</div>
@@ -23,6 +23,14 @@ export default {
     currentPoints: {
       type: Number,
       required: true
+    },
+    height: {
+      type: String,
+      default: '300px'
+    },
+    width: {
+      type: String,
+      default: '340px'
     },
     showNextExpire: {
       type: Boolean,
@@ -71,15 +79,15 @@ export default {
       context.stroke();
 
       context.beginPath();
-      context.arc(centerX, centerY, radius, Math.PI, (1 + this.tillNext / 1000) * Math.PI);
+      context.arc(centerX, centerY, radius, Math.PI, (1 + this.tillNext / this.nextTier.highestValue) * Math.PI);
       context.strokeStyle = '#66779A';
       context.stroke();
       context.fillStyle = '#667799';
       context.textAlign = 'center';
       context.font = 'bold 19px Montserrat';
       const nextHigh = this.nextTier ? this.nextTier.highestValue.toLocaleString() : 0
-      context.fillText('0', 20, 205);
-      context.fillText(nextHigh, 310, 205);
+      context.fillText('0', 20, parseInt(this.height) * 0.72);
+      context.fillText(nextHigh, 310, parseInt(this.height) * 0.72);
 
     }
   }

@@ -6,7 +6,7 @@
     <div class="badge-slot">
       <slot name="badge"></slot>
     </div>
-    <div class="product-image">
+    <div class="product-image" :style="`--card-height: ${cardHeight}`">
       <ProductThumb :src="product.image" :product="product" />
       <div class="overlay" @click="goToDetailPage"></div>
       <b-checkbox
@@ -18,14 +18,14 @@
       <div
         v-if="showActions"
         :class="`product-actions ${
-          wishListShow || shareShow ? 'show-actions' : ''
+          wishListShow || isShareBtnsVisible ? 'show-actions' : ''
         }`"
       >
         <div class="action-item btn-wishlist">
           <Icon
             :id="`popover-wishlist-${product.id}`"
             src="heart2.svg"
-            hover-src="heart-red.svg"
+            hover-src="heart2.svg"
             :active="wishListShow || !!wishList"
             width="15"
             height="15"
@@ -61,7 +61,7 @@
           {{ product.inventory ? product.inventory[0].size.size : '' }}
         </div>
         <div v-if="showPrice" class="fs-15 fw-6 font-secondary product-price">
-          {{ product.sale_price | toCurrency }}
+          {{ product.sale_price | toRoundedCurrency }}
         </div>
         <div
           v-if="showPriceAndSize"
@@ -75,7 +75,7 @@
         </div>
       </div>
       <div
-        class="col-5 align-items-end align-items-sm-center action-btn-slot pl-0 pl-1"
+        class="col-5 align-items-end justify-content-end action-btn-slot pl-0 pl-1"
         :class="[showActionBtn ? 'col-5 d-flex ' : 'd-none']"
       >
         <slot name="action"> </slot>
@@ -100,8 +100,8 @@
       container="body"
       custom-class="wishlist-popover"
       delay="200"
-      @show="shareShow = true"
-      @hidden="shareShow = false"
+      @show="isShareBtnsVisible = true"
+      @hidden="isShareBtnsVisible = false"
     >
       <ShareButton
         :url="shareUrl + product.sku"
@@ -166,12 +166,19 @@ export default {
       type: String,
       default: 'shop',
     },
+    cardHeight: {
+      type: String,
+      default: '312px',
+    },
+    showShareBtns: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
     return {
-      wishListShow: false,
-      shareShow: false,
+      wishListShow: true,
       shareUrl: process.env.APP_URL + '/shop/',
       wishList:
         this.product.wish_lists && this.product.wish_lists.length > 0
@@ -191,6 +198,9 @@ export default {
         .join(' ')
       return name
     },
+    isShareBtnsVisible(){
+      return this.showShareBtns
+    }
   },
   watch: {
     product(newVal, oldVal) {
@@ -247,12 +257,17 @@ export default {
 .product-card-wrapper
   max-width: initial
   text-align: left
+  background-color: $color-white-1
   .badge-slot
     position: absolute
-    top: 10px
-    left: 10px
+    top: 20px
+    left: 20px
     z-index: 9
-    width: calc(100% - 20px)
+    width: calc(100% - 40px)
+    @media (max-width: 576px)
+      top: 10px
+      left: 10px
+      width: calc(100% - 20px)
   &:hover
     .product-image
       .overlay
@@ -261,7 +276,7 @@ export default {
         display: flex
   .product-image
     position: relative
-    height: auto
+    height: var(--card-height)
     aspect-ratio: 1
     padding: 0 20px
     display: flex

@@ -60,7 +60,7 @@
       </div>
     </section>
   </template>
-  
+
   <script>
   export default {
     name: 'NavigationsLinks',
@@ -74,8 +74,8 @@
     },
   }
   </script>
-  
-  <style lang="sass">
+
+  <style scoped lang="sass">
   @import '~/assets/css/_variables'
   .navigation-links
     .navigation-card
@@ -85,9 +85,8 @@
         width: 86px
   .live-chat
     cursor: pointer
-  @media (max-width:575px)
+  @media (max-width: 575px)
     .navigation-links
       .custom-container
         width: 348px
   </style>
-  

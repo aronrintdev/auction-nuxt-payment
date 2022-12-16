@@ -1,27 +1,26 @@
 <template>
   <div>
     <div v-if="isResponsive">
-          <b-card class="custom-card">
-            <div class="d-flex">
-              <div class="images-squard">
-                <img
-                  :src="getCardBrandLogo"
-                  alt="..."
-                  width="50"
-                />
-                <div class="body-5-normal">
-                  {{ $t('shopping_cart.ending_in') }}&colon;&nbsp;{{ cardLastDigits }}
-                </div>
-                <div class="body-5-normal">
-                  {{ $t('shopping_cart.exp') }}&colon;&nbsp;{{ cardExpiryDate }}
-                </div>
-              </div>
-              <div>
-                <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
-                <CloseSquaredRed v-if="clearable" class="btn-action mt-1" role="button" @click="$emit('clear')" />
-              </div>
+      <b-card class="custom-card">
+        <div class="d-flex">
+          <div class="images-squared">
+            <img
+              :src="getCardBrandLogo"
+              alt="..."
+              width="50"
+            />
+            <div class="body-5-normal">
+              {{ $t('shopping_cart.ending_in') }}&colon;&nbsp;{{ cardLastDigits }}
             </div>
-          </b-card>
+            <div class="body-5-normal">
+              {{ $t('shopping_cart.exp') }}&colon;&nbsp;{{ cardExpiryDate }}
+            </div>
+          </div>
+          <div>
+            <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
+          </div>
+        </div>
+      </b-card>
     </div>
     <div v-else>
       <b-row>
@@ -35,19 +34,18 @@
                   width="50"
                 />
               </b-col>
-              <b-col md="5" class="d-flex align-items-center mt-2">
-                <div class="body-5-normal">
+              <b-col md="5" class="d-flex align-items-center pl-3">
+                <div class="body-5-regular">
                   {{ $t('shopping_cart.ending_in') }}&colon;&nbsp;{{ cardLastDigits }}
                 </div>
               </b-col>
-              <b-col md="4" class="d-flex align-items-center mt-1">
+              <b-col md="4" class="d-flex align-items-center">
                 <div class="body-5-normal">
                   {{ $t('shopping_cart.exp') }}&colon;&nbsp;{{ cardExpiryDate }}
                 </div>
               </b-col>
               <b-col md="1" class="d-flex flex-column mt-2">
                 <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
-                <CloseSquaredRed v-if="clearable" class="btn-action mt-1" role="button" @click="$emit('clear')" />
               </b-col>
             </b-row>
           </b-card>
@@ -60,20 +58,14 @@
 
 <script>
 import PencilSquaredBlueSvg from '~/assets/img/icons/pencil_squared_blue.svg?inline'
-import CloseSquaredRed from '~/assets/img/icons/close_squared_red.svg?inline'
 import screenSize from '~/plugins/mixins/screenSize';
-
 
 export default {
   name: 'PaymentCardDetailsCard',
-  components: { PencilSquaredBlueSvg, CloseSquaredRed },
+  components: { PencilSquaredBlueSvg },
   mixins: [ screenSize ],
   props: {
     editable: {
-      type: Boolean,
-      default: false,
-    },
-    clearable: {
       type: Boolean,
       default: false,
     },
@@ -98,7 +90,7 @@ export default {
       try {
         return require(`~/assets/img/shopping-cart/${vm.cardBrand}-logo.png`)
       } catch (error) {
-        return require('~/assets/img/shopping-cart/visa-logo.png')
+        return require('~/assets/img/shopping-cart/visa-logo.svg')
       }
     },
     isResponsive() {
@@ -109,6 +101,19 @@ export default {
 </script>
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-.images-squard
+
+.card
+  &.custom-card
+    .card-body
+      @media (min-width: 576px)
+        padding: 20px
+        min-height: 57px
+
+        svg
+          position: absolute
+          top: -20px
+          right: 0
+
+.images-squared
   width: 300px
 </style>

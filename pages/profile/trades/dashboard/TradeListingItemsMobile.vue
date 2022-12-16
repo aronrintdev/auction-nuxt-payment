@@ -1,7 +1,11 @@
 <template>
-  <div class="d-flex justify-content-between flex-wrap pr-4">
-    <div v-for="(trade) in tradesList" :key="'trade-' + trade.id" role="button"
-         class="trade-listing-item-single mt-3">
+  <div class="d-flex justify-content-between flex-wrap">
+    <div
+      v-for="(trade) in tradesList"
+      :key="'trade-' + trade.id"
+      role="button"
+      class="trade-listing-item-single w-100 mt-3"
+    >
       <b-row class="justify-content-end">
         <b-checkbox
           v-if="selectable"
@@ -14,34 +18,32 @@
       </b-row>
       <div>
 
-        <div class="d-flex justify-content-between p-4" @click="showTrade(trade.id)">
-          <div class="d-block">
-            <div class="trade-id">{{ $t('trades.trade_id') }} #{{ trade.id }}</div>
-            <div class="listed-time">{{ $t('trades.listed_on') }} {{
-                trade.created_at | formatDateTimeString
-              }}
-            </div>
-          </div>
-          <div class="new-offers pr-3">
-            <ul>
-              <li>{{ $t('trades.new_offers', {'0': trade.new_offers}) }}</li>
-            </ul>
+        <div class="row justify-content-between" @click="showTrade(trade.id)">
+          <div class="trade-id col-7">{{ $t('trades.trade_id') }} #{{ trade.id }}</div>
+          <div class="col-5 new-offers d-flex align-items-center justify-content-end">
+            <div class="red-circle rounded-circle mr-2"></div>
+            <span>{{ $t('trades.new_offers', {'0': trade.new_offers}) }}</span>
           </div>
         </div>
-        <div class="d-flex justify-content-center align-content-center"  @click="showTrade(trade.id)">
-          <div class="d-flex justify-content-center align-content-center" v-for="(offer) in trade.offers" :key="'trade-offer-'+offer.id">
-            <div class="d-inline body-section-box m-1">
-              <div class="d-flex justify-content-center align-content-center pt-3">
-                <img class="image-tarde" :src="offer.inventory.product | getProductImageUrl">
-              </div>
-
-              <div class="bottom-section mt-4">
-                <div class="product-name ">{{ offer.inventory.product.name }}</div>
-                <div class="product-size "><span>Size : </span>{{offer.inventory.size.id }}</div>
-                <div class="product-size "><span>Box : </span>{{offer.inventory.packaging_condition.name}}</div>
-              </div>
+        <div class="mt-1 listed-time">{{ $t('trades.listed_on') }} {{
+            trade.created_at | formatDateTimeString
+          }}
+        </div>
+        <div class="mt-1 row justify-content-center align-content-center"  @click="showTrade(trade.id)">
+          <div
+            v-for="(offer) in trade.offers"
+            :key="'trade-offer-' + offer.id"
+            class="d-flex flex-column justify-content-center col-4"
+          >
+            <img class="img-fluid" :src="offer.inventory.product | getProductImageUrl">
+            <div class="mt-3 product-name">{{ offer.inventory.product.name }}</div>
+            <div class="mt-1 product-info d-flex">
+              <div class="w-50 text-truncate">{{ offer.inventory.product.colorway }}</div>
+              <div>, {{ $t('home_page.size') }}: {{ offer.inventory.size.id }}</div>
             </div>
-
+            <div class="mt-1 product-info text-truncate">
+              {{ $t('sell.inventory.box') }}: {{ offer.inventory.packaging_condition.name }}
+            </div>
           </div>
         </div>
       </div>
@@ -82,11 +84,11 @@ export default {
 @import '~/assets/css/_variables'
 
 .trade-listing-item-single
-  width: 350px
-  height: 280px
   filter: drop-shadow(0px 1px 4px $drop-shadow1)
   background: $color-white-1
   border-radius: 5px
+  padding: 13px
+  padding-bottom: 16px
 
 .trade-id
   font-family: $font-family-sf-pro-display
@@ -129,7 +131,6 @@ export default {
   color: $color-gray-5
 
 .product-name
-  width: 90px
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-6-medium
@@ -155,4 +156,18 @@ export default {
   height: 65px
 .box-pro
   background: $color-white-4
+
+.red-circle
+  background: $color-red-18
+  width: 4px
+  height: 4px
+
+.product-info
+  @include body-6-normal
+  color: $color-gray-5
+  font-family: $font-family-sf-pro-display
+
+.w-50
+  width: 50%
+
 </style>

@@ -89,7 +89,7 @@ export default {
     font-family: $font-family-sf-pro-display
     font-style: normal
     font-weight: $bold
-    color: $color-blue-2
+    color: $color-blue-20
 
 
 .title-labels

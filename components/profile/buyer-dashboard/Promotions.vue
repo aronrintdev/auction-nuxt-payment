@@ -1,20 +1,31 @@
 <template>
-  <div :class="mobileClass" class="promotions bg-white pt-4 p-sm-4 br-10">
-    <div class="d-flex justify-content-between align-items-center">
+  <div :class="{
+    'mobile' : isScreenXS,
+    'mobile empty' : isScreenXS && !loading && !promotion,
+    'pt-4' : !isScreenXS,
+  }" class="promotions bg-white  p-sm-4 br-10">
+    <div class="d-flex justify-content-between align-items-center px-1">
       <h2 class="fs-20 fw-7 font-primary mb-0 title">
         {{ $t('buyer_dashboard.promotions.title') }}
       </h2>
       <nuxt-link
           to="/promotions"
-          class="font-secondary fs-16 fw-4 border-bottom border-primary mb-0 d-none d-sm-block"
+          :class="{
+                'body-18-regular text-link-blue-mobile': isScreenXS,
+                'text-link-blue': !isScreenXS,
+              }"
+          class="font-secondary fs-16 fw-4 mb-0 text-decoration-underline text-nowrap"
       >{{ $t('buyer_dashboard.promotions.view_promotions') }}
       </nuxt-link
       >
     </div>
-    <div class="container">
+    <div class="container h-100">
       <div v-if="promotion && !loading" class="row mt-4 my-sm-4">
         <div
-            class="col-md-5 col-xs-offset-1 d-flex align-items-center align-items-sm-baseline flex-sm-column justify-content-center my-4 my-sm-0 order-2 order-sm-1"
+            :class="{
+              'col-xs-offset-1': !isScreenXS
+            }"
+            class="col-md-5 d-flex align-items-center align-items-sm-baseline flex-sm-column justify-content-center my-4 my-sm-0 order-2 order-sm-1"
         >
           <h2
               class="fs-30 fw-7 font-primary mb-0 text-left promotion-title mr-2 mr-sm-0 text-nowrap text-truncate mr-1"
@@ -44,7 +55,7 @@
             <img :src="promotion.promotion_image" class="img-fluid"/>
           </div>
         </div>
-        <div class="d-sm-none d-inline-block order-3 w-100 text-center ">
+        <div v-if="!isScreenXS" class="d-sm-none d-inline-block order-3 w-100 text-center ">
           <b-button
               :class="{
               'my-3' :!isScreenXS
@@ -58,12 +69,15 @@
           >
         </div>
       </div>
-      <div v-if="!loading && !promotion" class="text-center my-4">
-        <div class="fs-20 fw-7 font-primary ">
+      <div v-if="!loading && !promotion" class="d-flex align-items-center justify-content-center h-100">
+        <div :class="{
+          'body-4-normal': isScreenXS,
+          'body-4-medium': !isScreenXS,
+        }" class="font-primary text-gray-5">
           {{ $t('buyer_dashboard.promotions.no_active') }}
         </div>
       </div>
-      <div v-if="loading" class="d-flex align-items-center justify-content-center my-4">
+      <div v-if="loading" class="d-flex align-items-center justify-content-center h-100">
         <Loader :loading="loading"></Loader>
       </div>
     </div>
@@ -114,7 +128,10 @@ export default {
     margin-top: 14px
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
     border-radius: 8px
-    padding: 21px 7px
+    padding: 11px 7px
+
+    &.empty
+      height: 144px
 
 .divider
   height: 2px
@@ -127,7 +144,6 @@ export default {
     font-size: 14px
     font-weight: $bold
     color: $color-gray-69
-    text-align: center
     width: 100%
   .promotion-title
     font-size: 18px

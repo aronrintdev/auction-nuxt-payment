@@ -177,7 +177,7 @@
           <ValidationProvider
             v-slot="validationContext"
             :name="$t('shopping_cart.state')"
-            :rules="{ required: true, min: 3, max: 64 }"
+            :rules="{ required: true, max: 64 }"
           >
             <b-form-group label-for="state">
               <template #label>{{ $t('shopping_cart.state') }}&ast;</template>
@@ -259,19 +259,14 @@
 
       <!-- Use as Shipping CheckBox -->
       <b-row>
-        <b-col v-if="useAsShipping" md="6">
-          <b-row>
-            <b-col md="1" class="d-flex align-items-center ml-1">
-              <b-form-checkbox
-                v-model="form.inputForShipping"
-              ></b-form-checkbox>
-            </b-col>
-            <b-col md="8" class="d-flex align-items-center ml-2">
-              <div class="body-5-regular">
+        <b-col v-if="useAsShipping" md="12">
+          <b-form-checkbox v-model="form.inputForShipping">
+            <template #default>
+              <span class="body-5-regular">
                 {{ $t('shopping_cart.use_as_shipping') }}&ast;
-              </div>
-            </b-col>
-          </b-row>
+              </span>
+            </template>
+          </b-form-checkbox>
         </b-col>
       </b-row><!-- End of Use as Shipping CheckBox -->
 

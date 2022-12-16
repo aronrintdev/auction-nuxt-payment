@@ -37,7 +37,9 @@
         </template>
       </OrderSummaryCard>
 
-      <PromoCodeInput v-if="!promoCode" @click="applyPromoCode">
+      <PromoCodeButton v-if="! isPromoCodeVisible && ! promoCode" @show-promo="isPromoCodeVisible = true" />
+
+      <PromoCodeInput v-if="isPromoCodeVisible && !promoCode" @click="applyPromoCode">
         <template #label>
           <div class="section-title body-5-medium">{{ $t('shopping_cart.promo_code') }}&colon;</div>
         </template>
@@ -78,6 +80,7 @@ import orderDetailsMixin from '~/plugins/mixins/order-details'
 import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ArrowLeftBlackSVG from '~/assets/img/shopping-cart/arrow-left-black.svg?inline'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
+import PromoCodeButton from '~/components/checkout/common/PromoCodeButton'
 import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import Button from '~/components/common/Button'
 import {
@@ -89,11 +92,12 @@ import {
 
 export default {
   name: 'OrderSummary',
-  components: { ShoppingBagTitle, ArrowLeftBlackSVG, OrderSummaryCard, PromoCodeInput, Button },
+  components: { ShoppingBagTitle, ArrowLeftBlackSVG, OrderSummaryCard, PromoCodeButton, PromoCodeInput, Button },
   mixins: [ emitEventMixin, billingAddressMixin, shippingAddressMixin, orderDetailsMixin ],
   data() {
     return {
       isLoading: false,
+      isPromoCodeVisible: false,
     }
   },
   computed: {

@@ -57,3 +57,12 @@ export function getTradingFee(state) {
 
   return FALLBACK_TRADING_FEE_AMOUNT
 }
+
+/**
+ * Retrieve the order statuses
+ * @param state
+ * @returns {object}
+ */
+export function getOrderStatuses(state){
+  return state.orderStatuses
+}

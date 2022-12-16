@@ -18,9 +18,9 @@
     <div class="d-flex flex-column justify-content-center">
       <div class="d-flex flex-column flex-xl-row">
         <div class="col-xl-5">
-          <div 
-            class="back-to-wants" 
-            role="button" 
+          <div
+            class="back-to-wants"
+            role="button"
             @click="backSearch()"
           >
             <b-icon icon="chevron-left" aria-hidden="true"></b-icon>
@@ -31,15 +31,17 @@
         </div>
         <div class="col-xl-6 px-0 px-sm-2">
           <p class="mb-0 title">{{ product.product.name }}</p>
-          <div class="position-relative">
+          <div class="mt-2 position-relative">
             <ProductSizePicker
               :value="currentSizeId"
               :sizes="product.product.sizes"
               :prices="[]"
               :viewMode="sizeViewMode"
-              class="size-picker px-0"
+              class="size-picker edit-item"
               :style="{
-                maxWidth: 'unset'
+                maxWidth: 'unset',
+                paddingLeft: '0 !important',
+                paddingRight: '0 !important'
               }"
               :cardStyle="{
                 width: '64px',
@@ -61,15 +63,16 @@
                 margin: '0 !important',
                 width: '100%'
               }"
+              allSizesClass="mt-3"
               :errorText="errors.size"
               @update="handleSizeChange"
               @changeViewMode="handleSizeViewModeChange"
             />
           </div>
-          
+
           <div class="d-flex flex-column pb-sm-2 mt-130">
-            <div class="d-flex align-items-center mb-2">
-              <div class="box mr-1">{{ $t('products.box_condition') }}</div>
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <div class="box mr-2">{{ $t('products.box_condition') }}</div>
               <img
                 width="12"
                 height="12"
@@ -81,7 +84,7 @@
 
             <div class="mb-4">
               <div class="px-3 d-block d-sm-none">
-                <CustomDropdown 
+                <CustomDropdown
                   v-model="condition"
                   :label="conditionLabel"
                   :options="conditionsOptions"
@@ -90,15 +93,15 @@
                   dropDownHeight="38px"
                   variant="white"
                   paddingX="10px"
-                  :inputStyle="{ 
-                    display: 'flex', 
+                  :inputStyle="{
+                    display: 'flex',
                     justifyContent: 'center',
-                    border: '1px solid black !important' 
+                    border: '1px solid black !important'
                   }"
-                  :dropdownStyle="{ 
-                    border: '1px solid #000', 
-                    borderTop: 0, 
-                    zIndex: 9999 
+                  :dropdownStyle="{
+                    border: '1px solid #000',
+                    borderTop: 0,
+                    zIndex: 9999
                   }"
                   :optionsStyle="{
                     fontWeight: '500 !important',
@@ -140,7 +143,7 @@
                   v-model="quantity"
                   type="number"
                   required
-                  class="bg-white form-label form-input pr-2"                 
+                  class="bg-white form-label form-input pr-2"
                 />
               </div>
               <div class="col-sm-6 px-0 pl-sm-2 pr-sm-0">
@@ -178,8 +181,8 @@
                     :labelStyle="{
                       padding: 0,
                       margin: 0,
-                      fontWeight: '600 !important',
-                      fontSize: '12px',
+                      fontWeight: '500 !important',
+                      fontSize: '15px',
                       color: '#000'
                     }"
                     :iconStyle="{
@@ -200,8 +203,8 @@
                 </div>
                 <div class="d-sm-none mobile-input" @click="listModalOpen = !listModalOpen">
                   <div>{{ $t('trades.wants_listing.add_to') }}</div>
-                  <i 
-                    class="fa fa-2x color-blue-19" 
+                  <i
+                    class="fa fa-2x color-blue-19"
                     :class="listModalOpen ? 'fa-angle-up' : 'fa-angle-down'">
                   </i>
                 </div>
@@ -209,8 +212,9 @@
             </div>
           </div>
 
-          <button 
+          <button
             class="add-want-button d-none d-sm-flex w-100"
+            :class="{'py-4' : !isScreenXS}"
             @click="addToOffer(product)"
           >
             {{ $t('trades.create_listing.vendor.wants.add_want') }}
@@ -240,11 +244,12 @@
         </div>
       </div>
 
-      <div class="mt-4 px-3 px-sm-0 mb-3 pb-3 custom-shadow">
+      <div class="mt-4 mb-3 pb-3">
         <SalesSection
           :product="product"
           :sku="product.product.sku"
           chartHeaderClass="d-none"
+          class="editItem"
           :chartLabelsStyle="{
             display: 'flex',
             flexDirection: 'row !important',
@@ -258,6 +263,7 @@
       <div
         class="add-want-button d-sm-none mt-1 mb-3"
         role="button"
+        :class="{'py-4' : !isScreenXS}"
         @click="addToOffer(product)"
       >
         {{ $t('trades.create_listing.vendor.wants.add_want') }}
@@ -285,7 +291,7 @@ import ProductImageViewer from '~/components/product/ImageViewerV2'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 import SalesSection from '~/components/product/SalesSection'
 import { WANTS_SELECT_LIST_OPTIONS } from '~/static/constants/trades'
-
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'EditItem',
@@ -298,6 +304,7 @@ export default {
     SelectListModal,
     SalesSection
   },
+  mixins: [screenSize],
   props: {
     product: {
       type: Object,
@@ -583,7 +590,7 @@ export default {
 .mt-130
   margin-top: 130px
 
-.max-w-120 
+.max-w-120
   @media (max-width: 576px)
     max-width: 120px
 
@@ -599,12 +606,12 @@ export default {
     box-shadow: 0px 1px 2px $drop-shadow1
     border-radius: 8px
 
-.horizontal-scroll 
+.horizontal-scroll
   overflow-x: scroll
   -ms-overflow-style: none
   scrollbar-width: none
 
-.horizontal-scroll::-webkit-scrollbar 
+.horizontal-scroll::-webkit-scrollbar
   display: none
 
 .blue-separator
@@ -654,11 +661,13 @@ export default {
     color: $color-blue-30
 
 .title
-  @include body-3-medium 
+  @include body-3-medium
   margin-top: 20px
   @media (min-width: 576px)
-  margin-top: 60px
     @include heading-1
+    margin-top: 60px
+    border-bottom: 1px solid $color-gray-16f
+    padding-bottom: 14px
 
 .last-sale
   @include body-5-normal
@@ -731,7 +740,7 @@ export default {
 
 .form-label
   @include body-9
-  margin-bottom: 9px
+  margin-bottom: 16px
   font-weight: $medium !important
   color: $color-black-1
   @media (min-width: 576px)
@@ -740,7 +749,7 @@ export default {
     text-transform: uppercase
 
 .add-want-button
-  @icnlude body-4-medium
+  @include body-4-medium
   height: 40px
   background: $color-black-1
   display: flex
@@ -750,7 +759,9 @@ export default {
   border-radius: 25px
   margin-top: 40px
   @media (min-width: 576px)
+    @include body-8-medium
     border-radius: 4px
+    border: 0
     margin-top: 0
 
 .product-details-label, .product-details-value
@@ -766,9 +777,9 @@ export default {
   color: $color-gray-5
 
 .page-content
-  @media (min-width: 992px) and (max-width: 1200px) 
+  @media (min-width: 992px) and (max-width: 1200px)
     width: 100%
-  
+
 .custom-border
   @media (min-width: 576px)
     padding-bottom: 15px

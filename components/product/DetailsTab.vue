@@ -5,45 +5,43 @@
         <b-tabs content-class="mt-3" nav-class="pb-2 px-3">
           <b-tab title-link-class="body-2-bold border-0 p-0 w-160" :title="$t('products.product_details')">
             <b-row>
-              <b-col class="ml-2" md="9">
-                <div class="d-flex">
-                  <div class="col-3 mr-3 label body-24-normal text-black">
-                    {{ $t('common.sku') }}:
-                  </div>
-                  <div class="col-8 body-24-normal text-color-gray-5">
-                    {{ product.sku }}
-                  </div>
+              <div class="details-text-wrapper d-flex flex-column">
+                <div class="body-24-normal text-black">
+                  {{ $t('common.sku') }}:
                 </div>
-                <div class="d-flex">
-                  <div class="col-3 mr-3 label body-24-normal text-black">
-                    {{ $t('common.colorway') }}:
-                  </div>
-                  <div class="col-8 body-24-normal text-color-gray-5">
-                    {{ product.colorway }}
-                  </div>
+                <div class="body-24-normal text-black">
+                  {{ $t('common.colorway') }}:
                 </div>
-                <div class="d-flex">
-                  <div class="col-3 mr-3 label body-24-normal text-black">
-                    {{ $t('common.retail_price') }}:
-                  </div>
-                  <div class="col-8 body-24-normal text-color-gray-5">
-                    {{ product.retail_price | toCurrency }}
-                  </div>
+                <div v-if="product.retail_price" class="body-24-normal text-black">
+                  {{ $t('common.retail_price') }}:
                 </div>
-                <div class="d-flex">
-                  <div class="col-3 mr-3 label body-24-normal text-black">
-                    {{ $t('common.release_date') }}:
-                  </div>
-                  <div class="col-8 body-24-normal text-color-gray-5">
-                    {{ product.release_year }}
-                  </div>
+                <div class="body-24-normal text-black">
+                  {{ $t('common.release_date') }}:
                 </div>
-              </b-col>
+              </div>
+              <div class="d-flex flex-column">
+                <div class="body-24-normal text-color-gray-5">
+                  {{ product.sku }}
+                </div>
+                <div class="body-24-normal text-color-gray-5">
+                  {{ product.colorway }}
+                </div>
+                <div v-if="product.retail_price" class="body-24-normal text-color-gray-5">
+                  {{ product.retail_price | toRoundedCurrency }}
+                </div>
+                <div class="body-24-normal text-color-gray-5">
+                  {{ product.release_year }}
+                </div>
+              </div>
             </b-row>
           </b-tab>
-          <b-tab title-link-class="body-2-bold border-0 p-0 w-160 text-center" :title="$t('products.size_guide')">
+          <b-tab v-if="hasSize" title-link-class="body-2-bold border-0 p-0 w-160 text-center" :title="$t('products.size_guide')">
             <ProductSizeGuideShoe
-              v-if="product.size_type && SHOE_CATEGORIES.indexOf(product.size_type) > -1"
+              v-if="isCategorySneakers"
+              :selected-size="selectedSize"
+            />
+            <ProductSizeGuideApparel
+              v-else-if="isCategoryApparel"
               :selected-size="selectedSize"
             />
           </b-tab>
@@ -52,7 +50,7 @@
     </b-row>
 
     <div class="d-sm-none px-3 d-flex flex-column">
-      <div 
+      <div
         class="field"
         @click="isDetailsModalOpen = true"
       >
@@ -60,7 +58,7 @@
         <i class="fa fa-2x fa-angle-down icon"></i>
       </div>
 
-      <div 
+      <div
         class="mt-3 field"
         @click="isSizeModalOpen = true"
       >
@@ -76,24 +74,37 @@
     />
 
     <SizeGuideModal
+      v-if="isCategorySneakers"
       :isOpen="isSizeModalOpen"
       :product="product"
       :selectedSize="selectedSize"
       @closed="isSizeModalOpen = false"
     />
 
+    <ApparelSizeGuideModal
+      v-else-if="isCategoryApparel"
+      :isOpen="isSizeModalOpen"
+      :product="product"
+      :selectedSize="selectedSize"
+      @closed="isSizeModalOpen = false"
+    />
   </div>
 </template>
 
 <script>
 import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
+import ProductSizeGuideApparel from '~/components/product/size-guide/Apparel'
 import DetailsModal from '~/components/product/DetailsModal'
 import SizeGuideModal from '~/components/product/size-guide/SizeGuideModal'
+import ApparelSizeGuideModal from '~/components/product/size-guide/ApparelSizeGuideModal'
+import { CATEGORY_SNEAKERS, CATEGORY_APPAREL } from '~/static/constants'
 
 export default {
   name: 'ProductDetailsTab',
   components: {
+    ApparelSizeGuideModal,
     ProductSizeGuideShoe,
+    ProductSizeGuideApparel,
     DetailsModal,
     SizeGuideModal
   },
@@ -103,23 +114,15 @@ export default {
       required: true,
     },
     selectedSize: {
-      type: Number,
+      type: Object,
       required: false,
-      default: 0
+      default() {
+        return {}
+      }
     }
   },
   data() {
     return {
-      SHOE_CATEGORIES: [
-        'men',
-        'women',
-        'child',
-        'infant',
-        'preschool',
-        'toddler',
-        'unisex',
-        'youth',
-      ],
       // TODO: NP - Product description dummy content
       productDescription: 'Lorem ipsum dolor sit amet, ' +
         'consectetur adipisicing elit. Amet, distinctio dolorem dolores dolorum ipsam iste iusto laboriosam minus non ' +
@@ -130,12 +133,21 @@ export default {
     }
   },
   computed: {
+    isCategorySneakers(vm) {
+      return vm.product.category.name === CATEGORY_SNEAKERS
+    },
+    isCategoryApparel(vm) {
+      return vm.product.category.name === CATEGORY_APPAREL
+    },
     productDescriptionText(vm) {
       if (vm.isFullTextShown) {
         return this.productDescription
       }
 
       return this.productDescription.slice(0, 128) + '...'
+    },
+    hasSize(vm) {
+      return vm.isCategorySneakers || vm.isCategoryApparel
     }
   }
 }
@@ -144,10 +156,17 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+*
+  font-family: 'SF Pro Display', serif
+
+.details-text-wrapper
+  margin-left: 24px
+  padding-right: 85px
+
 .icon
   color: $color-blue-2
   width: 16px
-  hegith: 18px
+  height: 18px
 
 .field
   @include body-5-medium

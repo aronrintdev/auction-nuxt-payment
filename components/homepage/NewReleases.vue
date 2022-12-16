@@ -4,21 +4,19 @@
       :title="$t('home.new_releases')"
       :desc="$t('home.new_releases_desc')"
       :label="$t('home_page.view_more_products')"
-      to="/new-release"
+      to="/shop/products?type=new-release"
     />
 
     <NavGroup
       :data="categoryItems"
       :value="currentCategory"
-      nav-key="new_releases"
+      nav-key="new_releases" 
       class="text-center"
       @change="handleCategoryChange"
     />
-    <div class="row">
-      <div class="col-12">
-        <ProductCarousel :products="products" loop />
-      </div>
-    </div>
+    <section class="product-carousel">
+      <ProductCarousel :products="products" showArrowsOnHover loop />
+    </section>
   </div>
 </template>
 <script>

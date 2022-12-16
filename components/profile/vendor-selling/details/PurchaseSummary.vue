@@ -1,111 +1,122 @@
 <template>
   <b-row class="mt-md-4 mt-4 vd-selling-details">
-    <b-col md="12" class="purchase-history-summary text-bold">
+    <b-col class="body-15-bold text-black font-secondary" md="12">
       {{ $t('selling_page.product_summary') }}
     </b-col>
     <b-col md="12 mt-md-4 mt-2">
-      <b-card
-        class="purchase-summary-details"
-        :title="$t('selling_page.list_id', { list_id: `#${details.id}` })"
-      >
-        <p>
-          <span
-            :id="`status-${details.status}`"
-            class="text-capitalize ml-3 text-bold"
-            >&#183;&nbsp;{{ details.status }}</span
-          >
-          <b-button
-            v-if="details.status !== 'delisted'"
-            variant="delist"
-            pill
-            class="float-right px-3"
-            @click="delistItem()"
-          >
-            {{ $t('selling_page.delist') }}
-          </b-button>
-          <b-button
-            v-else
-            variant="delist"
-            pill
-            class="float-right px-3"
-            @click="relist()"
-          >
-            {{ $t('selling_page.relist') }}
-          </b-button>
-        </p>
-        <!-- Listed on -->
-        <b-card-text class="mt-md-4 mt-2">
-          <span class="text-bold text-capitalize"
-            >{{ $t('selling_page.listed_on') }}
-            {{ details.created_at | formatDateTimeString }}
-          </span>
-          <span role="button" class="text-ds" @click="modifyListing">
-            {{ $t('selling_page.modify_listing') }}
-          </span>
-        </b-card-text>
-        <!-- ./Listed On -->
-        <!-- Price -->
-        <b-card-text class="m-0">
-          <span class="text-bold"
-            >{{ $t('selling_page.price_at') }} &dollar;{{
-              details.inventory.sale_price | formatPrice
-            }}</span
-          >
-        </b-card-text>
-        <!-- ./Price -->
+      <b-card class="purchase-summary-details">
+        <div class="d-flex align-items-start justify-content-between">
+          <div class="d-flex flex-column">
+            <div>
+              <span class="body-2-bold font-secondary text-black">{{
+                  $t('selling_page.list_id', {list_id: `#${details.id}`})
+                }}</span>
+              <span
+                  :id="`status-${details.status}`"
+                  class="text-capitalize ml-2 text-bold"
+              >&#183;&nbsp;{{ details.status }}</span
+              >
+            </div>
+            <!-- Listed on -->
+            <div class="mt-2 d-flex justify-content-between w-100">
+              <span class="body-13-normal font-secondary text-capitalize"
+              >{{ $t('selling_page.listed_on') }}
+                {{ details.created_at | formatDateTimeString }}
+              </span>
+            </div>
+            <!-- ./Listed On -->
+            <!-- Price -->
+            <div class="mt-2 mb-0">
+              <span class="body-13-normal font-secondary"
+              >{{ $t('selling_page.price_at') }} &dollar;{{
+                  details.inventory.sale_price | formatPrice
+                }}</span
+              >
+            </div>
+            <!-- ./Price -->
+          </div>
+
+          <div class="d-flex flex-column align-items-center flex-grow-0">
+            <Button
+                v-if="details.status !== 'delisted'"
+                class="float-right list-buttons"
+                pill
+                variant="dark-blue"
+                @click="delistItem()"
+            >
+              {{ $t('selling_page.delist') }}
+            </Button>
+            <Button
+                v-else
+                class="float-right list-buttons"
+                pill
+                variant="dark-blue"
+                @click="relist()"
+            >
+              {{ $t('selling_page.relist') }}
+            </Button>
+            <div class="text-ds mt-13 body-13-normal font-secondary" role="button" @click="modifyListing">
+              {{ $t('selling_page.modify_listing') }}
+            </div>
+          </div>
+        </div>
+
         <!-- Details -->
-        <b-card-text class="mt-3">
+        <div class="mt-4">
           <span
-            >{{ $t('selling_page.you_listed') }}&colon; {{ itemCount }}</span
+              class="body-12-normal font-secondary"
+          >{{ $t('selling_page.you_listed') }}&colon; {{ itemCount }}</span
           >
-        </b-card-text>
-        <b-card-text>
+        </div>
+        <div>
           <b-row class="details-row">
             <!-- Product Image -->
-            <b-col md="2" sm="12">
+            <b-col md="3" sm="12" xl="2">
               <b-img
-                :src="getImage"
-                fluid
-                class="product-image"
-                alt="product-image"
-                @error="imageLoadError"
+                  :src="getImage"
+                  alt="product-image"
+                  class="product-image"
+                  fluid
+                  @error="imageLoadError"
               ></b-img>
             </b-col>
             <!-- ./Product Image -->
             <!-- Product Details -->
-            <b-col md="4" sm="12">
-              <p class="text-bold text-muted">
+            <b-col md="9" sm="12" xl="10">
+              <div class="body-12-medium font-secondary text-gray-simple mb-2">
                 {{ $t('selling_page.product_details') }}
-              </p>
-              <p class="product-details mb-0">
-                {{ details.inventory.product.name }}
-              </p>
-              <p class="product-details mb-0">
-                {{ $t('selling_page.colorway') }}&colon;
-                {{ details.inventory.product.colorway }}
-              </p>
-              <p class="product-details mb-0">
-                {{ $t('selling_page.box_condition') }}&colon;
-                {{ details.inventory.packaging_condition.name }}
-              </p>
-            </b-col>
-            <!-- ./Product Details -->
-            <!-- Size/ SKU -->
-            <b-col md="4" sm="12" class="product-details-desc">
-              <p class="product-details mb-0">
-                {{ $t('selling_page.size') }}&colon;
-                {{ details.inventory.size.size }}
-              </p>
-              <p class="product-details mb-0">
-                {{ $t('selling_page.sku') }}&colon;
-                {{ details.inventory.product.sku }}
-              </p>
+              </div>
+              <div class="d-flex align-items-start">
+                <div class="mr-105">
+                  <div class="body-13-regular font-secondary mb-1">
+                    {{ details.inventory.product.name }}
+                  </div>
+                  <div class="body-13-regular font-secondary mb-1">
+                    {{ $t('selling_page.colorway') }}&colon;
+                    {{ details.inventory.product.colorway }}
+                  </div>
+                  <div class="body-13-regular font-secondary mb-1">
+                    {{ $t('selling_page.box_condition') }}&colon;
+                    {{ details.inventory.packaging_condition.name }}
+                  </div>
+                </div>
+                <div class="">
+                  <p class="body-13-regular font-secondary mb-1">
+                    {{ $t('selling_page.size') }}&colon;
+                    {{ details.inventory.size.size }}
+                  </p>
+                  <p class="body-13-regular font-secondary mb-1">
+                    {{ $t('selling_page.sku') }}&colon;
+                    {{ details.inventory.product.sku }}
+                  </p>
+                </div>
+              </div>
+
             </b-col>
             <!-- ./Size/ SKU -->
-            <b-col md="4" sm="12"> </b-col>
           </b-row>
           <!-- ./Details -->
-        </b-card-text>
+        </div>
       </b-card>
     </b-col>
 
@@ -123,6 +134,7 @@
     <!-- Relist Item Modal -->
     <SellingModal
       id="relist-item-modal"
+      ref="relistModal"
       :heading="$t('selling_page.relist_content')"
       :confirmLabel="$t('selling_page.relist')"
       @onClear="onRelistCancel"
@@ -134,25 +146,28 @@
 </template>
 
 <script>
-import SellingModal  from '~/components/profile/vendor-selling/SellingModal.vue'
+import SellingModal from '~/components/profile/vendor-selling/SellingModal.vue'
 import {PRODUCT_IMG_WIDTH} from '~/static/constants'
+import Button from '~/components/common/Button'
 
 export default {
   name: 'PurchaseSummary',
 
   components: {
+    Button,
     SellingModal,
   },
 
   props: {
     details: {
       type: Object,
-      default: () => {},
+      default: () => {
+      },
     },
     listingId: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
   },
 
   data() {
@@ -199,6 +214,8 @@ export default {
     // On delist
     delistItem() {
       this.$bvModal.show('delist-item-modal')
+      this.addStyle('delist-item-modal')
+
     },
     // On delist confirm
     onDelistConfirm() {
@@ -223,33 +240,64 @@ export default {
     relist() {
       this.relistItem = true
       this.$bvModal.show('relist-item-modal')
+      this.addStyle('relist-item-modal')
     },
-
+    addStyle(id){
+      setTimeout(() => {
+        const modal = document.getElementById(id)
+        const modalBody = modal.querySelector('.modal-content')
+        modalBody.style.width = '438px'
+        modalBody.style.borderRadius = '12px !important'
+        modal.style.background = 'rgba(0, 0, 0, 0.25)'
+        modal.style.backdropFilter = 'blur(2px)'
+        // this.$refs.relistModal.$el.setAttribute('style', 'background: red')
+      }, 1)
+    },
     // On image error
     imageLoadError(event) {
       event.target.src = `${this.fallbackImgUrl}${this.productImageWidth}`
     },
 
     // On modify listing click
-    modifyListing(){
+    modifyListing() {
       this.$router.push({
         path: '/profile/vendor-selling/details/modify',
-        query: { id: this.listingId },
+        query: {id: this.listingId},
       })
-    }
+    },
   },
 }
 </script>
 
 <style lang="sass" scoped>
+@import "~/assets/css/variables"
+.mr-105
+  margin-right: 105px
+
+::v-deep.list-buttons
+  &.btn
+    width: 98px
+.mt-13
+  margin-top: 13px
+
+.product-image
+  height: 81px
+  width: 130px
+  object-fit: cover
+
+.purchase-summary-details
+  background: $color-white-1
+  border: 1px solid $color-gray-60
+  border-radius: 10px
+  box-shadow: none
+  padding: 14px 0 22px 46px
+
 .product-details-desc
   margin-top: 3rem
+
 @media (max-width: 767px)
   .product-details-desc
     margin-top: 0
   .product-image
     width: 60%
-@media (max-width:425px)
-  .product-image
-    width: 50%
 </style>

@@ -7,7 +7,7 @@
 
     <div class="d-flex align-items-center mt-3">
       <h2 class="title">
-        {{ $t('inventory.csv_drafts') }}
+        {{ $t('inventory.csv_upload') }}
       </h2>
       <div class="text-count ml-2">
         {{ `(${drafts.length} items)` }}
@@ -18,7 +18,7 @@
       :value="type"
       nav-key="draft-type"
       :data="navGroupData"
-      class="mt-3 text-center"
+      class="mt-3 text-center nav-group"
       @change="handleTypeChange"
     />
 
@@ -44,6 +44,7 @@
       >
     </div>
 
+    <div :class="{'scroll-container' : !isScreenXS && !isScreenSM}">
     <table v-if="type === 'available'" class="mt-2 w-100 table-inventory">
       <thead>
         <tr>
@@ -296,6 +297,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
 
     <AlertModal
       id="added-message-modal"
@@ -317,6 +319,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { Button, NavGroup, SearchInput } from '~/components/common'
 import ProductThumb from '~/components/product/Thumb'
 import { AlertModal, NewProductSuggestedModal } from '~/components/modal'
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'ProfileInventoryCsvDrafts',
@@ -329,6 +332,8 @@ export default {
     AlertModal,
     NewProductSuggestedModal,
   },
+
+  mixins:[screenSize],
 
   layout: 'Profile',
 
@@ -382,7 +387,7 @@ export default {
     navGroupData() {
       return [
         {
-          label: this.$t('inventory.available_to_add_to_inventory', {
+          label: this.$t('inventory.recognized_items', {
             count: this.availableItems?.length,
           }),
           value: 'available',
@@ -614,7 +619,8 @@ export default {
 
   .table-inventory
     .inventory-rows
-      max-height: 100vh
+      max-height: 35vh
+      height: 35vh
       overflow-y: scroll
 
     .w-1
@@ -684,4 +690,19 @@ export default {
 .product-img
   height: 64px
   width: 64px
+
+.nav-group
+  max-width: 506px
+  margin: auto
+
+.scroll-container
+  position: relative
+  height: 55vh
+  overflow-y: scroll
+  table
+    thead
+      position: sticky
+      top: 0
+      background-color: $color-white-5
+      z-index: 9999
 </style>

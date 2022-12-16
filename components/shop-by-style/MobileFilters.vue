@@ -33,13 +33,16 @@
             </div>
           </div>
         </Collapse>
-      </div>  
-      
-      <div class="border-bottom pb-3 mt-2">
-        <Collapse :title="$t('filter_sidebar.brands')" :selectedValue="activeBrands">
+      </div>
+
+      <div class="border-bottom py-3">
+        <Collapse
+          :title="$t('filter_sidebar.brands')"
+          :selectedValue="activeBrands"
+        >
           <div class="row">
             <div
-              v-for="(brandCategory, index) in brandOptions"
+              v-for="(brandCategory, index) in brandOptionsLess"
               :key="index"
               class="col-4 mb-3"
             >
@@ -51,6 +54,14 @@
                 name="brandCategory"
                 @change="getBrands"
               />
+            </div>
+            <div class="text-center w-100">
+              <button
+                class="fs-14 fw-5 font-secondary text-base-blue bg-transparent border-0"
+                @click="$emit('showAllBrands', selectedBrand)"
+              >
+                {{ $t('common.view_more') }}
+              </button>
             </div>
           </div>
         </Collapse>
@@ -125,6 +136,10 @@ export default {
     defaultType: {
       type: String,
       default: ''
+    },
+    defaultBrand: {
+      type: Array,
+      default: () => []
     }
   },
 
@@ -166,6 +181,11 @@ export default {
       isArchive: this.dateFilter
     }
   },
+  watch: {
+    defaultBrand(brands) {
+      this.selectedBrand = brands
+    }
+  },
   computed: {
     ...mapGetters('browse', [
       'filters',
@@ -173,6 +193,10 @@ export default {
       'selectedSizeTypes',
       'selectedYears'
     ]),
+
+    brandOptionsLess() {
+      return this.brandOptions?.slice(0, 9)
+    },
 
     selectedSizes() {
       return this.sizes.join(', ')

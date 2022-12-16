@@ -7,7 +7,7 @@
           <ShopFilters ref="filterSidebar" @apply="fetchProducts" />
         </div>
         <div class="searchbar d-block d-sm-none">
-          <SearchAndFilter @apply="fetchProducts" />
+          <SearchAndFilter @apply="fetchProducts"  />
         </div>
       </section>
       <NavGroup
@@ -25,13 +25,22 @@
             to="/shop/products?type=recent"
             full-width
           />
-          <ProductCarousel
+        <div
+          v-if="recentLoading"
+          class="d-flex align-items-center justify-content-center h-300"
+        >
+          <Loader :loading="recentLoading"></Loader>
+        </div>
+          <ProductShopCarousel
+            v-if="!recentLoading"
             class="mt-4 mb-5"
             :products="recentProducts"
+            :showActions="false"
             showArrows
             loop
           />
         </section>
+       
         <section class="new-release">
           <SectionHeader
             :title="$t('banner.new_release')"
@@ -39,8 +48,15 @@
             to="/shop/products?type=new-release"
             full-width
           />
-          <ProductCarousel class="mt-4 mb-5" :products="newRelease" loop />
+          <div
+          v-if="newReleaseLoading"
+          class="d-flex align-items-center justify-content-center h-300"
+        >
+          <Loader :loading="newReleaseLoading"></Loader>
+        </div>
+          <ProductShopCarousel v-if="!newReleaseLoading" class="mt-4 mb-5" :products="newRelease" loop />
         </section>
+       
         <section class="trending">
           <SectionHeader
             :title="$t('home.trending')"
@@ -48,11 +64,18 @@
             to="/shop/products?type=trending"
             full-width
           />
-          <ProductCarousel class="mt-4 mb-5" :products="trendingPRoducts" loop />
+          <div
+          v-if="trendingLoading"
+          class="d-flex align-items-center justify-content-center h-300"
+        >
+          <Loader :loading="trendingLoading"></Loader>
+        </div>
+          <ProductShopCarousel  v-if="!trendingLoading" class="mt-4 mb-5" :products="trendingPRoducts" loop />
         </section>
         <section class="ad-banner">
           <AdBanner class="d-block d-md-none" />
         </section>
+        
         <section class="instant-shipping">
           <SectionHeader
             :title="$t('home_page.instant_shipping')"
@@ -60,7 +83,13 @@
             to="/shop/products?type=instant-shipping"
             full-width
           />
-          <ProductCarousel class="mt-4 mb-5" :products="instantShippingProducts" loop>
+          <div
+          v-if="instantShippingLoading"
+          class="d-flex align-items-center justify-content-center h-300"
+        >
+          <Loader :loading="instantShippingLoading"></Loader>
+        </div>
+          <ProductShopCarousel v-if="!instantShippingLoading" class="mt-4 mb-5" :products="instantShippingProducts" loop>
             <template #product>
               <div
                 v-for="(product, index) in products"
@@ -80,7 +109,7 @@
                 </ProductCard>
               </div>
             </template>
-          </ProductCarousel>
+          </ProductShopCarousel>
         </section>
       </div>
       <div v-else>
@@ -100,13 +129,15 @@
   </b-overlay>
 </template>
 <script>
+import debounce from 'lodash.debounce';
 import { mapActions, mapGetters } from 'vuex'
 import ShopFilters from '~/components/shop/ShopFilters.vue'
 import AdBanner from '~/components/shop/AdBanner.vue'
-import { NavGroup } from '~/components/common'
+import { NavGroup,Loader } from '~/components/common'
 import ProductCard from '~/components/product/Card'
 import Badge from '~/components/product/Badge'
 import SearchAndFilter from '~/components/shop/SearchAndFilter'
+import ProductShopCarousel from '~/components/shop/ProductCarousel'
 
 export default {
   components: {
@@ -116,24 +147,31 @@ export default {
     AdBanner,
     ShopFilters,
     SearchAndFilter,
+    ProductShopCarousel,
+    Loader
   },
   layout: 'IndexLayout',
   fetchOnServer: false,
   data() {
     return {
       noSearchResult: false,
+      recentLoading:true,
+      newReleaseLoading:true,
+      trendingLoading:true,
+      instantShippingLoading:true,
       // todo
       products: [],
       CATEGORIES: [
         { label: this.$t('common.all'), value: 'all' },
         { label: this.$t('common.footwear'), value: 'sneakers' },
         { label: this.$t('common.apparel'), value: 'apparel' },
-        { label: this.$tc('common.accessory', 2), value: 'accessories' },
+        { label: this.$t('common.all_sizes', 2), value: 'all_sizes' },
       ],
       category: 'all',
       loading: false,
       loadingFilter: false,
-      perPage: 4,
+      prices:null,
+      perPage: 12,
       page: 1,
       recentProducts: [],
       newRelease: [],
@@ -143,6 +181,8 @@ export default {
     }
   },
   async fetch() {
+    const categoryName = this.$router.currentRoute.query.category.toLowerCase();
+    this.$store.commit('browse/setSelectedCategory', categoryName)
     await this.fetchFilters()
     this.fetchProducts()
   },
@@ -156,7 +196,8 @@ export default {
       'selectedSizeTypes',
       'selectedSearch',
       'selectedSort',
-      'selectedOrdering'
+      'selectedOrdering',
+      'selectedCategory'
     ]),
   },
 
@@ -164,25 +205,21 @@ export default {
     ...mapActions('browse', ['fetchFilters']),
 
     handleCategoryChange(category) {
-      this.noSearchResult = false
       this.category = category
+      this.$store.commit('browse/setSelectedCategory', category)
       this.fetchProducts()
     },
-    noSearchResultFound() {
-      this.noSearchResult = true
-    },
-    fetchProducts() {
+    fetchProducts: debounce(function () {
       if (!this.perPage || !this.page) return
       this.loading = false
       const filters = {}
-      if (this.search) {
-        filters.search = this.search
+      if (this.selectedCategory) {
+        filters.category = this.selectedCategory !== 'all' ? this.selectedCategory :  '';
+        this.category = this.selectedCategory
       }
-      if (this.category) {
-        filters.category = this.category !== 'all' ? this.category :  '';
-      }
-      if (this.selectedPrices) {
-        filters.prices = this.selectedPrices.join('-')
+      if (this.selectedPrices.length  > 0) {
+        this.prices = this.selectedPrices[0] * 100 +'-'+this.selectedPrices[1] * 100
+        filters.prices = this.prices
       }
       if (this.selectedBrands) {
         filters.brands = this.selectedBrands.join(',')
@@ -191,7 +228,7 @@ export default {
         filters.sizes = this.selectedSizes.join(',')
       }
       if (this.selectedSizeTypes) {
-        filters.size_types = this.selectedSizeTypes
+        filters.size_types = this.selectedSizeTypes.join(',')
       }
       if (this.selectedYears) {
         filters.years = this.selectedYears.join('-')
@@ -199,17 +236,19 @@ export default {
       if(this.selectedSearch){
         filters.search = this.selectedSearch
       }
-      filters.desc = this.selectedOrdering
+      filters.desc = this.selectedSort?this.selectedSort:'true'
 
-      filters.take = 4
+      filters.take =  this.perPage
+      this.saveRecentSearch(this.selectedSearch)
       this.getRecentProducts(filters)
       this.getNewRelease(filters)
       this.getTrending(filters);
       this.getInstantShip(filters)
-    },
-    getRecentProducts(filters){
-      if (this.selectedSort) {
-        filters.order_by = this.selectedSort
+    }, 200),
+    getRecentProducts(filters) {
+      this.recentLoading =true
+      if (this.selectedOrdering) {
+        filters.order_by = this.selectedOrdering
       }else{
         filters.order_by = 'views'
       }
@@ -221,12 +260,13 @@ export default {
           this.recentProducts = res.data.data
         })
         .finally(() => {
-          this.loading = false
+          this.recentLoading = false
         })
-    },
+      },
     getNewRelease(filters){
-      if (this.selectedSort) {
-        filters.order_by = this.selectedSort
+      this.newReleaseLoading =true
+      if (this.selectedOrdering) {
+        filters.order_by = this.selectedOrdering
       }else{
         filters.order_by = 'created_at'
       }
@@ -238,14 +278,15 @@ export default {
           this.newRelease = res.data.data
         })
         .finally(() => {
-          this.loading = false
+          this.newReleaseLoading = false
         })
     },
     getTrending(filters){
-      if (this.selectedSort) {
-        filters.order_by = this.selectedSort
+      this.trendingLoading =true
+      if (this.selectedOrdering) {
+        filters.order_by = this.selectedOrdering
       }else{
-        filters.sort_by = 'created_at'
+        filters.order_by = 'created_at'
       }
       this.$axios
         .get('/products/shop/trending', {
@@ -255,14 +296,15 @@ export default {
           this.trendingPRoducts = res.data.data
         })
         .finally(() => {
-          this.loading = false
+          this.trendingLoading = false
         })
     },
     getInstantShip(filters){
-      if (this.selectedSort) {
-        filters.order_by = this.selectedSort
+      this.instantShippingLoading =true
+      if (this.selectedOrdering) {
+        filters.order_by = this.selectedOrdering
       }else{
-        filters.sort_by = 'created_at'
+        filters.order_by = 'created_at'
       }
       this.$axios
         .get('/products/shop/instant-shipping', {
@@ -272,15 +314,27 @@ export default {
           this.instantShippingProducts = res.data.data
         })
         .finally(() => {
-          this.loading = false
+          this.instantShippingLoading = false
         })
+    },
+    saveRecentSearch(keyword){
+      if (this.authenticated) {
+        if(!keyword){
+          return;
+        }
+          this.$axios
+        .post(`/recent/search/${keyword}`)
+      }
     }
-  },
+  }
 }
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .container-shop
+  .h-300
+    height: 300px
+    
   @media (min-width: 1024px)
     .scroll-to-top
       display: flex !important
@@ -307,4 +361,8 @@ export default {
 ::v-deep .section-header
   @media (max-width: 576px)
     margin: 30px 12.5px
+.container-shop
+  @media (min-width: 576px)
+    margin: 0px 60px
+
 </style>

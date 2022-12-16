@@ -16,7 +16,7 @@
     </div>
     <div class="bg-white">
     <!-- Display all sections -->
-    <div v-if="Object.keys(sectionTypes).length > 1">
+    <div v-if="getTradeType === 'All'">
       <div v-for="(trades, key, index) in sectionTypes" :key="key">
         <!-- show banner in between sections -->
         <div v-if="index === 2">
@@ -42,13 +42,13 @@
             <div class="">
               <div class="pretty-label" v-html="prettyLabel(key)"></div>
             </div>
-           <div class="">
+           <div class="" role="button" @click="showTradeTypeDetails(key)">
                <img :src="require('~/assets/img/moreicon.svg')"/>
            </div>
           </div>
           <div v-if="selectedTradeTotalItems === 'one'" class="p-0">
             <BrowseCarousel v-if="trades.length"
-                            :trades="trades" />
+                            :trades="trades" :type="key" />
             <p v-else class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
           </div>
           <div v-else>
@@ -61,30 +61,38 @@
 
     <!-- Display single section -->
     <div v-else>
-      <div v-for="(trades, key) in sectionTypes" :key="key">
+      <div>
         <div class="pt-5">
             <b-row>
               <b-col md="12" class="d-flex carousel-heading mb-5 pl-4">
-                <h2 v-html="prettyLabel(key)"></h2>
+                <h2 v-if="labelName" v-html="prettyLabel(labelName)"></h2>
               </b-col>
               <!-- Display trades with single items -->
-              <b-col v-if="selectedTradeTotalItems === 'one' && trades.length" md="12" class="d-flex flex-wrap pl-4">
-                <div v-for="(trade) in trades" :key="'trade-item-' + trade.id" class="trade-card mb-5 d-inline-block">
+              <b-col v-if="selectedTradeTotalItems === 'one' && sectionTypes.length" md="12" class="d-flex flex-wrap pl-4">
+                <div v-for="(trade) in sectionTypes" :key="'trade-item-' + trade.id" class="trade-card mb-5 d-inline-block">
                   <div
                     v-for="(product, index) in trade.offers"
                     :key="`trade-carousel-${index}`"
                     class="item"
                   >
                     <nuxt-link :to="'/trades/' + trade.id">
-                      <BrowseItemCard :product="product.inventory.product" />
+                    	<div class="expire-wrapper">
+			      <div class="btn-expire d-flex mt-2 ml-1 pt-2" :class="`${selectCounterBG(trade.created_at)}`">
+				<div>
+				  <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/'+selectCounterBG(trade.created_at)+'_clock.svg')" height="15" />
+				</div>
+				<div class="text-created">{{prettifyExpiryDate(trade.created_at)}}</div>
+			      </div>
+			    </div>
+                      <BrowseItemCard :inventory="product.inventory" />
                     </nuxt-link>
                   </div>
                 </div>
               </b-col>
 
               <!-- Display trades with multiple items -->
-              <b-col v-else-if="trades.length" md="11">
-                <TradeCardWithMultipleItems :trades="trades" />
+              <b-col v-else-if="sectionTypes.length" md="11">
+                <TradeCardWithMultipleItems :trades="sectionTypes" />
               </b-col>
               <b-col v-else>
                 <p class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
@@ -93,6 +101,10 @@
           </div>
         </div>
     </div>
+    <infinite-loading :identifier="infiniteId" @infinite="filterTrades">
+        <span slot="no-more"></span>
+        <span slot="no-results"></span>
+    </infinite-loading>
     </div>
   </div>
 </template>
@@ -101,12 +113,14 @@
 // import component
 import { mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
+import { tradeRemainingTime, isRemainingTimeLessThan12Hours } from '~/utils/string'
 import BrowserTradeFilters from '~/pages/trades/BrowseTradeFiltersMobile'
 import BrowseCarousel from '~/components/trade/BrowseCarouselMobile.vue'
 import CarouselMultipleItems from '~/components/trade/CarouselMultipleItemsMobile.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import BrowseItemCard from '~/components/trade/BrowseItemCardMobile.vue'
-import TradeCardWithMultipleItems from '~/components/trade/TradeCardWithMultipleItems.vue'
+import TradeCardWithMultipleItems from '~/components/trade/TradeCardWithMultipleItemsMobile.vue'
+import {DEFAULT_PER_PAGE_ITEMS, TRADE_EXPIRY_DAYS} from '~/static/constants'
 export default {
   name: 'BrowseTrade',
   components: {
@@ -127,7 +141,11 @@ export default {
         ],
         // by default choose 1 item trades
         selectedTradeTotalItems: 'one',
-        sectionTypes: []
+        sectionTypes: [],
+        perPage: DEFAULT_PER_PAGE_ITEMS,
+        page: 1,
+        infiniteId: +new Date(),
+        labelName: '',
       }
   },
   async fetch() {
@@ -151,44 +169,50 @@ export default {
   mounted() {
     // set filters as per previous state
     this.selectedTradeTotalItems = this.getTotalItemTrades
-    this.filterTrades()
   },
   methods: {
     // make section label pretty
     prettyLabel(label){
       const words = label.split('_')
-      return '<u>'+this.$tc('common.'+words[0], 1) + '</u> ' + this.$tc('common.' + words[1], 1)
+      return this.$tc('common.'+words[0], 1)  + this.$tc('common.' + words[1], 1)
     },
 
     // filter if no of trade items is change
     changeTotalTradeItems(tradeTotalItems) {
       this.selectedTradeTotalItems = tradeTotalItems
       this.$store.commit('trade/setTotalItemTrades', tradeTotalItems)
-      this.filterTrades()
+      this.page = 1;
+      this.sectionTypes = []
+      this.infiniteId += 1;
     },
 
     // filter if single section is selected
     showTradeTypeDetails(tradeType) {
       this.$store.commit('trade/setTradeType', tradeType)
-      this.filterTrades()
+      this.page = 1;
+      this.sectionTypes = []
+      this.infiniteId += 1;
     },
 
     // load trade items when filters are applied
     applyTradeFilters(){
       this.$store.commit('trade/setTradeType', 'search_results')
-      this.filterTrades()
+      this.page = 1;
+      this.sectionTypes = []
+      this.infiniteId += 1;
     },
 
     // reset all filters
     resetTradeFilters(){
       this.selectedTradeTotalItems = 'one'
       this.$store.commit('trade/setTradeType', 'All')
-      this.filterTrades()
+      this.page = 1;
+      this.sectionTypes = []
+      this.infiniteId += 1;
     },
 
     // fetch trade offer items
-    filterTrades: debounce(function () {
-      this.sectionTypes = []
+    filterTrades: debounce(function ($state) {
       const priceRange = this.getPriceRangeFilterSelection
       this.$axios.post('/trades/offers', {
             trade_type: this.getTradeType,
@@ -199,12 +223,35 @@ export default {
             sort_by: this.getSortOrder,
             trade_total_items: this.getTotalItemTrades,
             price_min: priceRange[0],
-            price_max: priceRange[1]
+            price_max: priceRange[1],
+            page: this.page,
+            per_page: this.perPage,
         })
-        .then(res => {  // trades listing items in response
-          this.sectionTypes = res.data.data
+        .then(resp => {  // trades listing items in response
+          const res = resp?.data?.data
+          if(this.getTradeType !== 'All' && Object.keys(res).length < 2){
+            this.labelName = Object.keys(res)[0]
+            if (!res[this.getTradeType].next_page_url) {
+              $state.complete()
+            }else {
+              this.page += 1;
+              this.sectionTypes.push(...res[this.getTradeType].data);
+              $state.loaded()
+            }
+          }
+          else {
+            this.page += 1;
+            this.sectionTypes = res;
+            $state.complete()
+          }
         })
-    }, 500)
+    }, 500),
+    selectCounterBG(createdAt){
+      return isRemainingTimeLessThan12Hours(createdAt, TRADE_EXPIRY_DAYS) ? 'red' : 'gray'
+    },
+    prettifyExpiryDate(createdAt){
+      return tradeRemainingTime(createdAt, TRADE_EXPIRY_DAYS)
+    },
   }
 }
 </script><style lang="sass" scoped>
@@ -224,6 +271,22 @@ export default {
   width: 164px
   background: $color-white-1
   box-sizing: border-box
+.btn-expire
+  @include body-9
+  width: 110px
+  height: 30px
+.gray
+  background-color: $dark-gray-8
+  color: $color-black-1
+.red
+  background-color: $color-red-24
+  color: $color-white-1
+.text-created
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  @include body-18
+  line-height: 12px
 .create-btn
   width: 160px
   height: 35px

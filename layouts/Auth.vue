@@ -1,18 +1,23 @@
 <template>
   <b-container fluid class="p-0">
-    <Header />
+    <Header class="d-none d-md-flex"/>
     <div class="wrapper">
-      <Nuxt />
+      <Nuxt/>
     </div>
-    <BottomNavigation class="d-flex d-md-none" />
-    <Footer class="d-none d-md-flex" />
+    <Footer class="d-none d-md-flex"/>
   </b-container>
 </template>
 
 <script>
-import BottomNavigation from '~/components/homepage/BottomNavigation.vue'
+import {enquireScreenSizeHandler} from '~/utils/screenSizeHandler'
+
 export default {
   name: 'Auth',
-  components: { BottomNavigation },
+  fetchOnServer: false,
+  beforeMount() {
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    })
+  }
 }
 </script>

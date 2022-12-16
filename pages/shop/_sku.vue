@@ -1,22 +1,23 @@
 <template>
-  <b-row class="px-sm-5">
-    <b-col md="12">
+  <b-row>
+    <b-col md="12" xl="12">
       <Loader v-if="loading" class="min-vh-100" />
 
-      <b-row v-if="product" class="justify-content-center">
-        <b-col md="6" xl="6" class="px-4 px-sm-0">
-          <ProductBreadcrumb
-            :category="category"
-            :brand="product.brand"
-            :name="product.name"
-            class="mt-3 d-none d-sm-block"
-          />
+      <ProductBreadcrumb
+        v-if="product"
+        :category="category"
+        :brand="product.brand"
+        :name="product.name"
+        class="mt-3 pl-4 d-none d-sm-block"
+      />
 
+      <b-row v-if="product">
+        <b-col md="7" xl="7">
           <NavGroup
             v-model="method"
             :data="methods"
             nav-key="method"
-            class="text-center mt-4 body-8-normal d-sm-none"
+            class="mt-4 body-8-normal d-sm-none"
             :btnGroupStyle="{
               minHeight: '40px'
             }"
@@ -29,7 +30,7 @@
                 class="body-17-medium"
                 :class="method === 'buy' && 'active'"
               >
-                {{ lowestPrice | toCurrency }}
+                {{ lowestPrice | toRoundedCurrency }}
               </span>
             </b-col>
             <b-col class="text-center">
@@ -37,17 +38,15 @@
                 class="body-17-medium"
                 :class="method === 'offer' && 'active'"
               >
-                {{ highestOffer | toCurrency }}
+                {{ highestOffer | toRoundedCurrency }}
               </span>
             </b-col>
           </b-row>
 
-          <ProductImageViewer v-if="!has360Images" :product="product" />
-          <ProductImageViewerMagic360 v-if="has360Images" :product="product" />
+          <ProductImageViewer v-if="!has360Images" :product="product" class="product-image-wrapper" />
+          <ProductImageViewerMagic360 v-if="has360Images" :product="product" class="product-image-wrapper" />
         </b-col>
-
-        <b-col md="6" xl="4" class="mt-sm-5 px-sm-0">
-
+        <b-col md="4" xl="4" class="px-md-1 px-xl-1">
           <ProductTitle
             :product-name="product.name"
             :product="product"
@@ -68,21 +67,23 @@
             @change="handleMethodNavClick"
           />
 
-          <b-row class="mt-2 d-none d-sm-flex col-lg-8 mx-auto w-100">
-            <div class="d-flex w-100">
-              <div
-                class="body-1-medium col-6 text-center"
+          <b-row class="mt-2 offer-text d-none d-sm-flex mx-auto">
+            <b-col md="6" class="text-center">
+              <span
+                class="body-1-medium"
                 :class="method === 'buy' && 'active'"
               >
-                {{ lowestPrice | toCurrency }}
-              </div>
-              <div
-                class="body-1-medium col-6 text-center"
+                {{ lowestPrice | toRoundedCurrency }}
+              </span>
+            </b-col>
+            <b-col md="6" class="text-center">
+              <span
+                class="body-1-medium"
                 :class="method === 'offer' && 'active'"
               >
-                {{ highestOffer | toCurrency }}
-              </div>
-            </div>
+                {{ highestOffer | toRoundedCurrency }}
+              </span>
+            </b-col>
           </b-row>
           <!-- End of Lowest Price & Highest Offer Nav Group -->
 
@@ -106,10 +107,19 @@
 
           <!-- User Conditional Actions -->
           <OutOfStock
-            v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
+            v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel' && ! offerAmount"
             class="mt-3 px-4 d-none d-sm-block px-sm-0"
+            :product="product"
             @notify-me="handleNotifyMeClick"
+            @offer-duration="handleOfferDurationEvent"
+          />
+
+          <OfferDuration
+            v-else-if="sizeViewMode === 'carousel' && offerAmount"
+            class="mt-3 px-3 px-sm-0"
+            :offer-amount="offerAmount"
             @place-offer="handleOfferSubmit"
+            @clear-offer="offerAmount = null"
           />
 
           <BuyNow
@@ -123,10 +133,10 @@
           />
 
           <SellNow
-            v-else-if="sizeViewMode === 'carousel'"
+            v-else-if="sizeViewMode === 'carousel' && ! offerAmount"
             class="mt-3 px-3 px-sm-0"
             :highest-offer="highestOffer"
-            @place-offer="handleOfferSubmit"
+            @offer-duration="handleOfferDurationEvent"
             @sell-now="handleSellNowClick"
           />
           <!-- End of User Conditional Actions -->
@@ -147,7 +157,7 @@
       </b-row>
 
       <!-- Similar Items Section -->
-      <b-row v-if="product" class="mt-4">
+      <b-row v-if="product" class="mt-4 mx-72">
         <b-col md="12">
           <ProductSimilarItems :products="product.similar_products" />
         </b-col>
@@ -155,15 +165,15 @@
       <!-- End of Similar Items Section -->
 
       <!-- Product Details & Size Guide Section -->
-      <b-row v-if="product">
+      <b-row v-if="product" class="mx-72">
         <b-col md="12">
-          <ProductDetailsTab :product="product" :selected-size="currentSize" />
+          <ProductDetailsTab :product="product" :selected-size="productCurrentSize" />
         </b-col>
       </b-row>
       <!-- End of Product Details & Size Guide Section -->
 
       <!-- Sales Graph and Sales Data Section -->
-      <b-row v-if="product" class="my-4">
+      <b-row v-if="product" class="my-4 mx-72">
         <b-col md="12">
           <SalesSection chartHeaderClass="d-none" :product="product" />
         </b-col>
@@ -192,6 +202,7 @@
       <OutOfStock
         v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
         class="px-4 d-sm-none"
+        :product="product"
         @notify-me="handleNotifyMeClick"
         @place-offer="handleOfferSubmit"
       />
@@ -241,9 +252,11 @@ import SalesSection from '~/components/product/SalesSection'
 import BuyNow from '~/components/product/BuyNow'
 import OutOfStock from '~/components/product/OutOfStock'
 import SellNow from '~/components/product/SellNow'
+import OfferDuration from '~/components/product/OfferDuration'
 
 export default {
   components: {
+    OfferDuration,
     OutOfStock,
     BuyNow,
     SellNow,
@@ -293,6 +306,7 @@ export default {
       message: null,
       amountOffset: AMOUNT_OFFSET,
       shippingOption: '',
+      offerAmount: null,
     }
   },
   async fetch() {
@@ -381,6 +395,9 @@ export default {
       }
 
       return false
+    },
+    productCurrentSize(vm) {
+      return vm.sizes.find(size => size.id === vm.currentSize)
     }
   },
   methods: {
@@ -462,10 +479,10 @@ export default {
         brand: this.product.brand,
         sku: this.product.sku,
         colorWay: this.product.colorway,
-        size: this.sizes[this.currentSize - 1],
+        size: this.sizes.find(item => item.id === this.currentSize),
         quantity: 1,
         wishLists: this.product?.wish_lists,
-        packaging_condition: this.packagingConditions[this.currentCondition - 1].name,
+        packaging_condition: this.packagingConditions.find(item => item.id === this.currentCondition).name,
         inventory_stock: this.currentListingItem?.inventory_stock,
         price: this.currentListingItem?.inventory?.sale_price,
         instantShipPrice: this.shippingOption === INSTANT_SHIPPING ? this.currentListingItem?.inventory?.instant_ship_price : 0,
@@ -525,7 +542,7 @@ export default {
           this.showMessageModal(this.$t('products.message.send_item_email'))
         })
     },
-    handleOfferSubmit(amount) {
+    handleOfferDurationEvent(amount) {
       this.resetError()
       // If no size is selected.
       if (!this.currentSize) {
@@ -543,12 +560,30 @@ export default {
       if (!this.$auth.loggedIn) {
         return this.$router.push('/login')
       }
+
+      this.offerAmount = amount
+    },
+    handleOfferSubmit(payload) {
+      this.resetError()
+      // If no amount.
+      if (!payload.offerAmount || payload.offerAmount <= 0) {
+        return (this.error.makeOffer = this.$t(
+          'products.error.enter_valid_amount'
+        ))
+      }
+      // If not duration.
+      if (! payload.offerDuration) {
+        return (this.error.makeOffer = this.$t(
+          'products.error.select_offer_duration'
+        ))
+      }
       // Do the place offer.
       this.storeOfferDetails({
-        bid_price: amount * this.amountOffset,
+        bid_price: payload.offerAmount * this.amountOffset,
         packaging_condition_id: this.currentCondition,
         size_id: this.currentSize,
         product: this.product,
+        duration: payload.offerDuration,
         quantity: 1
       }).then(() => {
         this.$router.push('/checkout/place-offer')
@@ -654,6 +689,37 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.product-image-wrapper
+  @media (min-width: 576px)
+    margin-top: 110px
+
+.nav-group::v-deep
+  @media (min-width: 576px)
+    margin: 32px 0 0
+
+    .btn-group
+      box-sizing: border-box
+      width: 408px
+
+.mx-72
+  @media (min-width: 576px)
+    padding-left: 72px
+    padding-right: 72px
+
+.offer-text
+  color: $color-gray-20
+
+  @media (min-width: 576px)
+    width: 408px
+
+  .active
+    color: $black
+
+.size-picker::v-deep
+  .carousel-wrapper
+    @media (min-width: 576px)
+      padding-top: 32px
 
 .text-color-red-3
   color: $color-red-3

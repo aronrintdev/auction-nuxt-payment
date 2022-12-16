@@ -24,7 +24,7 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{
           $t(
             'newest_features.shareable_wishlists_and_watchlists.what_you_can_do'
@@ -170,4 +170,9 @@ export default {
 
     > div:not(:last-child)
       margin: 0 0 40px 0
+@media screen and (max-width: 577px)
+  .feature-title-my
+    width: 95%
+    margin-top: 48px !important
+    margin-bottom: 24px !important
 </style>

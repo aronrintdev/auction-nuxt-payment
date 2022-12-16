@@ -1,24 +1,24 @@
 <template>
   <!-- Shopping Cart Product -->
-  <b-col md="9" class="py-5 px-5">
-    <b-row>
+  <b-col md="9" class="product-list-wrapper">
+    <b-row class="product-text-wrapper">
       <b-col md="12">
         <b-row>
           <b-col md="6">
-            <div class="pull-left heading-1-bold">{{ $t('shopping_cart.shopping_cart') }}</div>
+            <div class="pull-left heading-3-bold">{{ $t('shopping_cart.shopping_cart') }}</div>
           </b-col>
           <b-col md="6">
-            <div class="pull-right pr-5 heading-1-bold">
+            <div class="pull-right pr-4 heading-3-bold">
               {{ getTotalQuantity }} {{ $tc('shopping_cart.item', getTotalQuantity) }}
             </div>
           </b-col>
         </b-row>
-        <hr class="mb-5 mt-4" />
+        <hr />
       </b-col> </b-row
     ><!-- End of Shopping Cart Product -->
 
     <!-- Shopping Cart List Headers -->
-    <b-row class="mb-5">
+    <b-row v-show="getTotalQuantity" class="mb-5">
       <b-col md="6">
         <div class="body-5-bold text-gray-6 text-uppercase">
           {{ $t('shopping_cart.my_products') }}
@@ -46,17 +46,16 @@
     ><!-- End Of Product List Headers -->
 
     <!-- Empty Cart Message -->
-    <b-row v-show="! getTotalQuantity" class="mt-5">
-      <b-col md="12">
-        <h6>
-          {{
-            $t('shopping_cart.you_have_no_items_in_your_cart')
-          }}&nbsp;<b-button id="continue-shopping-empty-cart" variant="link" to="/">{{
-            $t('shopping_cart.continue_shopping')
-          }}</b-button>
-        </h6>
-      </b-col> </b-row
-    ><!-- End of Empty Cart Message -->
+    <b-row v-show="! getTotalQuantity" class="empty-cart-wrapper">
+      <b-col md="12" class="d-flex align-items-center justify-content-center">
+        <b-img :src="require('~/assets/img/shopping-cart/empty-cart.svg')" />
+        <div>
+          <div class="body-1-bold text-black">{{ $t('shopping_cart.empty_cart') }}</div>
+          <div class="body-3-normal text-gray-102">{{ $t('shopping_cart.looks_like_you') }}&period;&period;&period;</div>
+          <Button variant="dark-blue" to="/shop">{{ $t('shopping_cart.back_to_browse') }}</Button>
+        </div>
+      </b-col>
+    </b-row><!-- End of Empty Cart Message -->
 
     <!-- Reward Item -->
     <div v-if="freeSneakersRedeemedReward">
@@ -105,7 +104,7 @@
               block
               pill
               variant="outline-dark"
-              to="/"
+              to="/shop"
             >{{ $t('shopping_cart.ok') }}
             </b-button>
           </b-col>
@@ -185,10 +184,11 @@ import { mapActions, mapGetters } from 'vuex'
 import ListItem from '~/components/checkout/selling/ListItem'
 import RewardItem from '~/components/checkout/selling/RewardItem'
 import ListItemModal from '~/components/checkout/selling/ListItemModal'
+import Button from '~/components/common/Button'
 
 export default {
   name: 'ItemsList',
-  components: { ListItemModal, ListItem, RewardItem },
+  components: { ListItemModal, ListItem, RewardItem, Button },
   data() {
     return {
       productShownInModal: {},
@@ -247,23 +247,53 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+*
+  font-family: $font-sp-pro
+
+.product-list-wrapper
+  padding-left: 76px
+  padding-right: 76px
+
+  .product-text-wrapper
+    div
+      font-family: $font-sf-pro-text
+
+    hr
+      margin-top: 30px
+      margin-bottom: 42px
+
+.empty-cart-wrapper
+  margin: 130px 139px 0 199px
+
+  .text-gray-102
+    margin-top: 22px
+
+  img
+    margin-right: 128px
+
+  button
+    @include body-13-medium
+    margin-top: 22px
+    border-radius: 2px
+    width: 222px
+    height: 40px
+
+.text-gray-102
+  color: $color-gray-102
+
 /* Continue shopping button link styles */
-#continue-shopping,
-#continue-shopping-empty-cart
+#continue-shopping
+  padding-left: 0
   border: 0
+  bottom: 2%
+  position: absolute
   color: $color-blue-2
-  text-decoration: underline
+  text-decoration: none
   &:hover
     background: none
     border: 0
     color: $color-blue-2
     text-decoration: none
-
-#continue-shopping
-  border: 0
-  bottom: 2%
-  position: absolute
-  text-decoration: none
 
 /* Navigation modal outline button styles */
 .btn

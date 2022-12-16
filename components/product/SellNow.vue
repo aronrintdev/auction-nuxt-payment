@@ -1,7 +1,7 @@
 <template>
-  <b-row>
+  <b-row class="sell-now-wrapper">
     <b-col md="12">
-      <div class="text-center body-8-medium">
+      <div class="sell-now-text text-center body-8-medium">
         <span class="text-color-blue-20">{{ $t('products.place_offer') }}</span>
         <span class="text-black">{{ $t('products.or_sell_now') }}</span>
       </div>
@@ -17,9 +17,10 @@
         </b-col>
         <b-col class="mt-3 mt-md-0" md="4">
           <Button
+            class="px-0"
             variant="dark-blue"
             block
-            @click="$emit('place-offer', offerAmount)"
+            @click="$emit('offer-duration', offerAmount)"
           >
             {{ $t('products.place_offer') }}
           </Button>
@@ -63,10 +64,18 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.sell-now-wrapper
+  .sell-now-text
+    padding: 3px 0
+
+  button
+    height: 46px
+
 .text-color-blue-20
   color: $color-blue-20
 
 input.form-control
+  height: 46px
   background: $white
   border: 1px solid $color-blue-20
 </style>

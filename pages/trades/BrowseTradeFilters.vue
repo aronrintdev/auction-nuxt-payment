@@ -1,11 +1,11 @@
 <template>
   <div>
-    <b-row class="d-flex justify-content-center m-5">
-      <b-col md="9">
+    <b-row class="d-flex justify-content-center">
+      <b-col cols="7">
         <SearchInput  variant="secondary" :placeholder="$t('trades.index.browse.search_for_your_favorite_street_wear')" :value="searchedText" @input="setSearchedText" />
         <SearchedOfferItems :searchedOfferItems="searchedItems" />
       </b-col>
-      <b-col md="3">
+      <b-col cols="5" class="d-flex justify-content-end">
         <FormDropdown
           id="sort-by"
           :value="selectedFilters.sortby"
@@ -20,101 +20,114 @@
           @select="changeOption"
         />
         <!-- Sort options -->
+
+        <!--        <CustomSelect :options="sortOptions" :default="selectedSortOrder" @input="setSortOrder" />-->
       </b-col>
     </b-row>
-    <div v-if="!moreFiltersVisible" class="mt-4 d-flex align-items-center ml-5 mr-5">
+    <div v-if="!moreFiltersVisible" class="mt-2 mt-xl-4 row align-items-center flex-wrap">
       <!-- Categories -->
+      <div class="col-6 col-xl-2">
+        <MultiSelectDropdown
+          v-model="selectedFilters.categories"
+          collapseKey="categories"
+          :title="$t('home_page.categories')"
+          :options="categoryOptions"
+          class="mr-3 mr-xl-4 w-100"
+        />
+      </div>
+
+      <div class="col-6 col-xl-2">
+        <!-- Size Types -->
+        <MultiSelectDropdown
+          v-model="selectedFilters.sizeTypes"
+          collapseKey="size-types"
+          :title="$t('filter_sidebar.size_types')"
+          :options="sizeTypeOptions"
+          class="mr-3 mr-xl-4 w-100"
+        />
+      </div>
+
+      <div class="mt-2 mt-xl-0 col-6 col-xl-2">
+        <!-- Sizes -->
+        <MultiSelectDropdown
+          v-model="selectedFilters.sizes"
+          collapseKey="sizes"
+          :title="$t('filter_sidebar.sizes')"
+          :options="sizeOptions"
+          class="mr-3 mr-xl-4 flex-grow-1 w-100"
+        />
+      </div>
+
+      <div class="mt-2 mt-xl-0 col-6 col-xl-2">
+        <!-- Current Bid -->
+        <SliderDropdown
+          :start-label="$t('filter_sidebar.price_items.min')"
+          :end-label="$t('filter_sidebar.price_items.max')"
+          :start-placeholder="$t('filter_sidebar.price_items.from')"
+          :end-placeholder="$t('filter_sidebar.price_items.to')"
+          :minValue="MIN_PRICE"
+          :maxValue="MAX_PRICE / 100"
+          :step="50"
+          :title="$t('home_page.trade_value')"
+          :value="selectedPrices"
+          class="mr-3 mr-xl-4 flex-grow-1 w-100"
+          @change="updatePriceFilters"
+        />
+      </div>
+      <div class="col-xl-3 pr-3">
+        <!-- Brand -->
+        <MultiSelectDropdown
+          v-model="selectedFilters.brands"
+          collapseKey="brands"
+          :title="$t('filter_sidebar.brands')"
+          :options="brandOptions"
+          class="mr-3 mr-xl-4 d-none d-xl-block flex-grow-1 w-100"
+        />
+      </div>
+      <div 
+        role="button" 
+        class="d-inline-flex align-items-center more-filters-btn mt-2 mt-xl-0 col-12 col-xl-1 justify-content-end" 
+        @click="moreFiltersVisible=true"
+      >
+        <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
+        <img class="ml-2" src="~/assets/img/home/arrow-right.svg" />
+      </div>
+    </div>
+    <div v-else class="mt-4 d-flex align-items-center justify-content-between justify-content-xl-start">
+      <div role="button" class="d-inline-flex align-items-center more-filters-btn" @click="moreFiltersVisible=false">
+        <img class="mr-2 before" src="~/assets/img/home/arrow-right.svg" />
+        <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
+      </div>
+      <!--       Status -->
       <MultiSelectDropdown
-        v-model="selectedFilters.categories"
-        collapseKey="categories"
-        :title="$t('home_page.categories')"
-        :options="categoryOptions"
-        class="mr-3 mr-xl-4"
-        width="160"
+        v-model="selectedFilters.status"
+        collapseKey="status"
+        :title="$t('filter_sidebar.status')"
+        :options="statusOptions"
+        class="mx-2 mr-xl-4"
+        :width="250"
       />
 
-      <!-- Size Types -->
-      <MultiSelectDropdown
-        v-model="selectedFilters.sizeTypes"
-        collapseKey="size-types"
-        :title="$t('filter_sidebar.size_types')"
-        :options="sizeTypeOptions"
-        class="mr-3 mr-xl-4"
-        width="180"
-      />
-
-      <!-- Sizes -->
-      <MultiSelectDropdown
-        v-model="selectedFilters.sizes"
-        collapseKey="sizes"
-        :title="$t('filter_sidebar.sizes')"
-        :options="sizeOptions"
-        class="mr-3 mr-xl-4 flex-grow-1"
-      />
-
-      <!-- Current Bid -->
+      <!--       Years -->
       <SliderDropdown
         :start-label="$t('filter_sidebar.price_items.min')"
         :end-label="$t('filter_sidebar.price_items.max')"
         :start-placeholder="$t('filter_sidebar.price_items.from')"
         :end-placeholder="$t('filter_sidebar.price_items.to')"
-        :minValue="MIN_PRICE"
-        :maxValue="MAX_PRICE / 100"
-        :step="50"
-        :title="$t('home_page.current_bid')"
-        :value="selectedPrices"
-        class="mr-3 mr-xl-4 flex-grow-1"
-        @change="updatePriceFilters"
+        :minValue="MIN_YEAR"
+        :maxValue="MAX_YEAR"
+        :step="1"
+        :title="$t('auctions.frontpage.filterbar.year')"
+        :value="selectedYears"
+        class="mr-xl-4"
+        :width="250"
+        @change="updateYearFilters"
       />
-
-      <!-- Brand -->
-      <MultiSelectDropdown
-        v-model="selectedFilters.brands"
-        collapseKey="brands"
-        :title="$t('filter_sidebar.brands')"
-        :options="brandOptions"
-        class="mr-3 mr-xl-4 d-none d-xl-block flex-grow-1"
-      />
-      <div role="button" class="d-inline-flex align-items-center more-filters-btn ml-3" @click="moreFiltersVisible=true">
-        <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
-        <img class="ml-2" src="~/assets/img/home/arrow-right.svg" />
-      </div>
-    </div>
-    <div v-else class="mt-4  ml-5 d-flex align-items-center">
-      <div role="button" class="d-inline-flex align-items-center more-filters-btn mr-3" @click="moreFiltersVisible=false">
-        <img class="mr-2 before" src="~/assets/img/home/arrow-right.svg" />
-        <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
-      </div>
-<!--       Status -->
-            <MultiSelectDropdown
-              v-model="selectedFilters.status"
-              collapseKey="status"
-              :title="$t('filter_sidebar.status')"
-              :options="statusOptions"
-              class="mr-3 mr-xl-4"
-              :width="250"
-            />
-
-<!--       Years -->
-            <SliderDropdown
-              :start-label="$t('filter_sidebar.price_items.min')"
-              :end-label="$t('filter_sidebar.price_items.max')"
-              :start-placeholder="$t('filter_sidebar.price_items.from')"
-              :end-placeholder="$t('filter_sidebar.price_items.to')"
-              :minValue="MIN_YEAR"
-              :maxValue="MAX_YEAR"
-              :step="1"
-              :title="$t('auctions.frontpage.filterbar.year')"
-              :value="selectedYears"
-              class="mr-3 mr-xl-4"
-              :width="250"
-              @change="updateYearFilters"
-            />
     </div>
     <!-- filters -->
-    <div class="d-flex ml-5">
+    <div class="d-flex justify-content-end">
       <div class="mt-1">
-        <label><u @click="clearAllFilters" class="ml-2 clear-all-text">{{$t('common.clear_all')}}</u></label>
+        <label><u class="clear-all-text" @click="clearAllFilters">{{$t('common.clear_all')}}</u></label>
       </div>
     </div>
   </div>
@@ -165,8 +178,10 @@ export default {
         brands: [],
         categories: [],
         status: [],
-        sortby: 'relevance',
+        sortby: null,
         product: null,
+        maxYear:null,
+        minYear:null
       },
       moreFiltersVisible: false,
       categoryOptions: [],
@@ -183,21 +198,13 @@ export default {
           value: 'live'
         },
         {
-          label: this.$t('filter_sidebar.status_options.upcoming'),
-          value: 'upcoming'
-        },
-        {
-          label: this.$t('filter_sidebar.status_options.expiring'),
-          value: 'ending_soon'
+          label: this.$t('filter_sidebar.status_options.traded'),
+          value: 'traded'
         },
         {
           label: this.$t('filter_sidebar.status_options.expired'),
           value: 'expired'
-        },
-        {
-          label: this.$t('filter_sidebar.status_options.sold'),
-          value: 'sold'
-        },
+        }
       ],
       SORT_OPTIONS: [
         {
@@ -225,17 +232,7 @@ export default {
           label: this.$t('auctions.frontpage.filterbar.sortby.most_viewed'),
         },
       ],
-    }
-  },
-  watch: {
-    searchKeyword(newV) {
-      this.searchText = newV
-    },
-    selectedFilters: {
-      handler (newV) {
-        this.emitChange(newV)
-      },
-      deep: true
+      clearFilters: false
     }
   },
   computed: {
@@ -281,6 +278,19 @@ export default {
       })
     },
   },
+  watch: {
+    searchKeyword(newV) {
+      this.searchText = newV
+    },
+    selectedFilters: {
+      handler (newV) {
+        if(!this.clearFilters) {
+          this.emitChange(newV)
+        }
+      },
+      deep: true
+    }
+  },
   mounted() {
     // Get trade browse page filters
     this.fetchTradeBrowseFilters(this.selectedFilters)
@@ -309,7 +319,7 @@ export default {
     ...mapActions('trade', ['fetchTradeBrowseFilters']), // get filters from api call by calling action from store
 
     emitChange: debounce(function(filters) {
-      this.$emit('change', filters)
+      this.$emit('click', filters)
     }, 300),
     // Select SortBy option
     changeOption(option) {
@@ -377,6 +387,7 @@ export default {
 
     // clear all filters
     clearAllFilters(){
+      this.clearFilters = true
       this.selectedFilters.sizes = []
       this.selectedFilters.sizeTypes =[]
       this.selectedFilters.brands =[]
@@ -384,9 +395,14 @@ export default {
       this.selectedFilters.status=[]
       this.selectedFilters.sortby = null
       this.selectedFilters.product = null
+      this.selectedFilters.maxYear = null
+      this.selectedFilters.minYear = null
       this.searchedText = ''
       this.$store.commit('trade/resetAllFilters')
       this.$emit('clearFilters')
+      setTimeout(()=>{
+        this.clearFilters = false
+      },3000)
     },
 
     // find selected category name from local
@@ -410,6 +426,18 @@ export default {
 </script>
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+.filter-btn
+  width: 100px
+  height: 39px
+  background: $color-blue-20
+  border-radius: 8px
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $medium
+  @include body-10
+  line-height: 20px
+  color: $color-white-1
+  cursor: pointer
 .dropdown-sort::v-deep
   .btn-dropdown
     @include body-4-normal
@@ -418,8 +446,9 @@ export default {
     background-color: $color-white-4
     border-radius: 8px
     height: 48px
-    width: 327px
     padding: 0 13px 0 23px
+    @media (min-width: 1200px)
+      width: 327px
 
     .icon-main
       margin-right: 20px !important
@@ -489,6 +518,7 @@ export default {
   font-weight: $medium
   font-family: $font-family-sf-pro-display
   @include body-5
+  cursor: pointer
 .list-grp
   background-color: $color-white-4
 .filter-details

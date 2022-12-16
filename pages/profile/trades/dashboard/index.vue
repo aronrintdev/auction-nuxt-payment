@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width<= 500" class="pt-5 pb-5">
+    <div v-if="isScreenXS" class="pt-5 pb-5">
       <dashboard-mobile></dashboard-mobile>
     </div>
     <div v-else>
@@ -10,20 +10,15 @@
 </template>
 
 <script>
+import screenSize from '~/plugins/mixins/screenSize';
+
 export default {
   name: 'Create',
-  data(){
-    return {
-      width:'',
-    }
-  },
-  layout: 'Profile',
   components: {
     dashboardMobile:()=> import('./dashboardMobile'),
     dashboardWeb:()=>import('./dashboardWeb'),
   },
-  mounted() {
-    this.width = window.innerWidth
-  },
+  mixins: [screenSize],
+  layout: 'Profile',
 }
 </script>

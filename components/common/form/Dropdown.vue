@@ -10,7 +10,7 @@
       <Button
         :id="`btn-dropdown-${id}`"
         variant="link"
-        :class="`d-flex justify-content-between btn-dropdown ${
+        :class="`dropdown-btn d-flex justify-content-between btn-dropdown ${
           dropdownShow && 'opened'
         } ${value !== null && 'active'}`"
         block
@@ -38,7 +38,7 @@
       <b-popover
         ref="popover"
         :target="`btn-dropdown-${id}`"
-        triggers="hover"
+        triggers="click blur"
         placement="bottom"
         :container="`dropdown-container-${id}`"
         :custom-class="`search-results`"
@@ -183,11 +183,12 @@ export default {
     height: 32px
     .icon-arrow
       transition: transform 0.2s ease-in-out
+      transform: rotate(180deg)
     &.opened
       border-bottom-left-radius: 0
       border-bottom-right-radius: 0
       .icon-arrow
-        transform: rotate(-180deg)
+        transform: rotate(0deg)
     &.active
       color: $color-black-1
   .icon-clear

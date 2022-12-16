@@ -1,5 +1,6 @@
 {
   "common": {
+    "select_brands": "Select Brand(s)",
     "cancel": "Cancel",
     "buying": "Buying",
     "auction": "Auction",
@@ -12,6 +13,7 @@
     "accept": "Accept",
     "decline": "Decline",
     "or": "or",
+    "on": "on",
     "and": "and",
     "close": "Close",
     "revert": "Revert",
@@ -42,6 +44,7 @@
     "bulk_delete_warning": "Are you sure you would like to delete selected?",
     "items_deleted": "Your items have been deleted!",
     "apparel": "Apparel",
+    "all_sizes": "All Sizes",
     "accessory": "Accessory | Accessories",
     "hat": "Hat | Hats",
     "look": "Look | Looks",
@@ -57,6 +60,7 @@
     "size": "Size | Sizes",
     "size_type": "Size Type | Size Types",
     "n_item_selected": "{n} {unit} selected",
+    "deselect": "Deselect",
     "deselect_all": "Deselect All",
     "select_all": "Select All",
     "product": "Product | Products",
@@ -112,6 +116,7 @@
     "pin": "Pin",
     "chat": "Chat",
     "add": "Add",
+    "your_listing": "Your Listing",
     "purchase": "Purchase",
     "update": "Update",
     "add_product": "Add Product",
@@ -166,10 +171,12 @@
     "done": "Done",
     "end_date": "End Date",
     "search_brands": "Search Brands",
+    "search_products": "Search Products",
     "sort_by": "Sort By",
     "options": "Options",
     "reset": "Reset",
     "apply_filters": "Apply Filters",
+    "view_details": "View Details",
     "view": "View",
     "read_less": "Read Less",
     "read_more": "Read More",
@@ -191,8 +198,37 @@
     "model": "Model",
     "model_detail": "The model is 5’ 8” and wears a large",
     "no-items-in-combination": "No items in combination",
+    "days": "days",
+    "mins": "mins",
+    "hours": "hours",
+    "secs": "secs",
+    "current_trade": "Current Trade",
+    "their_value": "Their Value",
+    "your_value": "Your Value",
+    "fair_trade_meter": "Fair Trade Meter",
     "thread": "Thread",
-    "rescind": "Rescind"
+    "rescind": "Rescind",
+    "enter_cash_amount": "Enter Cash Amount",
+    "box_conditions": {
+      "1": {
+        "1": "Excellent",
+        "2": "Damaged Box",
+        "3": "Missing Lid",
+        "4": "No Original Box"
+      },
+      "2": {
+        "1": "Excellent",
+        "2": "Damaged Packaging",
+        "3": "No Original Packaging"
+      },
+      "3": {
+        "1": "Excellent",
+        "2": "Damaged Packaging",
+        "3": "No Original Packaging"
+      }
+    },
+    "box": "Box",
+    "$0": "$0.00"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -240,7 +276,7 @@
     "terms": "Terms",
     "privacy": "Privacy",
     "verify": "Verify",
-    "login_to_your_account": "Log in to your Account",
+    "login_to_your_account": "Log in to Your Account",
     "login_via_social_media": "Log in via Social Media",
     "forgot_password": "Forgot Password",
     "new_to_deadstock": "New to Deadstock",
@@ -248,6 +284,7 @@
     "back_to_log_in": "Back to Log In",
     "enter_your_email_and": "Enter your email and we'll send you a link\nto reset your password.",
     "send_link": "Send Link",
+    "send_email": "Send Email",
     "a_recovery_email_has_been_sent": "A recovery email has been sent to",
     "reset_password": "Reset Password",
     "please_choose_your_new_password": "Please choose your new password",
@@ -292,7 +329,7 @@
     "private_policy": "Private Policy",
     "privacy_policy": "Privacy Policy",
     "please_wait": "Please wait",
-    "create_your_account": "Create your Account \n with Dead Stock",
+    "create_your_account": "Create an Account!",
     "face_id": "Allow Face ID Sign In",
     "touch_id": "Allow Touch ID",
     "touch_id_icon": "Touch ID",
@@ -365,14 +402,26 @@
   "home": {
     "home": "Home",
     "get_the_most_out_of": "Get the most out of the Deadstock App",
+    "deadstock_app_buy_sell_trade": "Deadstock App - Buy, Sell, Trade and Auction",
     "create_account": "Create Account",
+    "welcome_to_deadstock": "Welcome to Deadstock",
     "sign_in": "Sign In",
+    "login": "Log In",
     "vendor_hub": "Vendor Hub",
     "promotions": "Promotions",
     "rewards": "Rewards",
     "support": "Support",
+    "menu": "Menu",
+    "shop": "Shop",
+    "trade": "Trade",
+    "auction": "Auction",
+    "sell": "Sell",
+    "misc": "Misc.",
+    "profile": "Profile",
     "dashboard": "Dashboard",
+    "dead_stock_exchange": "Deadstock Exchange",
     "inventory": "Inventory",
+    "shop_by_style_2": "Shop by Style",
     "buying_profile": "Buying Profile",
     "selling_profile": "Selling Profile",
     "my_profile": "My Profile",
@@ -381,6 +430,7 @@
     "selling_listings": "Selling Listings",
     "trade_listings": "Trade Listings",
     "trade_offers": "Trade Offers",
+    "trade_preferences": "Trade Preferences",
     "offers_received": "Offers Received",
     "bids_received": "Bids Received",
     "auctions_listings": "Auctions Listings",
@@ -391,9 +441,9 @@
     "watchlist": "Watchlist",
     "create_a_listing": "Create a Listing",
     "become_a_vendor": "Become a Vendor",
-    "preferences": "Preferences Gauge",
+    "preferences": "Preferences",
     "welcome": "Welcome",
-    "logout": "Logout",
+    "logout": "Log Out",
     "please_wait": "Please wait",
     "security": "Security",
     "purchases": "Purchases",
@@ -483,7 +533,7 @@
     "shop": "Shop",
     "shop_now": "Shop Now",
     "hero_heading": "Footwear, Apparel, \n and Accessories",
-    "shop_by_category": "Shop by \n Category",
+    "shop_by_category": "Shop \n by Category",
     "by_category": "By Category",
     "shop_by_category_desc": "Browse through different \n types of items to secure \n the latest releases.",
     "shop_by_brand_description": "  Browse items from your \n favorite names in \n fashion.",
@@ -575,7 +625,8 @@
     "sweatshirts": "SWEATSHIRTS",
     "bottoms": "BOTTOMS",
     "shirts": "SHIRTS",
-    "jackets": "JACKETS"
+    "jackets": "JACKETS",
+    "trade_value": "Trade Value"
   },
   "Sign Up": "Sign Up",
   "Log In": "Log In",
@@ -584,12 +635,14 @@
     "home": "Home",
     "sku": "SKU",
     "latest_sales": "Latest Sales",
+    "asks": "Asks",
     "select_size": "Select Size",
     "day_month_year": "Day Month Year",
     "buy_now_for": "Buy Now for",
     "as_low_as_$42/month_with": "as low as $42/month with",
     "prequalify_now": "Prequalify Now",
     "buy": "Buy",
+    "offers": "Offers",
     "or_bid": "or Bid",
     "or": "OR",
     "size": "Size",
@@ -630,6 +683,14 @@
     "add_to_wishlist": "Add to Wishlist",
     "add_to_cart": "Add to Cart",
     "please_select_a_size": "Please select a size."
+  },
+  "mobile_search": {
+    "shop_by_category": "Shop by Category",
+    "shop_by_brand": "Shop by Brand",
+    "trade": "Trade",
+    "bid_now": "Bid Now",
+    "view_auctions": "View Auctions",
+    "view_trades": "View Trades"
   },
   "sell": {
     "summary": {
@@ -1018,10 +1079,10 @@
       "send_offers": "Send Offers",
       "select_durations": {
         "1": "1 Day",
-        "3": "3 Day",
-        "5": "5 Day",
-        "7": "7 Day",
-        "10": "10 Day"
+        "3": "3 Days",
+        "5": "5 Days",
+        "7": "7 Days",
+        "10": "10 Days"
       },
       "select_duration": "Select Duration",
       "back_to_summary": "Back to Auction Summary",
@@ -1123,7 +1184,7 @@
       "allow_cash_with_offer": "Allow Cash with Offer",
       "confirm_trade": "Confirm Trade",
       "days": "Days",
-      "good_condition": "Good Condition Box",
+      "good_condition": "Excellent",
       "new_condition": "New Condition",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
@@ -1221,10 +1282,10 @@
         "select_duration_placeholder": "Select Duration",
         "select_duration": {
           "1": "1 Day",
-          "3": "3 Day",
-          "5": "5 Day",
-          "7": "7 Day",
-          "10": "10 Day"
+          "3": "3 Days",
+          "5": "5 Days",
+          "7": "7 Days",
+          "10": "10 Days"
         },
         "reserve": "Reserve",
         "no_reserve": "No Reserve",
@@ -1332,7 +1393,7 @@
           "default_time_limit": "Duration",
           "days": "Days",
           "box_condition": "Box Condition",
-          "good_condition": "Good condition Box",
+          "good_condition": "Excellent",
           "new_condition": "New Condition",
           "damaged_box": "Damaged Box",
           "missing_lid": "Missing Lid",
@@ -1512,6 +1573,7 @@
     "image": {
       "not_found": "Product image is not found"
     },
+    "please_select_offer_duration": "Please select your offer duration",
     "standard": "Standard",
     "inches": "Inches",
     "runs_small": "Runs Small",
@@ -1529,6 +1591,7 @@
     "place_offer": "Place Offer",
     "or_sell_now": "or Sell Now",
     "sell_for": "Sell for {amount}",
+    "place_offer_for": "Place Offer for {amount}",
     "read_more": "Read More",
     "read_less": "Read Less",
     "pre_authenticated_ships_instantly": "Pre - authenticated, ships instantly",
@@ -1538,6 +1601,7 @@
     "all_sizes": "All Sizes",
     "box_condition": "Box Condition",
     "box_conditions": {
+      "excellent": "Excellent",
       "good_condition": "Good Condition",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
@@ -1578,11 +1642,14 @@
     "or_4_installments": "or 4 installments",
     "of_price": "of {price}",
     "authenticity_guaranteed": "Authenticity\nGuaranteed",
+    "deadstock_guarantee": "Deadstock\nGuarantee",
     "select_size": "Select Size",
     "error": {
       "select_size": "Please select a size above to add to cart",
+      "select_offer_duration": "Please select a an offer duration",
       "select_size_to_offer": "Please select a size above to make an offer",
       "out_of_stock": "Unfortunately, this item and size is currently out of stock!",
+      "out_of_stock_place_offer": "Item out of stock, place offer or get notified",
       "enter_valid_amount": "Please enter valid offer amount",
       "not_found": "Product is not found",
       "select_shipping_type": "Please select a shipping type above"
@@ -1807,6 +1874,8 @@
       "single_item": "Single Item",
       "lot": "Lot",
       "collection": "Collection",
+      "delete_sold_expired_listings": "Delete Sold/Expired Listings",
+      "delete_listings": "Delete Listings",
       "table_columns": {
         "details": "Details",
         "listing": "Listing",
@@ -1937,7 +2006,8 @@
         "cta_label": "List"
       },
       "recently_viewed": "Recently Viewed",
-      "ending_soon": "Auctions Ending Soon",
+      "ending_soon": "Ending Soon",
+      "ending_soon_load_more": "View More Ending Soon",
       "no_reserve": "No-Reserve",
       "reserve": "Reserve",
       "search_results": "Search Results",
@@ -1961,14 +2031,14 @@
       "watchers": "Watchers",
       "current_bid": "Current Bid",
       "place_bid": "Place Bid",
-      "place_bid_error": "*Please Enter a Bid Higher than the Current Bid",
+      "place_bid_error": "*Please Enter a Bid at the Next Available Bid Increment",
       "quick_bid": "Quick Bid",
       "auto_bid": "Auto Bid",
       "auto_bid_tooltip": "An auto bid allows you to set a maximum bid threshold, to where the system will automatically bids in increments up to the specified threshold, labeled \"Up To.\"",
       "view_threshold_chart": "View Threshold Chart",
       "place_auto_bid": "Place Auto Bid",
       "up_to": "Up to...",
-      "prev_auto_bid_placed_at": "*Previous Auto Bid Placed at:",
+      "prev_auto_bid_placed_at": "*Current Auto Bid Placed at:",
       "auto_bid_settings": "Auto Bid Settings",
       "recent_bidding_history": "Recent Bidding History",
       "time_date": "Time/Date",
@@ -1986,8 +2056,8 @@
       "placed_bid_desc": "*A placed bid is a commitment to purchase, and cannot be undone.",
       "read_about": "Read about",
       "policies_and_fees": "DEADSTOCK policies and fees",
-      "enable_auto_bid_confirm_text": "Are you sure you want to enable auto bid for this auction?",
-      "fees": "+ fees",
+      "enable_auto_bid_confirm_text": "Are you sure you want to enable auto bid?",
+      "fees": "+fees",
       "success_bid_msg": "Your bid has been placed. You are the Highest Bidder. Good luck!",
       "bid_up_to": "Bid up to",
       "bid": "Bid",
@@ -2004,7 +2074,7 @@
       "auction_id": "Auction ID",
       "true_to_size": "'True to Size'",
       "of": "of",
-      "insert_amount": "Enter Bid ($%{price} or More)",
+      "insert_amount": "Enter Bid (More than $%{price})",
       "payment_method": "Payment Method",
       "no_results_found": "No results found",
       "cant_find_anything": "We couldn’t find anything that matches this search",
@@ -2012,7 +2082,7 @@
       "description": "Description",
       "size_guide": "Size Guide",
       "bidding_history": "Bidding History",
-      "verification_guranteed": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed.",
+      "verification_guaranteed": "Our experts verify each item through our authentication process using AI, digital technology, and in-person verification. We aim to ensure all items are authentic and as described.",
       "collection_items": "Collection Items",
       "direct_bid": "Direct bid",
       "auction_details_title": "Auction Details",
@@ -2068,7 +2138,8 @@
       "upcoming": "Upcoming",
       "expiring": "Expiring",
       "expired": "Expired",
-      "sold": "Sold"
+      "sold": "Sold",
+      "traded": "Traded"
     }
   },
   "shop": {
@@ -2114,6 +2185,7 @@
     "move_to_list": "Move to {list}",
     "share_description": "Wishlist products from deadstock.co",
     "inspired_by_you": "Inspired By Your List",
+    "invalid_data": "The given data is invalid.",
     "categories": {
       "all": "All",
       "footwear": "Footwear",
@@ -2527,20 +2599,26 @@
     "checkout": "Checkout",
     "options": "Options",
     "change_size": "Change size",
+    "create_an_account": "Create an Account",
     "create_new_list": "Create New List",
     "move_to_wishilist": "Move to wishlist",
     "remove_from_wishilist": "Remove from wishlist",
     "move_this_item_a_list": "Move this item to a list",
     "remove_from_bag": "Remove from bag",
+    "remove_from_wishlist": "Remove from wishlist",
     "shopping_cart": "Shopping Cart",
-    "shopping_bag": "Shopping Bag",
+    "proceed": "Proceed",
     "item": "Item | Items",
+    "have_promo_code": "Have a Promo Code",
     "item_purchasing": "Item Purchasing | Items Purchasing",
     "my_products": "My Products",
     "quantity": "Quantity",
     "price": "Price",
     "total": "Total",
     "estimated_total": "Estimated Total",
+    "empty_cart": "Empty Cart",
+    "looks_like_you": "Looks like you haven’t made \nyour choice yet",
+    "back_to_browse": "Back to Browse",
     "you_have_no_items_in_your_cart": "You have no items in your cart",
     "continue_shopping": "Continue Shopping",
     "product_image": "Product Image",
@@ -2548,6 +2626,7 @@
     "size": "Size",
     "color_way": "Colorway",
     "color": "Color",
+    "you_have_no_items": "You have no items in your cart",
     "box_condition": "Box Condition",
     "remove": "Remove",
     "save_for_later": "Save for later",
@@ -2754,6 +2833,7 @@
   "auction": {
     "list_auction_today": "List an auction today on Deadstock!",
     "search_placeholder": "Search for product SKU or by keyword",
+    "browse_auction": "Browse Auction",
     "auction_type": "Auction Type",
     "auction_types": {
       "single": "Single Item",
@@ -2819,10 +2899,10 @@
     "send_offers": "Send Offers",
     "select_durations": {
       "1": "1 Day",
-      "3": "3 Day",
-      "5": "5 Day",
-      "7": "7 Day",
-      "10": "10 Day"
+      "3": "3 Days",
+      "5": "5 Days",
+      "7": "7 Days",
+      "10": "10 Days"
     },
     "select_duration": "Select Duration",
     "back_to_summary": "Back to Auction Summary",
@@ -2876,7 +2956,9 @@
     "drafts": "Drafts ({0})",
     "search": {
       "title": "Search",
-      "add_product": "Add Product"
+      "add_product": "Add Product",
+      "bulk_file": "Bulk Upload",
+      "description": "Select items you would like to list"
     },
     "index": {
       "title": "Select Listing Type",
@@ -2886,12 +2968,13 @@
       "auction_desc": "Post a Single Item Auction or put a whole Collection up for Auction.",
       "trade": "Trade",
       "trade_desc": "Trade up to three items at a time with other Deadstock Sellers. If no offer is accepted, the listing will be active for 14 days.",
+      "trade_desc_mobile": "Trade up to three items at a time. If no offer is accepted in 14 days the trade will expire.",
       "select": "Select",
       "type": "Type",
       "auction_single": "Single Item Auction",
       "auction_single_desc": "For auctions that are a single item only.",
       "auction_collection": "Collection Auctions",
-      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole.",
+      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole. Add up to 10 products.",
       "selling_text": "Sell sneakers, a pieace of apparel, or an accessory.",
       "auction_text": "Post a Single Item Auction or put a whole Collection up for Auction.",
       "trade_text": "Trade up to three items at a time. If no offer is accepted in 14 days the trade will expire."
@@ -2926,7 +3009,7 @@
     "allow_cash_with_offer": "Allow Cash with Offer",
     "confirm_trade": "Confirm Trade",
     "days": "Days",
-    "good_condition": "Good Condition Box",
+    "good_condition": "Excellent",
     "new_condition": "New Condition",
     "damaged_box": "Damaged Box",
     "missing_lid": "Missing Lid",
@@ -2956,6 +3039,7 @@
     "trade": {
       "offer_items": {
         "offer": "Offer Items",
+        "offer_subheading": "Search your inventory or find a new item to offer, minimum of 1 item, maximum 3 items",
         "search_by": "Search by SKU, Keyword, or Brand",
         "create_inventory": "Create New Inventory",
         "available_inventory": "Inventory Available to Trade ({0} Results)",
@@ -3021,11 +3105,12 @@
       "select_duration_placeholder": "Select Duration",
       "select_duration": {
         "1": "1 Day",
-        "3": "3 Day",
-        "5": "5 Day",
-        "7": "7 Day",
-        "10": "10 Day"
+        "3": "3 Days",
+        "5": "5 Days",
+        "7": "7 Days",
+        "10": "10 Days"
       },
+      "added_products": "Added Products",
       "reserve": "Reserve",
       "no_reserve": "No Reserve",
       "reserve_price": "Reserve Price",
@@ -3045,6 +3130,7 @@
       "save_as_draft": "Save as Draft",
       "quantity": "Quantity",
       "can_not_add_more": "Collection Auctions can add up to 10 items.",
+      "confirm_page_description": "*By pressing on Post Listing(s), I accept the seller fee of 9.5% + a 2.9% transaction fee. No authentication fees will be charged to sellers.",
       "bottom_text": "*By clicking Post Auction(s), I accept the seller fee of {0}% + a {1}% transaction | fee. No authentication fees will be charged to sellers."
     },
     "details": {
@@ -3150,7 +3236,7 @@
         "default_time_limit": "Duration",
         "days": "Days",
         "box_condition": "Box Condition",
-        "good_condition": "Good condition Box",
+        "good_condition": "Excellent",
         "new_condition": "New Condition",
         "damaged_box": "Damaged Box",
         "missing_lid": "Missing Lid",
@@ -3252,12 +3338,14 @@
         "size_low_high": "Size: Low to High",
         "size_high_low": "Size: High to Low"
       }
-    }
+    },
+    "payment_method_invalid": "Your payment method is invalid. Please try again."
   },
   "selling_page": {
     "selling_page_heading": "Selling",
     "filter_placeholder": "Search Inventory By SKU or Other",
     "enable_vacation_mode": "Enable Vacation Mode",
+    "vacation_mode_text": "Vacation Mode",
     "inventory": "Inventory",
     "product": "Product",
     "date_listed": "Date Listed",
@@ -3453,6 +3541,7 @@
       "city": "City",
       "state": "State",
       "zip": "Zip/ Postal Code",
+      "please_provide_billing_first"  : "Please provide billing address.",
       "country": "Country",
       "billing_address": "Billing Address",
       "social_media_links": "Social Media Links",
@@ -3658,7 +3747,50 @@
       "deleted_payment": "Payment deleted successfully",
       "error": {
         "from_field": "The From field is required."
-      }
+      },
+      "add_gift_card": "Add Gift Card",
+      "add_card_payments": "Add Card Payment",
+      "ds_wallet" : "DS Wallet",
+      "enter_card_info" : "Enter your card information",
+      "card_expiration_date" : "Expiration Date",
+      "add_new_default": "Add New Default",
+      "add_new_default_alert": "You must have one default card payment saved in your profile",
+      "change_default_card_alert": "Are you sure you want to make this card your default method of payment?",
+      "card_scan_alert": "Move your card inside the frame and we’ll scan it for you.",
+      "card_save_success_alert":"Card has been added successfully",
+      "update_exp_cvv": "*Please update expiration date and CVV",
+      "form_not_valid_message": "*Please enter valid payment information",
+      "scan_card": "Scan Card",
+      "enter_manually": "Enter Manually",
+      "redeem_a_gift_card": "Redeem a Gift Card",
+      "got_gift_card": "Got a gift card? Redeem it here!",
+      "purchase_a_gift_card": "Purchase a Gift Card",
+      "purchase_gift_card_caption": "Gift a digital gift card for your friends, family or yourself!",
+      "gift_card_success_alert": "Gift card has been added successfully",
+      "gift_card_remaining" : "Remaining Amount",
+      "pin": "PIN",
+      "view_gift_card_detail": "View Gift Card Details",
+      "reload_gift_card": "Reload Gift Card",
+      "now": "Now",
+      "add_to_cart": "Add To Cart",
+      "buy_now": "Buy Now",
+      "shopping_bag": "Shopping Bag ({giftCardCount} item)",
+      "check_out": "Check Out",
+      "deadstock_gift_card": "Deadstock Gift Card",
+      "recipients": "Recipients",
+      "terms_and_services_agreement": "By ordering, I agree to the",
+      "add_billing_address": "Adding Billing Address",
+      "gift_card_checkout_form":{
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "address_line_1": "Address Line 1",
+        "address_line_2_opt": "Address Line 2 (Optional)",
+        "zip": "Zip",
+        "city": "City",
+        "state": "State",
+        "phone": "Phone #"
+      },
+      "new_balance" : "New Balance"
     }
   },
   "monthNames": {
@@ -3699,9 +3831,11 @@
   "inventory": {
     "available_to_list": "Available to List",
     "add_inventory": "Add Inventory",
+    "create_inventory": "Create Inventory",
     "search_placeholder": "Search your Inventory by SKU, Product Name or Brand",
     "search_product_placeholder": "Search by SKU, Keyword, or Brand",
     "upload_csv_file": "Upload CSV File",
+    "upload_csv_bulk_file": "CSV Bulk Upload",
     "csv_sample": "CSV Sample",
     "add_to_inventory": "Add to Inventory",
     "dont_see_your_product": "Don't See Your Product?",
@@ -3719,6 +3853,7 @@
     "save_changes": "Save Changes",
     "discard_changes": "Discard Changes",
     "csv_drafts": "CSV Drafts",
+    "csv_upload": "CSV Upload",
     "export_to_csv": "Export to CSV",
     "list_selected": "List Selected",
     "delete_selected": "Delete Selected",
@@ -3726,6 +3861,7 @@
     "analyzing": "Analyzing...",
     "analyzing_completed": "Analyzing Completed!",
     "available_to_add_to_inventory": "Available to add to inventory ( {count} )",
+    "recognized_items": "Recognized items ( {count} )",
     "unrecognized_items": "Unrecognized items ( {count} )",
     "search_draft_placeholder": "Search Draft by SKU, Product Name or Brand",
     "do_you_mean": "Do you mean?",
@@ -3747,10 +3883,16 @@
       "thanks_for_suggestion": "Thanks For Suggestion!",
       "after_suggestion_info": "If product is a good fit, our team reach out to<br> the email associated with this account for<br> more information.",
       "gt_than": "Please choose another {field} more than {amount}",
-      "between": "Please choose another {field} between {min} and {max}"
-    }
+      "between": "Please choose another {field} between {min} and {max}",
+      "offer_gth_than_price": "Min offer amount shouldn't be higher than the listing price"
+    },
+    "list_product": "List Product",
+    "edit_details": "Edit Details",
+    "mobile_search_info": "Begin by searching for your product"
   },
   "vendor_purchase": {
+    "their_value": "THEIR VALUE",
+    "your_value": "YOUR VALUE",
     "product": "Product",
     "purchases": "Purchases",
     "search_purchases": "Search Purchases",
@@ -3779,7 +3921,6 @@
     "shipping_method": "Shipping Method",
     "shipping_status": "Shipping Status",
     "shipping_details": "Shipping Details",
-    "payment_summary": "Payment Summary",
     "billing_address": "Billing Address",
     "payment_method": "Payment Method",
     "item": "{count} Item",
@@ -3891,7 +4032,8 @@
       "arrived_at_deadstock": "Arrived at Deadstock",
       "awaiting_shipment_to_ds": "Awaiting Shipment to DS",
       "completed": "Completed",
-      "order_shipped": "Order Shipped"
+      "order_shipped": "Order Shipped",
+      "commission_paid": "Commission Paid"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
@@ -3975,6 +4117,7 @@
     "items": "Items",
     "auto_bid_to": "Autobid to ",
     "highest_bid_info": "The highest bid for each auction is displayed",
+    "highest_bid_placed_info": "The highest bid you have placed for each auction is displayed",
     "messages": {
       "saved": "Your changes have been saved!"
     },
@@ -4011,6 +4154,7 @@
       "winner": "Winner"
     },
     "success_deleted": "Your selected items have been deleted",
+    "success_expired_deleted": "Expired bids have been deleted",
     "headers": {
       "auction_id": "Auction ID",
       "product": "Product",
@@ -4106,6 +4250,7 @@
       "higher_revenues_desc": "Auctions tend to allow Sellers to sell more items in a quicker time frame.",
       "certified_authentic_products": "Certified Authentic Products",
       "certified_authentic_products_desc": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed.",
+      "certified_authentic_products_desc_new": "Our experts verify each item through our authentication process using A.I. and in-person verification. We aim to ensure all items are authentic and as described.",
       "bidding": "Bidding",
       "selling": "Selling",
       "low_costs": "Low Costs",
@@ -4293,7 +4438,7 @@
       "add_additional_security": "Add additional security to your account with two factor authentication",
       "2fa_enabled": "Two-factor authentication is enabled",
       "2fa_disabled": "Two-factor authentication is disabled",
-      "as_part_of_our_mission": "As part of our mission to build the world’s most trustworthy, secure, and technologically advanced marketplace for sneakerheads and streetwear fanatics. Deadstock further ensures protection from security breaches on our platform by using two-factor authentication.<br /><br /> With two-factor authentication, we take identity verification to the next level by requiring a second method of verification for users to access their account. By providing an ultra-secure online marketplace, Deadstock’s aim is to create the optimal user experience.",
+      "as_part_of_our_mission": "As part of our mission to build the world’s most trustworthy, secure, and technologically advanced marketplace for sneakerheads and streetwear fanatics. <br/> Deadstock further ensures protection from security breaches on our platform by using two-factor authentication.<br /><br /> With two-factor authentication, we take identity verification to the next level by requiring a second method of verification for users to access their account. By providing an ultra-secure online marketplace, Deadstock’s aim is to create the optimal user experience.",
       "2fa_faq_full": "Frequently Asked Questions about Two-Factor Authentication",
       "2fa_faq_small": "Frequently Asked Questions",
       "msg_enable_success": "2FA enabled successfully",
@@ -4448,6 +4593,12 @@
         "open": "Open Trades",
         "completed": "Completed"
       },
+      "search_bar_text": "Search For Trade ID, Product SKU Or By Keyword",
+      "their_counter_offerHistory": "Their Counter Offer",
+      "your_counter_offer": "Your Counter Offer",
+      "their_offer": "Their Offer",
+      "you_offered": "You Offered",
+      "they_offered": "They Offered",
       "create_listing_btn": "Create a Trade Listing",
       "trades": "Trades",
       "trade_hub": "Trade Hub",
@@ -4569,7 +4720,7 @@
       "allow_cash_with_offer": "Allow Cash with Offer",
       "confirm_trade": "Confirm Trade",
       "days": "Days",
-      "good_condition": "Good Condition Box",
+      "good_condition": "Excellent",
       "new_condition": "New Condition",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
@@ -4674,7 +4825,6 @@
           "offered": "Offered",
           "wants": "Wants",
           "box": "Box",
-          "size": "Size",
           "wants_inventory": "Wants Inventory",
           "wants_combinations": "Wants Combinations",
           "no_offers_specified": "No Offered Items Specified",
@@ -4878,6 +5028,8 @@
     "your_counter_offer": "Your Counter Offer",
     "their_counter_offer": "Their Counter Offer",
     "they_offered": "They offered:",
+    "you_offered": "You offered:",
+    "they_asking_for": "They’re asking for:",
     "you_asking_for": "You’re asking for:",
     "you_requested": "You requested <b>${0}</b> on top",
     "you_added": "You added <b>${0}</b> on top",
@@ -4918,10 +5070,12 @@
       "trade_preferences": "Trade Preferences",
       "inventory_settings": "Inventory Settings",
       "allow_other_traders_to": "Allow other traders to view your inventory when placing an offer.",
-      "current_status": "Current Status:",
+      "current_status": "Current Status : ",
       "offer_settings": "Offer Settings",
       "other_traders_will_only_be_able": "Other traders will only be able to send offers starting at a certain trade condition",
       "starting_at": "Starting at:",
+      "starting_at_new": "Customize the min. offer value you want sent",
+      "looking_for": "Brands I Am Looking for",
       "poor": "Poor",
       "fair": "Fair",
       "of_fair_offer": "of Fair Offers",
@@ -4932,9 +5086,10 @@
       "sneaker": "Sneaker",
       "apparel": "Apparel",
       "accessories": "Accessories",
-      "not_interested": "NOT INTERESTED",
-      "interested": "INTERESTED",
+      "not_interested": "Not Interested",
+      "interested": "Interested",
       "size_preferences": "Size Preferences",
+      "brand_preferences": "Brand Preferences",
       "size_type": "Size Type",
       "brands_i_am_looking_for": "Brands I am looking for",
       "suggest_these_brands_to_find": "Suggest these brands to find more trade listings",
@@ -4958,7 +5113,7 @@
       "brand_preferences": "Brand Preferences",
       "select_brands_you_are_interested_in": "Select brands you are interested in",
       "nike_supreme_bape": "Nike, Supreme, Bape",
-      "set_what_other_traders_are_able_to_view_when_placing": "Set what other traders are able to view when placing an offer"
+      "set_what_other_traders_are_able_to_view_when_placing": "Set Privacy Settings for your inventory"
     },
     "wants_listing": {
       "general_wants": "General Wants",
@@ -5039,15 +5194,20 @@
     "wants_list": "Wants List",
     "wants_list_contains_items_saved_from_your_listings": "Wants List contains items saved from your listings",
     "manage_all_aspects_of_your_trades": "Manage all aspects of your trades",
-    "browse_trade": "Browse Trade"
+    "browse_trade": "Browse Trade",
+    "their_value": "THEIR VALUE",
+    "your_value": "YOUR VALUE",
+    "view_details": "View Details",
+    "all_trade_listing_expire": "All trade listings expire in 14 days"
   },
   "change_password": {
     "password": "Password",
-    "confirm_password": "Confirm Password",
+    "confirm_password": "Confirm New Password",
     "new_password": "New Password",
     "current_password": "Current Password",
     "change_password": "Change Password",
-    "password_policy": "Password Policy"
+    "password_policy": "Password Policy",
+    "password_policy_long": "Minimum 8 characters, 1 uppercase, 1 number, and 1 symbol"
   },
   "giftcard_section": {
     "giftcard": "Gift Card: {cardNo}",
@@ -5099,7 +5259,9 @@
     "how_to_find_my_code": "How do I find my code?",
     "redeemed": "Redeemed",
     "giftcard_error": "*Unfortunately, this gift card code and PIN is invalid. Please check your code for typos and enter it again.",
-    "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number."
+    "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number.",
+    "invalid_data"  : "*Unfortunately, this gift card code and PIN is invalid.",
+    "redeem_success"  : "Once you receive a gift card, an email confirmation will be delivered with details including your gift code and pin number."
   },
   "thresholds": {
     "success_message": "Commission Threshold Saved Successfully",
@@ -5110,7 +5272,7 @@
     "general": {
       "add_to_bag": "Add {type} to Bag",
       "add_style_to_bag": "Add Style to Cart",
-      "back_to_style": "< Back to All Style"
+      "back_to_style": "< Back to All Styles"
     },
     "title": "Shop by Style",
     "title_archive": "Shop by Style (Archive)",
@@ -5128,7 +5290,9 @@
     "box_condition_info": "Package condition refers to the current condition of the item’s package.",
     "more_look": "More From This Look",
     "view_all": "View All",
-    "style_id": "Style ID"
+    "style_id": "Style ID",
+    "package_condition": "Package Condition",
+    "4_installments": "or 4 Installments"
   },
   "coupons": {
     "errors": {
@@ -5141,6 +5305,7 @@
   },
   "placed_offers": {
     "heading": "Placed Offers",
+    "header_title": "Offers Placed",
     "status": "Status",
     "size": "Size",
     "list_id": "List ID",
@@ -5157,7 +5322,7 @@
     "responsive_heading": "Offers",
     "responsive_detailed_heading": "Offer",
     "highest_offer": "Highest Offer",
-    "your_placed_offers": "Your Placed Offers ({count})",
+    "your_placed_offers": "Your Offers Placed ({count})",
     "table": {
       "products": "Products",
       "offer_amount": "Offer Amount",
@@ -5213,6 +5378,7 @@
     "view": "View",
     "discard": "Discard",
     "faq": "Frequently Asked Questions about the Vendor Hub",
+    "faq_title": "Frequently Asked Questions",
     "document_name": "Document Name",
     "file": "File",
     "retailer_certification": "Retailer Certification",
@@ -5233,8 +5399,8 @@
     "consent": "I am a certified reseller.",
     "store_details": "Store Details",
     "discard_body": "Are you sure you would like to discard these changes?",
-    "in_review": "A Deadstock Team Member is currently reveiewing your application. | Please allow 1-3 days for review, we will contact your via email.",
-    "application_revieved": "Your application has been received! \uD83D\uDC4D",
+    "in_review": "A Deadstock Team Member is currently reviewing your application. | Please allow 1-3 days for review, we will contact your via email.",
+    "application_revieved": "Your application has been received!",
     "thanks": "Thanks for choosing Deadstock!",
     "apply_title": "Apply to be a Vendor ",
     "verify": "Verify",
@@ -5335,8 +5501,7 @@
       },
       "statuses": {
         "paid": "Paid",
-        "due": "Due",
-        "pending": "Pending"
+        "due": "Due"
       },
       "yes": "Yes",
       "no": "No"
@@ -5369,7 +5534,7 @@
   },
   "orders": {
     "orders": "Orders",
-    "best_seller": "Best Seller",
+    "best_seller": "Best Sellers",
     "overview": "Overview",
     "your_top_movers": "Your Top Movers",
     "this_month": "This month",
@@ -5411,6 +5576,8 @@
     "next_step": "Next step",
     "total_sales": "Total Sales",
     "commission_pending": "Commission Pending",
+    "pending": "Pending (%)",
+    "items_sold": "Items Sold",
     "inventory": "Inventory",
     "offers": "Offers",
     "generate_shipping_label": "Generate Shipping Label",
@@ -5427,6 +5594,9 @@
     "sort": "Sort",
     "apply_filter": "Apply Filter",
     "reset": "Reset",
+    "looks_like_no_orders_have_been_placed": "Looks like no orders have been placed.",
+    "list_a_product_today_on_deadstock": "List a product today on Deadstock",
+    "create_a_listing": "Create a Listing",
     "order_types": {
       "buy": "Buy",
       "trade": "Trade",
@@ -5571,6 +5741,7 @@
   },
   "vendor_dashboard": {
     "title": "Dashboard",
+    "products": "Products",
     "hi_name": "Hi {0},",
     "you_are_seller": "You are a {rank} Seller",
     "seller_fee": "Seller Fee",
@@ -5581,7 +5752,6 @@
     "outcome": "Outcome",
     "seller_ranking": "Seller Ranking",
     "view_more": "View More",
-    "footwear": "Footwear",
     "on_track": "You are on track for {rank} Seller Next Quarter",
     "next_sales": "With {next} more successful sales",
     "till_next": "{point} till {next}",
@@ -5596,6 +5766,7 @@
     "view_all": "View All",
     "total_sales": "Total Sales | Sales Activity",
     "commision_pending": "Commision Pending",
+    "pending_percentage": "Pending (%)",
     "inventory": "Inventory",
     "items_sold": "Items Sold",
     "totall_sales": "Total Sales",
@@ -5621,7 +5792,43 @@
     "sku": "SKU",
     "colorway": "Colorway",
     "box_condition": "Box Condition",
-    "fedex": "FedEx"
+    "fedex": "FedEx",
+    "breakdown": {
+      "export": "Export to CSV",
+      "total": "Total",
+      "select_name": "Select {name}",
+      "overview": "Overview",
+      "search_placeholder": "Search for SKU, Brand or Product Name",
+      "products": "Products",
+      "search_brand": "Search for Brands",
+      "search_product": "Search for Products",
+      "percentage": "Percentage Breakdown",
+      "statistics": "Statistics",
+      "select_all": "Select All",
+      "clear_all": "Clear All",
+      "over_retail_price": "over retail price",
+      "tabs": {
+        "category": "Categories",
+        "brand": "Brands",
+        "product": "Products"
+      },
+      "table": {
+        "product": "Product",
+        "category": "Category",
+        "brand": "Brand",
+        "items_sold": "Items Sold",
+        "price_premium": "Price Premium",
+        "avg_sale_price": "Avg. Sale Price",
+        "sales": "Sales ($)"
+      },
+      "categories": {
+        "footwear": "Footwear",
+        "apparel": "Apparel",
+        "accessories": "Accessories"
+      },
+      "premium_info": "Price premium is the percentage in which the selling price has exceeded or fallen short of the retail price.",
+      "sales": "Sales Breakdown"
+    }
   },
   "notifications": {
     "title": "Notifications",
@@ -5638,6 +5845,7 @@
     "apply_filters": "Apply Filters",
     "this_week": "This Week",
     "new": "New",
+    "older": "Older",
     "at": "at",
     "all": "All",
     "date_range": "Date Range",
@@ -5785,8 +5993,9 @@
     "save_for_later": "Save for later"
   },
   "offers_received": {
+    "offers": "Offers",
     "heading": "Offers Received",
-    "your_placed_offers": "Your Received Offers ({count})",
+    "your_placed_offers": "Offers Received ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
     "start_date": "Start Date",
     "end_date": "End Date",
@@ -5831,10 +6040,14 @@
       "dashboard": "Dashboard",
       "total_purchases": "Total Purchases",
       "rewards_points": "Rewards Points",
+      "rewards_points_mobile": "Points",
       "items_bought": "Items Bought",
+      "items_bought_mobile": "Bought",
       "offers_placed": "Offers Placed",
+      "offers_placed_mobile": "Offers",
       "total_purchases_main": "Total Purchases",
       "earn_money": "Earn Money",
+      "earn_more": "Earn More",
       "rewards": "Rewards",
       "view_rewards": "View Rewards",
       "ds_points": "DS Points",
@@ -5849,7 +6062,7 @@
       "minutes": "Minutes",
       "seconds": "Seconds",
       "your_entries": "Your Entries",
-      "no_active": "There are not active promotions."
+      "no_active": "There are no active promotions."
     },
     "purchases": {
       "title": "Purchases",

@@ -1,6 +1,9 @@
 <template>
-  <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
-    <PortalTarget v-if="showMenuIcon" name="back-icon-slot">
+  <b-navbar
+    toggleable="lg"
+    :class="`navbar-wrapper ${!mobileClass && 'border-bottom'}`"
+  >
+    <PortalTarget name="back-icon-slot" class="d-block d-sm-none">
       <b-navbar-toggle target="top-menu-sidebar">
         <template #default>
           <img
@@ -126,20 +129,8 @@
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
-    <client-only>
-      <vue-bottom-sheet
-        v-if="isScreenXS"
-        ref="searchBottomSheet"
-        :is-full-screen="true"
-        :rounded="false"
-        max-height="100%"
-        max-width="auto"
-      >
-        <SearchOverlayMobile ref="searchbar" @close="close" />
-      </vue-bottom-sheet>
-    </client-only>
 
-    <SideBarMenu
+    <LeftSideBarMenu
       :user="user"
       :is-authenticated="authenticated"
       :is-vendor="isVendor"
@@ -205,14 +196,13 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import Logo from '~/components/header/Logo'
-import SideBarMenu from '~/components/SideBarMenu'
+import LeftSideBarMenu from '~/components/LeftSideBarMenu'
 import SearchInput from '~/components/common/SearchInput'
 import BagIcon from '~/components/checkout/icons/BagIcon'
 import SearchOverlay from '~/components/search/Overlay'
 import NotificationDropdown from '~/components/header/NotificationDropdown'
 import ScreenSize from '~/plugins/mixins/screenSize'
 import Dropdown from '~/components/common/form/Dropdown'
-import SearchOverlayMobile from '~/components/SearchOverlayMobile'
 
 export default {
   name: 'Header',
@@ -220,17 +210,15 @@ export default {
     NotificationDropdown,
     BagIcon,
     Logo,
-    SideBarMenu,
+    LeftSideBarMenu,
     SearchInput,
     SearchOverlay,
     Dropdown,
-    SearchOverlayMobile,
   },
   mixins: [ScreenSize],
   data() {
     return {
       showSearchOverlay: false,
-      sidebarIsVisible: false,
     }
   },
   head: {
@@ -269,9 +257,9 @@ export default {
     pageTitle() {
       return this.$nuxt?.context?.route?.meta[0]?.pageTitle ?? null
     },
-    showMenuIcon(){
+    showMenuIcon() {
       return this.$route.name !== 'login' && this.$route.name !== 'signup'
-    }
+    },
   },
   watch: {
     screenIsSmallThanLG(newVal) {
@@ -296,12 +284,6 @@ export default {
           path: '/profile/notification',
         })
       }
-    },
-    open() {
-      this.$refs.searchBottomSheet.open()
-    },
-    close() {
-      this.$refs.searchBottomSheet.close()
     },
     setLocale(lang) {
       this.$refs.locale.hideDropdown()
@@ -347,8 +329,9 @@ export default {
     overflow: hidden
 .navbar-wrapper.navbar::v-deep
   font-family: $font-family-base
-  padding: 31px 16px
+  padding: 19px 10px 10px 10px
   background-color: $color-white-1
+  border-bottom: 1px $color-gray-47
 
   svg text
     font-family: $font-family-sf-pro-display

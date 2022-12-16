@@ -22,6 +22,7 @@
               <b-img block center :src="getImageUrl" class="img-preview"></b-img>
               <div class="body-4-bold mt-3">{{ product.name }}</div>
               <div class="body-4-normal text-gray-6 mt-2">{{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ product.colorWay }}</div>
+              <div class="body-4-normal text-gray-6 mt-2">{{ $t('shopping_cart.box_condition') }}&colon;&nbsp;{{ product.packaging_condition }}</div>
               <div class="body-4-bold mt-2">&dollar;{{ product.price | formatPrice }}</div>
             </b-col>
           </b-row>

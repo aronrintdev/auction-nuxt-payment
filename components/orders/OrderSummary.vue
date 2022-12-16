@@ -8,11 +8,11 @@
           </div>
           <div class="order-date d-none d-sm-block">{{ $t('orders.ordered_on') }} {{ new Date(order.created_at) }}</div>
         </b-col>
-        <b-col cols="2">
+        <b-col cols="3">
           <div v-if="item.status!=='processing'" class="text-right cursor-pointer d-block d-sm-none" @click="openBottomSheet">
             <img :src="require('/assets/img/icons/three-dots.svg')" alt="" />
           </div>
-          <div class="text-center w-200 align-self-end d-none d-sm-block">
+          <div class="text-right w-200 align-self-end d-none d-sm-block">
             <template v-if="item.status!=='processing'">
               <div class="my-2">
                 <a class="btn-print-shipping px-3 py-2 align-items-center text-center" :href="printLabel()"
@@ -20,8 +20,8 @@
                   {{ $t('orders.print_shipping_label') }}
                 </a>
               </div>
-              <div class="print-invoice">
-                <a href="#print-invoice" @click="exportPDF(order.order_id)">{{ $t('orders.print_invoice') }}</a>
+              <div class="print-invoice text-right mr-4">
+                <a href="#print-invoice" class="mr-3" @click="exportPDF(order.id)">{{ $t('orders.print_invoice') }}</a>
               </div>
             </template>
           </div>
@@ -74,7 +74,7 @@
           </div>
           <div><img :src="require('/assets/img/icons/arrow-right-black.svg')" alt="" /></div>
         </div>
-        <div class="cursor-pointer border-top d-flex justify-content-between p-2 align-items-center" @click="exportPDF(order.order_id)">
+        <div class="cursor-pointer border-top d-flex justify-content-between p-2 align-items-center" @click="exportPDF(order.id)">
           <div><span class="btn">{{ $t('orders.print_invoice') }}</span></div>
           <div><img :src="require('/assets/img/icons/arrow-right-black.svg')" alt="" /></div>
         </div>
@@ -118,27 +118,27 @@ export default {
       return `data:application/pdf;base64,${this.item.vendor_shipment?.meta.labelData}`
     },
     exportPDF(orderId) {
-      this.$axios.get(`/orders/${orderId}/invoice-pdf`,
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-          },
-          params: {id: orderId},
-          responseType: 'blob',
-        }).then((res) => {
-        const fileURL = window.URL.createObjectURL(
-          new Blob([res.data], {
-            type: 'application/pdf',
-          })
-        )
-        const fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'invoice.pdf')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-      }).catch((err) => {
-        this.$logger.logToServer(err.response)
-      })
+        this.$axios.get(`/orders/${orderId}/generate-invoice`,
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+            },
+            params: {id: orderId},
+            responseType: 'blob',
+          }).then((res) => {
+          const fileURL = window.URL.createObjectURL(
+            new Blob([res.data], {
+              type: 'application/pdf',
+            })
+          )
+          const fileLink = document.createElement('a')
+          fileLink.href = fileURL
+          fileLink.setAttribute('download', 'invoice.pdf')
+          document.body.appendChild(fileLink)
+          fileLink.click()
+        }).catch((err) => {
+          this.$logger.logToServer(err.response)
+        })
     },
     openBottomSheet(e){
       e.preventDefault()
@@ -185,8 +185,8 @@ export default {
 .btn-print-shipping
   width: 180px
   left: calc(50% - 180px / 2 + 569px)
-  background: $color-blue-2
-  border: 1px solid $color-blue-2
+  background: $color-grey-101
+  border: 1px solid $color-grey-101
   border-radius: 21px
   font-family: $font-family-sf-pro-display
   font-weight: $normal

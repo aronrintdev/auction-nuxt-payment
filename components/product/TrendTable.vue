@@ -18,7 +18,9 @@
         :key="`product-${product.id}-trend`"
       >
         <td></td>
-        <td class="col-no font-primary" ><NuxtLink :to="'/stock/'+product.id"> {{ index + 1 }}</NuxtLink></td>
+        <td class="col-no font-primary">
+          <NuxtLink :to="'/stock/' + product.id"> {{ index + 1 }}</NuxtLink>
+        </td>
         <td class="col-thumb">
           <div><ProductThumb :product="product" /></div>
         </td>
@@ -84,7 +86,7 @@ export default {
   components: { ProductThumb },
   props: {
     products: {
-      type: Array,
+      type: [Array, Object],
       default: () => {
         return [
           {
@@ -306,7 +308,7 @@ export default {
 
 .trend-table-wrapper
   margin: 0 auto
-  width: calc( 100% - 86px )
+  width: calc( 100% - 172px )
   @media (max-width: 576px)
     width: calc( 100% - 10px )
   tr
@@ -337,6 +339,9 @@ export default {
         display: flex
         align-items: center
         justify-content: center
+        .thumb-wrapper
+          img
+            padding: 0 !important
       @media (max-width: 550px)
         padding: 4px 3px
         >div

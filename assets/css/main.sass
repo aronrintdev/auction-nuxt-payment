@@ -5,6 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap')
 @import url('https://fonts.cdnfonts.com/css/sf-pro-display')
 @import url('https://fonts.cdnfonts.com/css/futura-md-bt')
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap')
 @import url('https://use.typekit.net/hrv7zep.css') // import adobe-garamond-pro font
 @import 'vue-360/dist/css/style.css'
 
@@ -131,6 +132,16 @@
   src: url('./fonts/SFProText-Regular.ttf')
 
 @font-face
+  font-family: 'SF Pro Text'
+  font-weight: 500
+  src: url('./fonts/SFProText-Medium.ttf')
+
+@font-face
+  font-family: 'SF Pro Text'
+  font-weight: 700
+  src: url('./fonts/SFProText-Bold.ttf')
+
+@font-face
   font-family: 'SF Pro Display'
   font-style: normal
   font-weight: 400
@@ -157,8 +168,20 @@
 @font-face
   font-family: 'SF Pro Display'
   font-style: normal
+  font-weight: 300
+  src: url('./fonts/sf-pro-display/SF-Pro-Display-Light.woff')
+
+@font-face
+  font-family: 'SF Pro Display'
+  font-style: normal
   font-weight: 500
   src: url('./fonts/sf-pro-display/SFPRODISPLAYMEDIUM.OTF')
+
+@font-face
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 600
+  src: url('./fonts/sf-pro-display/SF-Pro-Display-Semibold.otf')
 
 @font-face
   font-family: 'SF Pro Display'
@@ -736,6 +759,12 @@ svg[disabled]
 .text-base-blue
   color: $color-blue-20
 
+.text-link-blue
+  color: $color-blue-2
+
+.text-link-blue-mobile
+  color: $color-blue-30
+
 .text-black
   color: $color-black-1
 
@@ -747,6 +776,9 @@ svg[disabled]
 
 .text-gray-simple
   color: $color-gray-5
+
+.text-gray-6
+  color: $color-gray-6
 
 .text-gray-47
   color: $color-gray-47
@@ -862,7 +894,22 @@ $radii: 3, 5, 8, 10, 15, 20, 25
 @media (min-width: 1336px)
   .container
     max-width: 1320px
+    padding: 0
 
 .full-width-sm
   @media (max-width: 576px)
     width: 100%
+
+.bottom-sheet__pan
+  padding-top: 11px !important
+  height: 34px !important
+  .bottom-sheet__bar
+    width: 36px !important
+    background: $color-gray-23 !important
+    border-radius: 5px !important
+
+.wishlist-popover.popover.b-popover
+  height: 45px
+  display: flex 
+  align-items: center
+  border: 0

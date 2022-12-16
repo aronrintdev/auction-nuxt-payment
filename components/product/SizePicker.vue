@@ -6,15 +6,15 @@
       :style="wrapperStyle"
     >
       <b-row>
-        <b-col md="12" class="d-flex justify-content-between align-items-center px-0">
-          <span class="select-size">
+        <b-col md="12" class="d-flex justify-content-between align-items-center">
+          <div class="select-size">
             {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
-          </span>
+          </div>
 
           <div
             v-if="!singleMode"
-            class="position-absolute view-all-btn mr-2"
+            class="view-all-btn"
             @click="handleViewAllClick"
           >
             <img
@@ -41,13 +41,14 @@
           :loop="true"
           :nav="true"
           :center="true"
-          :margin="10"
+          :margin="38"
           :responsive="{
             0: { items: xsCount, nav: false, center: xsCenter },
             576: { items: 6, nav: false },
-            1268: { items: 5, nav: false },
+            1268: { items: 3, nav: false },
           }"
-          :mouse-drag="false"
+          :mouse-drag="mouseDrag"
+          :show-arrows="arrowsVisible"
           :nav-text="['', '']"
           :dots="false"
           :autoWidth="true"
@@ -65,41 +66,43 @@
               } user-select-none`"
             >
               <div
-                class="d-flex align-items-center justify-content-center mx-auto card"
+                class="d-flex align-items-center justify-content-center mx-auto card mb-2"
                 :style="cardStyle"
               >
                 {{ size.size }}
               </div>
               <div class="price">
-                {{ getPriceBySize(size.id) | toCurrency }}
+                {{ getPriceBySize(size.id) | toRoundedCurrency }}
               </div>
             </div>
           </template>
 
           <template #prev>
             <div
-              v-if="arrowsVisible"
               class="owl-nav owl-prev"
               :style="arrowStyle"
             >
-              <img :src="require('~/assets/img/icons/arrow-left-gray.svg')" />
+              <b-img :src="require('~/assets/img/icons/arrow-left-gray.svg')" />
             </div>
           </template>
 
           <template #next>
             <div
-              v-if="arrowsVisible"
               class="owl-nav owl-next"
               :style="arrowStyle"
             >
-              <img :src="require('~/assets/img/icons/arrow-right-gray.svg')" />
+              <b-img :src="require('~/assets/img/icons/arrow-right-gray.svg')" />
             </div>
           </template>
         </Carousel>
       </client-only>
     </div>
 
-    <div v-if="viewMode === 'all'" class="mx-auto position-relative all-sizes">
+    <div
+      v-if="viewMode === 'all'"
+      class="mx-auto position-relative all-sizes"
+      :class="allSizesClass"
+    >
       <div class="items-wrapper">
         <div
           v-for="size in sizes"
@@ -107,13 +110,13 @@
           :class="`d-inline-block item ${value === size.id ? 'active' : ''}`"
         >
           <div
-            class="d-flex align-items-center justify-content-center mx-auto card"
+            class="d-flex align-items-center justify-content-center mx-auto card mb-2"
             @click="handleSizeSelect(size.id)"
           >
             {{ size.size }}
           </div>
           <div class="text-center price">
-            {{ getPriceBySize(size.id) | toCurrency }}
+            {{ getPriceBySize(size.id) | toRoundedCurrency }}
           </div>
         </div>
       </div>
@@ -196,6 +199,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    mouseDrag: {
+      type: Boolean,
+      default: true,
+    },
     xsCenter: {
       type: Boolean,
       default: false,
@@ -207,6 +214,10 @@ export default {
     errorText: {
       type: String,
       default: null
+    },
+    allSizesClass: {
+      type: String,
+      default: ''
     }
   },
 
@@ -302,6 +313,7 @@ export default {
   @include body-10-regular
   color: $color-black-1
   @media (min-width: 576px)
+    margin-top: 32px
     @include body-8-medium
     color: $color-blue-30
 
@@ -343,7 +355,7 @@ export default {
 
   .size-carousel::v-deep
     max-width: 100%
-    padding: 0 20px
+    padding: 0
     margin-top: 8px
 
     >span .owl-nav
@@ -387,7 +399,7 @@ export default {
         margin-top: -71px !important
         @media (min-width: 576px)
           margin-right: -30px !important
-          margin-top: -80px !important
+          margin-top: -73px !important
 
       &.owl-prev
         float: left
@@ -400,12 +412,12 @@ export default {
 
     .card
       @include body-9-medium
-      border: 1px solid $color-gray-21
-      border-radius: 10px
+      border: 1px solid $color-gray-26
+      border-radius: 4px
       width: 49px
       height: 49px
       color: $color-black-4
-      background-color: $color-white-1
+      background-color: transparent
       box-shadow: none
       @media (min-width: 576px)
         @include body-2-medium
@@ -454,11 +466,11 @@ export default {
         @include body-9-medium
         width: 49px
         height: 49px
-        border: 1px solid $color-gray-21
+        border: 1px solid $color-gray-26
         color: $color-black-4
         box-shadow: none
-        background-color: $color-white-1
-        border-radius: 10px
+        background-color: transparent
+        border-radius: 4px
         @media (min-width: 576px)
           @include body-2-medium
           width: 64px
@@ -478,4 +490,9 @@ export default {
     .all-sizes
       .item
         width: 25%
+
+.edit-item
+  .view-all-btn
+    top: -2px
+
 </style>

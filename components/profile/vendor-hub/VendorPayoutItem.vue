@@ -6,12 +6,20 @@
         class="input-payout"
       >
         <template #label>
-          {{ $t('vendor_hub.payout_method.name_of_account') }}
+          <div class="d-flex">
+            <span>{{ $t('vendor_hub.payout_method.name_of_account') }} -</span>
+              <span class="verified d-flex align-items-center">
+                <span class="px-1">
+                  {{ $t('vendor_hub.payout_method.verified') }}
+                </span>
+                <i class="fa fa-check-circle-o" />
+              </span>
 <!--          This code should stay untill this feature activated    -->
 <!--          <span :class="method.is_verified? 'verified': 'not-verified'">-->
 <!--            {{method.is_verified? $t('vendor_hub.payout_method.verified') : $t('vendor_hub.payout_method.not_verified')}}-->
 <!--            <img :src="itemImage" >-->
 <!--          </span>-->
+          </div>
         </template>
         <b-input-group>
           <b-form-input
@@ -55,19 +63,20 @@
       </b-form-group>
       <Button
         variant="link"
-        class="btn-edit-inventory ml-5 mr-2"
+        class="btn-edit-inventory ml-5 mr-2 mt-3"
         :tooltip-text="$t('common.edit')"
         @click="$emit('edit', method)"
       ></Button>
       <Button
         v-if="!method.is_default"
         variant="link"
-        class="btn-delete"
+        class="btn-delete mt-3"
         :tooltip-text="$t('common.delete')"
         @click="$emit('delete', method)"
       ></Button>
     </div>
-    <div :class="method.is_default? 'default-class' : 'non-default'" class="d-flex align-items-center justify-content-center">
+    <div :class="method.is_default? 'default-class' : 'non-default'"
+         class="d-flex align-items-center justify-content-center mt-2 mb-3">
       {{method.is_default? $t('vendor_hub.payout_method.default') : $t('vendor_hub.payout_method.non_default')}}
     </div>
   </div>
@@ -95,6 +104,8 @@ export default {
 
 .verified
   color: rgba($color-green-15, 1)
+  .fa
+    font-size:  18px
 
 .not-verified
   color: rgba($color-red-3, 1)
@@ -103,7 +114,7 @@ export default {
   @include body-4
   width: 150px
   height: 40px
-  color: $color-blue-2
+  color: $color-blue-20
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $normal
@@ -124,7 +135,7 @@ export default {
 .m-40
   margin-left: 40px
 
-:deep()label.d-block
+::v-deep label.d-block
   @include body-5
   font-family: $font-family-montserrat
   font-style: normal
@@ -152,4 +163,7 @@ export default {
   background-position: right
   border: none
   border-radius: 4px
+
+.input-payout input
+  background-color: $color-white-5
 </style>

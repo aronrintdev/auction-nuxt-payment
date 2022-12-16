@@ -32,7 +32,7 @@
         </b-col>
       </b-row>
 
-      <FeatureTitle>{{
+      <FeatureTitle class="feature-title-my">{{
         $t('features.csv_bulk_uploading.the_process')
       }}</FeatureTitle>
 
@@ -143,11 +143,11 @@ export default {
         bottomBannerButtonLink: '/become-a-vendor',
         bottomBannerButtonText:
           'newest_features.csv_bulk_uploading.bottom_banner.button_text',
-        previousPage:
-          'newest_features.csv_bulk_uploading.bottom_banner.previous_page_title',
-        previousPageXS:
-          'newest_features.csv_bulk_uploading.bottom_banner.previous_page_xs_title',
-        previousPageLink: '/features/international-languages',
+        // previousPage:
+        //   'newest_features.csv_bulk_uploading.bottom_banner.previous_page_title',
+        // previousPageXS:
+        //   'newest_features.csv_bulk_uploading.bottom_banner.previous_page_xs_title',
+        // previousPageLink: '/features/international-languages',
         nextPage:
           'newest_features.csv_bulk_uploading.bottom_banner.next_page_title',
         nextPageXS:
@@ -183,6 +183,10 @@ export default {
 
 @media (max-width: 576px)
   .features-container
+    .feature-title-my
+      width: 100%
+      margin-top: 48px !important
+      margin-bottom: 24px !important
     .csv-bulk
       margin-bottom: 34px
     .cards-wrapper::v-deep

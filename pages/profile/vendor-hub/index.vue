@@ -7,7 +7,7 @@
     </div>
 
     <div class="flex-grow-1 bg-white d-flex flex-column">
-      <div class="d-flex justify-content-center nav-area mt-3">
+      <div class="d-flex justify-content-center mt-3 mt-md-0 mb-3 mb-md-0">
         <NavGroup
             :data="NAV_ITEMS"
             :value="currentTab"
@@ -15,13 +15,16 @@
         />
       </div>
 
-      <div class="m-3 h-100 ">
+      <div class="h-100 mx-3" :class="{'my-3' : currentTab !== 'commission'}">
         <VendorPaymentMethod v-if="currentTab === 'payout_method'"/>
         <Documents v-if="currentTab === 'documents'"/>
         <StoreDetails v-if="currentTab === 'store_details'"/>
         <Commissions v-if="currentTab === 'commission'"/>
       </div>
     </div>
+    <client-only v-if="mobileClass">
+      <Portal to="page-title">{{ $t('vendor_hub.vendor_hub') }}</Portal>
+    </client-only>
   </div>
 </template>
 

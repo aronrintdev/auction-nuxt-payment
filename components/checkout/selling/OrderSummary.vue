@@ -50,8 +50,12 @@
     />
     <!-- End of Deadstock Reward Card -->
 
+    <!-- Shopping Cart Promo Code Button -->
+    <PromoCodeButton v-if="! isPromoCodeVisible && ! promoCode" @show-promo="isPromoCodeVisible = true" />
+    <!-- End of Shopping Cart Promo Code Button -->
+
     <!-- Shopping Cart Promo Code -->
-    <b-row v-if="!promoCode">
+    <b-row v-if="isPromoCodeVisible && !promoCode">
       <b-col md="12">
         <div class="body-4-medium">
           {{ $t('shopping_cart.promo_code') }}&colon;
@@ -59,7 +63,7 @@
       </b-col>
     </b-row>
     <PromoCodeInput
-      v-if="!promoCode"
+      v-if="isPromoCodeVisible && !promoCode"
       class="mt-2"
       @click="applyPromoCode"
     />
@@ -160,30 +164,29 @@
     <!-- End of Shopping Cart Applied Gift Card -->
 
     <!-- Terms & Conditions Paragraph -->
-    <b-row v-show="billingAddress && shippingAddress && (paymentMethod || cryptoDetails.amount)" class="mt-4">
-      <b-col md="3" class="text-center">
-        <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox>
+    <b-row v-show="billingAddress && shippingAddress && (paymentMethod || cryptoDetails.amount)" class="mt-4 px-4">
+      <b-col md="12">
+        <b-form-checkbox v-model="form.agreedToTerms">
+          <template #default>
+            <i18n
+              path="shopping_cart.terms_and_conditions_paragraph"
+              tag="p"
+              class="body-5-normal justify-content-start pl-1"
+            >
+              <span class="text-decoration-underline" role="button" @click="$router.push('/terms-and-conditions')">
+                {{ $t('shopping_cart.terms_and_conditions') }}
+              </span>
+            </i18n>
+          </template>
+        </b-form-checkbox>
       </b-col>
-      <b-col md="9">
-        <i18n
-          path="shopping_cart.terms_and_conditions_paragraph"
-          tag="p"
-          class="body-5-normal justify-content-start"
-        >
-          <span class="text-decoration-underline">{{
-            $t('shopping_cart.terms_and_conditions')
-          }}</span>
-        </i18n>
-      </b-col> </b-row
-    ><!-- End of Terms & Conditions Paragraph -->
+     </b-row><!-- End of Terms & Conditions Paragraph -->
 
     <!-- Shopping Cart Total Price Heading -->
-    <b-row class="mt-4">
-      <b-col md="6" class="text-center">
-        <div class="body-4-medium">{{ $t('shopping_cart.total') }}&colon;</div>
-      </b-col>
-      <b-col md="6" class="text-center">
-        <div class="body-4-medium">&dollar;{{ getTotal | formatPrice }}</div>
+    <b-row class="mt-4 total-text-wrapper">
+      <b-col md="12" class="d-flex align-items-center">
+        <span class="body-4-medium">{{ $t('shopping_cart.current_total') }}&colon;</span>
+        <span class="body-4-medium ml-auto">&dollar;{{ getTotal | formatPrice }}</span>
       </b-col>
     </b-row><!-- End of Shopping Cart Total Price Heading -->
 
@@ -277,23 +280,23 @@
       <b-col v-if="loading" md="12" class="text-center">
         <b-spinner variant="color-blue-2"></b-spinner>
       </b-col>
-      <b-col v-else md="12" class="text-center">
-        <b-button v-if="!billingAddress" :disabled="! getTotalQuantity" type="button" class="px-5" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.BillingForm.name)">{{
+      <b-col v-else md="12" class="text-center place-order-wrapper">
+        <b-button v-if="!billingAddress" :disabled="! getTotalQuantity" type="button" class="px-0" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.BillingForm.name)">{{
             $t('shopping_cart.proceed_to_billing')
           }}</b-button>
-        <b-button v-else-if="!shippingAddress" :disabled="! getTotalQuantity" type="button" class="px-5" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.ShippingForm.name)">{{
+        <b-button v-else-if="!shippingAddress" :disabled="! getTotalQuantity" type="button" class="px-0" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.ShippingForm.name)">{{
             $t('shopping_cart.proceed_to_shipping')
           }}</b-button>
-        <b-button v-else-if="!paymentMethod && !cryptoDetails.estimatedAmount" :disabled="! getTotalQuantity" type="button" class="px-5" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.PaymentOption.name)">{{
+        <b-button v-else-if="!paymentMethod && !cryptoDetails.estimatedAmount" :disabled="! getTotalQuantity" type="button" class="px-0" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.PaymentOption.name)">{{
             $t('shopping_cart.proceed_to_payment')
           }}</b-button>
-        <b-button v-else-if="paymentMethod && paymentMethod.paymentType === isCard" type="button" :disabled=" ! form.agreedToTerms || ! getTotalQuantity" class="px-5" variant="confirm" pill @click="checkoutWithCard">{{
+        <b-button v-else-if="paymentMethod && paymentMethod.paymentType === isCard" type="button" :disabled=" ! form.agreedToTerms || ! getTotalQuantity" class="px-0" variant="confirm" pill @click="checkoutWithCard">{{
             $t('shopping_cart.place_order')
           }}</b-button>
-        <b-button v-else-if="paymentMethod" type="button" :disabled=" ! form.agreedToTerms || ! getTotalQuantity" class="px-5" variant="confirm" pill @click="checkoutWithInstallment">{{
+        <b-button v-else-if="paymentMethod" type="button" :disabled=" ! form.agreedToTerms || ! getTotalQuantity" class="px-0" variant="confirm" pill @click="checkoutWithInstallment">{{
             $t('shopping_cart.place_order')
           }}</b-button>
-        <b-button v-else type="button" :disabled="! form.agreedToTerms  || ! getTotalQuantity" class="px-5" variant="confirm" pill @click="checkoutWithCrypto">{{
+        <b-button v-else type="button" :disabled="! form.agreedToTerms  || ! getTotalQuantity" class="px-0" variant="confirm" pill @click="checkoutWithCrypto">{{
             $t('shopping_cart.place_order')
           }}</b-button>
       </b-col>
@@ -306,6 +309,7 @@ import { mapActions, mapGetters } from 'vuex'
 import emitEvent from '~/plugins/mixins/emit-event'
 import OrderTitle from '~/components/checkout/common/OrderTitle'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
+import PromoCodeButton from '~/components/checkout/common/PromoCodeButton'
 import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import AddressCard from '~/components/checkout/common/AddressCard'
 import InstallmentPlanDetailsCard from '~/components/checkout/common/InstallmentPlanDetailsCard'
@@ -330,6 +334,7 @@ export default {
   components: {
     OrderTitle,
     OrderSummaryCard,
+    PromoCodeButton,
     PromoCodeInput,
     AddressCard,
     InstallmentPlanDetailsCard,
@@ -343,6 +348,7 @@ export default {
   data() {
     return {
       loading: false,
+      isPromoCodeVisible: false,
       alternativeItems: [],
       inputPromoCode: '',
       isInstallment: PAYMENT_METHOD_TYPE_INSTALLMENT,
@@ -626,7 +632,7 @@ export default {
         shippingFee: this.getShippingFee,
         tax: this.getTax,
         subTotal: this.getSubtotalAfterInstantShip,
-        total: Math.ceil(this.$options.filters.formatPrice(this.getTotal)),
+        total: this.getTotal,
         promoCode: this.promoCode ? this.promoCode.code : '',
         giftCardNumber: this.giftCard ? this.giftCard.number : '',
         giftCardAmount: this.giftCard ? this.giftCard.amount : 0,
@@ -726,6 +732,14 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+*
+  font-family: 'SF Pro Display', serif
+
+.total-text-wrapper
+  @media (min-width: 576px)
+    padding-left: 27px
+    padding-right: 27px
+
 /* Promo code input & button styles */
 #btn-promo
   border-radius: 0 0.25rem 0.25rem 0
@@ -736,4 +750,9 @@ export default {
 
 .text-pre-line
   white-space: pre-line
+
+.place-order-wrapper
+  button
+    width: 216px
+    height: 40px
 </style>

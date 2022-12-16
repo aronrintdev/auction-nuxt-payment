@@ -1,66 +1,111 @@
 <template>
   <div>
-    <div v-if="!isScreenXS" class="d-flex align-items-center justify-content-between">
-      <h1 class="heading-1-bold mb-0 heading font-secondary">
+    <div
+      v-if="!isScreenXS"
+      class="d-flex align-items-center justify-content-between"
+    >
+      <h1 class="heading-1-bold mb-0 font-secondary">
         {{ $t('vendor_dashboard.top_products') }}
       </h1>
-      <NavGroup :data="menus" :value="activeNav" @change="navItem"/>
-      <div class="col-6 col-md-3 d-flex justify-content-end align-items-center" role="button">
+      <NavGroup
+        :data="menus"
+        :value="activeNav"
+        :class="mobileClass"
+        class="nav-grp"
+        @change="navItem"
+      />
+      <div class="d-flex justify-content-end align-items-center" role="button">
         <a
-            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
-            @click="$router.push('/profile/inventory')"
-        >{{ $t('vendor_dashboard.view_all') }}</a
+          class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0"
+          @click="$router.push('/profile/vendor-dashboard/products')"
+          >{{ $t('vendor_dashboard.view_all') }}</a
         >
       </div>
     </div>
-    <div v-if="isScreenXS" class="d-flex ">
-      <div class="flex-grow-1 text-center body-5-medium ml-5">
+    <div
+      v-if="isScreenXS"
+      class="d-flex align-items-center justify-content-between"
+    >
+      <div class="text-center body-5-medium">
         {{ $t('vendor_purchase.products') }}
       </div>
-      <div class="d-flex align-items-center body-9-regular"
-           role="button"
-           @click="$router.push('/profile/inventory')">
-        <img :alt="$t('vendor_dashboard.view_all')" :src="require('~/assets/img/icons/eye2.svg')"
-             class="mr-1">{{ $t('vendor_dashboard.view_all') }}
-      </div>
+      <nuxt-link
+        class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 text-link-blue-mobile"
+        to="/profile/vendor-dashboard/products"
+        >{{ $t('vendor_dashboard.view_all') }}
+      </nuxt-link>
     </div>
+    <NavGroup
+      v-if="isScreenXS"
+      :data="mobileMenu"
+      :value="activeNav"
+      :class="mobileClass"
+      class="mt-20 nav-grp"
+      @change="navItem"
+    />
+
     <div>
       <b-table
-          :fields="fields"
-          :items="topProducts"
-          borderless
-          class="productTable"
-          no-border-collapse
-          tbody-tr-class="bg-white"
-          :busy="loading"
-          :show-empty="!loading && topProducts.length === 0"
+        :fields="fields"
+        :items="topProducts"
+        borderless
+        class="productTable"
+        no-border-collapse
+        tbody-tr-class="bg-white p-web-row"
+        :busy="loading"
+        :show-empty="!loading && topProducts.length === 0"
       >
         <template #table-busy>
-          <div class="d-flex align-items-center justify-content-center">
-            <Loader :loading="loading"/>
+          <div class="d-flex align-items-center justify-content-center w-100">
+            <Loader :loading="loading" />
+          </div>
+        </template>
+        <template #head()="scope">
+          <div class="text-nowrap" role="button" @click="orderBy(scope)">
+            <span class="mr-1">{{ scope.label }}</span>
+            <img
+              v-if="scope.label"
+              :src="require('~/assets/img/icons/down-arrow-solid.svg')"
+              :alt="scope.label"
+              class="sort-icon"
+              :class="reverseDirection(scope.column)"
+            />
           </div>
         </template>
         <template #cell(product)="row">
-          <div class="d-flex align-items-center gap-3 mb-2 mb-sm-0" role="button"
-               @click="$router.push('/profile/inventory')">
+          <div
+            :class="{
+              'align-items-center': !isScreenXS,
+              'align-items-start': isScreenXS,
+            }"
+            class="d-flex gap-3 mb-2 mb-sm-0"
+            role="button"
+            @click="$router.push(`/profile/vendor-dashboard/products/${row.item.id}`)"
+          >
             <div class="col-thumb d-flex justify-content-center">
-              <ProductThumb :product="row.item" :src="row.item.image"/>
+              <ProductThumb
+                :product="row.item"
+                :src="row.item.image"
+                class="prod-image"
+              />
             </div>
             <div class="font-secondary">
               <h4
-                  :class="{
+                :class="{
                   'body-5-medium mobile': isScreenXS,
                   'font-secondary': !isScreenXS,
                 }"
-                  class="body-8-medium text-color-blue-1 border-bottom border-primary mb-1 text-nowrap text-truncate mw-300"
+                class="body-8-medium text-decoration-underline text-link-blue-mobile border-primary mb-1 text-nowrap text-truncate mw-220"
               >
                 {{ row.item.name }}
               </h4>
-              <h4 class="body-21-normal mb-0 text-color-gray-6">
+              <h4 class="body-6-normal mb-0 text-color-gray-6">
                 {{ $t('vendor_dashboard.sku') }}: {{ row.item.sku }}
               </h4>
-              <h4 :class="mobileClass"
-                  class="body-21-normal mb-0 text-color-gray-6 text-nowrap text-truncate mw-300">
+              <h4
+                :class="mobileClass"
+                class="body-6-normal mb-0 text-color-gray-6 text-nowrap text-truncate mw-220"
+              >
                 {{ $t('vendor_dashboard.colorway') }}: {{ row.item.colorway }}
               </h4>
             </div>
@@ -68,8 +113,8 @@
         </template>
         <template #cell(average_sale_price)="row">
           <div
-              :aria-label="$t('vendor_dashboard.avg_price')"
-              class="d-flex align-items-center justify-content-center tdHeight"
+            :aria-label="$t('vendor_dashboard.avg_price')"
+            class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
               {{ row.item.avg_sales_price | toCurrency }}
@@ -78,28 +123,28 @@
         </template>
         <template #cell(sales_this_month)="row">
           <div
-              :aria-label="$t('vendor_dashboard.sales_this_month')"
-              class="d-flex align-items-center justify-content-center tdHeight"
+            :aria-label="$t('vendor_dashboard.sales_this_month')"
+            class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
               {{ row.item.sales_amount_this_month | toCurrency }}
               <span
-                  v-if="row.item.sales_percentage > 0"
-                  class="text-success text-sm"
-              >(+{{ row.item.sales_percentage }}%)</span
+                v-if="row.item.sales_percentage > 0"
+                class="text-success text-sm"
+                >(+{{ row.item.sales_percentage }}%)</span
               >
               <span
-                  v-if="row.item.sales_percentage < 0"
-                  class="text-danger text-sm"
-              >(-{{ row.item.sales_percentage }}%)</span
+                v-if="row.item.sales_percentage < 0"
+                class="text-danger text-sm"
+                >(-{{ row.item.sales_percentage }}%)</span
               >
             </h4>
           </div>
         </template>
         <template #cell(total_sales)="row">
           <div
-              :aria-label="$tc('vendor_dashboard.total_sales', 1)"
-              class="d-flex align-items-center justify-content-center tdHeight"
+            :aria-label="$tc('vendor_dashboard.total_sales', 1)"
+            class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
               {{ row.item.total_sales_amount | toCurrency }}
@@ -108,15 +153,15 @@
         </template>
         <template #cell(chart)="row">
           <div
-              class="d-flex align-items-center justify-content-center tdHeight position-relative"
+            class="d-flex align-items-center justify-content-center tdHeight position-relative"
           >
             <LineChart
-                :border-width="2"
-                :chart-data="itemChart(row.item)"
-                is-graph
-                :fill="false"
-                :options="lineConfig"
-                class="stats-graph"
+              :border-width="2"
+              :chart-data="itemChart(row.item)"
+              is-graph
+              :fill="false"
+              :options="lineConfig"
+              class="stats-graph"
             ></LineChart>
           </div>
         </template>
@@ -127,42 +172,41 @@
 <script>
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
-import screenSize from '~/plugins/mixins/screenSize';
-import Loader from '~/components/common/Loader';
+import screenSize from '~/plugins/mixins/screenSize'
+import Loader from '~/components/common/Loader'
 
 export default {
   name: 'TopProductsTable',
-  components: {Loader, NavGroup, ProductThumb},
+  components: { Loader, NavGroup, ProductThumb },
   mixins: [screenSize],
   data() {
     return {
-      // Active Nav for the Toggle Button
-      activeNav: '',
+      activeNav: '1',
       topProducts: [],
       fields: [
         {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
-          sortable: true,
-          thClass: 'body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap body-4-bold',
         },
         {
           key: 'average_sale_price',
           label: this.$t('vendor_dashboard.avg_price'),
-          sortable: true,
-          thClass: 'text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'sales_this_month',
           label: this.$t('vendor_dashboard.sales_this_month'),
-          sortable: true,
-          thClass: 'text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'total_sales',
           label: this.$tc('vendor_dashboard.total_sales', 1),
-          sortable: true,
-          thClass: 'text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'chart',
@@ -221,21 +265,42 @@ export default {
       },
       /** Todo need to make dynamic onces we have way of main categories in DB */
       menus: [
-        {label: this.$t('vendor_dashboard.all'), value: ''},
-        {label: this.$t('vendor_dashboard.footwear'), value: '1'},
-        {label: this.$t('vendor_dashboard.apparel'), value: '2'},
+        { label: this.$t('vendor_dashboard.all'), value: '' },
+        { label: this.$t('vendor_dashboard.footwear'), value: '1' },
+        { label: this.$t('vendor_dashboard.apparel'), value: '2' },
         {
           label: this.$t('vendor_dashboard.accessories'),
           value: '3',
         },
       ],
-      loading: false
+      loading: false,
+      orderByField: 'id',
+      orderByDirection: 'asc',
     }
+  },
+  computed: {
+    mobileMenu() {
+      return this.menus.filter((menu) => menu.value !== '')
+    },
   },
   mounted() {
     this.getTopProducts()
   },
   methods: {
+    orderBy(scope) {
+      if (scope.column !== 'actions') {
+        this.orderByDirection = this.reverseDirection(scope.column)
+        this.orderByField = scope.column
+        this.getTopProducts()
+      }
+    },
+    reverseDirection(column) {
+      return column === this.orderByField
+        ? this.orderByDirection === 'asc'
+          ? 'desc'
+          : 'asc'
+        : 'desc'
+    },
     navItem(val) {
       this.activeNav = val
       this.getTopProducts()
@@ -263,21 +328,60 @@ export default {
     getTopProducts() {
       this.loading = true
       this.$axios
-          .get('/dashboard/vendor/top-products?category_id=' + this.activeNav)
-          .then((res) => {
-            this.topProducts = res.data.data
-          })
-          .catch((err) => {
-            this.logger.logToServer(err.response)
-          }).finally(() => {
-        this.loading = false
-      })
+        .get('/dashboard/vendor/top-products', {
+          params: {
+            category_id: this.activeNav,
+            order_by_column: this.orderByField,
+            order_by_direction: this.orderByDirection,
+          },
+        })
+        .then((res) => {
+          this.topProducts = res.data.data
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
   },
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.sort-icon
+  &.asc
+    transform: rotate(180deg)
+
+::v-deep.p-web-row
+  padding: 26px 28px
+
+::v-deep.nav-grp
+  width: 460px
+  &.mobile
+    width: 100%
+  .btn-group
+    height: 36px
+    button.btn
+      @include body-6-regular
+      font-family: $font-montserrat
+      width: 103px
+      padding-block: 1px
+      &.active
+        font-weight: $medium
+
+::v-deep.prod-image
+  width: 100px
+
+  img
+    object-fit: cover
+
+.text-color-blue-30
+  color: $color-blue-30
+
+.mt-20
+  margin-top: 20px
 
 .text-color-blue-1
   color: $color-blue-1
@@ -285,13 +389,13 @@ export default {
 .text-color-gray-6
   color: $color-gray-6
 
-.mw-300
-  max-width: 300px
+.mw-220
+  max-width: 220px
 
   &.mobile
     max-width: 200px
 
-.productTable
+::v-deep.productTable
   &.table.b-table.b-table-no-border-collapse
     border-spacing: 0 10px
 
@@ -325,9 +429,6 @@ export default {
   .tdHeight
     height: inherit
 
-  .col-thumb
-    width: 100px
-
   .stats-graph
     width: 100px
     height: 40px
@@ -347,7 +448,7 @@ export default {
       outline: 1px solid $color-gray-3
       display: block
       margin: 12px 0
-      padding: 15px 0
+      padding: 15px 0 6px 0
 
       h4.font-secondary
         width: fit-content
@@ -359,15 +460,13 @@ export default {
         &.border-bottom.bottom-primary
           border: 0 !important
     .tdHeight
-      font-size: 12px
+      @include body-9-medium
       color: $color-black-1
-      font-weight: $bold
       width: 100%
-
+      padding: 1px 0
       h4
-        font-size: 12px
+        @include body-9-normal
         color: $color-gray-6
-        font-weight: $normal
 
       &::before
         content: attr(aria-label)

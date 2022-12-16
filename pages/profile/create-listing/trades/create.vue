@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width<= 500">
+    <div v-if="isScreenXS">
       <create-mobile></create-mobile>
     </div>
     <div v-else>
@@ -10,21 +10,16 @@
 </template>
 
 <script>
+import screenSize from '~/plugins/mixins/screenSize';
+
 export default {
   name: 'Create',
   components: {
     createMobile:()=> import('./createMobile'),
     createWeb:()=>import('./createWeb'),
   },
+  mixins: [ screenSize ],
   layout: 'Profile', // Layout
   middleware: 'auth',
-  data(){
-    return {
-      width:'',
-    }
-  },
-  mounted() {
-    this.width = window.innerWidth
-  },
 }
 </script>

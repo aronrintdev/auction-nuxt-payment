@@ -8,17 +8,17 @@
             :name="$t('auth.login')"
             :rules="{ required: true, min: 3, max: 128 }"
           >
-            <b-form-group>
+            <b-form-group class="px-1 pr-3">
               <b-form-input
                 id="login"
                 v-model="form.login"
-                class="rounded-pill input-login"
+                class="rounded-pill input-login input-username"
                 :placeholder="$t('auth.email_address_or_username')"
                 :state="getValidationState(validationContext)"
               ></b-form-input>
               <b-form-invalid-feedback>{{
-                  validationContext.errors[0]
-                }}</b-form-invalid-feedback>
+                validationContext.errors[0]
+              }}</b-form-invalid-feedback>
             </b-form-group>
           </ValidationProvider>
           <ValidationProvider
@@ -27,7 +27,7 @@
             :rules="{ required: true }"
           >
             <b-form-group>
-              <b-input-group>
+              <b-input-group class="px-1 pr-3">
                 <b-form-input
                   id="password"
                   v-model="form.password"
@@ -55,14 +55,14 @@
                   ></i>
                 </b-input-group-append>
                 <b-form-invalid-feedback>{{
-                    validationContext.errors[0]
-                  }}</b-form-invalid-feedback>
+                  validationContext.errors[0]
+                }}</b-form-invalid-feedback>
               </b-input-group>
             </b-form-group>
           </ValidationProvider>
 
-          <b-row class="mt-5 w-100">
-            <b-col md="4" offset-md="4" class="text-center">
+          <b-row class="mt-5 login-btn">
+            <b-col md="4" offset-md="4" class="text-center mt-3">
               <Button
                 :disabled="!isFormFilled"
                 block
@@ -72,8 +72,7 @@
                 :class="{ 'btn-disabled': !isFormFilled }"
               >
                 <span>{{ $t('auth.login') }}</span>
-              </Button
-              >
+              </Button>
             </b-col>
           </b-row>
         </b-form>
@@ -83,8 +82,8 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { mapActions, mapGetters } from 'vuex'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Button from '~/components/common/Button'
 import { NO_CONTENT } from '~/static/constants'
 
@@ -116,7 +115,7 @@ export default {
   methods: {
     ...mapActions({
       getUserDetails: 'auth/getUserDetails',
-      getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward'
+      getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward',
     }),
     ...mapGetters({
       getLoginRedirectUrl: 'auth/getLoginRedirectUrl',
@@ -139,14 +138,16 @@ export default {
             this.$auth.$storage.removeCookie('rememberExpires')
             this.$store.dispatch('notifications/getNotifications')
             this.$store.dispatch('notifications/getUnreadCount')
-            this.$toasted.success(this.$t('login.success_message.login_successfull').toString())
+            this.$toasted.success(
+              this.$t('login.success_message.login_successfull').toString()
+            )
 
             // redirect if redirect url is set in state
             const redirectUrl = this.getLoginRedirectUrl()
             if (redirectUrl) {
               if (redirectUrl.includes('trades') && !this.isVendor) {
                 this.$router.push({
-                  path: '/profile/vendor-hub/apply'
+                  path: '/profile/vendor-hub/apply',
                 })
               } else {
                 this.$store.commit('auth/setLoginRedirectUrl', null)
@@ -154,11 +155,11 @@ export default {
               }
             } else if (this.isVendor) {
               this.$router.push({
-                path: '/profile/vendor-dashboard'
+                path: '/'
               })
             } else {
               this.$router.push({
-                path: '/profile/buyer-dashboard'
+                path: '/profile/buyer-dashboard',
               })
             }
           }
@@ -167,7 +168,7 @@ export default {
           this.$toasted.error(this.$t(error.response.data.message).toString())
         })
     },
-  }
+  },
 }
 </script>
 
@@ -178,8 +179,10 @@ export default {
 .input-login
   @include body-5-normal
   color: $black-1
-  background-color: $color-white-5
-  border: 0
+  background-color: $color-white-1
+  border: 1px solid $color-gray-3
+  border-radius: 10px !important
+  padding: 19px 15px !important
   transition: border-color 0.01s ease-in-out, box-shadow 0.01s ease-in-out
   &::placeholder,
   &:-ms-input-placeholder,
@@ -207,6 +210,8 @@ export default {
 .input-append
   border-bottom-right-radius: 0 !important
   border-top-right-radius: 0 !important
+  &:focus
+    background-color: $color-white-5
   &.is-invalid,
   &.is-invalid:active,
   &.is-invalid:focus
@@ -218,9 +223,14 @@ export default {
       border-left: none !important
 
 .append-icon
-  background: $color-white-5
-  border-bottom-right-radius: 3rem !important
-  border-top-right-radius: 3rem !important
+  background: $color-white-1
+  border: 1px solid $color-gray-3
+  border-radius: 10px !important
+  border-left: transparent
+  border-bottom-right-radius: 10px !important
+  border-top-right-radius: 10px !important
+  border-bottom-left-radius: 0px !important
+  border-top-left-radius: 0px !important
 
 ::v-deep .btn
   &.btn-confirm
@@ -230,4 +240,32 @@ export default {
       cursor: not-allowed
       &:hover
         box-shadow: none
+
+@media (min-width: 992px)
+  .input-login
+    background-color: $color-white-5
+    border: 1px solid $color-white-5
+    color: $color-black-1
+
+    &.input-username
+      border-radius: 20px !important
+
+    &.input-append
+      border-radius: 20px  0 0 20px !important
+
+  .append-icon
+    background-color: $color-white-5
+    border: 1px solid $color-white-5
+    border-radius: 0 20px 20px 0 !important
+
+
+@media (min-width: 320px) and (max-width: 556px)
+  .login-btn
+    width: 50%
+    margin: 0 auto
+  .input-append
+    border-right: none
+
+  .btn.btn-confirm.btn-disabled
+    background: $color-black-1
 </style>

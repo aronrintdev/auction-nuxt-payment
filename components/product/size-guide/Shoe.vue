@@ -15,32 +15,27 @@
               <span class="body-4-medium">{{ data.item.type }}</span>
             </template>
             <template #cell()="data">
-              <span v-if="data.field.key === `s${selectedSize - 1}`" class="body-4-medium">{{ data.value }}</span>
+              <span v-if="isSizeSelected(data.field.key)" class="body-4-medium">{{ data.value }}</span>
               <span v-else class="body-4-regular">{{ data.value }}</span>
             </template>
           </b-table>
-        </b-col>
-      </b-row>
-      <b-row class="mt-3">
-        <b-col md="12" class="text-center">
-          <OverallFitSVG class="fit-svg w-100" />
         </b-col>
       </b-row>
     </b-col>
   </b-row>
 </template>
 <script>
-import OverallFitSVG from '~/assets/img/product/overall-fit.svg?inline'
-import { SIZE_GUIDE_ITEMS } from '~/static/constants/sizes' 
+import { SIZE_GUIDE_ITEMS } from '~/static/constants/sizes'
 
 export default {
   name: 'ProductSizeGuideShoe',
-  components: { OverallFitSVG },
   props: {
     selectedSize: {
-      type: Number,
+      type: Object,
       required: false,
-      default: 0,
+      default() {
+        return {}
+      }
     },
   },
   data() {
@@ -71,14 +66,22 @@ export default {
       items: SIZE_GUIDE_ITEMS,
     }
   },
+  methods: {
+    isSizeSelected(sizeKey) {
+      return this.items.find(item => {
+        if (item.label_key === this.selectedSize.type) {
+          const sizes = Object.keys(item).length - 1
+
+          for (let i = 1; i < sizes ; i++) {
+            if (item[`s${i}`] === this.selectedSize.size) {
+              return `s${i}` === sizeKey
+            }
+          }
+        }
+
+        return false
+      })
+    }
+  },
 }
 </script>
-
-<style lang="sass" scoped>
-@import '~/assets/css/_variables'
-
-.fit-svg
-  @media(min-width: 1200px)
-    margin-left: 160px
-
-</style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row justify-content-center justify-content-md-between align-items-center py-md-0 py-3">
-      <div class="text-center flex-md-grow-1">
+      <div class="text-center flex-md-grow-1 nav-wrapper">
         <NavGroup :value="activeNav" :data="navCategories" @change="navItem"/>
       </div>
       <div class="d-none d-md-block">
@@ -37,20 +37,15 @@
                   unchecked-value="not_accepted"
                 />
               </div>
-              <div class="d-flex justify-content-center align-items-center pointer"
-                   @click="handleSort('order_id')">
-                <div>{{ $t('orders.order_id') }}</div>
+              <div class="d-flex justify-content-center pointer align-items-center"
+                   @click="handleSort('products.name')">
+                <div>{{ $t('orders.product') }}</div>
                 <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                      :class="(descSort === 'order_id')?'ml-1 desc':'ml-1'"/>
+                      :class="(descSort === 'products.name')?'ml-1 desc':'ml-1'"/>
               </div>
             </div>
           </div>
           <div class="col-md-2 d-none d-md-block">
-            <div class="d-flex justify-content-center pointer align-items-center" @click="handleSort('products.name')">
-              <div>{{ $t('orders.product') }}</div>
-              <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                    :class="(descSort === 'products.name')?'ml-1 desc':'ml-1'"/>
-            </div>
           </div>
           <div class="col d-none d-md-block">
             <div class="d-flex justify-content-center pointer align-items-center" @click="handleSort('created_at')">
@@ -96,9 +91,20 @@
             @checked="handleChecked"
           >
           </top-mover-component-new>
+          <div v-if="orders.length===0">
+            <div class="py-5 no-order-msg">
+              <div class="text-center">{{ $t('orders.looks_like_no_orders_have_been_placed') }}</div>
+              <div class="text-center my-2">{{ $t('orders.list_a_product_today_on_deadstock') }}!</div>
+              <div class="text-center mt-4">
+                <NuxtLink to="/profile/create-listing" class="btn btn-primary btn-create-listing">
+                  {{ $t('orders.create_a_listing') }}
+                </NuxtLink>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div v-if="!isLoading">
+      <div v-if="!isLoading && orders.length!==0">
         <Pagination
           v-model="page"
           :total="totalPage"
@@ -129,7 +135,20 @@
         >
         </top-mover-component-new>
       </div>
-      <infinite-loading :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
+      <infinite-loading :identifier="infiniteId" @infinite="handleLoading">
+        <div slot="no-more"></div>
+        <div slot="no-results">
+          <div class="py-5 no-order-msg">
+            <div class="text-center">{{ $t('orders.looks_like_no_orders_have_been_placed') }}</div>
+            <div class="text-center my-2">{{ $t('orders.list_a_product_today_on_deadstock') }}!</div>
+            <div class="text-center mt-4">
+              <NuxtLink to="/profile/create-listing" class="btn btn-primary btn-create-listing">
+                {{ $t('orders.create_a_listing') }}
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
+      </infinite-loading>
     </template>
   </div>
 </template>
@@ -170,7 +189,7 @@ export default {
         {label: 'Footwear', value: '1'},
         {label: 'Apparel', value: '2'},
         {label: 'Accessories', value: '3'},
-      ]
+      ],
     }
   },
   computed: {
@@ -362,6 +381,18 @@ export default {
 
 <style scoped lang="sass">
 @import '/assets/css/variables'
+.no-order-msg
+  color: $color-gray-5
+  font-family: $font-montserrat
+  @include body-14
+  font-weight: $medium
+
+  .btn-create-listing
+    border: none
+    background: $color-blue-20
+    color: $color-white-1
+    background: $color-grey-101
+    border-radius: 21px
 
 .py-20
   padding: 20px
@@ -481,6 +512,9 @@ export default {
       font-weight: $medium
 
 @media (min-width: 993px)
+  .nav-wrapper
+    width: 80%
+
   .d-md-header-group
     display: table-header-group !important
 
@@ -489,4 +523,11 @@ export default {
 
   ::v-deep .nav-group
     margin: 5px 0
+
+  ::v-deep .nav-group .btn-group
+    width: 45%
+
+@media (max-width: 992px)
+  .nav-wrapper
+    width: 96%
 </style>

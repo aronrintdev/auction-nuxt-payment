@@ -6,9 +6,11 @@
       <b-card class="purchase-multiple-orders card-web">
         <h4 class="card-title cash-summary-header">
           <img :src="require('~/assets/img/purchases/dollar.svg')" alt="dollar-image" class="dollar-image-trade"/>
+          <span v-if="orderDetails.accepted_offer_their !== null">
           {{
             $t('vendor_purchase.cash_received', {total: $options.filters.formatPrice(orderDetails.accepted_offer_their.cash_type === 'added' && orderDetails.accepted_offer_their.cash_added)})
           }}
+          </span>
         </h4>
         <!-- Down arrow -->
         <span class="float-right" :class="{ rotatearrowimage: showDetails }" @click="toggleDetails">
@@ -46,7 +48,7 @@
                   {{ $t('vendor_purchase.pending_cash') }}
                 </div>
                 <div class="payment-summary-details-description">
-                  &dollar;{{ orderDetails.accepted_offer_their.cash_type === 'added' && orderDetails.accepted_offer_their.cash_added | formatPrice }}
+                  &dollar;<span v-if="orderDetails.accepted_offer_their !== null">{{ orderDetails.accepted_offer_their.cash_type === 'added' && orderDetails.accepted_offer_their.cash_added | formatPrice }}</span>
                 </div>
               </div>
             </div>
@@ -120,7 +122,10 @@
             </div>
             <div v-if="cardStatus.includes(orderDetails.transaction.payment_type)">
               <span class="text-decoration-underline">
-                {{ $t('vendor_purchase.terms_condition') }}</span>
+                <NuxtLink to="/terms-and-conditions" class="text-dark">
+                  {{ $t('vendor_purchase.terms_condition') }}
+                </NuxtLink>
+              </span>
             </div>
           </div>
           <!-- ./Billing address -->
@@ -166,7 +171,7 @@
           <!-- Order Total -->
           <div v-if="orderDetails.transaction" class="col-md-4 col-sm-12 total">
             <div
-                class="body-24-normal font-secondary text-muted6"
+              class="body-24-normal font-secondary text-muted6"
             >
               {{ $t('vendor_purchase.order_total') }}
             </div>

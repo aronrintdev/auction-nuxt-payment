@@ -28,7 +28,7 @@
           </b-col>
           <b-col cols="6" sm="6">
             <span class="body-5-normal text-gray-5 text-right">
-              {{ $t('place_offer.duration') }}&colon;&nbsp;{{ offerDuration }}&nbsp;{{ $tc('place_offer.days', offerDuration) }}
+              {{ $t('place_offer.duration') }}&colon;&nbsp;{{ offerDetails.duration }}&nbsp;{{ $tc('place_offer.days', offerDetails.duration) }}
             </span>
           </b-col>
         </b-row>
@@ -36,7 +36,9 @@
     </b-row>
     <!-- End of Offer Details Section -->
 
-    <PromoCodeInput v-if="! promoCode" @click="applyPromoCode">
+    <PromoCodeButton v-if="! isPromoCodeVisible && ! promoCode" @show-promo="isPromoCodeVisible = true" />
+
+    <PromoCodeInput v-if="isPromoCodeVisible && ! promoCode" @click="applyPromoCode">
       <template #label>
         <div class="section-title body-5-medium">{{ $t('shopping_cart.promo_code') }}&colon;</div>
       </template>
@@ -85,6 +87,7 @@ import emitEventMixin from '~/plugins/mixins/emit-event'
 import offerDetailsMixin from '~/plugins/mixins/offer-details'
 import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ListItem from '~/components/checkout/place-offer/mobile/ListItem'
+import PromoCodeButton from '~/components/checkout/common/PromoCodeButton'
 import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
 import Button from '~/components/common/Button'
@@ -93,13 +96,13 @@ import { BAD_REQUEST, NOT_FOUND } from '~/static/constants'
 
 export default {
   name: 'ShoppingBag',
-  components: { ShoppingBagTitle, ListItem, PromoCodeInput, OrderSummaryCard, Button, ShoppingBagOrder },
+  components: { ShoppingBagTitle, ListItem, PromoCodeButton, PromoCodeInput, OrderSummaryCard, Button, ShoppingBagOrder },
   mixins: [ emitEventMixin, offerDetailsMixin ],
   data() {
     return {
-      offerDuration: 10, // TODO: NP - Fill this once implemented.
       bottomSheetMaxWidth: '640px',
       bottomSheetMaxHeight: '95%',
+      isPromoCodeVisible: false,
     }
   },
   methods: {

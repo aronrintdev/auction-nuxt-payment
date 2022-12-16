@@ -59,7 +59,7 @@
                 <Button
                   ref="btnSave"
                   type="submit"
-                  variant="primary"
+                  variant="dark-blue"
                   pill
                   block
                   :disabled="!newListName || loading"
@@ -128,6 +128,16 @@ export default {
         this.loading = false
         this.$emit('created', wishList)
         this.$bvModal.hide(this.id)
+      }
+      else if(this.createWishList === 0){
+        this.$toasted.error(
+          this.$t('wish_lists.invalid_data')
+        )
+      }
+      else if(this.createWishList >= 255){
+        this.$toasted.error(
+          this.$t('wish_lists.invalid_data')
+        )
       }
     },
     getValidationState({ dirty, validated, valid = null }) {

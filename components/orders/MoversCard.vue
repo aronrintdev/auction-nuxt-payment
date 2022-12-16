@@ -1,6 +1,6 @@
 <template>
   <div class="col mx-2">
-    <div class="movers-card row d-flex flex-column justify-content-between">
+    <div class="movers-card row mx-0 d-flex flex-column justify-content-between">
       <div class="d-flex justify-content-between">
         <div class="d-none d-md-block"><img :src="brandNameToLogoUrl(product.brand)" alt="" height="40"></div>
         <div v-if="topSalesPercentage > 0 && topSalesPercentage === product.sales_percentage"
@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="text-center">
-        <img :src="productImage" alt="" height="100">
+        <img :src="productImage" alt="" height="120">
       </div>
       <div class="d-flex justify-content-between align-items-end">
         <div class="d-none d-md-block">
@@ -59,7 +59,7 @@ export default {
       'filters': 'browse/filters'
     }),
     salesPercentage() {
-      return this.product.sales_percentage >= 0 ? `+${this.product.sales_percentage}%` : `${this.product.sales_percentage}%`
+      return this.product.sales_percentage >= 0 ? `+${parseInt(this.product.sales_percentage)}%` : `${parseInt(this.product.sales_percentage)}%`
     },
     salesIndicator() {
       if (this.product.sales_percentage >= 0) {

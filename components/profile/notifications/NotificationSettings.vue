@@ -44,8 +44,9 @@
         </template>
       </NotificationSettingsSection>
 
-      <div class="text-center my-4">
+      <div class="d-flex justify-content-center my-4">
         <NavGroup
+          v-if="isVendor"
           :data="tabs"
           :value="currentTab"
           nav-key="notification-tabs"
@@ -63,7 +64,7 @@
           :disabled="loading || changedSettings.length === 0"
           class="mr-2"
           pill
-          variant="blue"
+          variant="dark-blue"
           @click="saveChanges"
           >{{ $t('common.save_changes') }}
         </Button>
@@ -125,6 +126,7 @@ export default {
       changedSettings: 'notifications/getChangedSettings',
       getSettings: 'notifications/getSettings',
       pushActive: 'notifications/getPushNotificationsActive',
+      isVendor: 'auth/isVendor',
     }),
   },
   methods: {
@@ -180,16 +182,14 @@ export default {
       width: 217px
 
 .push-title
-  @include body-13
+  @include body-8-medium
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $medium
   color: $color-black-1
 
 .push-sub-title
-  @include body-20
+  @include body-8-regular
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $regular
   color: $color-gray-5
 </style>

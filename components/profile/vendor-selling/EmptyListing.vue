@@ -32,14 +32,14 @@
       </b-col>
     </b-row>
     <b-row v-else class="vd-purchase-empty">
-      <b-col md="12" class="text-center">
-        <p class="vd-purchase-browse-now">
+      <b-col md="12" class="d-flex flex-column align-items-center">
+        <p class="body-5-medium text-gray-simple font-primary">
           {{ $t('selling_page.no_active_listing_found') }}
         </p>
-        <p class="vd-purchase-browse-now">
+        <p class="body-5-medium text-gray-simple font-primary">
           {{ $t('selling_page.list_a_product_today_on_ds') }}
         </p>
-        <Button variant="apply-empty" pill @click="moveToCreateListing">
+        <Button variant="dark-blue" pill block class="create_listing-btn" @click="moveToCreateListing">
           {{ $t('home.create_listing') }}
         </Button>
       </b-col>
@@ -91,6 +91,10 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+::v-deep.create_listing-btn
+  &.btn
+    max-width: 309px
+    margin-top: 18px
 
 // Media query
 @media (min-width: 576px)
@@ -114,7 +118,7 @@ export default {
       background: $color-blue-20
       border-radius: 21px
       color: $color-white-1
-      
+
 //On responsive screen media query
 @media (max-width: 576px)
   .section-nav

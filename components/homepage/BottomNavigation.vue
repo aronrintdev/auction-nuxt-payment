@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom-navigation bg-black px-4 pt-3 position-sticky w-100">
+  <div class="bottom-navigation bg-black px-3 pt-3 position-sticky w-100">
     <SearchOverlay
       ref="searchOverlay"
       :show="showSearchOverlay"
@@ -14,43 +14,43 @@
           {{ $t('home.home') }}
         </h6>
       </nuxt-link>
-      <div class="navLink" @click="handleSearchFocus">
-        <search />
+      <nuxt-link class="navLink" to="/browse">
+        <search :active="$route.path === '/browse'" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
           {{ $t('navbar.browse') }}
         </h6>
-      </div>
+      </nuxt-link>
       <nuxt-link class="navLink" to="/shop">
         <shop :active="$route.path === '/shop'" />
-        <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
+        <h6 class="mb-0 fs-12 fw-5 font-primary text-white shop-text">
           {{ $t('navbar.shop') }}
         </h6>
       </nuxt-link>
-      <nuxt-link v-if="authenticated" class="navLink" to="/trades">
+      <nuxt-link class="navLink" to="/trades">
         <trade :active="$route.path === '/trades'" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
           {{ $t('navbar.trade') }}
         </h6>
       </nuxt-link>
-      <nuxt-link v-if="authenticated" class="navLink" to="/auction">
+      <nuxt-link class="navLink" to="/auction">
         <auction :active="$route.path === '/auction'" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
           {{ $t('navbar.auction') }}
         </h6>
       </nuxt-link>
-      <nuxt-link v-if="authenticated" class="navLink" to="/profile/preferences">
-        <profile :active="$route.path === '/profile/preferences'" />
+      <nuxt-link v-b-toggle.bottom-menu-sidebar class="navLink" event="" to="/">
+        <profile />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
           {{ $t('navbar.profile') }}
         </h6>
       </nuxt-link>
-      <nuxt-link v-if="!authenticated" class="navLink" to="/login">
-        <profile :active="$route.path === '/login'" />
-        <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
-          {{ $t('navbar.login') }}
-        </h6>
-      </nuxt-link>
     </div>
+
+    <RightSideBarMenu
+      :user="user"
+      :is-authenticated="authenticated"
+      :is-vendor="isVendor"
+    />
   </div>
 </template>
 <script>
@@ -62,9 +62,10 @@ import shop from '~/assets/icons/bottom-nav/shop'
 import trade from '~/assets/icons/bottom-nav/trade'
 import auction from '~/assets/icons/bottom-nav/auction'
 import profile from '~/assets/icons/bottom-nav/profile'
+import RightSideBarMenu from '~/components/RightSideBarMenu'
 export default {
   name: 'BottomNavigation',
-  components: { SearchOverlay, home, search, shop, trade, auction, profile },
+  components: { SearchOverlay, home, search, shop, trade, auction, profile, RightSideBarMenu },
   data() {
     return {
       showSearchOverlay: false,
@@ -73,6 +74,8 @@ export default {
   computed: {
     ...mapGetters({
       authenticated: 'auth/authenticated',
+      isVendor: 'auth/isVendor',
+      user: 'auth/user',
     }),
   },
   methods: {
@@ -86,8 +89,13 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+
+@import '/assets/css/variables'
+
 .bottom-navigation
     bottom: 0
     z-index: 9999
     padding-bottom: 30px
+.shop-text
+  margin-top: 5px
 </style>

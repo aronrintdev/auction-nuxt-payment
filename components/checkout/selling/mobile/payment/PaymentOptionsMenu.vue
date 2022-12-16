@@ -23,6 +23,12 @@
             <b-list-group-item @click="emitRenderComponentEvent($parent.$options.components.PaymentGiftCard.name)">
               <div class="body-17-normal">{{ $t('shopping_cart.gift_card') }}</div>
             </b-list-group-item>
+            <b-list-group-item>
+              <b-img :src="getImagUrl('affirm.svg')" />
+            </b-list-group-item>
+            <b-list-group-item>
+              <b-img :src="getImagUrl('afterpay.svg')" />
+            </b-list-group-item>
             <b-list-group-item
               v-for="cryptoPaymentOption in cryptoPaymentOptions"
               :key="cryptoPaymentOption.currency"
@@ -52,19 +58,19 @@ export default {
     return {
       cryptoPaymentOptions: [
         {
-          imageUrl: 'bitcoin.png',
+          imageUrl: 'bitcoin.svg',
           currency: 'btc',
         },
         {
-          imageUrl: 'ethereum.png',
+          imageUrl: 'ethereum.svg',
           currency: 'eth',
         },
         {
-          imageUrl: 'binance.png',
+          imageUrl: 'binance.svg',
           currency: 'bnbbsc',
         },
         {
-          imageUrl: 'vechain.png',
+          imageUrl: 'vechain.svg',
           currency: 'vet',
         },
       ]
@@ -90,6 +96,10 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+::v-deep.title-wrapper
+  span
+    @include body-13-medium
+
 .options-wrapper
   margin: 12px 18px 0
 
@@ -102,6 +112,9 @@ export default {
     display: flex
     align-items: center
     justify-content: center
+
+    img
+      height: 24px
 
     &:first-child
       margin-top: 0
