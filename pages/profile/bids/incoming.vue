@@ -15,7 +15,7 @@
     <div v-if="isVendor" class="d-none d-md-flex justify-content-between align-items-center">
       <b-row class=" w-100">
         <b-col md="6"></b-col>
-        <b-col md="6" class="text-right">
+        <b-col md="6" class="text-right pr-0">
           <Button
             variant="link"
             size="sm"
@@ -97,8 +97,9 @@
               v-if="bid.auction.type===BID_AUCTION_TYPE_SINGLE"
               :bid-type="bidType"
               :selected="selected.includes(bid.id)"
-              :bid="bid" :selectable="isSelectable(bid)"
-              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
+              :bid="bid"
+              :selectable="isSelectable(bid)"
+              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING && isAuctionActive(bid)"
               @selected="selectBidAction"
               @accept="acceptBid"
               @edit="handleEdit"
@@ -108,7 +109,7 @@
               :selected="selected.includes(bid.id)"
               :bid-type="bidType"
               :bid="bid"
-              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
+              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING && isAuctionActive(bid)"
               :selectable="isSelectable(bid)"
               @selected="selectBidAction"
               @accept="acceptBid"
@@ -355,10 +356,13 @@ export default {
     },
     // Checking if the auction has expired or not.
     haveExpired() {
-      return this.bids.filter(a => a.auction.status === EXPIRED_STATUS || a.auction.status === DELISTED_STATUS).length > 0
+      return this.bids.filter(a => a.auction.remaining_time === EXPIRED_STATUS || a.auction.status === DELISTED_STATUS).length > 0
     },
     isMobileSize() {
       return this.isScreenXS || this.isScreenSM
+    },
+    isAuctionActive() {
+      return (item) => (item.auction.remaining_time !== EXPIRED_STATUS && item.auction.status !== DELISTED_STATUS)
     }
   },
   mounted() {
@@ -459,7 +463,7 @@ export default {
      * @returns {boolean}
      */
     isExpiredOrDelisted(item) {
-      return this.deleteAction && (item.auction.status === EXPIRED_STATUS || item.auction.status === DELISTED_STATUS)
+      return this.deleteAction && (item.auction.remaining_time === EXPIRED_STATUS || item.auction.status === DELISTED_STATUS)
     },
 
     /**
@@ -691,7 +695,6 @@ export default {
   height: 38px
   font-family: $font-montserrat
   margin: 46px 0 40px
-  margin-right: calc(33.33% - 116px)
 
 .delete-expired-mobile.btn
   font-family: $font-sp-pro

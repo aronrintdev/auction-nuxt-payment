@@ -21,7 +21,6 @@
           </b-col>
           <b-col md="1" class="d-flex flex-column">
             <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
-            <CloseSquaredRed v-if="clearable" class="btn-action mt-1" role="button" @click="$emit('clear')" />
           </b-col>
         </b-row>
       </b-card>
@@ -31,11 +30,10 @@
 
 <script>
 import PencilSquaredBlueSvg from '~/assets/img/icons/pencil_squared_blue.svg?inline'
-import CloseSquaredRed from '~/assets/img/icons/close_squared_red.svg?inline'
 
 export default {
   name: 'GiftCardDetailsCard',
-  components: { PencilSquaredBlueSvg, CloseSquaredRed },
+  components: { PencilSquaredBlueSvg },
   props: {
     editable: {
       type: Boolean,
@@ -75,3 +73,18 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.card
+  &.custom-card
+    .card-body
+      @media (min-width: 576px)
+        box-sizing: border-box
+        padding: 16px 20px
+        height: 57px
+
+        svg
+          position: absolute
+          top: -8px
+          right: 0
+</style>

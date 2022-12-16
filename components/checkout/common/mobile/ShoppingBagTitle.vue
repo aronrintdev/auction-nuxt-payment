@@ -45,11 +45,13 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
 .title-wrapper
   margin: 8px 18px 0
 
   div
-    font-family: 'Montserrat', serif
+    font-family: $font-family-sf-pro-display
 
 .back-arrow
   position: absolute

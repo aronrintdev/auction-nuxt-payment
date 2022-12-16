@@ -10,13 +10,13 @@
 
     <!-- Values -->
     <template v-else>
-      <span v-if="!hide">{{ itemValue }}</span>
-      <span v-if="hide">&#x2022;&#x2022;&#x2022;&#x2022;{{ getValue }}</span>
+      <span v-if="!hide" class="text-result">{{ itemValue }}</span>
+      <span v-if="hide">&#x2022;&#x2022;&#x2022;&#x2022;<span class="text-result">{{ getValue }}</span></span>
     </template>
     <!-- ./Values -->
 
     <!-- Eye icon -->
-    <span role="button" class="ml-4" @click="toggleValue">
+    <span role="button" class="ml-4 eye-icon" @click="toggleValue">
       <img :src="require('~/assets/img/icons/eye2.svg')" alt="eye-icon" />
     </span>
     <!-- ./Eye icon -->

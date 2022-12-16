@@ -10,7 +10,7 @@
           <div class="content h-100 w-100 d-flex align-items-center justify-content-center">
             <div class="p-3">
               <div><img :src="require('~/assets/img/icons/green-tik.svg')" alt=""/></div>
-              <div class="mt-4">{{ text }}</div>
+              <div class="mt-4 text-content">{{ text }}</div>
             </div>
           </div>
         </div>

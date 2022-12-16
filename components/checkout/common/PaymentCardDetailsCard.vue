@@ -1,26 +1,26 @@
 <template>
   <div>
     <div v-if="isResponsive">
-          <b-card class="custom-card">
-            <div class="d-flex">
-              <div class="images-squared">
-                <img
-                  :src="getCardBrandLogo"
-                  alt="..."
-                  width="50"
-                />
-                <div class="body-5-normal">
-                  {{ $t('shopping_cart.ending_in') }}&colon;&nbsp;{{ cardLastDigits }}
-                </div>
-                <div class="body-5-normal">
-                  {{ $t('shopping_cart.exp') }}&colon;&nbsp;{{ cardExpiryDate }}
-                </div>
-              </div>
-              <div>
-                <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
-              </div>
+      <b-card class="custom-card">
+        <div class="d-flex">
+          <div class="images-squared">
+            <img
+              :src="getCardBrandLogo"
+              alt="..."
+              width="50"
+            />
+            <div class="body-5-normal">
+              {{ $t('shopping_cart.ending_in') }}&colon;&nbsp;{{ cardLastDigits }}
             </div>
-          </b-card>
+            <div class="body-5-normal">
+              {{ $t('shopping_cart.exp') }}&colon;&nbsp;{{ cardExpiryDate }}
+            </div>
+          </div>
+          <div>
+            <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
+          </div>
+        </div>
+      </b-card>
     </div>
     <div v-else>
       <b-row>

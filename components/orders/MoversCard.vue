@@ -59,7 +59,7 @@ export default {
       'filters': 'browse/filters'
     }),
     salesPercentage() {
-      return this.product.sales_percentage >= 0 ? `+${this.product.sales_percentage}%` : `${this.product.sales_percentage}%`
+      return this.product.sales_percentage >= 0 ? `+${parseInt(this.product.sales_percentage)}%` : `${parseInt(this.product.sales_percentage)}%`
     },
     salesIndicator() {
       if (this.product.sales_percentage >= 0) {

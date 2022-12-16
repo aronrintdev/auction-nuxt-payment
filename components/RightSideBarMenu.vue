@@ -6,6 +6,7 @@
     width="100%"
     z-index="99999"
     shadow
+    :visible="isVisible"
     no-header
     right
     @shown="isVisible = true"
@@ -337,7 +338,7 @@ export default {
           link: '/profile/vendor-dashboard',
         },
         {
-          icon: 'trophy-outline-gray',
+          icon: 'sell-outline-gray',
           label: this.$t('home.selling_listings'),
           link: '/profile/vendor-selling',
         },
@@ -381,8 +382,18 @@ export default {
           label: this.$t('home.trade_offers'),
           link: '/profile/trades/dashboard/alloffers',
         },
+        {
+          icon: 'settings-outline-gray',
+          label: this.$t('home.trade_preferences'),
+          link: '/profile/trades/preferences',
+        },
       ],
     }
+  },
+  mounted() {
+    this.$root.$on('open-right-sidebar', () => {
+      this.isVisible = true
+    })
   },
   methods: {
     getIcon(name) {

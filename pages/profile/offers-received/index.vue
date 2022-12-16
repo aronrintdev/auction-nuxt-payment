@@ -20,7 +20,7 @@
         <!-- Input search -->
         <div
           class="search-input-col vtpc-search"
-          :class="mobileClass ? 'col-xs-10' : 'col'"
+          :class="mobileClass ? 'col-xs-11' : 'col'"
         >
           <div class="form trade-search">
             <div
@@ -54,7 +54,7 @@
         <div
           v-show="mobileClass"
           :class="
-            mobileClass ? 'col-xs-2 filter-icon-col text-center m-auto' : ''
+            mobileClass ? 'col-xs-1 filter-icon-col text-right m-auto' : ''
           "
         >
           <span class="filter-wrapper" role="button" @click="showFilter">
@@ -93,19 +93,15 @@
         <!-- Filter By -->
         <div class="col filter-by-col">
           <label class="filter-by-label">{{ $t('selling_page.filter_by') }}</label>
-          <CustomSelect
+          <CustomSelectwithCheckbox
             id="filter-by"
-            bordered
-            :default="filterBy"
-            :threelineIcon="false"
-            :options="{
-              default: $t('selling_page.status'),
-              accepted: $t('offers_received.filter_by.accepted'),
-              rejeced: $t('offers_received.filter_by.rejected'),
-              pending: $t('offers_received.filter_by.awaiting_approval'),
-            }"
+            class="dropdown-filters"
+            :value="null"
+            :default="null"
+            :options="FILTER_BY_OPTIONS"
+            :icon-arrow-down="DownArrow"
             :title="filterByTitle"
-            @input="handleFilterByChange"
+            :updateFilters="filterBy"
           />
         </div>
         <!-- ./Filter By -->
@@ -192,7 +188,7 @@
         </div>
       </div>
 
-      <div class="row" :class="mobileClass ? 'custom-margin' : 'mt-5'">
+      <div class="row" :class="mobileClass ? 'custom-margin px-0' : 'mt-5'">
         <div :class="`col-xs-7 ${!mobileClass ? 'placed-offer-item-col' : ''}`">
           <div class="d-flex align-items-baseline">
             <span :class="`placed-offers-items d-flex text-align-center ${mobileClass}`">
@@ -207,7 +203,7 @@
         </div>
 
         <!-- Delete offers for mobile view -->
-        <b-col v-if="mobileClass" class="col-xs-5 d-flex justify-content-end">
+        <b-col v-if="mobileClass" class="col-xs-5 d-flex justify-content-end px-0">
           <!-- Delete offers -->
           <span
             v-if="!showCheckBox"
@@ -242,7 +238,7 @@
         </b-col>
         <!-- Delete offer for mobile view ends -->
       </div>
-      <div class="row" :class="[mobileClass && 'custom-margin']">
+      <div class="row" :class="[mobileClass && 'custom-margin px-0']">
         <b-col
           v-if="mobileClass && !offers.length"
           :class="`empty-data ${mobileClass}`"
@@ -274,7 +270,7 @@
 
         <b-col
           v-if="mobileClass && responsiveData.length"
-          class="offer-received-data"
+          class="offer-received-data mx-0 px-0"
         >
           <offer-received-mobile-view
             v-for="offer in responsiveData"
@@ -320,6 +316,7 @@
             :selected="selected"
             @reloadOffers="getOffers"
             @selectedItem="selectedItem"
+            @sort="sortItems"
           />
           <Pagination
             v-model="searchFilters.page"
@@ -428,7 +425,7 @@ import {
   Button,
   BulkSelectToolbar,
   Pagination,
-} from '~/components/common'
+CustomSelectwithCheckbox} from '~/components/common'
 import { AlertModal } from '~/components/modal'
 import ReceivedOffers from '~/components/profile/offers-received/ReceivedOffers'
 import { DEFAULT, NO_DATE_SELECTED, DELETE } from '~/static/constants'
@@ -436,6 +433,7 @@ import screenSize from '~/plugins/mixins/screenSize'
 import OfferReceivedMobileView from '~/components/profile/offers-received/OfferReceivedMobileView'
 import Confirmation from '~/components/profile/offers-received/Confirmation.vue'
 import MobileFilter from '~/components/profile/offers-received/MobileFilter.vue'
+import DownArrow from '~/assets/img/icons/down-arrow.svg'
 
 export default {
   name: 'OffersReceived',
@@ -449,12 +447,14 @@ export default {
     AlertModal,
     Confirmation,
     MobileFilter,
+    CustomSelectwithCheckbox,
   },
   mixins: [screenSize],
   layout: 'Profile',
   middleware: ['auth', 'vendor'],
   data() {
     return {
+      DownArrow,
       showCheckBox: false,
       filterByTitle: this.$t('selling_page.status'),
       isTableBusy: false,
@@ -465,14 +465,19 @@ export default {
       offers: [],
       searchValue: '',
       categorySelected: '', // For Sort by filter
-      filterBy: '',
+      filterBy: [],
       showSuccessMessage: null,
+      FILTER_BY_OPTIONS: [
+        { text: this.$t('offers_received.filter_by.accepted'), value: 'accepted'},
+        { text: this.$t('offers_received.filter_by.rejected'), value: 'rejected'},
+        { text: this.$t('offers_received.filter_by.awaiting_approval'), value: 'pending'},
+      ],
       searchFilters: {
         startDate: '',
         endDate: '',
         keyWord: '',
         sortBy: '',
-        filterBy: '',
+        auctionType: '',
         perPage: 8,
         page: 1,
       },
@@ -485,7 +490,9 @@ export default {
       hideSelectConfirm: false,
       handleDelete: false,
       pageCount: 0,
-      responsiveData: []
+      responsiveData: [],
+      orderByField: 'id',
+      orderByDirection: 'asc',
     }
   },
 
@@ -503,6 +510,18 @@ export default {
       return vm.selected.length > 0
     },
   },
+  watch: {
+    filterBy: {
+      handler (val) {
+        if (val.length > 0) {
+          this.searchFilters.filterBy = val.map((item) => item.value ).toString()
+        } else {
+          this.searchFilters.filterBy = ''
+        }
+      },
+      deep: true
+    }
+  },
   created() {
     this.responsiveData = []
     this.getOffers()
@@ -519,7 +538,11 @@ export default {
       this.isTableBusy = true
       this.$axios
         .get('/offers-received', {
-          params: this.searchFilters,
+          params: {
+            ...this.searchFilters,
+            order_by_column: this.orderByField,
+            order_by_direction: this.orderByDirection,
+          }
         })
         .then((res) => {
           this.responsiveData.push(...res.data.data)
@@ -554,7 +577,7 @@ export default {
           }else{
             $state.complete()
           }
-          
+
         })
         .catch((err) => {
           this.isTableBusy = false
@@ -670,7 +693,6 @@ export default {
       }
     },
 
-
     onCancel() {
       this.showCheckBox = false
       this.selected = []
@@ -740,9 +762,8 @@ export default {
       }
 
       this.searchFilters.sortBy = val.sortby ? val.sortby : ''
-      this.searchFilters.filterBy =
-        val.status && val.status.value ? val.status.value : ''
-      this.searchFilters.page = 1 
+      this.searchFilters.filterBy = val.status.length ? val.status.map((s) => s.value).toString() : ''
+      this.searchFilters.page = 1
       this.getOffers()
       this.hideFilter()
     },
@@ -750,7 +771,15 @@ export default {
     reloadData(){
       this.searchFilters.page = 1
       this.getOffers()
-    }
+    },
+
+    sortItems(sort) {
+      const { orderByField, orderByDirection } = sort
+      this.orderByField = orderByField
+      this.orderByDirection = orderByDirection
+      this.searchFilters.page = 1
+      this.getOffers()
+    },
   },
 }
 </script>
@@ -764,7 +793,7 @@ export default {
   &.top-margin
     padding: 71px 2%
   .custom-margin
-    margin-top: 38px
+    margin-top: 20px
   .filter-row-bottom
     .filter-by-label,
     .offer-date-label
@@ -789,10 +818,12 @@ export default {
 
 .vendor-trade-inv-body
   background-color: $color-white-4
-  padding: 2%
+  padding-top: 2%
   // For mobile view
   &.mobile
     background-color: $color-white-1
+    padding-left: 16px
+    padding-right: 16px
 
 @media (min-width: 992px)
   .col-lg-10
@@ -890,7 +921,7 @@ export default {
     max-width: 245px
     height: 38px
     .selected
-      height: 38px
+      height: 36px
       padding: 8px
       &::after
         top: 4px
@@ -1086,7 +1117,7 @@ export default {
     width: 100%
     max-width: 170px
     height: 38px
-    
+
     .input-group-append
       #append-b-datepicker
         background: $color-white-1

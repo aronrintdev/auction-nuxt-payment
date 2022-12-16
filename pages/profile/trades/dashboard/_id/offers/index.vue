@@ -5,9 +5,9 @@
       <div class="offers-heading mr-2">
         {{ $t('trades.offers', { '0': tradeOffers.length }) }}
       </div>
-      <img 
+      <img
         class="float-right image-filter"
-        :src="require('~/assets/img/filterTradeList.svg')"  
+        :src="require('~/assets/img/filterTradeList.svg')"
         @click="openBottomFilter()"
       />
     </div>
@@ -236,7 +236,7 @@ export default {
     fetchTradeDetails(){
       this.tradeId = parseInt(this.$route.params.id)
       this.$axios
-        .get('trades/' + this.tradeId)
+        .get('trades/' + this.tradeId + '/' + this.$auth.user.vendor.id)
         .then((response) => {
           this.trade = response.data.data
           this.fetchOffersListing()

@@ -101,9 +101,7 @@ export default {
     }),
     // on move back click
     moveBack() {
-      this.emitRenderComponentEvent(
-        this.$parent.$options.components.YourAddress.name
-      )
+      this.$router.push('/profile/preferences')
     },
 
     // on load address

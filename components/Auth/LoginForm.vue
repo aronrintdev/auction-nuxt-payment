@@ -160,7 +160,7 @@ export default {
               }
             } else if (this.isVendor) {
               this.$router.push({
-                path: '/profile/vendor-dashboard',
+                path: '/',
               })
             } else {
               this.$router.push({

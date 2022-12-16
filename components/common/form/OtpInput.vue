@@ -33,7 +33,7 @@ export default {
 
   data() {
     return {
-      digits: [null, null, null, null, null],
+      digits: [null, null, null, null, null, null],
       inputStatus: {}
     }
   },
@@ -120,7 +120,7 @@ export default {
   border-bottom: 1.5px  solid $color-gray-47
   outline: none
   height: 3rem
-  width: 3rem
+  width: 2.5rem
   display: flex
   margin: 5px
   padding: 0.4rem

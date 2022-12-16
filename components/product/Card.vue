@@ -61,7 +61,7 @@
           {{ product.inventory ? product.inventory[0].size.size : '' }}
         </div>
         <div v-if="showPrice" class="fs-15 fw-6 font-secondary product-price">
-          {{ product.sale_price | toCurrency }}
+          {{ product.sale_price | toRoundedCurrency }}
         </div>
         <div
           v-if="showPriceAndSize"
@@ -257,7 +257,7 @@ export default {
 .product-card-wrapper
   max-width: initial
   text-align: left
-  background-color: $color-white-4
+  background-color: $color-white-1
   .badge-slot
     position: absolute
     top: 20px

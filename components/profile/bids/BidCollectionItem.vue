@@ -29,7 +29,7 @@
                    class="pr-0 pl-md-4 d-flex justify-content-between align-items-center">
               <div
                 :class="isMobileSize
-                ? 'body-5-medium flex-grow-1 text-nowrap overflow-hidden text-truncate sf-pro-font'
+                ? 'body-5-medium flex-grow-1 text-nowrap overflow-hidden text-truncate sf-pro-text'
                 : 'body-4-bold sf-pro-text'"
               >
                 {{ auction.name }} ( {{ auction.auction_items.length }}
@@ -48,6 +48,7 @@
                     {{ $t('bids.accept') }}
                   </a>
                 </div>
+                <div v-if="(bidType !== BID_TYPE_OUTGOING && !acceptable)">-</div>
                 <!-- MOBILE ACCEPT BUTTON END -->
               </template>
             </b-col>
@@ -64,7 +65,7 @@
           </div>
         </b-col>
         <b-col sm="12" md="2" class="d-flex justify-content-around flex-column pt-4">
-          <span class="body-4-normal sf-pro-text text-capitalize">
+          <span class="body-4-normal sf-pro-font text-capitalize">
             {{ !isExpiredOrDelisted ? bid.auction.remaining_time : $t('bids.expired') }}
           </span>
         </b-col>
@@ -95,6 +96,11 @@
             <div class="px-0 px-md-1 px-lg-2 px-xl-3 body-4-medium"> {{ $t('bids.accept') }}</div>
           </Button>
         </b-col>
+        <b-col
+          v-if="(bidType !== BID_TYPE_OUTGOING && !acceptable)"
+          sm="12"
+          md="2"
+          class="d-flex justify-content-center align-items-center flex-column pt-4">-</b-col>
         </template>
       </b-row>
 
@@ -344,8 +350,12 @@ export default {
   overflow: hidden
 
 .auction-id
-  color: $color-blue-31
-  @include body-5-bold
+  text-decoration: underline
+  font-family: $font-sf-pro-text
+  font-weight: $bold
+  text-align: center
+  @include body-5
+  color: $color-blue-1
 
 .text-blue-30
   color: $color-blue-30

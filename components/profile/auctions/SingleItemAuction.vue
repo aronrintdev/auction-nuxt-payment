@@ -16,13 +16,13 @@
           </b-col>
           <b-col cols="8" md="8" class="pl-4 pr-3 d-flex align-items-center">
             <b-row class="d-block" :class="{ 'flex-grow-1' : isMobileSize }">
-              <div class="body-4-bold sf-pro-display mb-1 mb-md-2">
+              <div class="body-4-bold sf-pro-display mb-sm-12 mb-md-02">
                 <span :class="isMobileSize ? 'body-5-medium': 'body-8-medium'">{{ inventory.product.name }}</span>
               </div>
-              <div class="mb-1 mb-md-2 text-gray-6 text-uppercase sf-pro-display" :class="isMobileSize ? 'body-6-normal' : 'body-21-normal'">
+              <div class=" mb-02 mb-md-03 text-gray-6 text-uppercase sf-pro-display" :class="isMobileSize ? 'body-6-normal' : 'body-21-normal'">
                 {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ inventory.product.sku }}
               </div>
-              <div class="mb-1 mb-md-2 text-gray-6 sf-pro-display" :class="isMobileSize ? 'body-6-normal' : 'body-21-normal'">
+              <div class=" mb-02 mb-md-03 text-gray-6 sf-pro-display" :class="isMobileSize ? 'body-6-normal' : 'body-21-normal'">
                 {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ inventory.product.colorway }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{inventory.size.size }}
               </div>
               <div class="text-gray-6 sf-pro-display" :class="isMobileSize ? 'body-6-normal' : 'body-21-normal'">
@@ -33,22 +33,22 @@
         </b-row>
       </b-col>
       <b-col v-if="isMobileSize" class="d-flex justify-content-around flex-column py-1 py-md-0">
-        <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display">
+        <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.auction_id') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-decoration-underline text-blue-30' : 'body-4-normal'">
             {{auction.id}}
           </span>
         </div>
       </b-col>
-      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column py-1 py-md-0 py-1 py-md-0"
+      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column py-02 py-md-0"
              :class="{'bg-lightgrey': isMobileSize}">
-        <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display">
+        <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.type') }}:</span>
-          <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal'">{{$t('auction.auction_types.'+auction.type)}}</span>
+          <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal text-nowrap'">{{$t('auction.auction_types.'+auction.type)}}</span>
         </div>
       </b-col>
       <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-normal py-1 py-md-0">
-        <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display">
+        <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.highest_bid') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal'">
             <span v-if="auction.bids.length">&dollar;{{ auction.highest_bid | formatPrice }}</span>
@@ -56,9 +56,9 @@
           </span>
         </div>
       </b-col>
-      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-normal py-1 py-md-0"
+      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-normal py-02 py-md-0"
              :class="{'bg-lightgrey': isMobileSize}">
-        <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display">
+        <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.bids') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal'">
            {{auction.bids.length|| '-'}}
@@ -66,17 +66,17 @@
         </div>
       </b-col>
       <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-normal py-1 py-md-0">
-        <div class="px-1 d-flex justify-content-between d-md-block text-capitalize sf-pro-display">
+        <div class="px-1 d-flex justify-content-between d-md-block text-capitalize" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.time_remaining') }}:</span>
           <span class="text-capitalize" :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal'">
             {{ isExpired || auction.status !== LIVE_STATUS ? '-' : auction.remaining_time }}
           </span>
         </div>
       </b-col>
-      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-normal py-1 py-md-0"
+      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-normal py-02 py-md-0"
              :class="{'bg-lightgrey': isMobileSize}">
 
-        <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display">
+        <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.status') }}:</span>
           <span :class="[isMobileSize ? 'body-9-regular' : 'body-4-normal', {'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired && auction.status === LIVE_STATUS }]">
             {{ (isExpired && auction.status === LIVE_STATUS) ? $t('bids.expired') : $t('auction.status_array.' + auction.status)}}
@@ -141,7 +141,7 @@ export default {
 .single-item
   padding: 15px 10px
   @media (max-width: 576px)
-    padding: 18px 0 6px
+    padding: 17px 0 6px
 
 .auction-id
   color: $color-blue-31
@@ -163,4 +163,23 @@ export default {
   img
     padding: 0 !important
 
+.mb-md-02
+  @media (min-width: 576px)
+    margin-bottom: 2px
+.mb-md-03
+  @media (min-width: 576px)
+    margin-bottom: 3px
+.mb-sm-12
+  @media (max-width: 576px)
+    margin-bottom: 12px 
+.mb-02
+  @media (max-width: 576px)
+    margin-bottom: 2px
+
+.py-02
+  padding-top: 2.5px
+  padding-bottom: 2.5px
+
+.font-montserrat
+  font-family: $font-montserrat
 </style>

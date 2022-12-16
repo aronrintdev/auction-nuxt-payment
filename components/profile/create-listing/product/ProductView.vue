@@ -182,10 +182,10 @@
         </b-col>
       </b-row>
     </div>
-    <div v-else class="rounded p-3 box-shadow mt-4"
+    <div v-else class="rounded box-shadow mt-4 mobile-product-details"
          @click="mobileDetailsIsExpanded = !mobileDetailsIsExpanded">
       <div class="d-flex justify-content-between">
-        <span class="body-9-medium text-black">
+        <span class="body-13-medium text-black">
           {{ $t('create_listing.product.product_details') }}
         </span>
         <img :src="require('~/assets/img/icons/arrow-down-dark-blue.svg')"
@@ -587,6 +587,7 @@ export default {
   .section-product-details
     @include body-3-normal
     color: $color-gray-5
+    font-family: $font-family-sf-pro-display
 
   .section-product-size
     max-width: 570px
@@ -831,11 +832,15 @@ export default {
 
 .rotate
   transform: rotate(180deg)
+
+.mobile-product-details
+  padding: 19px
 </style>
 <style lang="sass">
-.nav-group .btn-group
-  width: 100%
-  margin-left: 24px
-  margin-right: 24px
+.profile-view
+  .nav-group .btn-group
+    width: 100%
+    margin-left: 24px
+    margin-right: 24px
 </style>
 

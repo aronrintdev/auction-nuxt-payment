@@ -205,10 +205,10 @@ export function saveGiftCardDetails({ commit }, payload) {
       .get(`/preferences/giftcard/${payload}`)
       .then((response) => {
         commit('saveGiftCardDetails', response.data)
-        resolve(response)
+        return resolve(response)
       })
       .catch((error) => {
-        reject(error)
+        return reject(error)
       })
   })
 }
@@ -383,4 +383,44 @@ export function addressDelete({ commit }, payload) {
       reject(err)
     })
   })
+}
+
+export function changeHeaderVisibility({ commit }, payload){
+  commit('updateHeader', payload)
+}
+
+export function defaultCardStatus({ commit }, payload) {
+  commit('cardStatus', payload.defaultCard)
+}
+
+export function updateCardToDefault({ commit }, payload){
+  return new Promise((resolve, reject) => {
+    this.$axios
+        .put(`/preferences/payments/update-default-status/${payload.cardId}`, {
+          default: payload.default
+        })
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          this.$logger.logToServer(
+            'Preferences Payments make default: ',
+            err.response
+          )
+          reject(err)
+        })
+  })
+}
+
+export function giftCardRedeemStatus({ commit }, payload) {
+  commit('cardRedeemStatus', payload.cardRedeemStatus)
+}
+
+export function giftCardSuccessAlert({ commit }, payload) {
+  commit('successAlert', payload.giftCardSuccessAlert)
+}
+
+
+export function giftCardCount({ commit }, payload) {
+  commit('updateGiftCardCount', payload.giftCardCount)
 }

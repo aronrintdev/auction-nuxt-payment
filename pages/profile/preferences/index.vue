@@ -5,7 +5,7 @@
         {{ $t('profile_menu.preferences') }}
       </h1>
     </div>
-    <b-container v-if="!isScreenXS" class="vendor-preferences-body preferences-web" fluid >
+    <b-container class="vendor-preferences-body preferences-web" fluid>
       <b-row class="mt-md-4 mt-4">
         <b-col md="3" sm="3"></b-col>
         <b-col
@@ -44,44 +44,59 @@
     </b-container>
 
     <!-- for responsive screen-->
-    <div v-if="isScreenXS" class="responsive-preferences" >
+    <div v-if="isScreenXS" class="responsive-preferences">
       <!-- heading for responsive screen-->
-      <span class="d-flex text-align-center align-items-center
-                justify-content-center mt-3 border-bottom" >
+      <span
+        v-if="showHeader"
+        class="
+          d-flex
+          text-align-center
+          align-items-center
+          justify-content-center
+          mt-3
+          border-bottom
+        "
+      >
         <h1 class="responsive-heading text-capitalize">
           {{ $t('profile_menu.preferences') }}
         </h1>
       </span>
       <!-- heading for responsive screen-->
       <b-col
-          class="justify-content-center align-items-center d-flex mt-3"
-        >
-          <!-- Profile/ Payments Tab for responsive screen-->
-          <NavGroup :value="activeNav" :data="menus" class="nav-select" @change="navItem" />
-          <!-- Profile/ Payments Tab for responsive screen-->
+        v-if="showHeader"
+        class="justify-content-center align-items-center d-flex mt-3"
+      >
+        <!-- Profile/ Payments Tab for responsive screen-->
+        <NavGroup
+          id="responsive-nav"
+          :value="activeNav"
+          :data="menus"
+          class="nav-select w-100"
+          @change="navItem"
+        />
+        <!-- Profile/ Payments Tab for responsive screen-->
       </b-col>
-      <b-row class="component-row" >
+      <b-row class="component-row justify-content-center">
         <!-- Content -->
-        <ResponsiveProfileComponent v-if="activeNav === 'profile'"/>
-        <PaymentComponent v-if="activeNav === 'payments'"/>
-        
+        <ResponsiveProfileComponent v-if="activeNav === 'profile'" />
+        <ResponsivePaymentComponent v-else />
         <!-- ./Content -->
       </b-row>
     </div>
-     <!-- for responsive screen-->
-
+    <!-- for responsive screen-->
   </b-col>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import NavGroup from '~/components/common/NavGroup.vue'
 import PreferenceComponent from '~/components/profile/preferences/PreferenceComponent.vue'
 import logoutMixin from '~/plugins/mixins/logout'
-import {GOOGLE_MAPS_BASE_URL} from '~/static/constants'
-import realtime from '~/plugins/mixins/realtime';
+import { GOOGLE_MAPS_BASE_URL } from '~/static/constants'
+import realtime from '~/plugins/mixins/realtime'
 import screenSize from '~/plugins/mixins/screenSize'
 import ResponsiveProfileComponent from '~/components/profile/preferences/ResponsiveProfileComponent.vue'
-import PaymentComponent from '~/components/profile/preferences/PaymentComponent.vue'
+import ResponsivePaymentComponent from '~/components/profile/preferences/ResponsivePaymentComponent.vue'
+
 export default {
   name: 'ProfilePreferencesIndexPage',
 
@@ -89,7 +104,7 @@ export default {
     NavGroup, // Tabs Component
     PreferenceComponent,
     ResponsiveProfileComponent,
-    PaymentComponent
+    ResponsivePaymentComponent,
   },
   mixins: [logoutMixin, realtime, screenSize],
   layout: 'Profile',
@@ -108,10 +123,20 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters({
+      showHeader: 'preferences/showHeader',
+    }),
+  },
+
   mounted() {
+    if(this.$auth.$storage.getUniversal('showGiftCardMethod')){
+      this.activeNav = 'payments'
+    }
     // inject google maps on mount.
     this.injectGoogleMapsApi()
     this.getUserPaymentMethods()
+    this.$store.dispatch('preferences/changeHeaderVisibility', true)
   },
 
   methods: {
@@ -178,30 +203,28 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
-.responsive-preferences
-  padding: 4%
-
-.responsive-heading
-  font-family: $font-montserrat
-  font-style: normal
-  @include body-3-medium
-  letter-spacing: -0.02em
-  color: $color-black-1
-  background-color: $color-white-1  
-
-.nav-select  
-  width: 100% !important
+.vendor-preferences-body
+  .responsive-preferences
+    padding: 20px 16px
+  .responsive-heading
+    font-family: $font-montserrat
+    font-style: normal
+    @include body-3-medium
+    letter-spacing: -0.02em
+    color: $color-black-1
+    background-color: $color-white-1
 
 @media (max-width:576px)
   .preferences-web
     display: none
   .responsive-preferences::v-deep
-    height: 700px
     display: block
-    background-color: $color-white-1  
+    background-color: $color-white-1
 @media (min-width:576px)
   .preferences-web
-    display: block  
-
-
+    display: block
+.vendor-preferences-body
+  #responsive-nav::v-deep
+    .btn-group
+      margin: 0
 </style>
