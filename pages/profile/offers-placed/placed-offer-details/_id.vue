@@ -21,7 +21,7 @@
     <!-- ./Product summary heading -->
 
     <!-- Product summary details -->
-    <div v-if="isScreenXS" 
+    <div v-if="isScreenXS"
       id="product-summary"
       class="
         single-live-reserve-section-box-collections
@@ -178,7 +178,7 @@
     </div>
     <!-- Product summary details ending -->
 
-    <div v-if="isScreenXS" class="row vd-product-summary-listing my-4">
+    <div v-if="isScreenXS" class="row vd-product-summary-listing mt-40 mb-30">
       <div
         class="
           col-12
@@ -235,17 +235,17 @@
                           />
                         </div>
                       </div>
-                      <div class="col-xs-4 mt-2 highest-offer-tag">
+                      <div class="col-xs-4 highest-offer-tag mt-12">
                         <div v-if="highestOffer && highestOffer.id === placedOffer.id" class="offer-text-tag d-flex justify-content-center">
                           {{ $t('placed_offers.highest_offer') }}
                         </div>
                       </div>
-                      <div class="col-xs-2 mt-2">
+                      <div class="col-xs-2 mt-12">
                         <div class="offer-value-tag d-flex justify-content-center">
                           {{ placedOffer.bid_price | toCurrency('USD', 'N/A') }}
                         </div>
                       </div>
-                      <div class="col-xs-3 mt-2">
+                      <div class="col-xs-3 mt-12">
                         <div
                         class="offer-date-tag d-flex justify-content-center"
                       >{{ placedOffer.created_at | formatDate('MM-DD-YYYY') }}</div>
@@ -643,4 +643,11 @@ export default {
           font-style: normal
           @include body-9-normal
           color: $color-green-2
+
+.mt-12
+  margin-top: 10px
+.mt-40
+  margin-top: 40px
+.mb-30
+  margin-bottom: 30px
 </style>

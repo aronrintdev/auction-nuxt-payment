@@ -118,7 +118,6 @@
           :fair="getFairTradeValue()"
           heading="trades.trade_arena.fair_trade_meter"
         />
-      </div>
     </div>
 
   </div>

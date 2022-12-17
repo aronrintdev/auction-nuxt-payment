@@ -34,12 +34,16 @@
         :label="$t('createlisting.min_offer_amount')"
         prefix="$"
         class="input"
-        :class="{'input-error': value.minOfferAmount !== null && value.minOfferAmount <= minOfferMinVal}"
+        :class="{'input-error': value.minOfferAmount !== null &&
+                                (value.minOfferAmount <= minOfferMinVal) ||
+                                (value.minOfferAmount > value.price)
+        }"
         required
         integer
         @input="handleMinOfferPriceChange"
       />
-      <div v-if="value.minOfferAmount !== null && value.minOfferAmount <= minOfferMinVal" class="error-text mt-1">
+      <div
+        v-if="value.minOfferAmount !== null && value.minOfferAmount <= minOfferMinVal" class="error-text mt-1">
         {{
           value.minOfferAmount === null ||
           $t('inventory.message.gt_than', {
@@ -47,6 +51,10 @@
             amount: minOfferMinVal,
           })
         }}
+      </div>
+      <div
+        v-if="value.minOfferAmount !== null && value.minOfferAmount > value.price" class="error-text mt-1">
+        {{ $t('inventory.message.offer_gth_than_price') }}
       </div>
     </div>
     <div

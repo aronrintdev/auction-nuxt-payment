@@ -74,7 +74,7 @@ export default {
     Badge,
     SearchAndFilter,
     NavGroup,
-    ShopProductCard,
+    ShopProductCard
   },
   layout: 'IndexLayout',
   fetchOnServer: false,

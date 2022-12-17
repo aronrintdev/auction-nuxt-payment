@@ -21,7 +21,6 @@
           />
           <img :src="plusIcon" alt="addIcon" class="add" />
           <img :src="removeIcon" alt="addIcon" class="remove" />
-          
         </label>
 
         <div
@@ -200,6 +199,9 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.inventory-card-wrapper .remove,
+.inventory-card-wrapper .add
+  cursor: pointer
 .inventory-card-wrapper
   .product-info
     .product-image
@@ -254,6 +256,7 @@ export default {
         font-weight: $normal
         @include body-5
         color: $black
+        margin-top: 4px
 
       .product-stock
         @include body-4-normal
@@ -280,7 +283,7 @@ export default {
       height: 32px
       padding: 0
       border-color: $color-gray-4
-  
+
   .checkbox-label
     top: 10px
     right: 10px
@@ -297,8 +300,6 @@ export default {
   @media (max-width: 576px)
     .product-info
       border: none
-      padding-left: 6px
-      padding-right: 6px
       .product-image
         background: $color-white-4
         padding: 10px
@@ -316,6 +317,7 @@ export default {
         .product-price
           font-size: 12px
           line-height: 14px
+          font-weight: $medium
           color: $black
     .checkbox-label
       img

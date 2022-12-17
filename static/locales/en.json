@@ -60,6 +60,7 @@
     "size": "Size | Sizes",
     "size_type": "Size Type | Size Types",
     "n_item_selected": "{n} {unit} selected",
+    "deselect": "Deselect",
     "deselect_all": "Deselect All",
     "select_all": "Select All",
     "product": "Product | Products",
@@ -170,6 +171,7 @@
     "done": "Done",
     "end_date": "End Date",
     "search_brands": "Search Brands",
+    "search_products": "Search Products",
     "sort_by": "Sort By",
     "options": "Options",
     "reset": "Reset",
@@ -225,7 +227,8 @@
         "3": "No Original Packaging"
       }
     },
-    "box": "Box"
+    "box": "Box",
+    "$0": "$0.00"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -273,7 +276,7 @@
     "terms": "Terms",
     "privacy": "Privacy",
     "verify": "Verify",
-    "login_to_your_account": "Log in to your Account",
+    "login_to_your_account": "Log in to Your Account",
     "login_via_social_media": "Log in via Social Media",
     "forgot_password": "Forgot Password",
     "new_to_deadstock": "New to Deadstock",
@@ -401,6 +404,7 @@
     "get_the_most_out_of": "Get the most out of the Deadstock App",
     "deadstock_app_buy_sell_trade": "Deadstock App - Buy, Sell, Trade and Auction",
     "create_account": "Create Account",
+    "welcome_to_deadstock": "Welcome to Deadstock",
     "sign_in": "Sign In",
     "login": "Log In",
     "vendor_hub": "Vendor Hub",
@@ -412,6 +416,7 @@
     "trade": "Trade",
     "auction": "Auction",
     "sell": "Sell",
+    "misc": "Misc.",
     "profile": "Profile",
     "dashboard": "Dashboard",
     "dead_stock_exchange": "Deadstock Exchange",
@@ -425,6 +430,7 @@
     "selling_listings": "Selling Listings",
     "trade_listings": "Trade Listings",
     "trade_offers": "Trade Offers",
+    "trade_preferences": "Trade Preferences",
     "offers_received": "Offers Received",
     "bids_received": "Bids Received",
     "auctions_listings": "Auctions Listings",
@@ -1868,6 +1874,8 @@
       "single_item": "Single Item",
       "lot": "Lot",
       "collection": "Collection",
+      "delete_sold_expired_listings": "Delete Sold/Expired Listings",
+      "delete_listings": "Delete Listings",
       "table_columns": {
         "details": "Details",
         "listing": "Listing",
@@ -1998,7 +2006,8 @@
         "cta_label": "List"
       },
       "recently_viewed": "Recently Viewed",
-      "ending_soon": "Auctions Ending Soon",
+      "ending_soon": "Ending Soon",
+      "ending_soon_load_more": "View More Ending Soon",
       "no_reserve": "No-Reserve",
       "reserve": "Reserve",
       "search_results": "Search Results",
@@ -2632,6 +2641,7 @@
     "shipping_fee": "Shipping Fee",
     "processing_fee": "Processing Fee",
     "tax": "Tax",
+    "crypto": "Crypto",
     "promo_code": "Promo Code",
     "promo_code_applied": "Promo applied!",
     "enter_your_code": "Enter your code",
@@ -2824,6 +2834,7 @@
   "auction": {
     "list_auction_today": "List an auction today on Deadstock!",
     "search_placeholder": "Search for product SKU or by keyword",
+    "browse_auction": "Browse Auction",
     "auction_type": "Auction Type",
     "auction_types": {
       "single": "Single Item",
@@ -3531,6 +3542,7 @@
       "city": "City",
       "state": "State",
       "zip": "Zip/ Postal Code",
+      "please_provide_billing_first"  : "Please provide billing address.",
       "country": "Country",
       "billing_address": "Billing Address",
       "social_media_links": "Social Media Links",
@@ -3779,7 +3791,7 @@
         "state": "State",
         "phone": "Phone #"
       },
-      "field_is_empty"  : "Field is empty"
+      "new_balance" : "New Balance"
     }
   },
   "monthNames": {
@@ -3820,6 +3832,7 @@
   "inventory": {
     "available_to_list": "Available to List",
     "add_inventory": "Add Inventory",
+    "create_inventory": "Create Inventory",
     "search_placeholder": "Search your Inventory by SKU, Product Name or Brand",
     "search_product_placeholder": "Search by SKU, Keyword, or Brand",
     "upload_csv_file": "Upload CSV File",
@@ -3841,6 +3854,7 @@
     "save_changes": "Save Changes",
     "discard_changes": "Discard Changes",
     "csv_drafts": "CSV Drafts",
+    "csv_upload": "CSV Upload",
     "export_to_csv": "Export to CSV",
     "list_selected": "List Selected",
     "delete_selected": "Delete Selected",
@@ -3848,6 +3862,7 @@
     "analyzing": "Analyzing...",
     "analyzing_completed": "Analyzing Completed!",
     "available_to_add_to_inventory": "Available to add to inventory ( {count} )",
+    "recognized_items": "Recognized items ( {count} )",
     "unrecognized_items": "Unrecognized items ( {count} )",
     "search_draft_placeholder": "Search Draft by SKU, Product Name or Brand",
     "do_you_mean": "Do you mean?",
@@ -3869,8 +3884,12 @@
       "thanks_for_suggestion": "Thanks For Suggestion!",
       "after_suggestion_info": "If product is a good fit, our team reach out to<br> the email associated with this account for<br> more information.",
       "gt_than": "Please choose another {field} more than {amount}",
-      "between": "Please choose another {field} between {min} and {max}"
-    }
+      "between": "Please choose another {field} between {min} and {max}",
+      "offer_gth_than_price": "Min offer amount shouldn't be higher than the listing price"
+    },
+    "list_product": "List Product",
+    "edit_details": "Edit Details",
+    "mobile_search_info": "Begin by searching for your product"
   },
   "vendor_purchase": {
     "their_value": "THEIR VALUE",
@@ -3903,7 +3922,6 @@
     "shipping_method": "Shipping Method",
     "shipping_status": "Shipping Status",
     "shipping_details": "Shipping Details",
-    "payment_summary": "Payment Summary",
     "billing_address": "Billing Address",
     "payment_method": "Payment Method",
     "item": "{count} Item",
@@ -4233,6 +4251,7 @@
       "higher_revenues_desc": "Auctions tend to allow Sellers to sell more items in a quicker time frame.",
       "certified_authentic_products": "Certified Authentic Products",
       "certified_authentic_products_desc": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed.",
+      "certified_authentic_products_desc_new": "Our experts verify each item through our authentication process using A.I. and in-person verification. We aim to ensure all items are authentic and as described.",
       "bidding": "Bidding",
       "selling": "Selling",
       "low_costs": "Low Costs",
@@ -4807,7 +4826,6 @@
           "offered": "Offered",
           "wants": "Wants",
           "box": "Box",
-          "size": "Size",
           "wants_inventory": "Wants Inventory",
           "wants_combinations": "Wants Combinations",
           "no_offers_specified": "No Offered Items Specified",
@@ -5053,10 +5071,12 @@
       "trade_preferences": "Trade Preferences",
       "inventory_settings": "Inventory Settings",
       "allow_other_traders_to": "Allow other traders to view your inventory when placing an offer.",
-      "current_status": "Current Status:",
+      "current_status": "Current Status : ",
       "offer_settings": "Offer Settings",
       "other_traders_will_only_be_able": "Other traders will only be able to send offers starting at a certain trade condition",
       "starting_at": "Starting at:",
+      "starting_at_new": "Customize the min. offer value you want sent",
+      "looking_for": "Brands I Am Looking for",
       "poor": "Poor",
       "fair": "Fair",
       "of_fair_offer": "of Fair Offers",
@@ -5067,9 +5087,10 @@
       "sneaker": "Sneaker",
       "apparel": "Apparel",
       "accessories": "Accessories",
-      "not_interested": "NOT INTERESTED",
-      "interested": "INTERESTED",
+      "not_interested": "Not Interested",
+      "interested": "Interested",
       "size_preferences": "Size Preferences",
+      "brand_preferences": "Brand Preferences",
       "size_type": "Size Type",
       "brands_i_am_looking_for": "Brands I am looking for",
       "suggest_these_brands_to_find": "Suggest these brands to find more trade listings",
@@ -5093,7 +5114,7 @@
       "brand_preferences": "Brand Preferences",
       "select_brands_you_are_interested_in": "Select brands you are interested in",
       "nike_supreme_bape": "Nike, Supreme, Bape",
-      "set_what_other_traders_are_able_to_view_when_placing": "Set what other traders are able to view when placing an offer"
+      "set_what_other_traders_are_able_to_view_when_placing": "Set Privacy Settings for your inventory"
     },
     "wants_listing": {
       "general_wants": "General Wants",
@@ -5239,7 +5260,9 @@
     "how_to_find_my_code": "How do I find my code?",
     "redeemed": "Redeemed",
     "giftcard_error": "*Unfortunately, this gift card code and PIN is invalid. Please check your code for typos and enter it again.",
-    "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number."
+    "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number.",
+    "invalid_data"  : "*Unfortunately, this gift card code and PIN is invalid.",
+    "redeem_success"  : "Once you receive a gift card, an email confirmation will be delivered with details including your gift code and pin number."
   },
   "thresholds": {
     "success_message": "Commission Threshold Saved Successfully",
@@ -5250,7 +5273,7 @@
     "general": {
       "add_to_bag": "Add {type} to Bag",
       "add_style_to_bag": "Add Style to Cart",
-      "back_to_style": "< Back to All Style"
+      "back_to_style": "< Back to All Styles"
     },
     "title": "Shop by Style",
     "title_archive": "Shop by Style (Archive)",
@@ -5296,7 +5319,7 @@
     "edit_offer_amount": "Edit offer amount",
     "edit_offer_delete": "Delete Offer",
     "placed_offers_product_summary": "Product Summary",
-    "placed_offers_your_placed_offers": "Your Placed",
+    "placed_offers_your_placed_offers": "Your Placed Offers",
     "responsive_heading": "Offers",
     "responsive_detailed_heading": "Offer",
     "highest_offer": "Highest Offer",
@@ -5572,6 +5595,9 @@
     "sort": "Sort",
     "apply_filter": "Apply Filter",
     "reset": "Reset",
+    "looks_like_no_orders_have_been_placed": "Looks like no orders have been placed.",
+    "list_a_product_today_on_deadstock": "List a product today on Deadstock",
+    "create_a_listing": "Create a Listing",
     "order_types": {
       "buy": "Buy",
       "trade": "Trade",
@@ -5716,6 +5742,7 @@
   },
   "vendor_dashboard": {
     "title": "Dashboard",
+    "products": "Products",
     "hi_name": "Hi {0},",
     "you_are_seller": "You are a {rank} Seller",
     "seller_fee": "Seller Fee",
@@ -5766,7 +5793,43 @@
     "sku": "SKU",
     "colorway": "Colorway",
     "box_condition": "Box Condition",
-    "fedex": "FedEx"
+    "fedex": "FedEx",
+    "breakdown": {
+      "export": "Export to CSV",
+      "total": "Total",
+      "select_name": "Select {name}",
+      "overview": "Overview",
+      "search_placeholder": "Search for SKU, Brand or Product Name",
+      "products": "Products",
+      "search_brand": "Search for Brands",
+      "search_product": "Search for Products",
+      "percentage": "Percentage Breakdown",
+      "statistics": "Statistics",
+      "select_all": "Select All",
+      "clear_all": "Clear All",
+      "over_retail_price": "over retail price",
+      "tabs": {
+        "category": "Categories",
+        "brand": "Brands",
+        "product": "Products"
+      },
+      "table": {
+        "product": "Product",
+        "category": "Category",
+        "brand": "Brand",
+        "items_sold": "Items Sold",
+        "price_premium": "Price Premium",
+        "avg_sale_price": "Avg. Sale Price",
+        "sales": "Sales ($)"
+      },
+      "categories": {
+        "footwear": "Footwear",
+        "apparel": "Apparel",
+        "accessories": "Accessories"
+      },
+      "premium_info": "Price premium is the percentage in which the selling price has exceeded or fallen short of the retail price.",
+      "sales": "Sales Breakdown"
+    }
   },
   "notifications": {
     "title": "Notifications",
@@ -5850,7 +5913,7 @@
         }
       },
       "all_communication": "All Communications",
-      "shop": "Buy",
+      "shop": "Shop",
       "trade": "Trade",
       "auction": "Auction",
       "notification_preferences": "Notification Preferences",
@@ -5931,9 +5994,9 @@
     "save_for_later": "Save for later"
   },
   "offers_received": {
-    "offers"  : "Offers",
+    "offers": "Offers",
     "heading": "Offers Received",
-    "your_placed_offers": "Your Received Offers ({count})",
+    "your_placed_offers": "Offers Received ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
     "start_date": "Start Date",
     "end_date": "End Date",
@@ -5985,6 +6048,7 @@
       "offers_placed_mobile": "Offers",
       "total_purchases_main": "Total Purchases",
       "earn_money": "Earn Money",
+      "earn_more": "Earn More",
       "rewards": "Rewards",
       "view_rewards": "View Rewards",
       "ds_points": "DS Points",

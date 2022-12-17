@@ -13,6 +13,7 @@
     </div>
 
     <div v-show="menuVisible" class="position-absolute m-0 w-100 accordion-filter-body">
+      <slot name="firstRow"></slot>
       <div class="mr-2">
         <div v-for="(item, index) in options" :key="index" class="form-check">
           <input
@@ -111,7 +112,7 @@ export default {
 
     .accordion-filter-button
       &::after
-        transform: rotate(-180deg)
+        transform: rotate(0deg)
 
   .accordion-filter-button
     @include body-4-normal
@@ -133,7 +134,7 @@ export default {
       background-repeat: no-repeat
       background-size: 20px
       transition: transform 0.2s ease-in-out
-      transform: rotate(0deg)
+      transform: rotate(180deg)
 
     @media (prefers-reduced-motion: reduce)
       &::after

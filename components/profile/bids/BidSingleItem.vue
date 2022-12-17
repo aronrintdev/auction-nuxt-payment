@@ -99,7 +99,7 @@
              :class="{'bg-lightgrey': isMobileSize}">
         <div class="d-flex justify-content-between d-md-block  align-items-center short-row-section">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.time_remaining') }}:</span>
-          <span :class="isMobileSize ? 'body-9-regular text-gray-6 text-capitalize' : 'body-4-normal sf-pro-text text-capitalize'">{{ !isExpiredOrDelisted ? bid.auction.remaining_time : 'Expired' }}</span>
+          <span :class="isMobileSize ? 'body-9-regular text-gray-6 text-capitalize' : 'body-4-normal sf-pro-font text-capitalize'">{{ !isExpiredOrDelisted ? bid.auction.remaining_time : 'Expired' }}</span>
         </div>
       </b-col>
       <b-col
@@ -291,6 +291,7 @@ export default {
 .single-item
   padding: 16px
   margin-bottom: 11px
+  color: $black
   @media (max-width: 576px)
     padding: 14px 0 6px
     margin-bottom: 15px

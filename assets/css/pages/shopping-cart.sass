@@ -7,6 +7,15 @@
 .product-preview
   background: $color-white-5
 
+  @media (min-width: 576px)
+    padding-top: 76px
+    min-width: 404px
+
+.items-list
+  @media (min-width: 576px)
+    padding-top: 76px
+    max-width: 1036px
+
 div
   &.custom-card
     &.card
@@ -67,6 +76,27 @@ div.custom-form-element
 .custom-card
   &.radius-3
     border-radius: 1rem
+
+/* Custom check box styles */
+.terms-and-conditions-wrapper,
+.use-as-shipping-wrapper,
+.save-details-wrapper
+  .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before
+    color: $white
+    border-color: $black
+    background-color: $black
+    box-shadow: none
+
+  .custom-checkbox .custom-control-input:checked ~ .custom-control-label::after
+    background-image: url('~/assets/img/shopping-cart/check-white.svg')
+    background-size: 12px 12px
+
+  .custom-control-label::before,
+  .custom-checkbox .custom-control-input:not(:disabled):active ~ .custom-control-label::before,
+  .custom-checkbox .custom-control-input:focus:not(:checked) ~ .custom-control-label::before
+    border-color: $black
+    box-shadow: none
+    background: none
 
 /* Custom form & card label styles */
 .custom-form,

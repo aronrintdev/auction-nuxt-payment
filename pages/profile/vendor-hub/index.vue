@@ -22,6 +22,9 @@
         <Commissions v-if="currentTab === 'commission'"/>
       </div>
     </div>
+    <client-only v-if="mobileClass">
+      <Portal to="page-title">{{ $t('vendor_hub.vendor_hub') }}</Portal>
+    </client-only>
   </div>
 </template>
 

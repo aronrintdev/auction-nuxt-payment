@@ -205,10 +205,10 @@ export function saveGiftCardDetails({ commit }, payload) {
       .get(`/preferences/giftcard/${payload}`)
       .then((response) => {
         commit('saveGiftCardDetails', response.data)
-        resolve(response)
+        return resolve(response)
       })
       .catch((error) => {
-        reject(error)
+        return reject(error)
       })
   })
 }
@@ -410,4 +410,17 @@ export function updateCardToDefault({ commit }, payload){
           reject(err)
         })
   })
+}
+
+export function giftCardRedeemStatus({ commit }, payload) {
+  commit('cardRedeemStatus', payload.cardRedeemStatus)
+}
+
+export function giftCardSuccessAlert({ commit }, payload) {
+  commit('successAlert', payload.giftCardSuccessAlert)
+}
+
+
+export function giftCardCount({ commit }, payload) {
+  commit('updateGiftCardCount', payload.giftCardCount)
 }

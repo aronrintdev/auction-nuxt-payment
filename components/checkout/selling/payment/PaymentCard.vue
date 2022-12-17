@@ -122,7 +122,7 @@
         </b-card>
 
         <!-- Save For Next Time Checkbox -->
-        <b-row class="mt-4">
+        <b-row class="mt-4 save-details-wrapper">
           <b-col md="12">
             <b-form-checkbox v-model="form.saveForNextTime">
               <template #default>
