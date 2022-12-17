@@ -15,7 +15,7 @@
         :value="category"
         nav-key="category"
         btn-class="px-lg-5 px-0"
-        class="section-nav text-center my-4 mx-3 mx-sm-0"
+        class="section-nav text-center mt-4 mx-3 mx-sm-0"
         @change="handleCategoryChange"
       />
       <div v-if="!noSearchResult" class="container">
@@ -339,7 +339,8 @@ export default {
 .container-shop
   .h-300
     height: 300px
-    
+  .section-nav
+    margin-bottom: 69px 
   @media (min-width: 1024px)
     .scroll-to-top
       display: flex !important
