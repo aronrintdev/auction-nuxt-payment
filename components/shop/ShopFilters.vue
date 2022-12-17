@@ -343,32 +343,28 @@ export default {
     },
 
     removeFilter(type, index) {
+      this.$store.commit('browse/setIsFilter',false)
       switch(type) {
             case 'sizesType':
               this.selectedFilters.sizeTypes.splice(index, 1)
-              this.$store.commit('browse/setIsFilter',false)
               break;
             case 'sizes':
               this.selectedFilters.sizes.splice(index, 1)
-              this.$store.commit('browse/setIsFilter',false)
               break;
             case 'brands':
               this.selectedFilters.brands.splice(index, 1)
-              this.$store.commit('browse/setIsFilter',false)
               break;
             case 'years':
               this.selectedFilters.years = []
               this.selectedYears =  [MIN_YEAR, MAX_YEAR]
-              this.$store.commit('browse/setIsFilter',false)
               break;
             case 'prices':
               this.selectedFilters.prices = []
               this.selectedPrices = [MIN_PRICE, MAX_PRICE / 100]
-              this.$store.commit('browse/setIsFilter',false)
               break;
             default:
               // code block
-          }
+      }
     },
     clearAllFilters() {
       this.selectedPrices = [MIN_PRICE, MAX_PRICE / 100]
