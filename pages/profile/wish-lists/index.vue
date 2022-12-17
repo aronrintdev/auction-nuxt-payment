@@ -445,10 +445,6 @@ export default {
     })
   },
   async mounted (){
-    const mobile = document.querySelector('.mobile-p-b')
-    if (mobile) {
-      mobile.classList.add('mobile-p-b-1')
-    }
     await this.fetchWishLists()
     if (this.$route.query?.id) {
       const wishList = this.wishLists.find(
@@ -828,10 +824,4 @@ export default {
 @media (max-width: 576px)
 ::v-deep .nav-group .btn-group
   height: 35px
-</style>
-<style lang="sass">
-.mobile-p-b
-  padding-bottom: 14px
-#mobile-p-b-1
-  padding-bottom: 14px
 </style>
