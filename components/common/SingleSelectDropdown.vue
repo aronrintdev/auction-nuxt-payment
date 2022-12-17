@@ -19,7 +19,7 @@
             :id="`${title}-flexCheckDefault-${index}`"
             :checked="value && value.includes(item.value)"
             class="form-check-input"
-            type="checkbox"
+            type="radio"
             @click="updateFilter(item.value)"
           />
           <label
@@ -38,7 +38,7 @@
 import ClickOutside from 'vue-click-outside'
 
 export default {
-  name: 'MultiSelectDropdown',
+  name: 'SingleSelectDropdown',
   directives: {
     ClickOutside
   },
@@ -52,8 +52,8 @@ export default {
       default: () => [],
     },
     value: {
-      type: Array,
-      default: () => [],
+      type: String,
+      default: '',
     },
     width: {
       type: [Number, String],
@@ -66,7 +66,7 @@ export default {
     }
   },
   mounted() {
-    if (this.value && this.value.length > 0) {
+    if (this.value) {
       this.$root.$emit('bv::toggle::collapse', `collapse-${this.collapseKey}`)
     }
   },
@@ -77,17 +77,7 @@ export default {
     },
 
     updateFilter(value) {
-      if (this.value?.includes(value)) {
-        this.$emit('input', this.removeItem(this.value, value))
-      } else if (this.value) {
-        this.$emit('input', [...this.value, value])
-      } else {
-        this.$emit('input', [value])
-      }
-    },
-
-    removeItem(arr, value) {
-      return arr?.filter((i) => i !== value)
+        this.$emit('input',value)
     },
 
     hideMenu() {

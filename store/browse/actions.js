@@ -8,7 +8,7 @@ export function resetFilters({ commit }) {
   commit('setSelectedYears', [])
   commit('setSelectedBrands', [])
   commit('setSelectedSizes', [])
-  commit('setSelectedSizeTypes', null)
+  commit('setSelectedSizeType', null)
   commit('setSelectedOrdering', null)
   commit('setSelectedSort', null)
   commit('setSelectedSearch', null)

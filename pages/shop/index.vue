@@ -36,7 +36,7 @@
             class="mt-4 mb-5"
             :products="recentProducts"
             :showActions="false"
-            showArrows
+            showArrowsOnHover
             loop
           />
         </section>
@@ -131,6 +131,9 @@
 <script>
 import debounce from 'lodash.debounce';
 import { mapActions, mapGetters } from 'vuex'
+import {
+  MEN
+} from '~/static/constants'
 import ShopFilters from '~/components/shop/ShopFilters.vue'
 import AdBanner from '~/components/shop/AdBanner.vue'
 import { NavGroup,Loader } from '~/components/common'
@@ -159,6 +162,7 @@ export default {
       newReleaseLoading:true,
       trendingLoading:true,
       instantShippingLoading:true,
+      MEN,
       // todo
       products: [],
       CATEGORIES: [
@@ -167,7 +171,7 @@ export default {
         { label: this.$t('common.apparel'), value: 'apparel' },
         { label: this.$t('common.all_sizes', 2), value: 'all_sizes' },
       ],
-      category: 'all',
+      category: 'sneakers',
       loading: false,
       loadingFilter: false,
       prices:null,
@@ -191,7 +195,7 @@ export default {
       'selectedYears',
       'selectedBrands',
       'selectedSizes',
-      'selectedSizeTypes',
+      'selectedSizeType',
       'selectedSearch',
       'selectedSort',
       'selectedOrdering',
@@ -225,15 +229,13 @@ export default {
       if (this.selectedSizes) {
         filters.sizes = this.selectedSizes.join(',')
       }
-      if (this.selectedSizeTypes) {
-        filters.size_types = this.selectedSizeTypes.join(',')
-      }
       if (this.selectedYears) {
         filters.years = this.selectedYears.join('-')
       }
       if(this.selectedSearch){
         filters.search = this.selectedSearch
       }
+      filters.size_types = this.selectedSizeType ?? MEN
       filters.desc = this.selectedSort?this.selectedSort:'true'
 
       filters.take =  this.perPage

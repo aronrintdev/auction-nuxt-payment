@@ -12,9 +12,6 @@
             :placeholder="$t('selling_page.sortby')"
             :items="SORT_OPTIONS"
             :icon="require('~/assets/img/icons/three-lines.svg')"
-            :icon-arrow-down="
-              require('~/assets/img/icons/arrow-down-gray2.svg')
-            "
             class="dropdown-sort flex-shrink-1"
             can-clear
             @select="handleSortBySelect"
@@ -24,8 +21,8 @@
       <div class="row mt-4">
         <div class="col-2">
           <!-- Size Types -->
-          <MultiSelectDropdown
-            v-model="selectedFilters.sizeTypes"
+          <SingleSelectDropdown
+          v-model="selectedFilters.sizeType"
             collapseKey="size-types"
             :title="$t('filter_sidebar.size_types')"
             :options="sizeTypeOptions"
@@ -86,16 +83,15 @@
       </div>
     </div>
     <div class="mt-3 d-flex align-items-center text-secondary flex-wrap gap-2">
-      <template  v-if="selectedFilters.sizeTypes.length">
-      <div v-for="(x, index) in selectedFilters.sizeTypes"
-         :key="`sizeType${index}`"
+      <template  v-if="selectedFilters.sizeType">
+      <div
         class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
       >
       
-        {{ x }}
+        {{ selectedFilters.sizeType }}
         <span
           class="remove-filter ml-3"
-          @click="removeFilter('sizesType', index)"
+          @click="removeFilter('sizesType')"
         >
           ✖
         </span>
@@ -142,7 +138,7 @@
       <div
         v-if="
           selectedFilters.sizes.length > 0 ||
-          selectedFilters.sizeTypes.length ||
+          selectedFilters.sizeType ||
           selectedFilters.brands.length > 0 ||
           selectedFilters.prices.length > 0 ||
           selectedFilters.years.length > 0
@@ -165,10 +161,12 @@ import {
   MAX_PRICE,
   MIN_PRICE_RANGE_WINDOW,
   MIN_YEAR_RANGE_WINDOW,
+  MEN
 } from '~/static/constants'
 import {
   FormDropdown,
   MultiSelectDropdown,
+  SingleSelectDropdown,
   SliderDropdown,
 } from '~/components/common'
 import Searchbar from '~/components/shop/Searchbar'
@@ -178,6 +176,7 @@ export default {
     Searchbar,
     FormDropdown,
     MultiSelectDropdown,
+    SingleSelectDropdown,
     SliderDropdown,
   },
   fetchOnServer: false,
@@ -197,11 +196,12 @@ export default {
       MIN_PRICE,
       MAX_YEAR,
       MIN_YEAR,
+      MEN,
       MIN_PRICE_RANGE_WINDOW,
       selectedPrices: [MIN_PRICE, MAX_PRICE / 100],
       selectedYears: [MIN_YEAR, MAX_YEAR],
       selectedFilters: {
-        sizeTypes: [],
+        sizeType: null,
         sizes: [],
         brands: [],
         status: [],
@@ -212,6 +212,7 @@ export default {
         brandName: '',
         search: null,
       },
+      categoryFilterLabel:this.$t('filter_sidebar.size_types'),
       defaultValue: null,
     }
   },
@@ -223,7 +224,7 @@ export default {
         'selectedBrands',
         'selectedSearch',
         'selectedSizes',
-        'selectedSizeTypes',
+        'selectedSizeType',
         'selectedOrdering',
         'getSizesByType',
       ],
@@ -242,17 +243,13 @@ export default {
       )
     },
     sizeOptions() {
-      if(this.selectedFilters.sizeTypes.length === 0){
-        return []
-      }
       let options = this.filters?.sizes
       if (
         options &&
-        this.selectedFilters.sizeTypes &&
-        this.selectedFilters.sizeTypes.length > 0
+      (this.selectedFilters.sizeType ?? MEN)
       ) {
         options = options.filter(({ type }) =>
-          this.selectedFilters.sizeTypes.includes(type)
+          this.selectedFilters.sizeType === type
         )
       }
       return (
@@ -296,7 +293,6 @@ export default {
     }, 300),
     applyFilters() {
       const brands = JSON.parse(JSON.stringify(this.selectedFilters.brands))
-      const sizeTypes = JSON.parse(JSON.stringify(this.selectedFilters.sizeTypes))
       const sizes = JSON.parse(JSON.stringify(this.selectedFilters.sizes))
       this.$store.commit(
         'browse/setSelectedPrices',
@@ -308,8 +304,8 @@ export default {
         brands
       )
       this.$store.commit(
-        'browse/setSelectedSizeTypes',
-        sizeTypes
+        'browse/setSelectedSizeType',
+        this.selectedFilters.sizeType
       )
       this.$store.commit('browse/setSelectedSort', this.selectedFilters.sortBy)
       this.$store.commit(
@@ -321,14 +317,13 @@ export default {
         this.selectedFilters.search
       )
       if (
-        this.selectedFilters.sizeTypes &&
-        this.selectedFilters.sizeTypes.length > 0 &&
+        this.selectedFilters.sizeType &&
         this.selectedFilters.sizes
       ) {
         const newSizes = this.selectedFilters.sizes.filter((size) =>
           this.filters?.sizes?.find(
             (s) =>
-              s.id === size && this.selectedFilters.sizeTypes.includes(s.type)
+              s.id === size && this.selectedFilters.sizeType === s.type
           )
         )
         this.$store.commit('browse/setSelectedSizes', newSizes)
@@ -344,7 +339,7 @@ export default {
     removeFilter(type, index) {
       switch(type) {
             case 'sizesType':
-              this.selectedFilters.sizeTypes.splice(index, 1)
+              this.selectedFilters.sizeType = null
               break;
             case 'sizes':
               this.selectedFilters.sizes.splice(index, 1)
@@ -368,12 +363,12 @@ export default {
       this.selectedPrices = [MIN_PRICE, MAX_PRICE / 100]
       this.selectedYears =  [MIN_YEAR, MAX_YEAR]
       this.selectedFilters.sizes = []
-      this.selectedFilters.sizeTypes = []
+      this.selectedFilters.sizeType = null
       this.selectedFilters.brands = []
       this.selectedFilters.years = []
       this.selectedFilters.prices = []
       this.$store.commit('browse/setSelectedBrands', [])
-      this.$store.commit('browse/setSelectedSizeTypes', [])
+      this.$store.commit('browse/setSelectedSizeType', null)
       this.$store.commit('browse/setSelectedSort', null)
       this.$store.commit('browse/setSelectedOrdering', null)
       this.$store.commit('browse/setSelectedSearch', null)
@@ -424,7 +419,7 @@ export default {
     getSizeName(id) {
       const size = this.filters?.sizes?.find((s) => s.id === id)
       return size.type + '-' + size.size
-    },
+    }
   },
 }
 </script>
@@ -442,7 +437,7 @@ export default {
     .btn-dropdown
       color: $color-black-1
       border-width: 0
-      background-color: $color-white-4
+      background-color: $color-white-19
       border-radius: 8px
       height: 44px
       width: 100%

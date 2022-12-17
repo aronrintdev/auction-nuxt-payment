@@ -17,8 +17,8 @@ export function selectedBrands(state) {
 export function selectedSizes(state) {
   return state.selectedSizes
 }
-export function selectedSizeTypes(state) {
-  return state.selectedSizeTypes
+export function selectedSizeType(state) {
+  return state.selectedSizeType
 }
 export function selectedSort(state) {
   return state.selectedSort

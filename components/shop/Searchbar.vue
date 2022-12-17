@@ -205,6 +205,6 @@ export default {
   background: rgba($gray, 0.05)
 .searchbox::v-deep .rounded-search-input
   padding: 13px
-  padding-top: 8px
-  padding-bottom: 8px
+  padding-top: 10px
+  padding-bottom: 10px
 </style>

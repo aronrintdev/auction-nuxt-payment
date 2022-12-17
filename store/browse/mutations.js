@@ -17,8 +17,8 @@ export function setSelectedBrands(state, val) {
 export function setSelectedSizes(state, val) {
   state.selectedSizes = val
 }
-export function setSelectedSizeTypes(state, val) {
-  state.selectedSizeTypes = val
+export function setSelectedSizeType(state, val) {
+  state.selectedSizeType = val
 }
 export function setSelectedSort(state, val){
   state.selectedSort = val
