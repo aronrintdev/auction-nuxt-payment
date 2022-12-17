@@ -203,7 +203,6 @@ export default {
   },
   created(){
     this.resetFilters()
-    this.fetchProducts()
   },
   methods: {
     ...mapActions('browse', ['fetchFilters','resetFilters']),
