@@ -378,7 +378,7 @@ export default {
       &.trade
         color: $color-blue-20
     &-desc
-      font-family: $font-montserrat
+      font-family: $font-family-sf-pro-text
       font-weight: $regular
       @incldue body-4
       letter-spacing: -0.02em
@@ -405,6 +405,7 @@ export default {
         font-size: 15px
         line-height: 18px
         margin-bottom: 8px
+        font-family: $font-montserrat
         &.selling
           color: $black
         &.auction
@@ -412,6 +413,7 @@ export default {
         &.trade
           color: $black
       &-desc
+        font-family: $font-montserrat
         font-size: 12px
         line-height: 15px
       .arrow-icon
