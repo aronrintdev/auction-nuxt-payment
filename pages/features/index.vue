@@ -230,7 +230,7 @@ export default {
     max-width: 968px
     padding-top: 30px
     @media (min-width: 576px)
-      padding: 117px 0px 92px 0px !important
+      padding: 117px 0px 92px 0px
   h2.newest-features
     text-transform: capitalize
   h2.newest-features::before

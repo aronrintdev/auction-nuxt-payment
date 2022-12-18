@@ -303,19 +303,6 @@ export default {
   font-size: 13px
 .main-mobile-image
   padding: 20px 0px 0px 1px
-
-// @media (min-width: 320px) and (max-width: 556px)
-//   .img-main
-//     height: 44px !important
-//     width: 133.2px !important
-//   .forgot-pass-text
-//     font-size: 14px !important
-//   .text-line-middle
-//     width: 50%
-//     margin: 0 auto
-//   .welcome-back-text
-//     margin: 0 auto
-
 @media (max-width: 768px)
   .login-main
     .main-mobile-image
@@ -325,7 +312,7 @@ export default {
       line-height: 18px
       margin-top: 18px
     .toggler-main
-      margin: 26px auto 50px auto !important
+      margin: 26px auto 50px auto
       width: 343px
       display: flex
       justify-content: space-between

@@ -141,13 +141,10 @@ export default {
     .cards-wrapper-in-app
       .in-app-cards
         .feature-four-cards
-          border-radius: 50% !important
+          border-radius: 50%
           .feature-title
             margin-top: -9px
-
-
-@media screen and (max-width: 577px)
-  .feature-title-my
-    margin-top: 48px !important
-    margin-bottom: 24px !important
+    .feature-title-my
+      margin-top: 48px
+      margin-bottom: 24px
 </style>

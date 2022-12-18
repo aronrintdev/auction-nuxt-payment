@@ -146,8 +146,8 @@ export default {
   .feature-content
     padding: 46px 111px
     max-width: 1440px
-    .cards-wrapper
-      margin-bottom: 100px !important
+    .buying-bottom-cards
+      margin-bottom: 100px
 
     h3.title, .benefit-title
       @include heading-7
@@ -171,14 +171,14 @@ export default {
 @media (max-width: 768px)
   .features-container
     .feature-content
-      .cards-wrapper::v-deep
-        margin-bottom: 50px !important
+      .buying-bottom-cards::v-deep
+        margin-bottom: 50px
         padding: 0px 16px
         .feature-card-hoverable
-          margin-bottom: 24px !important
+          margin-bottom: 24px
         .first-img
           img
-            width: 88px !important
+            width: 88px
             height: 33px
             margin-right: 25px
         .make-an-offer
@@ -189,8 +189,6 @@ export default {
         font-size: 16px !important
         font-weight: 600 !important
         font-size: 16px !important
-      // .title
-      //   margin: 40px 0px 24px 0px !important
 
       .feature-item::v-deep
         flex-direction: column

@@ -177,7 +177,7 @@ export default {
           justify-content: center
   .rewards-program-main
     .feature-four-cards
-      height: 231px !important
+      height: 231px
 @media screen and (max-width: 577px)
   .features-container
     .feature-content

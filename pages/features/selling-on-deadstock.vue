@@ -182,20 +182,14 @@ export default {
 
 @media (max-width: 768px)
   .features-container
-    .selling-on-second-title
-      h3.title
-        margin: 50px 0px 20px 0px !important
-    .cards-wrapper-selling
-      padding: 0px 16px
-      gap: 16px !important
-    > div
-      min-width: 168px !important
-      min-height: 164px !important
-      .feature-item::v-deep
-        flex-direction: column
-        align-items: center
-@media screen and (max-width: 577px)
-  .feature-title-my
-    margin-top: 0px !important
-    margin-bottom: 24px !important
+    .feature-content
+      .selling-on-second-title
+        h3.title
+          margin: 0px 0px 24px 0px
+      .cards-wrapper-selling
+        padding: 0px 16px
+        gap: 16px !important
+        .feature-item::v-deep
+          flex-direction: column
+          align-items: center
 </style>

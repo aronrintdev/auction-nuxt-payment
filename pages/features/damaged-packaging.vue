@@ -28,7 +28,7 @@
         {{ $t('newest_features.damaged_packaging.conditions') }}
       </FeatureTitle>
       <div
-        class="d-flex justify-content-center cards-wrapper-damaged mb-3 mb-md-5 flex-column flex-md-row"
+        class="d-flex justify-content-center cards-wrapper-damaged flex-column flex-md-row"
       >
         <FeatureCardHoverable
           :icon="
@@ -107,11 +107,6 @@ export default {
         bottomBannerButtonLink: '/browse',
         bottomBannerButtonText:
           'newest_features.damaged_packaging.bottom_banner.button_text',
-        // previousPage:
-        //   'newest_features.damaged_packaging.bottom_banner.previous_page_title',
-        // previousPageXS:
-        //   'newest_features.damaged_packaging.bottom_banner.previous_page_xs_title',
-        // previousPageLink: '/features/international-languages',
         nextPage:
           'newest_features.damaged_packaging.bottom_banner.next_page_title',
         nextPageXS:
@@ -125,59 +120,57 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .features-container::v-deep
-    .feature-content
-        .cards-wrapper-damaged
-            gap: 128px !important
-            margin-bottom: 100px!important
-            counter-reset: css-counter 0
-            .feature-card-hoverable
-                width: 450px !important
-                justify-content: center !important
-                align-items: center !important
-                padding: 40px 64px !important
-                gap: 35px
-                .packaging-damaged
-                    gap: 24px !important
-                .feature-description
-                    margin: 0px
-                    font-size: 22px
-                    font-weight: 400
-            > div
-
-                min-height: 168px
-                height: auto !important
-                .feature-title
-                    margin: 0px
-
-                ul
-                    list-style-image: url('~/assets/img/features/newest-feature/damaged-packaging/arrowsmall.svg')
-                    padding-inline-start: 25px
-                    gap: 24px
+  .feature-content
+    .cards-wrapper-damaged
+      gap: 128px
+      margin-bottom: 100px
+      counter-reset: css-counter 0
+      .feature-card-hoverable
+        width: 450px !important
+        justify-content: center !important
+        align-items: center !important
+        padding: 40px 64px !important
+        gap: 35px
+        .packaging-damaged
+            gap: 24px !important
+        .feature-description
+            margin: 0px
+            font-size: 22px
+            font-weight: 400
+      > div
+        min-height: 168px
+        height: auto !important
+        .feature-title
+            margin: 0px
+        ul
+          list-style-image: url('~/assets/img/features/newest-feature/damaged-packaging/arrowsmall.svg')
+          padding-inline-start: 25px
+          gap: 24px
 
 
 @media (max-width: 768px)
   .features-container::v-deep
-      .feature-content
-          .cards-wrapper-damaged
-              gap: 26px !important
-              margin-bottom: 50px !important
-              padding: 0px 16px 0px 16px
-              .feature-card-hoverable
-                width: 100% !important
-                padding: 27px 36px !important
-                gap: 18px
-                .packaging-damaged
-                  gap: 16px !important
-                .feature-description
-                  font-size: 16px
-                .feature-title
-                  font-size: 18px
-                  img
-                    width: 73px !important
-                    height: 73px
-              .feature-item::v-deep
-                  flex-direction: column
-                  align-items: center
+    .feature-content
+      .cards-wrapper-damaged
+        gap: 26px
+        margin-bottom: 50px
+        padding: 0px 16px 0px 16px
+        .feature-card-hoverable
+          width: 100% !important
+          padding: 27px 36px !important
+          gap: 18px
+          .packaging-damaged
+            gap: 16px !important
+          .feature-description
+            font-size: 16px
+          .feature-title
+            font-size: 18px
+            img
+              width: 73px !important
+              height: 73px
+        .feature-item::v-deep
+            flex-direction: column
+            align-items: center
 
 @media screen and (max-width: 577px)
   .features-container::v-deep

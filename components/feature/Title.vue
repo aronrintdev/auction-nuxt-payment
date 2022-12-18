@@ -1,6 +1,6 @@
 <template>
   <h3
-    class="title text-center text-md-left text-uppercase mt-5 mt-sm-0 mb-6 d-flex justify-content-center align-items-center justify-content-md-start"
+    class="title text-center text-md-left text-uppercase mb-6 d-flex justify-content-center align-items-center justify-content-md-start"
   >
     <div class="title-before d-md-none d-block"></div>
     <slot></slot>
@@ -14,7 +14,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 h3.title
   @include heading-7
   color: $color-black-5
@@ -32,11 +31,10 @@ h3.title
 
 
 @media (max-width: 768px)
-  .title
-    font-size: 16px !important
-    font-weight: 600 !important
-    font-size: 16px !important
+  h3.title::v-deep
+    font-size: 16px
+    font-weight: 600
     width: 100%
-    margin: 28px auto 30px auto !important
-    line-height: 22px !important
+    margin: 28px auto 30px auto
+    line-height: 22px
 </style>
