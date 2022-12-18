@@ -8,7 +8,7 @@
       <b-row>
         <b-col
           md="12"
-          class="d-flex justify-content-between align-items-center"
+          class="d-flex justify-content-between align-items-center pl-0"
         >
           <span class="select-size">
             {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
@@ -346,8 +346,6 @@ export default {
 .container
   .carousel-wrapper
     max-width: 100%
-    @media (min-width: 576px)
-      padding-top: 24px
 
   .size-carousel::v-deep
     max-width: 100%

@@ -37,7 +37,7 @@
       class="info-section position-relative flex-grow-1"
     >
       <div>
-        <ShopByStyleImageCarousel :images="productImages" class="mt-4" />
+        <ShopByStyleImageCarousel :images="productImages" />
         <div class="w-100">
           <ProductSizePicker
             :sizes="sizes"
