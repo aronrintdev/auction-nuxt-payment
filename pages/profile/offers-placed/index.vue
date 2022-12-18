@@ -84,17 +84,15 @@
             <label class="filter-label">{{
               $t('selling_page.filter_by')
             }}</label>
-            <CustomSelect
+            <CustomSelectwithCheckbox
               id="filterby"
-              :default="filterBy"
-              :threelineIcon="false"
-              :options="{
-                default: $t('selling_page.status'),
-                accepted: $t('placed_offers.filter_by.accepted'),
-                pending: $t('placed_offers.filter_by.awaiting_approval'),
-              }"
+              class="dropdown-filters"
+              :options="STATUS_OPTIONS"
+              :value="filterBy"
+              :icon-arrow-down="DownArrow"
               :title="filterByTitle"
-              @input="handleFilterByChange"
+              :updateFilters="statusTypeFilters"
+              @filters="handleFilterByChange"
             />
           </div>
           <!-- ./Filter By -->
@@ -438,6 +436,7 @@
 import arrowUpIcon from '~/assets/img/icons/arrow-up-blue.svg'
 import arrowDownIcon from '~/assets/img/icons/arrow-down-blue.svg'
 import threeLinesIcon from '~/assets/img/icons/three-lines.svg'
+
 import {
   CustomSelect,
   Button,
@@ -453,6 +452,8 @@ import MobileSearchInput from '~/components/mobile/MobileSearchInput.vue'
 import EditOffer from '~/components/profile/offers-placed/EditOffer.vue'
 import screenSize from '~/plugins/mixins/screenSize'
 import CalendarInput from '~/components/common/form/CalendarInput'
+import {CustomSelectwithCheckbox} from '~/components/common'
+import DownArrow from '~/assets/img/icons/down-arrow.svg'
 
 export default {
   name: 'OffersPlaced',
@@ -469,6 +470,7 @@ export default {
     MobileSearchInput,
     EditOffer,
     CalendarInput,
+    CustomSelectwithCheckbox,
   },
 
   mixins: [screenSize],
@@ -479,6 +481,7 @@ export default {
 
   data() {
     return {
+      DownArrow,
       showCheckBox: false,
       filterByTitle: this.$t('selling_page.status'),
       isTableBusy: false,
@@ -519,7 +522,13 @@ export default {
       },
       selectedOffer: null,
       openEdit: false,
-      responsiveData: []
+      responsiveData: [],
+      STATUS_OPTIONS: [
+        { value: 'accepted', text: this.$t('placed_offers.filter_by.accepted') },
+        { value: 'highest_offer',  text: this.$t('placed_offers.highest_offer') },
+        { value: 'pending', text: this.$t('placed_offers.filter_by.awaiting_approval') },
+      ],
+      statusTypeFilters: [],
     }
   },
 
@@ -761,7 +770,7 @@ export default {
     },
     // On filter by change.
     handleFilterByChange(value) {
-      this.searchFilters.filterBy = value === DEFAULT ? '' : value
+      this.searchFilters.filterBy = value.array.length ? value.array.map((i) => i.value).toString() : ''
     },
 
     // On remove multiple button click
@@ -1424,4 +1433,69 @@ label.filter-label
 
 .mr-16
   margin-right: 16px
+
+
+::v-deep
+  .custom-control-input:checked
+    ~ .custom-control-label::before
+      color: $white
+      border-radius: 0px
+      background-color: $color-blue-20
+      box-shadow: none
+      border: 1px solid $color-blue-20
+
+::v-deep
+  .custom-control-input
+    ~ .custom-control-label::before
+      color: $white
+      background-color: $white
+      box-shadow: none
+      border-radius: 0px
+      top: 4px
+      left: -20px
+      width: 10px
+      height: 10px
+      border: 1px solid $color-gray-60
+    ~ .custom-control-label::after
+      left: -20px
+
+.dropdown-filters::v-deep
+  height: 38px
+  min-width: 170px
+  border: none
+  .selected
+    height: 38px
+    border: 1px solid $color-gray-60
+    padding: 9px 9px 9px 10px
+    &.open
+      border: 1px solid $color-gray-60
+      border-bottom: none
+      &::after
+        top: 2px
+    &::after
+      top: 2px
+      right: 25px
+  .items
+    padding: 0
+    overflow: auto
+    border: 1px solid $color-gray-60
+    .filter-select-count
+      padding: 10px !important
+    .item-wrapper
+      border: none
+      & > div
+        border: none
+        border-bottom: 1px solid $color-gray-60
+      .d-flex
+        font-weight: $regular
+        @include body-5
+        color: $black
+        border: none
+        padding: 9px 10px !important
+        .custom-checkbox
+          min-height: 18px
+          line-height: 18px
+          margin-left: 20px !important
+
+
 </style>
