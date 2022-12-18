@@ -692,12 +692,15 @@ export default {
     },
 
     // Get the offers
-    getOffers() {
+    getOffers(sortingParams = {}) {
       this.responsiveData = []
       this.isTableBusy = true
       this.$axios
         .get('/offers', {
-          params: this.searchFilters,
+          params: {
+            ...this.searchFilters,
+            ...sortingParams,
+          },
         })
         .then((res) => {
           this.responsiveData.push(...res.data.data)
