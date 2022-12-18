@@ -1436,7 +1436,7 @@ label.filter-label
 
 
 ::v-deep
-  .custom-control-input:checked
+  #filterby .custom-control-input:checked
     ~ .custom-control-label::before
       color: $white
       border-radius: 0px
@@ -1445,7 +1445,7 @@ label.filter-label
       border: 1px solid $color-blue-20
 
 ::v-deep
-  .custom-control-input
+  #filterby .custom-control-input
     ~ .custom-control-label::before
       color: $white
       background-color: $white
