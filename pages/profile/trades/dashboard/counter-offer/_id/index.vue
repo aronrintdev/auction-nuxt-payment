@@ -266,15 +266,15 @@
                   <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'trade-item-'+index : ''"
                       :key="'their-trade-item-key-'+index" class="item mb-4"
                       :class="[((getTheirItems.length > ONE_ITEM )|| (getYourItems.length)) ? 'item-length' : 'item-normal']">
-
-                    <div v-if="!editYours" class="position-relative">
-                      <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
-                       ff <img :src="require('~/assets/img/trades/minus-icon.svg')">
+                    <div v-if="!editYours" >
+                      <div class="remove-item-icon-up" role="button" @click.stop="removeItem(item.inventory.product.id)">
+                        <img :src="require('~/assets/img/trades/minus-icon.svg')">
                       </div>
                     </div>
-                    <div class="image-wrapper">
-                      <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
-<!--                      <div class="overlay"></div>-->
+
+                    <div class="position-relative  d-flex justify-content-center align-items-center image-wrapper">
+                      <img class="pro-image-up"  :src="item.inventory.product | getProductImageUrl"/>
+                      <div class="overlay-up"></div>
                     </div>
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
@@ -304,14 +304,15 @@
                     <div v-for="(item, index) in getYourItems"
                         :id="getYourItems.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="'your-trade-item-key-'+index"
                         class="item-length mb-4">
-                      <div v-if="editYours" class="position-relative">
-                        <div class="position-absolute remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
+
+                      <div v-if="editYours" >
+                        <div class="remove-item-icon-up" role="button" @click.stop="removeItem(item.inventory.product.id)">
                           <img :src="require('~/assets/img/trades/minus-icon.svg')">
                         </div>
                       </div>
-                      <div class="image-wrapper">
-                        <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
-<!--                        <div class="overlay"></div>-->
+                      <div class="position-relative  d-flex justify-content-center align-items-center image-wrapper">
+                        <img class="pro-image-up"  :src="item.inventory.product | getProductImageUrl"/>
+                        <div class="overlay-up"></div>
                       </div>
                       <div class="item-caption">
                         <span class="item-name">{{ item.inventory.product.name }}</span>
@@ -1433,7 +1434,11 @@ export default {
 .remove-item-icon
   right: 5px
   top: 5px
-
+.remove-item-icon-up
+  position: absolute
+  right: 17%
+  top: 10px
+  z-index: 1000
 .order-summary
   padding: 0
 .btn-accept
@@ -1661,6 +1666,15 @@ export default {
 
 .pro-image
   width: 171px
+.pro-image-up
+  width: 130px
+.overlay-up
+  position: absolute
+  top: 0
+  left: 0
+  width: 140px
+  height: 100%
+  background: $color-grey-70
 .remove-item
   height: 13px
   width: 13px
