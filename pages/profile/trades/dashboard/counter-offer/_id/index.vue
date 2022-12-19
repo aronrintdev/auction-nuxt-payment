@@ -3,7 +3,12 @@
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
-          <div class="center-container-xs mt-5 mb-5">
+          <div :class="getTheirItems.length  === ONE_ITEM && getYourItems.length === ONE_ITEM ? 'center-container-one'
+            :getTheirItems.length  === TWO_ITEMS && getYourItems.length === ONE_ITEM ? 'center-container-two-one'
+            :getTheirItems.length  === THREE_ITEMS && getYourItems.length === ONE_ITEM  ? 'center-container-three-one'
+            :getTheirItems.length  === TWO_ITEMS && getYourItems.length === TWO_ITEMS ? 'center-container-two-two'
+            :getTheirItems.length  === TWO_ITEMS && getYourItems.length === THREE_ITEMS ? 'center-container-two-three'
+            :getTheirItems.length  === THREE_ITEMS && getYourItems.length === TWO_ITEMS ? 'center-container-three-two': 'center-container-xs'">
             <div class="left-item-xs" :class="{'right-item-margin-top-sm':getTheirItems.length === TWO_ITEMS,'left-item-one-xs':getTheirItems.length === ONE_ITEM}">
               <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'card-'+index : ''" :key="index" class="item mb-4">
                 <div class="image-wrapper-sm">
@@ -2193,4 +2198,58 @@ export default {
   width: 797px
   height: 61px
   padding: 25px
+//.center-container
+//  min-height: 450px
+//  margin: 0 15px
+//  display: flex
+//  justify-content: center
+//  margin-bottom: 140px
+.center-container-one
+  min-height: 100px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+.center-container-two-one
+  min-height: 450px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+.center-container-three-one
+  min-height: 550px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+  margin-bottom: 60px
+.center-container-two-two
+  min-height: 550px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+  margin-bottom: 60px
+.center-container-two-three
+  min-height: 550px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+  margin-bottom: 60px
+
+.center-container-two
+  min-height: 420px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+  margin-bottom: 60px
+.center-container-three
+  min-height: 510px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+  margin-bottom: 60px
+.center-container-three-two
+  min-height: 550px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+  margin-bottom: 60px
+
 </style>
