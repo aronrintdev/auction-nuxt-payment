@@ -19,8 +19,8 @@
       >
         <template #head()="scope">
           <div class="text-nowrap" role="button" @click="orderBy(scope.column)">
-            <span class="mr-1">{{ scope.label }}</span>
-            <img v-if="isSortActive(scope.column)" :src="require('~/assets/img/icons/down-arrow-solid.svg')" :alt="scope.label"
+            <span class="mx-1">{{ scope.label }}</span>
+            <img v-if="isSortActive(scope.column) && scope.label !== ''" :src="require('~/assets/img/icons/down-arrow-solid.svg')" :alt="scope.label"
                  class="sort-icon" :class="reverseDirection(scope.column)">
           </div>
         </template>
@@ -29,60 +29,60 @@
             <Loader :loading="loading"></Loader>
           </div>
         </template>
-        <template #cell(id)="row">
-          <div class="row">
-            <div class="vd-sell-product-img text-center ">
+
+        <template #cell(product_details)="row">
+          <div class="d-flex">
+            <div class="vd-sell-product-img text-center">
               <div class="d-flex align-items-center mb-2">
                 <b-form-checkbox
-                    v-if="showCheckBox"
-                    :id="`checkbox-${row.item.id}`"
-                    v-model="selectedVal"
-                    :value="row.item.id"
-                    class="vd-checkbox mr-2"
-                    name="checkbox-move-items"
-                    @change="toggleSelect(row.item.id)"
+                  v-if="showCheckBox"
+                  :id="`checkbox-${row.item.id}`"
+                  v-model="selectedVal"
+                  :value="row.item.id"
+                  class="vd-checkbox mr-2"
+                  name="checkbox-move-items"
+                  @change="toggleSelect(row.item.id)"
                 >
                 </b-form-checkbox>
                 <img
-                    :src="getImage(row.item.inventory.product.image)"
-                    alt="Product Picture"
-                    width="auto"
-                    @error="imageLoadError"
+                  :src="getImage(row.item.inventory.product.image)"
+                  alt="Product Picture"
+                  width="auto"
+                  @error="imageLoadError"
                 />
               </div>
               <span class="list-id text-center text-decoration-underline" role="button" @click="handleEditClick(row.item.id)">&#35;{{ row.item.id }}</span>
             </div>
-          </div>
-        </template>
+            <div>
+              <div class="vd-product-title text-truncate mw-250">
+                {{ row.item.inventory.product.name }}
+              </div>
 
-        <template #cell(product_details)="row">
-          <div class="vd-product-title text-truncate mw-250">
-            {{ row.item.inventory.product.name }}
-          </div>
-
-          <div class="vd-sku text-truncate">{{ $t('common.sku') }}&colon;
-            <span v-if="row.item.inventory.product.sku">
+              <div class="vd-sku text-truncate">{{ $t('common.sku') }}&colon;
+                <span v-if="row.item.inventory.product.sku">
               {{ row.item.inventory.product.sku }}</span>
-            <span v-else>&#8211;</span>
-          </div>
+                <span v-else>&#8211;</span>
+              </div>
 
-          <div class="vd-color text-truncate mw-250">{{ $t('shopping_cart.color_way') }}&colon;
-            <span v-if="row.item.inventory.product.colorway">
+              <div class="vd-color text-truncate mw-250">{{ $t('shopping_cart.color_way') }}&colon;
+                <span v-if="row.item.inventory.product.colorway">
               {{ row.item.inventory.product.colorway }}
             </span>
-            <span v-else>&#8211;</span>
-            &comma;
-            {{ $t('selling_page.size') }}&colon;
-            <span v-if="row.item.inventory.size.size">
+                <span v-else>&#8211;</span>
+                &comma;
+                {{ $t('selling_page.size') }}&colon;
+                <span v-if="row.item.inventory.size.size">
               {{ row.item.inventory.size.size }}
             </span>
-            <span v-else>&#8211;</span>
-          </div>
+                <span v-else>&#8211;</span>
+              </div>
 
-          <div class="vd-condition text-truncate">{{ $t('common.box_condition') }}&colon;
-            <span v-if="row.item.inventory.packaging_condition">
+              <div class="vd-condition text-truncate">{{ $t('common.box_condition') }}&colon;
+                <span v-if="row.item.inventory.packaging_condition">
               {{ row.item.inventory.packaging_condition.name }}</span>
-            <span v-else>&#8211;</span>
+                <span v-else>&#8211;</span>
+              </div>
+            </div>
           </div>
         </template>
 
@@ -176,17 +176,10 @@ export default {
       // Table fields
       fields: [
         {
-          key: 'id',
-          label: this.$t('common.listing_id'),
-          sortable: false,
-          thClass: 'body-4-bold font-primary text-nowrap mr-4',
-          thStyle: { width: '170px' }
-        },
-        {
           key: 'product_details',
           label: this.$t('selling_page.product'),
           sortable: false,
-          thClass: 'body-4-bold font-primary text-nowrap '
+          thClass: 'body-4-bold font-primary text-nowrap mr-4',
         },
         {
           key: 'date_listed',
@@ -338,7 +331,7 @@ export default {
   color: $color-black-1
 .vd-sell-product-img
   margin-right: 30px
-  margin-left: auto
+  margin-left: 20px
   img
     width: 100px
     object-fit: cover
