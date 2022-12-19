@@ -193,16 +193,19 @@ export default {
   font-weight: $bold
   font-size: 42px
   line-height: 51px
-@media (min-width: 320px) and (max-width: 556px)
+@media (max-width: 768px)
   .right-heading-bold
     font-size: 17px
-  .input-forgot-password
-    margin-left: 5px
+    line-height: 20px
+
   .new-to-deadstock-main
     display: none !important
   .link-btn
-    width: 200px !important
-    margin: 0 auto
+    margin: 53px 0 177px 0
+    .btn
+      width: 171px
+      height: 42px
+
   .back-to-login
     display: none !important
   .back-to-login-btn
@@ -258,6 +261,4 @@ export default {
     background: $color-black-1
   .text-color-gray-38
     color: $color-gray-47
-  .back-to-login-btn
-    margin-top: 160px
 </style>

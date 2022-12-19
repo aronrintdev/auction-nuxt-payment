@@ -1,9 +1,6 @@
 <template>
   <b-row>
-    <b-col
-      md="12"
-      class="d-flex align-items-center justify-content-center p-0"
-    >
+    <b-col md="12" class="d-flex align-items-center justify-content-center p-0">
       <b-img
         :src="require('~/assets/img/auth/social_login_google.svg')"
         class="mx-3 social_login_btn"
@@ -45,13 +42,12 @@ export default {
         window.open(res.data, '_blank')
       })
     },
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>
 @media (min-width: 320px) and (max-width: 556px)
-  .social_login_btn
-    height: 50px !important
-    width: 50px !important
+  .social_login_btn::v-deep
+    height: 48px
+    width: 48px
 </style>
-

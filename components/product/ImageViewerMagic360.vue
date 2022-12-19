@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="flex justify-content-center">
+  <div ref="container" class="d-flex justify-content-center">
     <a class="Magic360" :data-options="filename">
       <b-img :src="firstimage" />
     </a>

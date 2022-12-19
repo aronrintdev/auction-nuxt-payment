@@ -1,7 +1,7 @@
 <template>
   <b-navbar
     toggleable="lg"
-    :class="`navbar-wrapper ${!mobileClass && 'border-bottom'}`"
+    :class="`navbar-wrapper ${!mobileClass && ''}`"
   >
     <PortalTarget name="back-icon-slot" class="d-block d-sm-none">
       <b-navbar-toggle target="top-menu-sidebar">
