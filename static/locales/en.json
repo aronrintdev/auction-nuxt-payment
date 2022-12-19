@@ -2641,6 +2641,7 @@
     "shipping_fee": "Shipping Fee",
     "processing_fee": "Processing Fee",
     "tax": "Tax",
+    "crypto": "Crypto",
     "promo_code": "Promo Code",
     "promo_code_applied": "Promo applied!",
     "enter_your_code": "Enter your code",
@@ -5914,7 +5915,7 @@
         }
       },
       "all_communication": "All Communications",
-      "shop": "Buy",
+      "shop": "Shop",
       "trade": "Trade",
       "auction": "Auction",
       "notification_preferences": "Notification Preferences",
