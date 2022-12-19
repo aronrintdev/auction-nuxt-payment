@@ -178,7 +178,7 @@
         >
           <template #head()="scope">
 
-            <div class="d-flex">
+            <div class="d-flex" :class="{'justify-content-center' : scope.column !== 'order_id'}">
               <b-form-checkbox
                 v-if="isExportActive && scope.column == 'order_id'"
                 v-model="isAllSelected"
@@ -191,7 +191,6 @@
                      :alt="scope.label"
                      class="sort-icon" :class="reverseDirection(scope.column)">
               </div>
-
             </div>
           </template>
 
@@ -236,7 +235,7 @@
           </template>
 
           <template #cell(product)="data">
-            <div :class="data.item.product? 'text-left' : 'text-center'">
+            <div class="text-center">
               {{ data.item.product && data.item.product.name ? data.item.product.name : '-' }}
             </div>
           </template>
