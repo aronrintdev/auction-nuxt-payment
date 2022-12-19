@@ -77,6 +77,7 @@
                       class="vp-custom-select purchase border-0 bg-white-5 w-120"
                       inputClass="purchase-input"
                       :showFilterBtn="false"
+                      :itemsWidth="w-120"
                       @filters="typeFilters"
                   />
                 </div>
@@ -89,6 +90,7 @@
                       bordered
                       class="vp-custom-select purchase border-0 bg-white-5 w-245"
                       inputClass="purchase-input"
+                      :itemsWidth="w-245"
                       @filters="statusFilters"
                   />
                 </div>

@@ -102,9 +102,9 @@ export default {
   .btn-d-custom
     @include body-5
     height: 45px !important
-    width: 99px !important
-    min-width: 99px !important
-    max-width: 99px !important
+    width: 99px
+    min-width: 99px
+    max-width: 99px
     border: 1px solid $color-gray-4
     font-family: $font-family-sf-pro-display
     font-style: normal

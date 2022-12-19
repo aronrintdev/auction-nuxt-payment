@@ -11,8 +11,8 @@
       </div
       >
     </div>
-    <div :class="{ selectHide: !open, border: bordered }" class="items bg-white">
-      <div class="item-wrapper">
+    <div :class="{ selectHide: !open, border: bordered }" class="items bg-white d-inline d-table">
+      <div class="item-wrapper" :class="itemsWidth">
         <div v-for="(option, key) in options" :key="key" class="p-0 checkbox-wrapper" @click="checked(option)">
           <div class="d-flex">
             <b-form-checkbox
@@ -68,6 +68,10 @@ export default {
       default: () => [],
     },
     inputClass: {
+      type: String,
+      default: ''
+    },
+    itemsWidth: {
       type: String,
       default: ''
     },
@@ -209,7 +213,7 @@ export default {
         background-color: rgba(0, 0, 0, 0.1)
 
   .selectHide
-    display: none
+    display: none !important
 
   .customselect-checkbox input
     margin-top: 0
