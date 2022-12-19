@@ -30,8 +30,7 @@
         <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
         {{label}}
       </label>
-      <img alt="No Image" class="pull-right" :src="require('~/assets/img/dashicons.svg')" v-if="!isOpen"/>
-      <img alt="No Image" class="pull-right" :src="require('~/assets/img/dashicons1.svg')" v-else/>
+      <img alt="No Image" class="pull-right" :src="require(isOpen ? '~/assets/img/dashicons1.svg' : '~/assets/img/dashicons.svg' )" />
     </div>
     <ul
       v-if="isOpen"

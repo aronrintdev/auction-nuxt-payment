@@ -283,7 +283,7 @@
 
               <b-row  class="justify-content-end my-2">
               <b-col class="position-relative">
-                <b-btn v-if="getTradeItems.length >= 1" class="create-trade-next-web"
+                <b-btn v-if="getTradeItems.length" class="create-trade-next-web"
                        @click="$router.push('/profile/create-listing/trades/wants')">
                   {{ $t('create_listing.trade.offer_items.next') }}
                 </b-btn>
@@ -853,7 +853,6 @@ export default {
 .create-trade-next-web
   padding: 0 25px 0 14px
   right: 15px
-  //bottom: 120px
   position: fixed
   z-index: 80
   width: 151px

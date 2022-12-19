@@ -14,7 +14,7 @@
             @change="onSearchInput"
           />
           <SearchedProductsBelowSearchTextBox
-            v-if="searchedItems.length > 0"
+            v-if="searchedItems.length"
             :productItems="searchedItems"
             productsFor="tradeItem"
             class="position-absolute"
