@@ -80,11 +80,11 @@ export default {
 
 
 @media (max-width: 768px)
-  .feature-four-cards
-    min-width: 168px !important
-    padding: 10px !important
-    height: auto !important
-    width: 231px !important
+  .feature-four-cards::v-deep
+    min-width: 168px
+    padding: 10px
+    height: auto
+    width: 231px
     min-height: 96px
     border-radius: 10px
 

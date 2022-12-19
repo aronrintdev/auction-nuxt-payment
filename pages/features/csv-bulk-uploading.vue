@@ -188,7 +188,7 @@ export default {
       margin-top: 48px !important
       margin-bottom: 24px !important
     .csv-bulk
-      margin-bottom: 34px
+      margin-bottom: 22px
     .cards-wrapper::v-deep
       padding: 0px 16px
       > div

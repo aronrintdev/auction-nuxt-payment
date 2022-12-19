@@ -31,7 +31,9 @@
           )
         }}
       </FeatureTitle>
-      <div class="d-flex cards-wrapper justify-content-center gap-6">
+      <div
+        class="d-flex cards-wrapper justify-content-center gap-4 justify-content-md-between"
+      >
         <FeatureCardHoverableV2
           v-for="(item, index) in processes"
           :key="`process-${index}`"
@@ -157,7 +159,7 @@ export default {
       flex-direction: column
       align-items: center
       gap: 22px !important
-      margin-bottom: 40px
+      margin-bottom: 34px
       .feature-card-hoverableV2
         max-width: 343px
         width: 100%
