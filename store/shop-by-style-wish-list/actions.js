@@ -1,18 +1,18 @@
 export async function fetchWishLists({ commit }) {
-  await this.$axios.get('/wish-lists', { handleError: false }).then((res) => {
+  await this.$axios.get('/shop-by-styles/wish-lists', { handleError: false }).then((res) => {
     commit('setWishLists', res.data)
   })
 }
 
 export async function findWishList({ commit }, { id }) {
-  return await this.$axios.get(`/wish-lists/${id}`).then((res) => {
+  return await this.$axios.get(`/shop-by-styles/wish-lists/${id}`).then((res) => {
     return res.data
   })
 }
 
 export async function addProductsToWishList({ commit }, { wishList, ids }) {
   return await this.$axios
-    .post(`/wish-lists/${wishList.id}/items`, {
+    .post(`/shop-by-styles/wish-lists/${wishList.id}/items`, {
       ids,
     })
     .then((res) => {
@@ -23,7 +23,7 @@ export async function addProductsToWishList({ commit }, { wishList, ids }) {
 
 export async function createWishList({ commit }, { name, privacy }) {
   return await this.$axios
-    .post('/wish-lists/', { name, privacy })
+    .post('/shop-by-styles/wish-lists/')
     .then((res) => {
       commit('addWishList', res.data)
       return res.data
@@ -32,18 +32,17 @@ export async function createWishList({ commit }, { name, privacy }) {
 
 export async function editWishList({ commit }, { id, name }) {
   return await this.$axios
-    .put(`/wish-lists/${id}`, {
+    .put(`/shop-by-styles/wish-lists/${id}`, {
       name,
     })
     .then((res) => {
-      commit('updateWishListName', res.data)
       return res.data
     })
 }
 
 export async function deleteWishList({ commit }, { id }) {
   return await this.$axios
-    .delete(`/wish-lists/${id}`)
+    .delete(`/shop-by-styles/wish-lists/${id}`)
     .then((res) => {
       return res.data
     })
@@ -54,7 +53,7 @@ export async function removeProductsFromWishList(
   { wishList, ids }
 ) {
   await this.$axios
-    .delete(`/wish-lists/${wishList.id}/items`, {
+    .delete(`/shop-by-styles/wish-lists/${wishList.id}/items`, {
       data: { ids },
     })
     .then((res) => {
@@ -65,7 +64,7 @@ export async function removeProductsFromWishList(
 
 export async function updateWishListPrivacy({ commit }, { wishList, privacy }) {
   await this.$axios
-    .put(`/wish-lists/${wishList.id}`, {
+    .put(`/shop-by-styles/wish-lists/${wishList.id}`, {
       privacy,
     })
     .then((res) => {
@@ -78,7 +77,7 @@ export async function fetchWishListItems(
   { wishList, page, category, perPage }
 ) {
   return await this.$axios
-    .get(`/wish-lists/${wishList.id}/items`, {
+    .get(`/shop-by-styles/wish-lists/${wishList.id}/items`, {
       params: {
         page,
         category,
@@ -94,7 +93,7 @@ export async function moveWishListItems(
   { commit },
   { wishList, ids, targetId }
 ) {
-  return await this.$axios.put(`/wish-lists/${wishList.id}/items`, {
+  return await this.$axios.put(`/shop-by-styles/wish-lists/${wishList.id}/items`, {
     ids,
     wish_list_id: targetId,
   })

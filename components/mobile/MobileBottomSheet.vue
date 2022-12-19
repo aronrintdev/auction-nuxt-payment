@@ -11,9 +11,9 @@
       @opened="$emit('opened')"
   >
     <div
-      :style="headerStyle"
       :class="hasHeaderDivider && 'divider'"
       class="header-title w-100 d-flex flex-column align-items-center justify-content-center"
+      :style="headerStyle"
     >
       <span>{{ title }}</span>
       <slot name="subtitle"></slot>
@@ -55,6 +55,10 @@ export default {
     headerStyle: {
       type: Object,
       default: () => {}
+    },
+    headerClass: {
+      type: String,
+      default: ''
     },
     hasHeaderDivider: {
       type: Boolean,

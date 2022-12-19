@@ -2,13 +2,13 @@
   <MobileBottomSheet
           :height="height"
           :open="open"
-          :headerStyle="{'flex-direction': 'row'}"
+          :title="''"
           @closed="$emit('closed')"
           @opened="$emit('opened')"
       >
     <template #subtitle>
       <div class="d-flex justify-content-between w-100 px-3">
-        <span>{{ $t('wish_lists.create_new_list') }}</span>
+        <span>{{ $t('wish_lists.rename_list') }}</span>
         <a class="role">
           <span class="cancel-link" @click="hide">{{ $t('common.cancel') }}</span>
         </a>
@@ -17,9 +17,11 @@
 
     <template #default="{}">
       <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
-        <div class="d-flex flex-column align-items-center justify-content-between h-88 w-100 filters">
+        <div
+              class="d-flex flex-column align-items-center justify-content-between h-88 w-100 filters"
+          >
             <div class="d-flex flex-column w-100">
-              <b-form @submit.stop.prevent="handleSubmit(createNewList)">
+              <b-form @submit.stop.prevent="handleSubmit(handleEditWishList)">
                 <b-row>
                   <b-col md="10" offset-md="1">
                     <CheckboxSwitch
@@ -28,6 +30,7 @@
                       :label-off="$t('common.private').toUpperCase()"
                     />
                   </b-col>
+                  <ItemDivider/>
                 </b-row>
                 <b-row class="mt-2">
                   <b-col md="10" offset-md="1">
@@ -66,7 +69,7 @@
                       block
                       :disabled="!newListName || loading"
                     >
-                      {{ $t('wish_lists.create_list') }}
+                      {{ $t('wish_lists.rename_list') }}
                     </Button>
                   </b-col>
                   <div class="w-100 d-flex justify-content-between buttons">
@@ -74,7 +77,6 @@
                   </div>
                 </b-row>
               </b-form>
-
             </div>
           </div>
       </ValidationObserver>
@@ -91,8 +93,14 @@ import ItemDivider from '~/components/profile/notifications/ItemDivider'
 
 export default {
   name: 'MobileCreateWishListModal',
+
   components: { MobileBottomSheet, ValidationObserver, ValidationProvider, Button, CheckboxSwitch, ItemDivider },
+
   props: {
+    wishListItem: {
+      type: Object,
+      required: true,
+    },
     height: {
       type: String,
       default: '40%',
@@ -105,26 +113,27 @@ export default {
       newListPrivacy: false,
       loading: false,
       wishList: null,
-      mobileFiltersOpen: false,
-      open: false
+      open: false,
     }
   },
-
+  mounted() {
+    this.newListName = this.wishListItem?.name
+  },
   methods: {
     ...mapActions({
-      createWishList: 'wish-list/createWishList',
+      editWishList: 'wish-list/editWishList',
     }),
 
-    // Create new wishlist
-    async createNewList() {
+    // Edit selected wishlist
+    async handleEditWishList() {
       if (this.newListName) {
         this.loading = true
-        const wishList = await this.createWishList({
+        const updatedWishList = await this.editWishList({
+          id: this.wishListItem.id,
           name: this.newListName,
-          privacy: this.newListPrivacy ? 'public' : 'private',
         })
         this.loading = false
-        this.$emit('created', wishList)
+        this.$emit('created', updatedWishList)
         this.hide()
       }
     },
@@ -133,7 +142,7 @@ export default {
       return dirty || validated ? valid : null
     },
     show() { this.open = true },
-    hide() { this.open = false },
+    hide() { this.open = false }
   },
 }
 </script>
@@ -145,9 +154,11 @@ export default {
   height: 92%
 ::v-deep.buttons
   margin-top: 10px
+
 .cancel-link
   @include body-17-medium
   color: $color-blue-20
+
 ::v-deep .checkbox-switch
   span[role='button']
     text-transform: lowercase
@@ -158,5 +169,4 @@ export default {
   label
     @include body-5-bold
     padding-top: 5px
-
 </style>
