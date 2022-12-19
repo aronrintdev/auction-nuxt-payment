@@ -179,11 +179,12 @@ export default {
       filterBy: 'month',
       activeTab: 'month',
       activeTabDoughnut: 'week',
-      tabsOptions: [
-        { title: 'Week', value: 'week' },
-        { title: 'Month', value: 'month' },
-        { title: 'Year', value: 'year' },
-      ],
+      tabsOptions: Object.keys(this.$t('vendor_dashboard.tab_groups')).map(key => {
+        return {
+          title: this.$t(`vendor_dashboard.tab_groups.${key}`),
+          value: key
+        }
+      }),
       searchFilters: {
         startDate: '',
         endDate: '',
