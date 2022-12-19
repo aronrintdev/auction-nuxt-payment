@@ -125,7 +125,7 @@
           </b-row>
 
           <!-- Terms & Conditions Paragraph -->
-          <b-row class="mt-4">
+          <b-row class="mt-4 terms-and-conditions-wrapper">
             <b-col md="12">
               <b-form-checkbox v-model="hasAgreedToTerms">
                 <template #default>

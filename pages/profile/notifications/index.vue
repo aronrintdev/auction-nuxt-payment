@@ -1,38 +1,38 @@
 <template>
   <client-only>
     <div
-        :class="{
+      :class="{
         'p-5': !isScreenXS,
         mobile: isScreenXS,
       }"
-        class="profile-notification mb-2"
+      class="profile-notification mb-2"
     >
       <MobileHeader v-if="isScreenXS && !onSettingsItemTab" :title="tabTitle">
         <template #actions>
           <div class="d-flex align-items-center">
             <filter-svg
-                v-if="onNotifications"
-                class="mr-3"
-                role="button"
-                @click="mobileFiltersOpen = !mobileFiltersOpen"
+              v-if="onNotifications"
+              class="mr-3"
+              role="button"
+              @click="mobileFiltersOpen = !mobileFiltersOpen"
             ></filter-svg>
             <setting-svg
-                v-if="onNotifications"
-                role="button"
-                @click="handlePageChange('Settings')"
+              v-if="onNotifications"
+              role="button"
+              @click="handlePageChange('Settings')"
             ></setting-svg>
             <close-svg
-                v-if="onSettings"
-                role="button"
-                @click="handlePageChange('Notifications')"
+              v-if="onSettings"
+              role="button"
+              @click="handlePageChange('Notifications')"
             ></close-svg>
           </div>
         </template>
         <template #expanded-content>
           <div v-if="onNotifications" class="d-flex flex-column">
-            <MobileSearchInput @input="searchChanged"/>
+            <MobileSearchInput @input="searchChanged" />
             <div class="d-flex align-items-center justify-content-end">
-              <NotificationMarkAllAsRead/>
+              <NotificationMarkAllAsRead />
             </div>
           </div>
         </template>
@@ -41,34 +41,34 @@
         {{ tabTitle }}
       </div>
       <NotificationFilters
-          v-if="onNotifications && !isScreenXS"
-          @filter="filtersChanged"
+        v-if="onNotifications && !isScreenXS"
+        @filter="filtersChanged"
       />
       <NotificationMobileFilters
-          v-if="onNotifications && isScreenXS"
-          :open="mobileFiltersOpen"
-          @closed="mobileFiltersOpen = false"
-          @filter="filtersChanged"
+        v-if="onNotifications && isScreenXS"
+        :open="mobileFiltersOpen"
+        @closed="mobileFiltersOpen = false"
+        @filter="filtersChanged"
       />
-      <div v-if="!isScreenXS && !onSettingsItemTab" class="d-flex justify-content-center mt-4">
+      <div v-if="!isScreenXS && !onSettingsItemTab" class="text-center mt-4">
         <NavGroup
-            :data="tabs"
-            :value="currentTab"
-            nav-key="notification-tabs"
-            class="notification-tabs"
-            @change="handlePageChange"
+          :data="tabs"
+          :value="currentTab"
+          nav-key="notification-tabs"
+          class="notification-nav"
+          @change="handlePageChange"
         />
       </div>
-      <NotificationsTab v-if="onNotifications" @infinite="infiniteScroll"/>
-      <NotificationSettings v-if="onSettings"/>
-      <MobileNotificationSettingsTab v-if="onSettingsItemTab"/>
+      <NotificationsTab v-if="onNotifications" @infinite="infiniteScroll" />
+      <NotificationSettings v-if="onSettings" />
+      <MobileNotificationSettingsTab v-if="onSettingsItemTab" />
     </div>
   </client-only>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import {NavGroup} from '~/components/common'
+import { mapGetters } from 'vuex'
+import { NavGroup } from '~/components/common'
 import NotificationFilters from '~/components/profile/notifications/NotificationFilters'
 import NotificationsTab from '~/components/profile/notifications/NotificationsTab'
 import NotificationSettings from '~/components/profile/notifications/NotificationSettings'
@@ -81,7 +81,7 @@ import NotificationMarkAllAsRead from '~/components/profile/notifications/Notifi
 import MobileSearchInput from '~/components/mobile/MobileSearchInput'
 import NotificationMobileFilters from '~/components/profile/notifications/NotificationMobileFilters'
 import MobileNotificationSettingsTab from '~/components/profile/notifications/MobileNotificationSettingsTab'
-import {NOTIFICATION_PER_PAGE} from '~/static/constants'
+import { NOTIFICATION_PER_PAGE } from '~/static/constants'
 
 export default {
   name: 'Notifications',
@@ -125,10 +125,10 @@ export default {
     }),
     tabTitle() {
       return this.onNotifications
-          ? this.$t('notifications.title')
-          : this.isScreenXS
-              ? this.$t('notifications.push_notifications')
-              : this.$t('notifications.notification_settings')
+        ? this.$t('notifications.title')
+        : this.isScreenXS
+        ? this.$t('notifications.push_notifications')
+        : this.$t('notifications.notification_settings')
     },
     onSettings() {
       return this.currentTab === 'Settings'
@@ -145,7 +145,7 @@ export default {
       this.$store.commit('notifications/setTab', page)
     },
     searchChanged(e) {
-      this.filtersChanged({search: e})
+      this.filtersChanged({ search: e })
     },
     infiniteScroll(perPage) {
       this.perPage = perPage
@@ -160,8 +160,8 @@ export default {
         perPage: this.perPage,
       }
       this.$store.commit(
-          'notifications/setSelectedStatus',
-          filters.status || 'all'
+        'notifications/setSelectedStatus',
+        filters.status || 'all'
       )
       this.$store.dispatch('notifications/filterChange', allFilters)
       this.mobileFiltersOpen = false
@@ -172,8 +172,7 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
-
-.profile-notification
+.profile-notification::v-deep
   &.mobile
     background-color: $color-white-1
 
@@ -182,8 +181,10 @@ export default {
     margin-bottom: 26px
 
   .title
-    @include body-16
+    @include body-8
     font-family: $font-family-sf-pro-display
     font-style: normal
     font-weight: $medium
+  .notification-nav
+    margin: 20px 0 18px 0
 </style>

@@ -320,6 +320,7 @@ export default {
         'browse/setSelectedSearch',
         this.selectedFilters.search
       )
+      this.$store.commit('browse/setIsFilter',true)
       if (
         this.selectedFilters.sizeTypes &&
         this.selectedFilters.sizeTypes.length > 0 &&
@@ -342,6 +343,7 @@ export default {
     },
 
     removeFilter(type, index) {
+      this.$store.commit('browse/setIsFilter',false)
       switch(type) {
             case 'sizesType':
               this.selectedFilters.sizeTypes.splice(index, 1)
@@ -362,7 +364,7 @@ export default {
               break;
             default:
               // code block
-          }
+      }
     },
     clearAllFilters() {
       this.selectedPrices = [MIN_PRICE, MAX_PRICE / 100]
@@ -380,6 +382,7 @@ export default {
       this.$store.commit('browse/setSizesByType', [])
       this.$store.commit('browse/setSelectedPrices', [])
       this.$store.commit('browse/setSelectedYears', [])
+      this.$store.commit('browse/setIsFilter',false)
     },
     handleSortBySelect(option) {
       // Select SortBy option

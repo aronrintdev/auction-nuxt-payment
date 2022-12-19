@@ -29,7 +29,7 @@
           <p
             class="benefit-description mt-2 mb-0 mt-sm-4 mx-auto mx-sm-0 font-primary fs-18 fw-4"
           >
-            {{ $t(benefitDescription) }}
+            <span class="pre-line">{{ $t(benefitDescription) }}</span>
           </p>
         </div>
       </div>

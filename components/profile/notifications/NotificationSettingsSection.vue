@@ -1,15 +1,21 @@
 <template>
-  <div :class="{
-    'mobile p-3': isScreenXS,
-    'p-4': !isScreenXS
-  }"
-       class="notification-settings-section w-100">
+  <div
+    :class="{
+      'mobile p-3': isScreenXS,
+      'p-4': !isScreenXS,
+    }"
+    class="notification-settings-section w-100 d-flex flex-column"
+  >
     <b-row>
       <b-col md="5" sm="12">
         <span class="title">{{ title }}</span>
       </b-col>
       <b-col v-if="!isScreenXS" class="title-labels" md="4">
-        <span v-if="preference"><span>{{ $t('notifications.settings.notification_preferences') }}</span></span>
+        <span v-if="preference"
+          ><span>{{
+            $t('notifications.settings.notification_preferences')
+          }}</span></span
+        >
       </b-col>
       <b-col v-if="!isScreenXS" md="3">
         <b-row class="title-labels text-center pl-3">
@@ -20,43 +26,44 @@
       </b-col>
     </b-row>
     <slot name="extra"></slot>
-    <div :class="{'mt-3': !isScreenXS}">
+    <div>
       <div v-for="item in items" :key="item.key">
-        <hr v-if="isScreenXS" class="divider">
-        <NotificationSettingsItem :path="path" :settings="item"></NotificationSettingsItem>
+        <hr v-if="isScreenXS" class="divider" />
+        <NotificationSettingsItem
+          :path="path"
+          :settings="item"
+        ></NotificationSettingsItem>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import NotificationSettingsItem from '~/components/profile/notifications/NotificationSettingsItem';
-import screenSize from '~/plugins/mixins/screenSize';
+import NotificationSettingsItem from '~/components/profile/notifications/NotificationSettingsItem'
+import screenSize from '~/plugins/mixins/screenSize'
 export default {
   name: 'NotificationSettingsSection',
-  components: {NotificationSettingsItem},
+  components: { NotificationSettingsItem },
   mixins: [screenSize],
   props: {
     preference: {
       type: Boolean,
-      default: true
+      default: true,
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     path: {
       type: String,
-      required: true
+      required: true,
     },
     items: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
-  methods: {
-
-  }
+  methods: {},
 }
 </script>
 
@@ -66,6 +73,7 @@ export default {
   background: $color-white-1
   border: 1px solid $color-gray-29
   border-radius: 8px
+  gap: 20px
 
   &.mobile
     border-radius: 10px
@@ -95,5 +103,4 @@ export default {
   border-top: 1px solid rgba($color-gray-23, 0.17)
   margin-top: 8px
   margin-bottom: 8px
-
 </style>
