@@ -37,7 +37,6 @@
                   <div class="position-relative">
                   <div class="remove-item-xs position-absolute mt-2"  @click="removeItem(item.inventory.product.id)">
                     <img :src="require('~/assets/img/minusSign.svg')" />
-<!--                    <div class="minus"></div>-->
                   </div>
                   </div>
                   <div class="image-wrapper-sm">
@@ -56,9 +55,6 @@
               </div>
             </div>
           </div>
-
-
-
 
           <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center m-2">
             <Meter :highest="getTheirTotal(false)"
@@ -139,7 +135,6 @@
                     <div class="position-relative">
                       <div class="remove-item-xs mt-2" @click="decrementOrRemoveItem(item)">
                         <img :src="require('~/assets/img/minusSign.svg')" />
-<!--                        <div class="minus"></div>-->
                       </div>
                     </div>
                     <div class="image-wrapper-sm position-relative d-flex justify-content-center align-items-center">
@@ -2187,58 +2182,12 @@ export default {
   width: 797px
   height: 61px
   padding: 25px
-//.center-container
-//  min-height: 450px
-//  margin: 0 15px
-//  display: flex
-//  justify-content: center
-//  margin-bottom: 140px
-.center-container-one
-  min-height: 100px
-  margin: 0 30px
-  display: flex
-  justify-content: center
-.center-container-two-one
+.center-container
   min-height: 450px
-  margin: 0 30px
+  margin: 0 15px
   display: flex
   justify-content: center
-.center-container-three-one
-  min-height: 550px
-  margin: 0 30px
-  display: flex
-  justify-content: center
-  margin-bottom: 60px
-.center-container-two-two
-  min-height: 550px
-  margin: 0 30px
-  display: flex
-  justify-content: center
-  margin-bottom: 60px
-.center-container-two-three
-  min-height: 550px
-  margin: 0 30px
-  display: flex
-  justify-content: center
-  margin-bottom: 60px
+  margin-bottom: 140px
 
-.center-container-two
-  min-height: 420px
-  margin: 0 30px
-  display: flex
-  justify-content: center
-  margin-bottom: 60px
-.center-container-three
-  min-height: 510px
-  margin: 0 30px
-  display: flex
-  justify-content: center
-  margin-bottom: 60px
-.center-container-three-two
-  min-height: 550px
-  margin: 0 30px
-  display: flex
-  justify-content: center
-  margin-bottom: 60px
 
 </style>
