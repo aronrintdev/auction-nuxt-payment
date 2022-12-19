@@ -187,14 +187,20 @@
                 </div>
               </div>
               <div
-                class="center-container d-flex mx-0 mx-md-auto align-items-center col-md-8 col-xl-12"
-                :class="{'center-cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }"
+                class="center-container d-flex align-items-center"
+                :class="{'center-cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length > ONE_ITEM),
+                  'center-cont-height-ones':(lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM)
+                }"
               >
-                <div class="left-item">
+                <div class="left-item" :class="{'one-item-margin-top': lastSubmittedOffer.theirs_items.length === ONE_ITEM }">
                   <div v-for="(item, index) in lastSubmittedOffer.theirs_items" :id="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ?'trade-item-'+index : ''"
-                      :key="item.id" class="item"
-                      :class="[((lastSubmittedOffer.theirs_items.length > ONE_ITEM )|| (lastSubmittedOffer.yours_items.length)) ? 'item-length' : 'item-normal']">
+                      :key="item.id" class="item-normal">
+                    <div class="d-flex align-items-center justify-content-center position-relative image-container">
+                    <div class="thumb-wrapper">
                     <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
+                    <div class="overlay-image"></div>
+                    </div>
+                    </div>
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
                       <div class="mt-1 item-caption-description d-flex">
@@ -210,19 +216,24 @@
                     </div>
                   </div>
                 </div>
-                <div class="center-item">
+                <div class="center-item mt-210px">
                   <div v-if="lastSubmittedOffer.theirs_items.length > ONE_ITEM" class="pointer-left"></div>
                   <div class="long-line" :class="{'w-xl-100' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>
                   <img :src="require('~/assets/img/trades/Trade.svg')" />
                   <div class="long-line" :class="{'w-xl-100' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
                   <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right"></div>
                 </div>
-                <div class="right-item">
+                <div class="right-item" :class="{'one-item-margin-top': lastSubmittedOffer.yours_items.length === ONE_ITEM }">
                   <div v-if="lastSubmittedOffer.yours_items.length" >
                     <div v-for="(item, index) in lastSubmittedOffer.yours_items"
                         :id="lastSubmittedOffer.yours_items.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="item.id"
-                        class="item-length">
+                        class="item-normal">
+                      <div class="d-flex align-items-center justify-content-center position-relative image-container">
+                      <div class="thumb-wrapper">
                       <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
+                      <div class="overlay-image"></div>
+                      </div>
+                      </div>
                       <div class="item-caption">
                         <span class="item-name">{{ item.inventory.product.name }}</span>
                         <div class="mt-1 item-caption-description d-flex">
@@ -830,6 +841,7 @@ export default {
 .center-item
   width: unset
   margin: 0 12px
+  padding-top: 210px
 .pointer-left-sm,.pointer-right-sm
   width: 25px
 
@@ -873,7 +885,9 @@ export default {
   height: 153px
 .right-item-one-sm
   margin-left: 40px
-
+.right-item,.left-item
+  width: 150px
+  height: 218px
 .owner-name
   @include body-5-bold
   color: $color-black-1
@@ -899,5 +913,31 @@ export default {
 .margin-top-minus
   margin-top: -118px
 .margin-top-minus-one
-  margin-top: -145px
+  margin-top: 375px
+.center-cont-height-one
+  min-height: 351px
+.item-normal
+  width: 150px
+  height: 218px
+  min-height: unset
+.image-container
+  padding: 15px
+  height: 163px
+  background: $color-white-4
+.overlay-image
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $color-grey-70
+.image-bg
+  background: $color-white-4
+.thumb-wrapper
+  background: $color-white-4
+  position: relative
+.one-item-margin-top
+  margin-top: 123px
+.mt-210px
+  //margin-top: 210px
 </style>
