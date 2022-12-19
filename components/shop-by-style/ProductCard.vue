@@ -60,7 +60,7 @@
         <div class="accordion-filter-item bg-transparent w-100 border-0 mt-4">
           <h2
             id="panelsStayO pen-headingOne"
-            class="accordion-filter-header mb-4"
+            class="accordion-filter-header"
           >
             <button
               v-b-toggle.collapse-product-detail
@@ -83,8 +83,8 @@
             class="accordion-filter-collapse"
             aria-labelledby="panelsStayOpen-headingOne"
           >
-            <div class="accordion-filter-body">
-              <div class="tab-content mt-40 ml-2">
+            <div class="accordion-filter-body mt-0">
+              <div class="tab-content mt-40">
                 <div class="content-row w-100">
                   <div>{{ $t('common.sku') }}</div>
                   <div>{{ products.sku }}</div>
@@ -107,7 +107,7 @@
               </div>
             </div>
           </b-collapse>
-          <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header">
+          <h2 id="panelsStayO pen-headingOne" class="mt-4 accordion-filter-header">
             <button
               v-b-toggle.size-guide-collapse
               aria-controls="panelsStayOpen-collapseOne"
@@ -488,6 +488,9 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.mt-40
+  margin-top: 13px
 .product-image
   width: 152px
   height: 172px
