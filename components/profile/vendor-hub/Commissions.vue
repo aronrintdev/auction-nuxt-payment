@@ -41,7 +41,7 @@
 
         <Button
           v-if="!mobileClass"
-          variant="dark export-button"
+          variant="dark export-button px-0"
           @click="toggleExport"
         >
             {{ $t('vendor_hub.commission.export_to_csv') }}
@@ -56,12 +56,14 @@
           <span class="label-text thin">{{ $t('vendor_hub.commission.date_ordered') }}</span>
           <div class="d-flex align-items-center mt-1">
             <CalendarInput
+              class="date-picker"
                 :date-reset-button="true"
                 :placeholder="$t('vendor_hub.commission.start_date')"
                 :value="filterForm.startDate"
                 @context="(ctx) => calendarContextChange(ctx, true)"
             />
             <CalendarInput
+                class="date-picker"
                 :date-reset-button="true"
                 :placeholder="$t('vendor_hub.commission.end_date')"
                 :value="filterForm.endDate"
@@ -73,16 +75,16 @@
           </div>
         </div>
 
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column justify-content-end">
           <span class="label-text thin">{{ $t('vendor_hub.commission.filter_by') }}</span>
           <div class="mt-1">
             <CustomSelectwithCheckbox
-              style="max-width: 262px"
+              style="max-width: 122px"
                 :options="STATUSES"
                 :title="$t('bids.status')"
                 :updateFilters="filterForm.activeStatusFilters"
                 :value="filterForm.statusType"
-                class="mr-4 dropdown-filters"
+                class="dropdown-filters"
                 @filters="onStatusHandler"
             />
           </div>
@@ -605,7 +607,7 @@ export default {
     font-weight: $normal
 
 .dropdown-filters
-  min-width: 200px
+  min-width: 127px
 
 .label-text.thin
   font-weight: $normal
@@ -679,9 +681,9 @@ export default {
   color: $color-blue-30
 
 .export-button
-  width: 260px
+  width: 141px
   font-family: $font-sp-pro
-  @include body-8-normal
+  @include body-8-medium
 
 .header
   font-family: $font-sp-pro
@@ -705,4 +707,7 @@ export default {
 .sort-icon
   &.asc
     transform: rotate(180deg)
+
+.date-picker
+  width: 170px
 </style>

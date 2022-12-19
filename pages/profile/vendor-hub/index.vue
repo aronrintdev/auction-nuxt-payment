@@ -115,5 +115,5 @@ export default {
   font-weight: $bold
 
 .vendor-page
-  background-color: $color-gray-1
+  background-color: $color-white-4
 </style>
