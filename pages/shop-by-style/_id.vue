@@ -25,18 +25,7 @@
               icon="share.svg"
               icon-only
               pill
-              class="mr-3"
             />
-            <Button
-              :id="`popover-wishlist-${style.id}`"
-              variant="white"
-              :icon="wishList ? `heart-red.svg` : 'heart2.svg'"
-              icon-only
-              tabindex="0"
-              :tooltip-text="wishList ? wishList.name : ''"
-              pill
-            >
-            </Button>
           </div>
         </div>
         <b-popover
