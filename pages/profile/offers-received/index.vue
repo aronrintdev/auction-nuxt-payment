@@ -1139,4 +1139,67 @@ export default {
   .bottom-sheet__bar
     width: 36px
     height: 5px
+
+::v-deep
+  #filter-by .custom-control-input:checked
+    ~ .custom-control-label::before
+      color: $white
+      border-radius: 0px
+      background-color: $color-blue-20
+      box-shadow: none
+      border: 1px solid $color-blue-20
+
+::v-deep
+  #filter-by .custom-control-input
+    ~ .custom-control-label::before
+      color: $white
+      background-color: $white
+      box-shadow: none
+      border-radius: 0px
+      top: 4px
+      left: -20px
+      width: 10px
+      height: 10px
+      border: 1px solid $color-gray-60
+    ~ .custom-control-label::after
+      left: -20px
+
+.dropdown-filters::v-deep
+  height: 38px
+  min-width: 170px
+  border: none
+  .selected
+    height: 38px
+    border: 1px solid $color-gray-60
+    padding: 9px 9px 9px 10px
+    &.open
+      border: 1px solid $color-gray-60
+      border-bottom: none
+      &::after
+        top: 2px
+    &::after
+      top: 2px
+      right: 25px
+  .items
+    padding: 0
+    overflow: auto
+    border: 1px solid $color-gray-60
+    .filter-select-count
+      padding: 10px !important
+    .item-wrapper
+      border: none
+      & > div
+        border: none
+        border-bottom: 1px solid $color-gray-60
+      .d-flex
+        font-weight: $regular
+        @include body-5
+        color: $black
+        border: none
+        padding: 9px 10px !important
+        .custom-checkbox
+          min-height: 18px
+          line-height: 18px
+          margin-left: 20px !important
+
 </style>
