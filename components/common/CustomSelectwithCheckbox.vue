@@ -11,20 +11,18 @@
       </div
       >
     </div>
-    <div :class="{ selectHide: !open, border: bordered }" class="items bg-white d-inline d-table">
-      <div class="item-wrapper" :class="itemsWidth">
+    <div :class="{ selectHide: !open, border: bordered }" class="items bg-white">
+      <div class="item-wrapper">
         <div v-for="(option, key) in options" :key="key" class="p-0 checkbox-wrapper" @click="checked(option)">
-          <div class="d-flex">
+          <div class="p-3 d-flex">
             <b-form-checkbox
                 v-if="option.value"
-                class="border-0 px-10 py-14 text-normal"
+                class="border-0 p-0 ml-4 text-normal"
                 :value="option.value"
                 :checked="getVal(option)"
                 @change="checked(option)"
             />
-            <span>
               {{ option.text }}
-            </span>
           </div>
         </div>
       </div>
@@ -68,10 +66,6 @@ export default {
       default: () => [],
     },
     inputClass: {
-      type: String,
-      default: ''
-    },
-    itemsWidth: {
       type: String,
       default: ''
     },
@@ -190,16 +184,13 @@ export default {
     background-color: $color-white-5
     z-index: 99
 
+    div
+      @include body-4-normal
+      color: $color-black-1
     .checkbox-wrapper
       border: 1px solid transparent
       border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent
 
-      span
-        @include body-5-regular
-        font-family: $font-montserrat
-        padding-left: 14px
-        margin-top: 10px
-        margin-bottom: 10px
 
     .custom-checkbox
       @include body-4-normal
@@ -213,7 +204,7 @@ export default {
         background-color: rgba(0, 0, 0, 0.1)
 
   .selectHide
-    display: none !important
+    display: none
 
   .customselect-checkbox input
     margin-top: 0
