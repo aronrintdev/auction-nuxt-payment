@@ -35,8 +35,9 @@
               <div  v-if="getYourItems.length" class="">
                 <div  v-for="(item,index) in getYourItems" :id="getYourItems.length > ONE_ITEM ?'your-card-'+index : 'your-item'" :key="index" class="preview mb-4">
                   <div class="position-relative">
-                  <div class="remove-item position-absolute mt-2"  @click="removeItem(item.inventory.product.id)">
-                    <div class="minus"></div>
+                  <div class="remove-item-xs position-absolute mt-2"  @click="removeItem(item.inventory.product.id)">
+                    <img :src="require('~/assets/img/minusSign.svg')" />
+<!--                    <div class="minus"></div>-->
                   </div>
                   </div>
                   <div class="image-wrapper-sm">
@@ -136,8 +137,9 @@
                 <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="d-flex justify-content-center">
                   <div  v-for="(item,index) in getYourTradeItems" :id="'your-card-'+index" :key="index" class="item-inventory mt-2 mb-4 ml-3">
                     <div class="position-relative">
-                      <div class="remove-item mt-2" @click="decrementOrRemoveItem(item)">
-                        <div class="minus"></div>
+                      <div class="remove-item-xs mt-2" @click="decrementOrRemoveItem(item)">
+                        <img :src="require('~/assets/img/minusSign.svg')" />
+<!--                        <div class="minus"></div>-->
                       </div>
                     </div>
                     <div class="image-wrapper-sm position-relative d-flex justify-content-center align-items-center">
@@ -1679,7 +1681,7 @@ export default {
   height: 13px
   width: 13px
   z-index: 100
-  background: $color-red-24
+  //background: $color-red-24
 .minus
   width: 7px
   height: 2px
@@ -1917,8 +1919,11 @@ export default {
   height: 134px
   background: $color-white-4
   //position: relative
-
-
+.remove-item-xs
+  height: 13px
+  width: 13px
+  z-index: 100
+  left: 82%
 
 .remove-item
   height: 13px
