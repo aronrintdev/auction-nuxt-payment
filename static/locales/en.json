@@ -171,6 +171,7 @@
     "done": "Done",
     "end_date": "End Date",
     "search_brands": "Search Brands",
+    "search_products": "Search Products",
     "sort_by": "Sort By",
     "options": "Options",
     "reset": "Reset",
@@ -2641,6 +2642,7 @@
     "shipping_fee": "Shipping Fee",
     "processing_fee": "Processing Fee",
     "tax": "Tax",
+    "crypto": "Crypto",
     "promo_code": "Promo Code",
     "promo_code_applied": "Promo applied!",
     "enter_your_code": "Enter your code",
@@ -5741,6 +5743,7 @@
   },
   "vendor_dashboard": {
     "title": "Dashboard",
+    "products": "Products",
     "hi_name": "Hi {0},",
     "you_are_seller": "You are a {rank} Seller",
     "seller_fee": "Seller Fee",
@@ -5791,7 +5794,43 @@
     "sku": "SKU",
     "colorway": "Colorway",
     "box_condition": "Box Condition",
-    "fedex": "FedEx"
+    "fedex": "FedEx",
+    "breakdown": {
+      "export": "Export to CSV",
+      "total": "Total",
+      "select_name": "Select {name}",
+      "overview": "Overview",
+      "search_placeholder": "Search for SKU, Brand or Product Name",
+      "products": "Products",
+      "search_brand": "Search for Brands",
+      "search_product": "Search for Products",
+      "percentage": "Percentage Breakdown",
+      "statistics": "Statistics",
+      "select_all": "Select All",
+      "clear_all": "Clear All",
+      "over_retail_price": "over retail price",
+      "tabs": {
+        "category": "Categories",
+        "brand": "Brands",
+        "product": "Products"
+      },
+      "table": {
+        "product": "Product",
+        "category": "Category",
+        "brand": "Brand",
+        "items_sold": "Items Sold",
+        "price_premium": "Price Premium",
+        "avg_sale_price": "Avg. Sale Price",
+        "sales": "Sales ($)"
+      },
+      "categories": {
+        "footwear": "Footwear",
+        "apparel": "Apparel",
+        "accessories": "Accessories"
+      },
+      "premium_info": "Price premium is the percentage in which the selling price has exceeded or fallen short of the retail price.",
+      "sales": "Sales Breakdown"
+    }
   },
   "notifications": {
     "title": "Notifications",
@@ -5875,7 +5914,7 @@
         }
       },
       "all_communication": "All Communications",
-      "shop": "Buy",
+      "shop": "Shop",
       "trade": "Trade",
       "auction": "Auction",
       "notification_preferences": "Notification Preferences",
@@ -6010,6 +6049,7 @@
       "offers_placed_mobile": "Offers",
       "total_purchases_main": "Total Purchases",
       "earn_money": "Earn Money",
+      "earn_more": "Earn More",
       "rewards": "Rewards",
       "view_rewards": "View Rewards",
       "ds_points": "DS Points",

@@ -5,7 +5,7 @@
         <search-icon class="search-icon"/>
       </b-input-group-prepend>
 
-      <b-form-input v-model="text" :placeholder="$t('notifications.search')" class="text-input py-0"></b-form-input>
+      <b-form-input v-model="text" :placeholder="placeholder || $t('notifications.search')" class="text-input py-0"></b-form-input>
 
       <b-input-group-append>
         <clearIcon v-if="clearActive" @click="text = ''"/>
@@ -27,6 +27,10 @@ export default {
     value: {
       type: String,
       required: true,
+    },
+    placeholder: {
+      type: String,
+      default: '',
     },
     hasScanner: {
       type: Boolean,

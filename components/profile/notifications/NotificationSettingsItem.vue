@@ -2,7 +2,7 @@
   <b-row
     v-if="settings"
     :class="{ mobile: isScreenXS }"
-    class="mt-2 mb-3 align-items-center"
+    class="mb-3 align-items-center"
   >
     <b-col md="5" sm="12">
       <div
@@ -93,7 +93,7 @@
       </div>
       <div
         v-if="fieldExist(settings.data, 'until') && !isScreenXS"
-        class="mt-4"
+        class="mt-3"
       >
         <vue-slider
           v-if="settings.data.until.type === 'slider'"
@@ -417,13 +417,13 @@ export default {
 
 
 .title
-  @include body-8-medium
+  @include body-8
   font-family: $font-family-sf-pro-display
   font-style: normal
   color: $color-black-1
 
 .sub-title
-  @include body-8-regular
+  @include body-8
   font-family: $font-family-sf-pro-display
   font-style: normal
   color: $color-gray-5
@@ -449,7 +449,6 @@ export default {
 
 .type-radios::v-deep
   .custom-radio
-
     label
       @include body-13
       font-family: $font-family-sf-pro-display
