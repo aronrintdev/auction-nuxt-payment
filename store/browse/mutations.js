@@ -32,3 +32,6 @@ export function setSelectedOrdering(state, val){
 export function setSizesByType(state, val){
   state.sizes = val
 }
+export function setIsFilter(state, val){
+  state.isFilter = val
+}

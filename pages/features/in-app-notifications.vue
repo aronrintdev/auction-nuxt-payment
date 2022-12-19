@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="in-app-notification-main">
     <FeatureContentWrapper
       :backgroundImage="banner.backgroundImage"
       :backgroundImageXS="banner.backgroundImageXS"
@@ -177,6 +177,7 @@ export default {
     .feature-content
       .cards-wrapper-in-app
         gap: 27px
+        padding: 0px 16px 34px 16px
         .prefrence-card
           border-radius: 8px !important
           padding: 20px 25px
