@@ -79,6 +79,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 input[type="checkbox"]
   width: 15px
   height: 15px
