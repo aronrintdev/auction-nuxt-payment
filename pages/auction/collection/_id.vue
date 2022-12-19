@@ -16,8 +16,8 @@
         <span>{{ `${$t('auctions.frontpage.auction_id')} #${activeAuction.id}` }}</span>
         <div class="round-btn ml-4" role="button">
           <Icon
-            src="eye.svg"
-            hover-src="red-eye.svg"
+            src="thin-black-eye-icon.svg"
+            hover-src="thin-red-eye-icon.svg"
             :active="!!watchlist"
             width="22"
             height="22"
@@ -29,7 +29,7 @@
           />
         </div>
       </div>
-      <div class="collection-browser-name mb-3 mb-md-2">{{ activeAuction.name }} ({{ activeAuction.auction_items && activeAuction.auction_items.length }} {{ $t('common.items') }})</div>
+      <div class="collection-browser-name mb-3 mb-md-2">{{ categoriesName() }} ({{ activeAuction.auction_items && activeAuction.auction_items.length }} {{ $t('common.items') }})</div>
       <!-- estimate value & time remaining -->
       <div class="d-flex align-items-end justify-content-between">
         <div v-if="isSold" class="text-uppercase estimate-value">
@@ -111,12 +111,12 @@
           <div class="auction-details-title mb-0 mb-md-3">{{ $t('auctions.frontpage.description') }}:</div>
           <!-- todo -->
           <div class="auction-details-content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit consectetur risus sed diam eu est cursus senectus. Dui tincidunt non venenatis, consequat fusce sit consequat viverra amet. Quis convallis quam amet arcu suspendisse 
+            {{ $t('auctions.frontpage.collection_description', { count: activeAuction.auction_items.length, items: itemsName, categories: categoriesName('and') }) }}
           </div>
         </div>
       </div>
       <!-- Collection items -->
-      <div class="collection-items mt-0 mt-md-5">
+      <div class="collection-items mt-0 mt-md-5 mb-5 mb-md-0">
         <div class="collection-items-title">{{ $t('auctions.frontpage.collection_items') }}</div>
         <div class="d-flex flew-wrap collection-items-list">
           <nuxt-link v-for="(item, index) in activeAuction.auction_items" :key="item.id" :to="`/auction/${activeAuction.id}`" class="item">
@@ -131,19 +131,21 @@
               </div>
             </div>
             <div class="d-flex justify-content-between align-items-end mt-3">
-              <div class="flex-grow-1 overflow-hidden mr-4">
+              <div class="flex-grow-1 overflow-hidden">
                 <h5 class="auct-card-title mb-1">{{ item.inventory.product.name }}</h5>
                 <div class="auct-card-text mb-1">
-                  <span class="auct-card-text-colorway">{{ item.inventory.color }},&nbsp;</span>
-                  <span class="auct-card-text-size">{{ $t('common.box_condition') }}: {{ item.inventory.packaging_condition.name  }}</span>
+                  <span class="auct-card-text-colorway">{{ item.inventory.color }}</span>
+                  <span class="auct-card-text-size d-none d-md-block">,&nbsp;{{ $t('common.box') }}: {{ $t(`common.box_conditions.${item.inventory.packaging_condition.category_id}.${item.inventory.packaging_condition.display_order}`) }}</span>
                 </div>
-                <div class="auct-card-price">{{ `${$t('auctions.frontpage.size')} ${item.inventory.size.size}` }}</div>
+                <div class="auct-card-price">
+                  {{ `${$t('auctions.frontpage.size')} ${item.inventory.size.size}` }} <span class="auct-card-text-size d-md-none">({{ $t('common.box') }}: {{ $t(`common.box_conditions.${item.inventory.packaging_condition.category_id}.${item.inventory.packaging_condition.display_order}`) }})</span>
+                </div>
               </div>
             </div>
           </nuxt-link>
         </div>
       </div>
-      <div class="pt-5 d-md-none">
+      <div class="bottom-cta d-md-none">
         <nuxt-link :to="`/auction/${activeAuction.id}`" class="w-100 d-flex align-items-center justify-content-center view-auction-btn">{{ $t('bids.view') }}</nuxt-link>
       </div>
     </div>
@@ -208,6 +210,11 @@ export default {
     },
     estimatedHighPrice() {
       return this.activeAuction ? Math.ceil(this.activeAuction.start_bid_price * 1.84 / 1000) * 1000 : 0
+    },
+    
+    itemsName() {
+      if (!this.activeAuction) return ''
+      return this.activeAuction.auction_items.map(item => `${item.inventory.product.name}'s : Size ${item.inventory.size.size}`).join(', ')
     }
   },
   watch: {
@@ -225,6 +232,18 @@ export default {
     ...mapActions({
       getAuctionDetails: 'auction/getAuctionDetails',
     }),
+    categoriesName(symbol = '&') {
+      if (this.activeAuction && this.activeAuction.categories) {
+        const count = this.activeAuction.categories.length
+        const lastCategory = this.activeAuction.categories[count - 1]
+        if (count > 1) {
+          const str = this.activeAuction.categories.slice(0, -1).forEach(item => this.$t(`common.categories.${item}`)).join(', ')
+          return str + ' ' + symbol + ' ' + this.$t(`common.categories.${lastCategory}`)
+        }
+        return this.$t(`common.categories.${lastCategory}`)
+      }
+      return ''
+    },
     // Load auction details
     loadAuction() {
       this.loading = true
@@ -359,15 +378,24 @@ export default {
             font-weight: $medium
             @include body-8
             color: $black
+            overflow: hidden
+            text-overflow: ellipsis
+            white-space: nowrap
+          &-size
+            white-space: nowrap
           &-text
             font-family: $font-sp-pro
             font-weight: $normal
             @include body-5
             color: $color-gray-5
+            display: flex
           &-price
             font-weight: $bold
             @include body-2
             color: $black
+            overflow: hidden
+            text-overflow: ellipsis
+            white-space: nowrap
   .expired-status,
   .scheduled-status,
   .sold-status
@@ -407,11 +435,13 @@ export default {
         margin-left: 0
         .auction-details-content
           @include body-1424
+          font-family: $font-montserrat
       &-title
         @include body-4
       &-content
         @include body-5
         margin: 10px 0 24px
+        color: $color-gray-5
     .collection-items
       &-title
         display: none
@@ -424,16 +454,22 @@ export default {
           padding: 8px
           .number
             @include body-18
-            width: 70px
+            width: 62px
             height: 25px
           .auct-card
-            padding: 10px 6px
+            padding: 10px
             &-title
               @include body-21
             &-text
               @include body-21
+              overflow: hidden
+              text-overflow: ellipsis
+              white-space: nowrap
             &-price
               @include body-9
+              .auct-card-text-size
+                font-weight: $medium
+                color: $color-gray-5
     .view-auction-btn
       background: $color-black-5
       border-radius: 20px
@@ -441,4 +477,11 @@ export default {
       @include body-10
       color: $white
       height: 40px
+  .bottom-cta
+    padding: 18px 26px
+    position: fixed
+    bottom: 94px
+    width: 100%
+    left: 0
+    background: $white
 </style>

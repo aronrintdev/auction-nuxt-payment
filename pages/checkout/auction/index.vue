@@ -1,6 +1,6 @@
 <template>
-  <b-container fluid>
-    <b-row v-if="activeAuction" >
+  <b-container fluid class="px-0">
+    <div v-if="activeAuction" class="d-flex flex-column flex-md-row flex-md-nowrap">
       <AuctionCart :auction="activeAuction" />
 
       <CheckoutSidebar class="order-summary auction-checkout" />
@@ -17,7 +17,7 @@
           </div>
         </div>
       </b-modal>
-    </b-row>
+    </div>
   </b-container>
 </template>
 

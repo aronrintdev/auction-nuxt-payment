@@ -2,7 +2,6 @@
   <!-- Order Summary -->
   <b-col md="3">
     <OrderTitle
-      back-link
       :title="$t('auction_cart.bid_summary')"
       @click="emitRenderComponentEvent($parent.$options.name)"
     />
@@ -145,7 +144,7 @@
     <!-- End of Shopping Cart Applied Gift Card -->
 
     <!-- Terms & Conditions Paragraph -->
-    <b-row v-if="billingAddress && shippingAddress && (paymentMethod || cryptoDetails.amount)" class="mt-4">
+    <b-row v-if="billingAddress && shippingAddress && (paymentMethod || cryptoDetails.amount)" class="mt-2">
       <b-col cols="1" md="3" class="text-center">
         <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox>
       </b-col>
@@ -153,7 +152,7 @@
         <i18n
           path="shopping_cart.terms_and_conditions_paragraph"
           tag="p"
-          class="body-5-normal justify-content-start"
+          class="body-5-normal justify-content-start terms-and-conditions"
         >
           <span class="text-decoration-underline">{{
             $t('shopping_cart.terms_and_conditions')
@@ -163,7 +162,7 @@
     ><!-- End of Terms & Conditions Paragraph -->
 
     <!-- Shopping Cart Total Price Heading -->
-    <b-row class="mt-4">
+    <b-row class="mt-3">
       <b-col cols="6" md="6" class="text-center">
         <div class="body-4-medium">{{ $t('shopping_cart.total') }}&colon;</div>
       </b-col>
@@ -173,7 +172,7 @@
     </b-row><!-- End of Shopping Cart Total Price Heading -->
 
     <!-- Shopping Cart Place Order Button -->
-    <b-row class="pt-5 mt-5">
+    <b-row class="mt-3">
       <b-col v-if="loading" md="12" class="text-center">
         <b-spinner variant="color-blue-2"></b-spinner>
       </b-col>
@@ -187,7 +186,7 @@
         <b-button v-else-if="!paymentMethod && !cryptoDetails.estimatedAmount" type="button" class="px-5" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.PaymentOption.name)">{{
             $t('shopping_cart.proceed_to_payment')
           }}</b-button>
-        <b-button v-else type="button" class="px-5" variant="confirm" :disabled="!form.agreedToTerms" @click="placeBid">{{
+        <b-button v-else type="button" class="px-5 place-bid-btn" variant="confirm" :disabled="!form.agreedToTerms" @click="placeBid">{{
           $t('shopping_cart.place_bid')
         }}</b-button>
       </b-col>
@@ -475,9 +474,43 @@ export default {
   .heading-1-medium
     @include body-2
   .body-4-medium
-    @include body-10
+    font-family: $font-sp-pro
+    font-weight: $medium
+    @include body-4b
+    color: $black
+
   .btn.btn-link.custom-link
     @include body-10
+
+  .summary-wrapper
+    .body-5-regular
+      font-family: $font-montserrat
+    div.custom-card.card
+      border-radius: 10px
+      & > .card-body
+        padding: 12px 14.5px
+      .summary-row
+        margin-top: 13px
+        &:first-child
+          margin-top: 0
+  .terms-and-conditions
+    font-family: $font-sf-pro-text
+    font-weight: $normal
+    @include body-30
+    color: $black
+    width: 231px
+    &-wrapper
+      margin: 23px 0 33px
+  
+  .place-bid-btn
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+    border-radius: 21px
+    width: 216px
+    height: 38px
+    font-family: $font-sf-pro-text
+    font-weight: $medium
+    @include body-4b
+    color: $white
 
   @media (max-width: 576px)
     .custom-card
