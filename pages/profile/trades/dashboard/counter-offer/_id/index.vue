@@ -1872,8 +1872,8 @@ export default {
   z-index: 1000
 .plus-icon-add-trade-bg
   position: absolute
-  right: 15%
-  top: 30px
+  right: 17%
+  top: 50px
   z-index: 1000
 
 .input-mt
