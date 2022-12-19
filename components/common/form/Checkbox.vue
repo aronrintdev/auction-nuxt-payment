@@ -106,7 +106,7 @@ input[type="checkbox"]
     color: $color-black-1
     padding: 10px 0
     font-size: 14px
-    font-weight: 500
+    font-weight: $normal
     display: flex
     justify-content: space-between
     &:active
