@@ -1602,7 +1602,7 @@
     "box_condition": "Box Condition",
     "box_conditions": {
       "excellent": "Excellent",
-      "good_condition": "Good Condition",
+      "good_condition": "Excellent Condition",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
       "no_original_box": "No Original Box",
@@ -1650,6 +1650,7 @@
       "select_size_to_offer": "Please select a size above to make an offer",
       "out_of_stock": "Unfortunately, this item and size is currently out of stock!",
       "out_of_stock_place_offer": "Item out of stock, place offer or get notified",
+      "out_of_stock_item_price": "This item and size is currently out of stock! ",
       "enter_valid_amount": "Please enter valid offer amount",
       "not_found": "Product is not found",
       "select_shipping_type": "Please select a shipping type above"
@@ -5273,7 +5274,8 @@
     "general": {
       "add_to_bag": "Add {type} to Bag",
       "add_style_to_bag": "Add Style to Cart",
-      "back_to_style": "< Back to All Styles"
+      "back_to_style": "< Back to All Styles",
+      "view_cart": "View Cart"
     },
     "title": "Shop by Style",
     "title_archive": "Shop by Style (Archive)",

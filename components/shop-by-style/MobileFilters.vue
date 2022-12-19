@@ -17,20 +17,22 @@
       <div class="border-bottom pb-3 mt-2">
         <Collapse :title="$tc('common.size_type', 1)" :selectedValue="activeSizeTypes">
           <div class="row">
-            <div
-              v-for="(sizeType, index) in sizeTypeOptions"
-              :key="index"
-              class="col-4 mb-3"
-            >
-              <Checkbox
-                v-model="selectedSizeType"
-                button
-                :label="sizeType.label"
-                :val="sizeType.value"
-                name="sizeType"
-                @change="getSizeType"
-              />
-            </div>
+            <template v-for="(sizeType, index) in sizeTypeOptions">
+              <div
+                v-if="sizeType.value !== 'apparel' && sizeType.value !== 'shoes' && sizeType.value !== 'streetwear'"
+                :key="index"
+                class="col-4 mb-3"
+              >
+                <Checkbox
+                  v-model="selectedSizeType"
+                  button
+                  :label="sizeType.label"
+                  :val="sizeType.value"
+                  name="sizeType"
+                  @change="getSizeType"
+                />
+              </div>
+            </template>
           </div>
         </Collapse>
       </div>
