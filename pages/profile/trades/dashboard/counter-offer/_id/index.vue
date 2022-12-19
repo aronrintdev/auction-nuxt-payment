@@ -3,12 +3,7 @@
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
-          <div :class="getTheirItems.length  === ONE_ITEM && getYourItems.length === ONE_ITEM ? 'center-container-one'
-            :getTheirItems.length  === TWO_ITEMS && getYourItems.length === ONE_ITEM ? 'center-container-two-one'
-            :getTheirItems.length  === THREE_ITEMS && getYourItems.length === ONE_ITEM  ? 'center-container-three-one'
-            :getTheirItems.length  === TWO_ITEMS && getYourItems.length === TWO_ITEMS ? 'center-container-two-two'
-            :getTheirItems.length  === TWO_ITEMS && getYourItems.length === THREE_ITEMS ? 'center-container-two-three'
-            :getTheirItems.length  === THREE_ITEMS && getYourItems.length === TWO_ITEMS ? 'center-container-three-two': 'center-container-xs'">
+          <div class="center-container-xs mb-5">
             <div class="left-item-xs" :class="{'right-item-margin-top-sm':getTheirItems.length === TWO_ITEMS,'left-item-one-xs':getTheirItems.length === ONE_ITEM}">
               <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'card-'+index : ''" :key="index" class="item mb-4">
                 <div class="image-wrapper-sm">
@@ -200,8 +195,8 @@
                       </div>
                       <div class="item-caption-inventory">
                         <div class="invent-name pt-2">{{item.product && item.product.name}}</div>
-                        <div class="invent-box">{{$t('common.box_condition')}}: {{item.packaging_condition && item.packaging_condition.name}}</div>
-                        <div class="invent-color">{{item.product && item.product.colorway}}</div>
+                        <div class="invent-color">{{item.product && item.product.colorway}} ,Size:{{item.product.size}} </div>
+                        <div class="invent-box"> Box : {{item.packaging_condition && item.packaging_condition.name}}</div>
                       </div>
                     </div>
                   </div>

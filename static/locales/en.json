@@ -4867,7 +4867,7 @@
       "next": "Next",
       "go_back": "Go Back",
       "your_inventory": "Your Inventory ({0})",
-      "trade_upto_items": "Trade up to {0} Items for any trade",
+      "trade_upto_items": "Select up to 3 Items for any trade",
       "search_inventory": "Search your Inventory by SKU, Product Name or Brand",
       "filter_by": "Filter By",
       "category": "Category",
