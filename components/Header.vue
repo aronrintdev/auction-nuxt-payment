@@ -62,7 +62,7 @@
         <PortalTarget name="cart-icon-slot">
           <img
             height="22px"
-            :src="require('~/assets/img/icons/bag.png')"
+            :src="require('~/assets/img/icons/basket.svg')"
             alt="..."
           />
         </PortalTarget>
