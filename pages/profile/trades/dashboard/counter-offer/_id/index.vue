@@ -549,18 +549,18 @@
               <div
                 v-for="(item) in inventoryItems"
                 :key="item.id"
-                class="item invent-item d-flex flex-column justify-content-center col-6 col-md-3"
+                class="item invent-item-bg d-flex flex-column justify-content-center align-items-center col-6 col-md-3"
               >
-                <b-row class="justify-content-between">
-                  <b-col class="d-flex justify-content-end pr-3 pt-3">
-                    <img v-if="!editYours" class="plus-icon-add-trade" role="button"
-                          :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
-                    <img v-else class="plus-icon-add-trade" role="button"
-                          :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
-                  </b-col>
-                </b-row>
-
-                <img class="img-fluid mx-auto max-h-200" :src="item.product | getProductImageUrl" />
+                <div>
+                  <img v-if="!editYours" class="plus-icon-add-trade-bg" role="button"
+                       :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
+                  <img v-else class="plus-icon-add-trade-bg" role="button"
+                       :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
+                </div>
+                <div class="position-relative  d-flex justify-content-center align-items-center image-wrapper-bg">
+                  <img class="pro-image"  :src="item.product | getProductImageUrl"/>
+                  <div class="overlay-bg"></div>
+                </div>
                 <div class="item-caption">
                   <span class="item-name-invent">{{ item.product.name }}</span>
                   <div class="mt-1 item-caption-description-invent d-flex">
@@ -1660,8 +1660,7 @@ export default {
   color: $color-gray-25
 
 .pro-image
-  width: 81px
-  z-index: 10
+  width: 171px
 .remove-item
   height: 13px
   width: 13px
@@ -1704,8 +1703,7 @@ export default {
   overflow: hidden
   width: 200px
   display: block
-  @media (min-width: 576px)
-    width: auto
+
 
 .item-caption-description-invent
   font-size: 14px
@@ -1722,12 +1720,26 @@ export default {
 .invent-item
   width: 164px
   height: 265px
+.invent-item-bg
+  width: 213px
+  height: 323px
 .item-image-trade
   width: 134px
   border-radius: 0
 .image-wrapper-inventory
   height: 185px
   width: 164px
+.image-wrapper-bg
+  width: 213px
+.image-wrapper-bg
+  .overlay-bg
+    position: absolute
+    top: 0
+    left: 0
+    width: 213px
+    height: 100%
+    background: $color-grey-70
+
 .plus-icon-add-trade
   right: 5px
   top: 7px
@@ -1858,6 +1870,11 @@ export default {
   right: 5%
   top: 15px
   z-index: 1000
+.plus-icon-add-trade-bg
+  position: absolute
+  right: 15%
+  top: 30px
+  z-index: 1000
 
 .input-mt
   margin-top: 7px
@@ -1926,10 +1943,6 @@ export default {
     width: 100%
     height: 100%
     background: $color-grey-70
-
-.pro-image
-  width: 117px
-  height: 100%
 
 
 
