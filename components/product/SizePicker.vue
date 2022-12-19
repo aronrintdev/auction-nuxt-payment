@@ -357,8 +357,6 @@ export default {
     max-width: 100%
     padding: 0
     margin-top: 8px
-    @media (min-width: 576px)
-      padding: 0 30px
 
     >span .owl-nav
       display: block !important
