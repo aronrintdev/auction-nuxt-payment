@@ -70,7 +70,7 @@
         </div>
         <div class="text-right d-none d-sm-block">
           <nuxt-link
-            class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0"
+            class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 mr-12"
             to="/profile/vendor-dashboard/breakdown/categories"
             >{{ $t('vendor_dashboard.view_breakdown') }}</nuxt-link
           >
@@ -166,11 +166,12 @@ import {
   GRAPH_COLORS,
 } from '~/static/constants'
 import screenSize from '~/plugins/mixins/screenSize'
+import chartPlugin from '~/plugins/mixins/chart-plugin';
 
 export default {
   name: 'VendorDashboardCharts',
   components: { CustomSelect },
-  mixins: [screenSize],
+  mixins: [screenSize, chartPlugin],
   data() {
     return {
       // TODO Dummy Data
@@ -323,11 +324,11 @@ export default {
       dataBgColors: Object.values(GRAPH_COLORS),
       labels: [],
       chartFilterOptions: {
-        week: 'Week to Date',
-        month: 'Month to Date',
-        year: 'Year to Date',
+        week: 'Week',
+        month: 'Month',
+        year: 'Year',
       },
-      chartsLoading: false
+      chartsLoading: false,
     }
   },
   computed: {
@@ -348,28 +349,20 @@ export default {
     isDataEmpty() {
       return this.dataGraph.every((item) => !item)
     },
-    emptyOrLoadingText(){
-      return this.chartsLoading? 'Loading...' : 'No Data Found'
-    }
+    emptyOrLoadingText() {
+      return this.chartsLoading ? 'Loading...' : 'No Data Found'
+    },
   },
   created() {
     // eslint-disable-next-line no-undef
     Chart.plugins.register({
-      afterDraw: (chart) => {
-        if (chart.data.datasets[0].data.every((item) => item === 0)) {
-          const ctx = chart.chart.ctx
-          const width = chart.chart.width
-          const height = chart.chart.height
-          ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.6)
-          ctx.fillStyle = '#626262'
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.font = '500 18px Montserrat'
-
-          ctx.fillText(this.emptyOrLoadingText, width / 2, height / 2 - 30)
-          ctx.restore()
-        }
-      },
+      afterDraw: (chart) => this.chartAfterDrawPlugin(chart, this.emptyOrLoadingText),
+    })
+  },
+  destroyed() {
+    // eslint-disable-next-line no-undef
+    Chart.plugins.unregister({
+      afterDraw: (chart) => this.chartAfterDrawPlugin(chart, this.emptyOrLoadingText),
     })
   },
   mounted() {
@@ -393,8 +386,9 @@ export default {
         })
         .catch((err) => {
           this.logger.logToServer(err.response)
-        }).finally(() => {
-        this.chartsLoading = false
+        })
+        .finally(() => {
+          this.chartsLoading = false
         })
     },
     changeTab(tab) {
@@ -439,6 +433,9 @@ export default {
 .mr-59
   margin-right: 59px
 
+.mr-12
+  margin-right: 12px
+
 .chart-card
   &.mobile
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
@@ -461,15 +458,18 @@ export default {
   color: $color-blue-30
 
 .dropdown-filter::v-deep
-  background-color: $color-white-4
+  background-color: $color-white-1
   border-radius: 8px
   border: none !important
   width: 200px
+  &.open
+    .items
+      border-top: 0.5px solid $color-black-14 !important
 
   .selected
     @include body-13-medium
     color: $color-black-1
-    background-color: $color-white-4 !important
+    background-color: $color-white-1 !important
     font-family: $font-family-sf-pro-display
     border: none !important
     padding-inline: 18px

@@ -94,7 +94,7 @@
                   'body-5-medium mobile': isScreenXS,
                   'font-secondary': !isScreenXS,
                 }"
-                class="fw-6 fs-15 border-primary mb-1 text-nowrap text-truncate mw-220"
+                class="fw-6 fs-15 border-primary mb-1 text-nowrap text-truncate mw-170"
               >
                 {{ data.item.listing_item.inventory.product.name }}
               </h4>
@@ -104,7 +104,7 @@
               </h4>
               <h4
                 :class="mobileClass"
-                class="font-secondary body-6-normal mb-0 text-secondary-6 text-nowrap text-truncate mw-220"
+                class="font-secondary body-6-normal mb-0 text-secondary-6 text-nowrap text-truncate mw-170"
               >
                 {{ $t('vendor_dashboard.colorway') }}:
                 {{ data.item.listing_item.inventory.product.colorway }}
@@ -119,9 +119,9 @@
         <template #cell(order_id)="data">
           <div
             :aria-label="$t('vendor_dashboard.order_id')"
-            class="d-flex align-items-center w-fit-content tdHeight"
+            class="d-flex w-fit-content tdHeight"
             :class="{
-              'flex-column': !isScreenXS,
+              'flex-column mr-55': !isScreenXS,
             }"
             role="button"
             @click="$router.push(`/orders/${orderId(data.item)}`)"
@@ -156,9 +156,11 @@
             :aria-label="$t('vendor_dashboard.type')"
           >
             <h4 v-if="data.item.order" class="font-secondary fw-5 fs-16 mb-0">
-              {{ data.item.order.type.label === 'buy'
-                ? $t('common.shop')
-                : data.item.order.type.label }}
+              {{
+                data.item.order.type.label === 'buy'
+                  ? $t('common.shop')
+                  : data.item.order.type.label
+              }}
             </h4>
           </div>
         </template>
@@ -203,8 +205,9 @@
             <div
               :class="{
                 'text-nowrap': isScreenXS,
+                'mw-101': !isScreenXS,
               }"
-              class="font-secondary fw-5 fs-16 mb-0 text-primary text-center mw-140"
+              class="font-secondary fw-5 fs-16 mb-0 text-primary text-center"
             >
               <div
                 v-if="data.item.status === PROCESSING && !isScreenXS"
@@ -212,12 +215,12 @@
               >
                 <img :src="require('~/assets/img/paper.svg')" />
               </div>
-              <div v-if="data.item.status === PROCESSING">
+              <div v-if="data.item.status === PROCESSING" class="text-decoration-underline">
                 <a
                   href="#generate-label"
                   class="text-link-blue-mobile"
                   @click="generateLabel(data.item)"
-                  >{{ $t('orders.generate_shipping_label') }}
+                  >{{ $t('orders.print_shipping_label') }}
                   <img
                     v-if="isScreenXS"
                     :src="require('~/assets/img/paper.svg')"
@@ -235,7 +238,7 @@
                   href="#generate-label"
                   class="text-link-blue-mobile"
                   @click="generateLabel(data.item)"
-                  >{{ $t('orders.delivered_to_deadstock') }}
+                  >{{ $t('orders.print_shipping_label') }}
                   <img
                     v-if="isScreenXS"
                     :src="require('~/assets/img/paper.svg')"
@@ -276,7 +279,7 @@
                 }}</span>
                 <a
                   :href="data.item.vendor_shipment.tracking_url"
-                  class="text-decoration-underline text-link-blue-mobile"
+                  class="text-decoration-underline text-link-blue-mobile text-break"
                   target="_blank"
                   >{{ data.item.vendor_shipment.tracking_no }}</a
                 >
@@ -294,7 +297,7 @@ import NavGroup from '~/components/common/NavGroup.vue'
 import screenSize from '~/plugins/mixins/screenSize'
 import { AWAITING_SHIPMENT_TO_DEADSTOCK, PROCESSING } from '~/static/constants'
 import Loader from '~/components/common/Loader'
-import orderStatus from '~/plugins/mixins/order-status';
+import orderStatus from '~/plugins/mixins/order-status'
 
 export default {
   name: 'TopOrdersTable',
@@ -323,7 +326,7 @@ export default {
           key: 'order_id',
           label: this.$t('vendor_dashboard.order_id'),
           sortable: false,
-          tdClass: 'product-img-cell ',
+          tdClass: 'product-img-cell',
           thClass: 'text-nowrap  body-4-bold',
         },
         {
@@ -364,10 +367,10 @@ export default {
           thClass: 'text-nowrap text-center body-4-bold',
         },
       ],
-      orderStatuses: Object.keys(this.$t('orders.order_statuses')).map(a => {
+      orderStatuses: Object.keys(this.$t('orders.order_statuses')).map((a) => {
         return {
           text: this.$t('orders.order_statuses.' + a),
-          value: a
+          value: a,
         }
       }),
       loading: false,
@@ -499,14 +502,27 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.mr-55
+  margin-right: 55px
+
+
 .sort-icon
   &.asc
     transform: rotate(180deg)
 
 ::v-deep.nav-grp
   width: 460px
+  &:not(.mobile)
+    .btn-group
+      height: 32px
+      background-color: $color-gray-3
+      button.btn
+        &:not(.active)
+          background-color: $color-gray-3
+
   &.mobile
-    width: 100%
+    width: 343px
+    margin-inline: auto
   .btn-group
     height: 36px
     button.btn
@@ -585,11 +601,11 @@ export default {
     background-color: transparent
     padding: 0
 
-.mw-140
-  max-width: 160px
+.mw-101
+  max-width: 101px
 
-.mw-220
-  max-width: 220px
+.mw-170
+  max-width: 170px
 
   &.mobile
     max-width: 200px
