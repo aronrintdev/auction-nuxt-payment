@@ -224,7 +224,8 @@ export default {
         inputCardNumber: '',
         inputCardExpiryDate: '',
         inputCardBrand: '',
-        paymentToken: ''
+        paymentToken: '',
+        isDefault: false
       },
       // Edit Card Details
       editCardDetails: {
@@ -389,7 +390,6 @@ export default {
             if (response.token) {
               // Give the datas to display in card on submit
               this.displayCard('add', response)
-              this.$refs.saveCards.disabled = true
               this.form.inputCardHolderName = response.check.name
               // Extract the last 4 digits of the card number.
               this.form.inputCardNumber = response.card.number.slice(
@@ -414,7 +414,6 @@ export default {
                 })
                 .catch((err) => {
                   this.isSaving = false
-                  this.$refs.saveCards.disabled = false
                   this.$logger.logToServer(
                     'Card Payments update in preferences',
                     err.response.data
@@ -535,7 +534,6 @@ export default {
             'Preferences - Add Credit Cards',
             err.response.data.error
           )
-          this.$toasted.error(this.$t('server.error'))
         })
     },
     // Add the details to cards

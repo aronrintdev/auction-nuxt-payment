@@ -1,7 +1,7 @@
 <template>
     <div class="container">
       <div class="box-condition-text">
-        {{ $t('shop_by_style.package_condition') }}
+        {{ $t('common.box_condition') }}
   
         <b-img
           v-b-tooltip.hover="{variant: 'light'}"
@@ -81,7 +81,7 @@
         @include body-8-normal
         color: $color-gray-23
         margin-right: 6px
-        padding: 6px 6px
+        padding: 6px 0
   
         &:first-child
           padding-left: 0

@@ -235,19 +235,6 @@ export default {
       clearFilters: false
     }
   },
-  watch: {
-    searchKeyword(newV) {
-      this.searchText = newV
-    },
-    selectedFilters: {
-      handler (newV) {
-        if(!this.clearFilters) {
-          this.emitChange(newV)
-        }
-      },
-      deep: true
-    }
-  },
   computed: {
     ...mapGetters('trade', [
       'sizeOptions', // Size options getter from trade store
@@ -290,6 +277,19 @@ export default {
         return { label: name, value: name }
       })
     },
+  },
+  watch: {
+    searchKeyword(newV) {
+      this.searchText = newV
+    },
+    selectedFilters: {
+      handler (newV) {
+        if(!this.clearFilters) {
+          this.emitChange(newV)
+        }
+      },
+      deep: true
+    }
   },
   mounted() {
     // Get trade browse page filters

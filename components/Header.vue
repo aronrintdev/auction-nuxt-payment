@@ -1,7 +1,7 @@
 <template>
   <b-navbar
     toggleable="lg"
-    :class="`navbar-wrapper ${!mobileClass && 'border-bottom'}`"
+    :class="`navbar-wrapper ${!mobileClass && ''}`"
   >
     <PortalTarget name="back-icon-slot" class="d-block d-sm-none">
       <b-navbar-toggle target="top-menu-sidebar">
@@ -329,8 +329,9 @@ export default {
     overflow: hidden
 .navbar-wrapper.navbar::v-deep
   font-family: $font-family-base
-  padding: 31px 16px
+  padding: 19px 10px 10px 10px
   background-color: $color-white-1
+  border-bottom: 1px $color-gray-47
 
   svg text
     font-family: $font-family-sf-pro-display

@@ -3,40 +3,17 @@
     v-if="isScreenXS"
     class="profile-component-wrapper responsive-social-connect"
   >
-    <!-- heading -->
-    <div class="border-bottom">
-      <span class="mb-2" role="button" @click="moveBack()">
+    <client-only>
+      <Portal to="page-title"> {{ $t('navbar.profile') }}</Portal>
+      <Portal to="back-icon-slot">
         <img
           :src="require('~/assets/img/icons/back.svg')"
           alt="back-arrow"
           class="float-left"
+          @click="moveBack"
         />
-      </span>
-
-      <span
-        class="
-          d-flex
-          text-align-center
-          align-items-center
-          justify-content-center
-          mt-3
-          responsive-heading
-          text-capitalize
-          mb-3
-        "
-      >
-        {{ $t('preferences.profile.profile') }}
-
-        <span class="mobile-filter position-absolute mb-3">
-          <img
-            class="mobile-filter position-absolute"
-            :src="require('~/assets/img/icons/filter-icon.svg')"
-            alt="filter-icon"
-          />
-        </span>
-      </span>
-    </div>
-    <!-- heading -->
+      </Portal>
+    </client-only>
 
     <!-- card -->
     <b-card class="mt-3 responsive-card">

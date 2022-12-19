@@ -7,6 +7,7 @@
       <div class="searchbar-filter position-relative w-100">
         <b-form-input
           ref="searchInput"
+          v-model="keyword"
           type="search"
           :placeholder="$t('common.search')"
           class="border-0 w-100 font-primary fs-12 fw-4"
@@ -21,34 +22,28 @@
         <FilterIcon class="filter_icon" />
       </div>
     </div>
-    <section class="recent-searches mt-4 mb-3">
+    <section v-if="recentSearch.length" class="recent-searches mt-4 mb-3">
       <div class="d-flex justify-content-between align-items-center my-3">
         <h4 class="fs-16 fw-6 text-black font-primary mb-0">
           {{ $t('common.recent_searches') }}
         </h4>
-        <h4 class="fs-13 fw-5 text-gray font-primary mb-0">
+        <h4 class="fs-13 fw-5 text-gray font-primary mb-0" @click="clearAllSearch">
           {{ $t('common.clear_all') }}
         </h4>
       </div>
       <!-- Todo  -->
       <div class="recent-searches-list">
-        <div class="d-flex justify-content-between align-items-center my-2">
+        <div
+          v-for="(search, key) in recentSearch"
+          :key="`search-${key}`"
+          class="d-flex justify-content-between align-items-center my-2"
+        >
           <h4 class="fs-13 fw-5 text-gray font-primary mb-0 text-truncate">
-            Jordan BB
+            {{ search.keyword }}
           </h4>
-          <Arrowforward class="backarrow_icon" />
-        </div>
-        <div class="d-flex justify-content-between align-items-center my-2">
-          <h4 class="fs-13 fw-5 text-gray font-primary mb-0 text-truncate">
-            Jordan BB
-          </h4>
-          <Arrowforward class="backarrow_icon" />
-        </div>
-        <div class="d-flex justify-content-between align-items-center my-2">
-          <h4 class="fs-13 fw-5 text-gray font-primary mb-0 text-truncate">
-            Jordan BB
-          </h4>
-          <Arrowforward class="backarrow_icon" />
+          <div @click="getTrending(search.keyword)">
+            <Arrowforward class="backarrow_icon" />
+          </div>
         </div>
       </div>
     </section>
@@ -58,37 +53,130 @@
         {{ $t('home.trending') }}
       </h4>
       <div
-        v-for="x in 4"
-        :key="x"
-        class="trending-products-list border br-5 p-2 my-2"
+        v-if="trendingLoading"
+        class="d-flex align-items-center justify-content-center h-300"
       >
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="mr-2 d-flex align-items-center">
-            <div class="product-thumb">
-              <Thumb class="mr-2" />
-            </div>
-            <h4 class="fs-13 fw-5 text-gray font-primary mb-0 text-truncate">
-              Something
-            </h4>
-          </div>
-          <Arrowforward class="backarrow_icon" />
-        </div>
+        <Loader :loading="trendingLoading"></Loader>
       </div>
+      <template v-if="!noSearchResult">
+        <div
+          v-for="(product, index) in trendingProducts"
+          :key="index"
+          class="trending-products-list border br-5 p-2 my-2"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="mr-2 d-flex align-items-center">
+              <div class="product-thumb">
+                <Thumb :src="product.image" class="mr-2" />
+              </div>
+              <h4 class="fs-13 fw-5 text-gray font-primary mb-0 text-truncate">
+                {{ getTruncateName(product) }}
+              </h4>
+            </div>
+            <nuxt-link :to="`/shop/${product.sku}`">
+              <Arrowforward class="backarrow_icon" />
+            </nuxt-link>
+          </div>
+        </div>
+      </template>
+      <template v-else>
+        <div class="no-items-found-title d-flex align-items-center justify-content-center h-300">
+          {{ $t('auctions.frontpage.no_results_found') }}
+        </div>
+      </template>
     </section>
   </div>
 </template>
 <script>
+import debounce from 'lodash.debounce'
 import FilterIcon from '~/assets/icons/FilterIcon'
 import SearchIcon from '~/assets/icons/SearchIcon'
 import Arrowback from '~/assets/icons/Arrowback'
 import Arrowforward from '~/assets/icons/Arrowforward'
 import Thumb from '~/components/product/Thumb'
+import { Loader } from '~/components/common'
 export default {
   name: 'SearchbarMobile',
-  components: { FilterIcon, SearchIcon, Arrowback, Thumb, Arrowforward },
+  components: {
+    FilterIcon,
+    SearchIcon,
+    Arrowback,
+    Thumb,
+    Arrowforward,
+    Loader,
+  },
+  data() {
+    return {
+      noSearchResult: false,
+      trendingLoading: true,
+      trendingProducts: [],
+      recentSearch: [],
+      keyword: null,
+    }
+  },
+  watch: {
+    keyword: {
+      handler(newV) {
+          this.getTrending(newV)
+       
+      },
+    },
+  },
   methods: {
     focusInput() {
       this.$refs.searchInput.$el.focus()
+    },
+    getTruncateName(product) {
+      const name = product.name.split(' ').slice(0, 3).join(' ')
+      return name
+    },
+    getTrending: debounce(function (keyword) {
+      const filters = {}
+      this.trendingProducts = []
+      this.trendingLoading = true
+      this.keyword = keyword
+      filters.search = this.keyword
+       this.$axios
+        .get('/products/shop/trending', {
+          params: filters,
+        })
+        .then((res) => {
+          this.noSearchResult = false
+          this.trendingProducts = res.data.data
+          this.saveRecentSearch()
+          if(this.trendingProducts.length === 0) {
+             this.noSearchResult = true
+          } 
+        })
+        .finally(() => {
+          this.trendingLoading = false
+        })
+    }, 500),
+    getRecentSearches() {
+      if (this.authenticated) {
+        this.$axios
+          .get('/recent/search')
+          .then((res) => {
+            this.recentSearch = res.data.data
+          })
+      }
+    },
+    saveRecentSearch: debounce(function () {
+      if (this.authenticated) {
+        if(!this.keyword){
+          return;
+        }
+          this.$axios
+        .post(`/recent/search/${this.keyword}`)
+       
+      }
+    }, 500),
+    clearAllSearch() {
+        this.$axios
+          .get('/recent/search/clear')
+          .then((res) => {
+            this.recentSearch = res.data.data
+          })
     },
   },
 }
@@ -98,6 +186,8 @@ export default {
 @import '~/assets/css/_variables'
 .searchbar-main
   display: block
+  .h-300
+    height: 300px
   .searchbar-filter
     input[type="search"]
       background: $color-white-5

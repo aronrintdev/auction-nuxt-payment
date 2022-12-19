@@ -3,7 +3,7 @@
     <div class="d-none d-sm-flex justify-content-between align-items-center">
       <h2 class="title">{{ selectedAuctionTypeTitle }}</h2>
     </div>
-    <div class="d-none d-sm-flex justify-content-between align-items-center">
+    <div class="d-none d-sm-flex justify-content-between align-items-center searchbar">
       <div class="position-relative w-100">
         <SearchInput
           :value="searchText"
@@ -39,38 +39,40 @@
     </div>
     <!-- Mobile search box -->
     <inventory-listing-filters :isCollection="selectedAuctionType === AUCTION_TYPE_COLLECTION"></inventory-listing-filters>
-    <div class="mt-3 inventories-wrapper">
+    <div class="inventories-wrapper">
 
       <div class="d-flex flex-row flex-md-column justify-content-between align-items-center align-items-md-start">
-        <h2 class="inventories-wrapper-title">{{ $t('selling_page.inventory') }} ({{ totalCount }} {{$t('common.results')}})</h2>
+        <h2 class="inventories-wrapper-title">{{ $t('selling_page.inventory') }} ({{ totalCount }})</h2>
         <h6 v-if="selectedAuctionType===AUCTION_TYPE_COLLECTION" class="title d-none d-md-block">{{ $t('create_listing.collection.subtitle') }}</h6>
         <h6 v-else class="title d-none d-md-block">{{ $t('create_listing.search.description') }}</h6>
       </div>
 
-      <div class="d-none d-sm-flex row justify-content-between align-items-center flex-wrap">
-        <div class="col-6 col-xl-2">
-          <CustomDropdown
-            v-model="categorySelect"
-            :options="CATEGORIES"
-            type="single-select"
-            :label="categoryFilterLabel"
-            class="categories-selector w-100"
-            optionsWidth="custom"
-            dropDownHeight="38px"
-            :dropdownStyle="{ 
-              borderRadius: '0 0 4px 4px'
-            }"
-            borderRadiusClose="4px 4px 0 0"
-            variant="white"
-            borderRadius="4px"
-            borderRadiusOptions="4"
-            @change="handleCategorySelect"
-          />
-        </div>
+      <div class="d-none d-md-flex justify-content-between align-items-end">
+        <div class="d-flex align-items-end">
+          <div>
+            <div class="form-label">{{ $t('common.filter_by') }}</div>
+            <CustomDropdown
+              v-model="categorySelect"
+              :options="CATEGORIES"
+              type="single-select"
+              :label="categoryFilterLabel"
+              class="categories-selector"
+              optionsWidth="custom"
+              width="156px"
+              dropDownHeight="38px"
+              :dropdownStyle="{ 
+                borderRadius: '0 0 4px 4px'
+              }"
+              borderRadiusClose="4px 4px 0 0"
+              variant="white"
+              borderRadius="4px"
+              borderRadiusOptions="4"
+              @change="handleCategorySelect"
+            />
+          </div>
 
-        <div class="col-6 col-xl-2">
           <SelectWithCheckbox
-            class="size-select-box dropdown-filters"
+            class="sizetype-select-box dropdown-filters"
             inputClass="w-100"
             :default="sizeTypeSelect"
             :options="SIZE_TYPES"
@@ -78,9 +80,7 @@
             :updateFilters="activeSizeTypeFilters"
             @filters="typeFilters"
           />
-        </div>
 
-        <div class="mt-2 mt-xl-0 col-6 col-xl-2">
           <SelectWithCheckbox
             class="size-select-box dropdown-filters"
             inputClass="w-100"
@@ -90,9 +90,6 @@
             :updateFilters="activeSizeFilters"
             @filters="sizeFilters"
           />
-        </div>
-
-        <div class="mt-2 mt-xl-0 col-6 col-xl-2 d-flex justify-content-end justify-content-xl-start">
           <Button
             variant="primary"
             class="btn-filter px-2"
@@ -101,21 +98,19 @@
             {{ $tc('common.filter', 1) }}
           </Button>
         </div>
-        <div class="mt-2 mt-xl-0 col-12 col-xl-3">
-          <FormDropdown
-            id="sort-by"
-            :value="sortBy"
-            :placeholder="$t('auctions.frontpage.filterbar.sortby.placeholder')"
-            :items="SORTBY"
-            :icon="require('~/assets/img/icons/three-lines.svg')"
-            :icon-arrow-down="
-              require('~/assets/img/icons/arrow-down-black.svg')
-            "
-            class="dropdown-filters sort-by"
-            can-clear
-            @select="handleSortBySelect"
-          />
-        </div>
+        <FormDropdown
+          id="sort-by"
+          :value="sortBy"
+          :placeholder="$t('auctions.frontpage.filterbar.sortby.placeholder')"
+          :items="SORTBY"
+          :icon="require('~/assets/img/icons/three-lines.svg')"
+          :icon-arrow-down="
+            require('~/assets/img/icons/arrow-down-black.svg')
+          "
+          class="dropdown-filters sort-by"
+          can-clear
+          @select="handleSortBySelect"
+        />
       </div>
       <div class="d-flex mt-3 align-items-center filter-row">
         <b-badge
@@ -148,7 +143,7 @@
           :key="`size-${sizeIndex}`"
           class=" filter-badge px-2 rounded-pill py-1 mr-2 font-weight-light"
         >
-          {{ $t('common.size') }}: {{ size.text }}
+          {{ $tc('common.size', 1) }}: {{ size.text }}
           <i
             class="fa fa-times"
             role="button"
@@ -227,10 +222,10 @@
         ref="bulkSelectToolbar"
         :active="selected.length>0"
         :selected="selected"
-        :unit-label="$tc('common.product', selected.length)"
+        :unit-label="$tc('common.item', selected.length)"
         :total="inventories.length"
         :action-label="$tc('sell.create_listing.continue_listing')"
-        class="d-none d-md-flex mt-3 mb-3"
+        class="d-none d-md-flex"
         @close="selected = []"
         @selectAll="handleSelectAll()"
         @deselectAll="selected = []"
@@ -527,7 +522,8 @@ export default {
         category: this.categorySelect,
         sizes: this.activeSizeFilters.map(a => a.value),
         size_types: this.activeSizeTypeFilters.map(a => a.value),
-        sort_by: this.sortBy
+        sort_by: this.sortBy,
+        available_only: 1,
       }
 
       // if edit item selected we need use previous search in order to show that item
@@ -674,7 +670,8 @@ export default {
         category: this.categorySelect,
         sizes: this.activeSizeFilters.map(a => a.value),
         size_types: this.activeSizeTypeFilters.map(a => a.value),
-        sort_by: this.sortBy
+        sort_by: this.sortBy,
+        available_only: 1,
       }
       this.fetchPublicInventories(params).then((res) => {
         this.totalCount = parseInt(res.total)
@@ -724,11 +721,14 @@ export default {
     font-weight: $bold
     @include body-1
     color: $black
+    margin-bottom: 0
 
     @media (max-width: 576px)
       font-size: 14px
       line-height: 17px
-      margin-bottom: 0
+  
+  .searchbar
+    margin: 43px 0 40px
 
   .btn-draft::v-deep
     @include body-5-bold
@@ -846,6 +846,7 @@ export default {
       padding-bottom: 12px
 
   .categories-selector::v-deep
+    margin-right: 20px
     &.open
       .label-wrapper
         border-bottom-left-radius: 0
@@ -876,7 +877,7 @@ export default {
         color: $black
 
   .inventory-card-list
-    margin-top: 21px 
+    margin: 21px -18px
     @media (max-width: 576px)
       margin: 0 -7.5px
   .collection-items-preview::v-deep
@@ -955,6 +956,7 @@ export default {
 .search-input-wrapper::v-deep
   border-radius: 8px
   background: $white
+  max-width: 688px
   img.icon-search
     margin-left: 21px
     width: 18px
@@ -981,6 +983,10 @@ export default {
     background-color: $color-black-10
     border-color: $color-black-10
 .inventories-wrapper
+  padding: 30px 21px 0
+  background: $white
+  @media (max-width: 576px)
+    padding: 0
   &-title
     font-family: $font-sp-pro
     color: $black
@@ -1127,4 +1133,16 @@ export default {
           margin: 0 -24px
           background-color: $color-blue-20
           border-radius: 0
+.form-label
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-8
+  color: $black
+  margin-bottom: 5px
+.sizetype-select-box
+  width: 156px
+  margin-right: 20px
+.size-select-box
+  width: 120px
+  margin-right: 18px
 </style>

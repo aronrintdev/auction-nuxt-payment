@@ -3,7 +3,7 @@
     <div class="auction-filters-content">
       <div class="d-flex justify-content-between">
         <div v-click-outside="hideDropdown" class="searchbox" :class="{ 'open': hasSearchResult }">
-          <search-box :searchText="searchText" :placeholder="$t('auctions.frontpage.filterbar.searchbox')" @search="search" />
+          <search-box :searchText="searchText" :placeholder="$t('common.search')" @search="search" />
           <div v-if="hasSearchResult" class="dropdown-options">
             <div
               v-for="prod in searchedProducts"
@@ -41,14 +41,14 @@
         />
       </div>
     </div>
-    <div v-if="!moreFiltersVisible" class="mt-4 d-flex align-items-center">
+    <div v-if="!moreFiltersVisible" class="subfilters-bar d-flex align-items-center">
       <!-- Categories -->
       <MultiSelectDropdown
         v-model="selectedFilters.categories"
         collapseKey="categories"
         :title="$t('home_page.categories')"
         :options="categoryOptions"
-        class="mr-3 mr-xl-4"
+        class="categories-selector"
         width="160"
       />
 
@@ -58,7 +58,7 @@
         collapseKey="size-types"
         :title="$t('filter_sidebar.size_types')"
         :options="sizeTypeOptions"
-        class="mr-3 mr-xl-4"
+        class="size-types-selector"
         width="180"
       />
 
@@ -68,7 +68,7 @@
         collapseKey="sizes"
         :title="$t('filter_sidebar.sizes')"
         :options="sizeOptions"
-        class="mr-3 mr-xl-4 flex-grow-1"
+        class="sizes-selector"
       />
 
       <!-- Current Bid -->
@@ -82,7 +82,7 @@
         :step="50"
         :title="$t('home_page.current_bid')"
         :value="selectedPrices"
-        class="mr-3 mr-xl-4 flex-grow-1"
+        class="prices-selector"
         @change="updatePriceFilters"
       />
 
@@ -92,35 +92,25 @@
         collapseKey="brands"
         :title="$t('filter_sidebar.brands')"
         :options="brandOptions"
-        class="mr-3 mr-xl-4 d-none d-xl-block flex-grow-1"
+        class="brands-selector d-none d-xl-block flex-grow-1"
       />
-      <div role="button" class="d-inline-flex align-items-center more-filters-btn ml-3" @click="moreFiltersVisible=true">
+      <div role="button" class="d-inline-flex align-items-center more-filters-btn" @click="moreFiltersVisible=true">
         <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
         <img class="ml-2" src="~/assets/img/home/arrow-right.svg" />
       </div>
     </div>
-    <div v-else class="mt-4 d-flex align-items-center">
-      <div role="button" class="d-inline-flex align-items-center more-filters-btn mr-3" @click="moreFiltersVisible=false">
+    <div v-else class="subfilters-bar d-flex align-items-center">
+      <div role="button" class="d-inline-flex align-items-center more-filters-btn" @click="moreFiltersVisible=false">
         <img class="mr-2 before" src="~/assets/img/home/arrow-right.svg" />
         <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
       </div>
-       <!-- Brand -->
-       <MultiSelectDropdown
-        v-model="selectedFilters.brands"
-        collapseKey="brands"
-        :title="$t('filter_sidebar.brands')"
-        :options="brandOptions"
-        class="mr-3 mr-xl-4 d-none d-md-block d-xl-none"
-        :width="250"
-      />
       <!-- Status -->
       <MultiSelectDropdown
         v-model="selectedFilters.status"
         collapseKey="status"
         :title="$t('filter_sidebar.status')"
         :options="statusOptions"
-        class="mr-3 mr-xl-4"
-        :width="250"
+        class="status-selector"
       />
 
       <!-- Years -->
@@ -134,10 +124,15 @@
         :step="1"
         :title="$t('auctions.frontpage.filterbar.year')"
         :value="selectedYears"
-        class="mr-3 mr-xl-4"
-        :width="250"
+        class="years-selector"
         @change="updateYearFilters"
       />
+    </div>
+    <div v-if="selectedFiltersArray.length" class="filter-list d-flex flex-wrap">
+      <div v-for="(filter, index) in selectedFiltersArray" :key="index" class="filter-list-item d-flex align-items-center">
+        <span>{{ filter.label }}</span>
+        <img :src="require('~/assets/img/icons/dark-blue-close.svg')" role="button" @click="removeFilter(filter.type, filter.index)" />
+      </div>
     </div>
     <div class="text-center auction-filters-type-selector">
       <NavGroup :value="selectedFilters.type" :data="auctionTypes" @change="auctionTypeChanged"/>
@@ -300,6 +295,60 @@ export default {
         return { label: type, value: type }
       })
     },
+    selectedFiltersArray() {
+      const data = []
+      for (const prop in this.selectedFilters) {
+        const value = this.selectedFilters[prop]
+        if (Array.isArray(value)) {
+          value.forEach((item, idx) => {
+            let label, index
+            switch (prop) {
+              case 'sizeTypes':
+                index = this.sizeTypeOptions.findIndex(it => it.value === item)
+                label = index > -1 ? this.sizeTypeOptions[index].label : ''
+                break;
+              case 'brands':
+                index = this.brandOptions.findIndex(it => it.value === item)
+                label = index > -1 ? this.brandOptions[index].label : ''
+                break;
+              case 'sizes':
+                index = this.sizeOptions.findIndex(it => it.value === item)
+                label = index > -1 ? this.sizeOptions[index].label : ''
+                break;
+              case 'categories':
+                index = this.categoryOptions.findIndex(it => it.value === item)
+                label = index > -1 ? this.categoryOptions[index].label : ''
+                break;
+              case 'status':
+                index = this.statusOptions.findIndex(it => it.value === item)
+                label = index > -1 ? this.statusOptions[index].label : ''
+                break;
+              default:
+                label = ''
+                index = 0
+            }
+            data.push({
+              label,
+              index: idx,
+              type: prop,
+            })
+          })
+        }
+      }
+      if (this.selectedPrices[0] !== MIN_PRICE || this.selectedPrices[1] !== MAX_PRICE / 100) {
+        data.push({
+          type: 'selectedPrices',
+          label: this.selectedPrices.map(price => `$${price}`).join(' - ')
+        })
+      }
+      if (this.selectedYears[0] !== MIN_YEAR || this.selectedYears[1] !== MAX_YEAR) {
+        data.push({
+          type: 'selectedYears',
+          label: this.selectedYears.join(' - ')
+        })
+      }
+      return data
+    }
   },
   watch: {
     searchKeyword(newV) {
@@ -403,6 +452,19 @@ export default {
         maxYear: value[1] === MAX_YEAR ? undefined : value[1],
       }
     },
+    removeFilter(type, index) {
+      switch (type) {
+        case 'selectedYears':
+          this.selectedYears = [MIN_YEAR, MAX_YEAR]
+          break;
+        case 'selectedPrices':
+          this.selectedPrices = [MIN_PRICE, MAX_PRICE / 100]
+          break;
+        default: {
+          this.selectedFilters[type].splice(index, 1)
+        }
+      }
+    }
   }
 }
 </script>
@@ -416,8 +478,8 @@ export default {
     border: 1px solid transparent
     background-color: $color-white-4
     border-radius: 8px
-    height: 48px
-    width: 327px
+    height: 46px
+    width: 328px
     padding: 0 13px 0 23px
 
     .icon-main
@@ -473,4 +535,42 @@ export default {
   width: 100%
   height: 100%
   background: rgba($gray, 0.05)
+
+.filter-list
+  padding: 31px 0 0
+  gap: 1em 0
+  &-item
+    background: $color-white-5
+    padding: 4px 8px
+    margin-right: 23px
+    span
+      font-family: $font-montserrat
+      font-weight: $normal
+      @include body-21
+      color: $color-black-15
+      margin-right: 16px
+    img
+      width: 10px
+.subfilters-bar
+  margin-top: 26px
+  .categories-selector
+    width: 165px
+    margin-right: 33px
+  .size-types-selector
+    width: 200px
+    margin-right: 33px
+  .sizes-selector
+    margin-right: 33px
+    width: 149px
+  .prices-selector
+    width: 211px
+    margin-right: 33px
+  .brands-selector
+    margin-right: 32px
+  .status-selector
+    width: 165px
+    margin-left: 32px
+  .years-selector
+    width: 211px
+    margin-left: 33px
 </style>

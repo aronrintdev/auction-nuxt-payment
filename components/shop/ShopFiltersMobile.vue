@@ -13,29 +13,29 @@
         <Radio
           v-for="(option, index) in SORT_OPTIONS"
           :key="index"
-          v-model="sortBy"
           class="mb-2"
           :label="option.label"
           :val="option.value"
           name="sortFilter"
+          @change="handleSortBySelect"
         />
       </div>
       <div class="border-bottom py-3">
         <Collapse
           :title="$t('createlisting.category')"
-          :selectedValue="selectedCategory"
+          :selectedValue="getCategoryLabel(category)"
         >
           <div class="row">
             <div
-              v-for="(category, index) in categories"
+              v-for="(cat, index) in categories"
               :key="index"
-              class="col-4"
+              class="col-4 mb-2"
             >
               <Radio
-                v-model="selectedCategory"
+                v-model="category"
                 button
-                :label="category.label"
-                :val="category.value"
+                :label="cat.label"
+                :val="cat.value"
                 name="category"
               />
             </div>
@@ -64,8 +64,11 @@
           </div>
         </Collapse>
       </div>
-      <div class="border-bottom py-3">
-        <Collapse :title="$t('home_page.size')" :selectedValue="selectedSizes">
+      <div v-if="sizeOptions.length" class="border-bottom py-3">
+        <Collapse
+          :title="$t('home_page.size')"
+          :selectedValue="getSizesLabel(selectedSizes)"
+        >
           <div class="sizes-option">
             <div
               v-for="(size, index) in sizeOptions"
@@ -76,7 +79,7 @@
               <Checkbox
                 v-model="sizes"
                 button
-                :label="size.value"
+                :label="size.label"
                 :val="size.value"
                 name="size"
               />
@@ -87,20 +90,21 @@
       <div class="border-bottom py-3">
         <Collapse
           :title="$t('common.price_range')"
-          :selectedValue="selectedPriceRange"
+          :selectedValue="selectedRangePrices"
         >
           <div>
             <SliderInput
-              v-model="prices"
               :minLabel="$t('filter_sidebar.price_items.min')"
               :maxLabel="$t('filter_sidebar.price_items.max')"
               :fromLabel="$t('filter_sidebar.price_items.from')"
               :toLabel="$t('filter_sidebar.price_items.to')"
-              :minValue="100"
-              :maxValue="800"
-              :minRange="MIN_PRICE_RANGE_WINDOW"
+              :minValue="MIN_PRICE"
+              :maxValue="MAX_PRICE / 100"
+              :min-range="MIN_PRICE_RANGE_WINDOW"
+              :value="selectedPrices"
               :multiplier="1"
               class="mt-4"
+              @change="updatePriceFilters"
             />
           </div>
         </Collapse>
@@ -136,18 +140,22 @@
         </Collapse>
       </div>
       <div class="border-bottom py-3">
-        <Collapse :title="$t('common.year')" :selectedValue="selectedYearRange">
+        <Collapse
+          :title="$t('common.year')"
+          :selectedValue="selectedRangeYears"
+        >
           <div>
             <SliderInput
-              v-model="years"
               :minLabel="$t('filter_sidebar.year_items.start')"
               :maxLabel="$t('filter_sidebar.year_items.end')"
               :fromLabel="$t('filter_sidebar.year_items.from')"
               :toLabel="$t('filter_sidebar.year_items.to')"
-              :minValue="minYear"
-              :maxValue="maxYear"
+              :minValue="MIN_YEAR"
+              :maxValue="MAX_YEAR"
+              :value="selectedYears"
               :minRange="MIN_YEAR_RANGE_WINDOW"
               class="mt-4"
+              @change="updateYearFilters"
             />
           </div>
         </Collapse>
@@ -158,7 +166,7 @@
     >
       <button
         class="btn fs-16 fw-6 font-secondary rounded-pill btn-outline-dark"
-        @click="resetFilters"
+        @click="resetMobileFilters"
       >
         {{ $t('common.reset') }}
       </button>
@@ -173,11 +181,10 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import _ from 'lodash'
 import Collapse from '~/components/common/Collapse'
 import Radio from '~/components/common/form/Radio'
 import Checkbox from '~/components/common/form/Checkbox'
-import SliderInput from '~/components/common/SliderInput'
+import SliderInput from '~/components/shop/SliderInput'
 import {
   MIN_YEAR,
   MAX_YEAR,
@@ -198,42 +205,51 @@ export default {
         },
         {
           label: this.$t('home_page.newest'),
-          value: 'newest',
+          value: 'created_at',
         },
         {
           label: this.$t('shop.sort_by.price_low_first'),
-          value: 'price_asc',
+          value: 'false',
         },
         {
           label: this.$t('shop.sort_by.price_high_first'),
-          value: 'price_desc',
+          value: 'true',
         },
       ],
-      sortBy: 'trending',
+      sortBy: '',
+      orderBy: '',
       categories: [
-        { label: 'Footwear', value: 'footwear' },
-        { label: 'Apparel', value: 'apparel' },
-        { label: 'Accessories', value: 'accessories' },
+        { label: this.$t('common.all'), value: 'all' },
+        { label: this.$t('common.footwear'), value: 'sneakers' },
+        { label: this.$t('common.apparel'), value: 'apparel' },
+        { label: this.$tc('common.all_sizes', 2), value: 'all_sizes' },
       ],
-
-      selectedCategory: 'apparel',
+      selectedRangePrices: null,
+      selectedRangeYears: null,
+      selectedPrices: [MIN_PRICE, MAX_PRICE / 100],
+      selectedYears: [MIN_YEAR, MAX_YEAR],
+      MAX_PRICE,
+      MIN_PRICE,
+      MAX_YEAR,
+      MIN_YEAR,
+      MIN_PRICE_RANGE_WINDOW,
+      category: 'all',
       search: '',
-      years: ['2001', '2022'],
-      prices: ['150', '700'],
+      years: [],
+      prices: [],
       brands: [],
-      sizes: ['62', '64'],
-      selectedBrand: ['BAPE'],
-      selectedSizeType: 'child',
+      sizes: [],
+      selectedBrand: [],
+      selectedSizeType: '',
     }
   },
   computed: {
     ...mapGetters('browse', [
       'filters',
-      'selectedPrices',
-      'selectedYears',
       'selectedBrands',
       'selectedSizes',
       'selectedSizeTypes',
+      'selectedCategory',
     ]),
 
     brandOptionsLess() {
@@ -246,49 +262,15 @@ export default {
     selectedBrandsValue() {
       return this.selectedBrand.join(', ')
     },
-    selectedPriceRange() {
-      return `$${Math.trunc(this.prices[0])}-$${Math.trunc(this.prices[1])}`
-    },
-    selectedYearRange() {
-      return `${this.years[0]}-${this.years[1]}`
-    },
-
-    minYear() {
-      if (this.filters?.year_range?.min == null) {
-        return MIN_YEAR
-      } else {
-        return Number(this.filters?.year_range?.min)
-      }
-    },
-
-    maxYear() {
-      if (this.filters?.year_range?.max == null) {
-        return MAX_YEAR
-      } else {
-        return Number(this.filters?.year_range?.max)
-      }
-    },
-
-    minPrice() {
-      if (this.filters?.price_range?.min == null) {
-        return MIN_PRICE
-      } else {
-        return Number(this.filters?.price_range?.min)
-      }
-    },
-
-    maxPrice() {
-      if (this.filters?.price_range?.max == null) {
-        return MAX_PRICE
-      } else {
-        return Number(this.filters?.price_range?.max)
-      }
-    },
-
     sizeOptions() {
+      if (!this.selectedSizeType) {
+        return []
+      }
       let options = this.filters?.sizes
-      if (options && this.sizeTypes && this.sizeTypes.length > 0) {
-        options = options.filter(({ type }) => this.sizeTypes.includes(type))
+      if (options && this.selectedSizeType) {
+        options = options.filter(({ type }) =>
+          this.selectedSizeType.includes(type)
+        )
       }
       return (
         options?.map(({ id, size, type }) => {
@@ -311,25 +293,13 @@ export default {
         return { label: type, value: type }
       })
     },
-
-    filtersUpdated() {
-      return (
-        !_.isEqual(this.prices, this.selectedPrices) ||
-        !_.isEqual(this.years, this.selectedYears) ||
-        _.xor(this.brands, this.selectedBrands).length > 0 ||
-        _.xor(this.sizes, this.selectedSizes).length > 0 ||
-        _.xor(this.sizeTypes, this.selectedSizeTypes).length > 0
-      )
-    },
-
-    filtersCleared() {
-      return (
-        !this.prices &&
-        !this.years &&
-        !this.brands &&
-        !this.sizes &&
-        !this.sizeTypes
-      )
+  },
+  watch: {
+    selectedCategory: {
+      immediate: true,
+      handler(val) {
+        this.category = val
+      },
     },
   },
   created() {
@@ -338,6 +308,19 @@ export default {
   },
   methods: {
     ...mapActions('browse', ['resetFilters']),
+    resetMobileFilters() {
+      this.sizes = []
+      this.selectedSizeType = ''
+      this.brands = []
+      this.years = []
+      this.prices = []
+      this.category = 'all'
+      this.search = ''
+      this.sortBy = ''
+      this.orderBy = ''
+      this.resetFilters()
+      this.applyFilters()
+    },
     openSheet() {
       this.$refs.allBrands.open()
     },
@@ -345,14 +328,19 @@ export default {
       this.$refs.allBrands.close()
     },
     applyFilters() {
+      this.$store.commit('browse/setSelectedCategory', this.category)
       this.$store.commit('browse/setSelectedYears', this.years)
       this.$store.commit('browse/setSelectedPrices', this.prices)
       this.$store.commit('browse/setSelectedBrands', this.brands)
       this.$store.commit('browse/setSelectedSizeTypes', this.sizeTypes)
-      if (this.sizeTypes && this.sizeTypes.length > 0 && this.sizes) {
+      this.$store.commit('browse/setSelectedSort', this.sortBy)
+      this.$store.commit('browse/setSelectedOrdering', this.orderBy)
+      this.$store.commit('browse/setIsFilter', true)
+
+      if (this.selectedSizeType && this.sizes) {
         const newSizes = this.sizes.filter((size) =>
           this.filters?.sizes?.find(
-            (s) => s.id === size && this.sizeTypes.includes(s.type)
+            (s) => s.id === size && this.selectedSizeType.includes(s.type)
           )
         )
         this.$store.commit('browse/setSelectedSizes', newSizes)
@@ -360,6 +348,59 @@ export default {
         this.$store.commit('browse/setSelectedSizes', this.sizes)
       }
       this.$emit('apply')
+    },
+    getCategoryLabel(value) {
+      if (value) {
+        const category = this.categories.find(
+          (category) => category.value === value
+        )
+        if(category === undefined){
+          return ''
+        }
+        return category.label
+      }
+    },
+    getSizesLabel(sizes) {
+      if (sizes.length) {
+        const newSizes = []
+        const selectedSizes = this.filters?.sizes.filter((size) =>
+          this.sizes?.find((s) => s === size.id)
+        )
+        selectedSizes?.map(({ id, size, type }) => {
+          newSizes.push(`${type} - ${size}`)
+          return `${type} - ${size}`
+        })
+        return newSizes.join(', ')
+      } else {
+        return ''
+      }
+    },
+    handleSortBySelect(option) {
+      // Select SortBy option
+      if (option === 'true' || option === 'false') {
+        this.sortBy= option
+        this.orderBy=  'sale_price'
+      } else if(option === 'trending' || option === 'created_at') {
+        this.sortBy= 'true'
+        this.orderBy=  option
+      }else{
+        this.orderBy=  ''
+      }
+    },
+    // Update selected prices and pass to parent component
+    updatePriceFilters(value) {
+      this.selectedPrices = value
+      this.selectedRangePrices = `$${Math.trunc(value[0])}-$${Math.trunc(
+        value[1]
+      )}`
+      this.prices = value
+    },
+    updateYearFilters(value) {
+      this.selectedYears = value
+      this.selectedRangeYears = `${Math.trunc(value[0])}-${Math.trunc(
+        value[1]
+      )}`
+      this.years = value
     },
   },
 }
@@ -372,7 +413,7 @@ export default {
     margin: 0 19px
   .sizes-option
     display: grid
-    grid-template-columns: repeat(5 , 1fr)
+    grid-template-columns: repeat(2 , 1fr)
     gap: 14px
   .bottom-sheet-footers
     bottom: 0

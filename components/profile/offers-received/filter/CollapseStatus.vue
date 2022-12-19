@@ -18,7 +18,7 @@
             <span v-if="value" class="filters overflow-hidden d-inline-block text-nowrap">{{ value.label }}</span>
           </div>
         </div>
-        
+
       </button>
     </h2>
 
@@ -66,7 +66,7 @@ export default {
     },
     multiSelect: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     value: {
       type: Object,
@@ -91,8 +91,13 @@ export default {
   methods: {
     // Update the selected status
     activeStatus (value) {
-      this.active = value.value
-      this.$emit('selected', { value })
+      if (this.multiSelect) {
+        this.active = [...this.active, value.value]
+      } else {
+        this.active = value.value
+      }
+
+      this.$emit('selected', this.active)
     }
   },
 }

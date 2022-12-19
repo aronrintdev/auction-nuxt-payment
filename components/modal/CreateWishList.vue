@@ -18,7 +18,7 @@
                 <ValidationProvider
                   v-slot="validationContext"
                   :name="$t('wish_lists.list_name')"
-                  :rules="{ required: true, }"
+                  :rules="{ required: true, min: 3, max: 255 }"
                 >
                   <b-form-group
                     label-for="list-name"

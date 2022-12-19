@@ -6,32 +6,33 @@
       :style="wrapperStyle"
     >
       <b-row>
-        <b-col md="12" class="d-flex justify-content-between align-items-center">
-          <span class="select-size">
+        <b-col
+          md="12"
+          class="d-flex justify-content-between align-items-center"
+        >
+          <div class="select-size">
             {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
-          </span>
-
-          <div
-            v-if="!singleMode"
-            class="position-absolute view-all-btn mr-2"
-            @click="handleViewAllClick"
-          >
-            <img
-              width="18"
-              height="18"
-              :src="require('~/assets/img/icons/eye2.svg')"
-              class="d-sm-none"
-              :class="iconClass"
-            />
-            <span
-              class="all-sizes"
-              :class="iconTextClass"
-              role="button"
-            >
-              {{ $t('products.all_sizes') }}
-            </span>
           </div>
+
+          <slot name="all-sizes-btn">
+            <div
+              v-if="!singleMode"
+              class="view-all-btn"
+              @click="handleViewAllClick"
+            >
+              <img
+                width="18"
+                height="18"
+                :src="require('~/assets/img/icons/eye2.svg')"
+                class="d-sm-none"
+                :class="iconClass"
+              />
+              <span class="all-sizes" :class="iconTextClass" role="button">
+                {{ $t('products.all_sizes') }}
+              </span>
+            </div>
+          </slot>
         </b-col>
       </b-row>
 
@@ -72,26 +73,22 @@
                 {{ size.size }}
               </div>
               <div class="price">
-                {{ getPriceBySize(size.id) | toCurrency }}
+                {{ getPriceBySize(size.id) | toRoundedCurrency }}
               </div>
             </div>
           </template>
 
           <template #prev>
-            <div
-              class="owl-nav owl-prev"
-              :style="arrowStyle"
-            >
+            <div class="owl-nav owl-prev" :style="arrowStyle">
               <b-img :src="require('~/assets/img/icons/arrow-left-gray.svg')" />
             </div>
           </template>
 
           <template #next>
-            <div
-              class="owl-nav owl-next"
-              :style="arrowStyle"
-            >
-              <b-img :src="require('~/assets/img/icons/arrow-right-gray.svg')" />
+            <div class="owl-nav owl-next" :style="arrowStyle">
+              <b-img
+                :src="require('~/assets/img/icons/arrow-right-gray.svg')"
+              />
             </div>
           </template>
         </Carousel>
@@ -116,7 +113,7 @@
             {{ size.size }}
           </div>
           <div class="text-center price">
-            {{ getPriceBySize(size.id) | toCurrency }}
+            {{ getPriceBySize(size.id) | toRoundedCurrency }}
           </div>
         </div>
       </div>
@@ -137,7 +134,7 @@
 </template>
 
 <script>
-import {API_PROD_URL} from '~/static/constants/environments'
+import { API_PROD_URL } from '~/static/constants/environments'
 
 export default {
   name: 'ProductSizePicker',
@@ -165,35 +162,35 @@ export default {
     },
     selectSizeLabelClass: {
       type: String,
-      default: ''
+      default: '',
     },
     iconTextClass: {
       type: String,
-      default: ''
+      default: '',
     },
     iconClass: {
       type: String,
-      default: ''
+      default: '',
     },
     cardStyle: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     cardWrapperStyle: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     arrowStyle: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     carouselContainerStyle: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     wrapperStyle: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     arrowsVisible: {
       type: Boolean,
@@ -213,12 +210,12 @@ export default {
     },
     errorText: {
       type: String,
-      default: null
+      default: null,
     },
     allSizesClass: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
 
   data() {
@@ -313,6 +310,7 @@ export default {
   @include body-10-regular
   color: $color-black-1
   @media (min-width: 576px)
+    margin-top: 32px
     @include body-8-medium
     color: $color-blue-30
 
@@ -398,7 +396,7 @@ export default {
         margin-top: -71px !important
         @media (min-width: 576px)
           margin-right: -30px !important
-          margin-top: -80px !important
+          margin-top: -73px !important
 
       &.owl-prev
         float: left
@@ -493,5 +491,4 @@ export default {
 .edit-item
   .view-all-btn
     top: -2px
-
 </style>

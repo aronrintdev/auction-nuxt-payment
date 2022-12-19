@@ -1,15 +1,16 @@
 <template>
-  <div class="px-5">
-    <div class="browse-tarde-heading my-3">{{$t('trades.browse_trade')}}</div>
+  <div class="px-5 pt-2">
+    <div class="browse-tarde-heading mx-5 my-3 pt-1">{{$t('trades.browse_trade')}}</div>
     <div>
       <!-- Display all filter options -->
       <BrowserTradeFilters
+        class="mx-5"
         @applyFilters="applyTradeFilters"
         @click="applyTradeFiltersNew"
         @clearFilters="resetTradeFilters"
         @applySorting="filterTrades"
       />
-      <div class="col-md-6 mx-auto">
+      <div class="col-md-3 mx-auto">
         <!-- Display total items filter selection one, two or three items -->
         <NavGroup
           :data="tradeTotalItems"

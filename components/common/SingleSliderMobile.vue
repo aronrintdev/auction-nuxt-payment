@@ -5,37 +5,45 @@
         <div>{{$t('trades.preferences.poor')}}</div>
         <div>{{$t('trades.preferences.fair')}}</div>
       </b-col>
-      <client-only>
-        <vue-slider
-          :value="value"
-          :drag-on-click="false"
-          :enable-cross="false"
-          :max="maxValue"
-          :min="minValue"
-          tooltip="none"
-          v-bind="options"
-          class="vue-slider-ltr-shop"
-          :class="{'meter': meterText }"
-          @change="captureSliderValue"
-        >
-          <template v-if="meterText" #dot>
-            <img :src="require('~/assets/img/trades/dot.svg')" class="custom-dot"/>
-          </template>
-          <template v-else #dot>
-            <img :src="require('~/assets/img/trades/dot-blue.svg')" class="custom-dot"/>
-          </template>
-        </vue-slider>
-      </client-only>
-      <b-col v-if="belowText" class="d-flex justify-content-between below-text pt-2">
-        <div>{{$t('trades.preferences.not_interested')}}</div>
+      <div class="d-flex">
+        <div class="slider-div">
+          <client-only>
+            <vue-slider
+              :value="value"
+              :drag-on-click="false"
+              :enable-cross="false"
+              :max="maxValue"
+              :min="minValue"
+              tooltip="none"
+              v-bind="options"
+              class="vue-slider-ltr-shop"
+              :class="{'meter': meterText }"
+              :dotStyle="{ background: '#667799', border: '1px solid #F7F7F7' }"
+              :railStyle="{ background: '#E8E8E8', borderRadius: '2px' }"
+              :processStyle="{ background: '#667799' }"
+              @change="captureSliderValue"
+            >
+              <template v-if="meterText" #dot>
+                <img :src="require('~/assets/img/trades/dot.svg')" class="custom-dot"/>
+              </template>
+              <template v-else #dot>
+                <img :src="require('~/assets/img/grey-circle.svg')" class="custom-dot"/>
+              </template>
+            </vue-slider>
+          </client-only>
+        </div>
+        <div class="percent-div">
+          <div class="input-box">
+            <input class="percentage-value"  :value="`${value}%`" readonly />
+            <span v-if="textToShow" class="input-text  float-left">{{textToShow}}</span>
+          </div>
+        </div>
+      </div>
+
+      <b-col v-if="belowText" class="d-flex below-text">
+        <div class="small-space">{{$t('trades.preferences.not_interested')}}</div>
         <div>{{$t('trades.preferences.interested')}}</div>
       </b-col>
-    </b-col>
-    <b-col md="4" class="pl-4 pr-0">
-      <div class="input-box">
-        <input class="percentage-value"  :value="`${value}%`" readonly />
-        <span v-if="textToShow" class="input-text  float-left">{{textToShow}}</span>
-      </div>
     </b-col>
   </b-row>
 </template>
@@ -72,8 +80,8 @@ export default {
   data(){
     return {
       options: {
-        height: 6,
-        dotSize: 30,
+        height: 3,
+        dotSize: 15,
       }
     }
   },
@@ -90,6 +98,8 @@ export default {
 
 .custom-dot
   margin-top: -17px
+  height : 15px
+  color: $color-grey-101
 
 ::v-deep.meter.vue-slider-ltr-shop .vue-slider-rail
   background: linear-gradient(180deg, $red-rgba 0%, $yellow-rgba 100%)
@@ -98,35 +108,46 @@ export default {
   background: linear-gradient(180deg, $red-rgba 0%, $yellow-rgba 293.51%, $yellow-rgba 293.54%)
 
 .percentage-value
-  border: 1.5px solid $color-gray-60
-  border-radius: 10px
-  width: 50px
-  height: 40px
-  text-align: center
-  font-family: $font-family-montserrat
-  font-style: normal
-  font-size: 14px
+  width: 35px
+  height: 35px
+  background: $color-white-5
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25)
+  border: 1px solid $color-white-5
+  border-radius: 5px
+  @include body-9
   color: $color-black-1
   float: right
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  line-height: 100%
+
 
 .input-text
   font-family: $font-family-montserrat
   font-style: normal
-  font-size: 13px
+  font-size: 12px
   color: $color-black-1
   float: right
 
 .meter-text
-  font-family: $font-family-sf-pro-display
+  font-family: $font-sp-pro
   font-style: normal
-  @include body-12-bold
+  @include body-9
   color: $color-black-1
 
 .below-text
-  font-family: $font-family-montserrat
+  font-family: $font-sp-pro
   font-style: normal
-  font-weight: $regular
-  font-size: 10px
-  color: $color-black-1
-
+  font-weight: $light
+  @include body-9
+  line-height: 100%
+  color: $color-black-16
+.small-space
+  margin-right: 7.2rem
+.slider-div
+  width: 100%
+.percent-div
+  margin-top: -10px
+  margin-left: 20px
 </style>

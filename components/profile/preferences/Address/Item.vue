@@ -1,9 +1,16 @@
 <template>
   <div class="shipping-address-list">
-    <MobileHeader
-      :title="$t('navbar.profile')"
-      @back="$emit('moveBack')"
-    ></MobileHeader>
+    <client-only>
+      <Portal to="page-title"> {{ $t('navbar.profile') }}</Portal>
+      <Portal to="back-icon-slot">
+        <img
+          :src="require('~/assets/img/icons/back.svg')"
+          alt="back-arrow"
+          class="float-left"
+          @click="$emit('moveBack')"
+        />
+      </Portal>
+    </client-only>
     <div class="address-content-wrapper p-4">
       <b-card class="mt-3 address-card">
         <!-- Your address label -->
@@ -55,15 +62,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import MobileHeader from '~/components/mobile/MobileHeader.vue'
 import emitEvent from '~/plugins/mixins/emit-event'
 
 export default {
   name: 'Item',
-
-  components: {
-    MobileHeader
-  },
 
   mixins: [emitEvent],
 
@@ -91,7 +93,7 @@ export default {
 
     addressLength: (vm) => {
       return vm.data && vm.data.length
-    }
+    },
   },
 }
 </script>

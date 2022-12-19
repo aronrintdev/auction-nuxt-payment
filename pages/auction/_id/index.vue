@@ -62,7 +62,7 @@
             <span class="ml-2 time">@ {{ formatTime(activeAuction.end_date) }}</span>
           </div>
         </div>
-        <div class="mb-4 d-flex justify-content-between px-0 product-info-box">
+        <div class="d-flex justify-content-between px-0 product-info-box">
           <div>
             <div class="product-info-box-title">{{ activeAuction.auction_items[currentItemIdx].inventory.product.name }}</div>
             <div class="product-info-box-value">
@@ -92,7 +92,7 @@
             </div>
           </div>
         </div>
-        <div class="mb-4 d-flex align-items-center stats">
+        <div class="d-flex align-items-center stats">
           <div>
             <span class="stat-name">{{ $t('home_page.timeremaining') }}:</span>
             <span v-if="isExpired" class="ml-2 text-danger text-capitalize stat-value">
@@ -111,12 +111,12 @@
           </div>
           <div class="stat-divider mx-3"></div>
           <div>
-            <div class="stat-value">{{ activeAuction.number_of_bidders }} {{ $t('auctions.frontpage.watchers') }}</div>
+            <div class="stat-value fontweight-normal">{{ activeAuction.number_of_bidders }} {{ $t('auctions.frontpage.watchers') }}</div>
           </div>
         </div>
         <div v-if="!isExpired" class="mb-4 p-0 bid-details">
           <div class="bid-details-price">
-            <div class="text-uppercase mb-1">{{ $t('auctions.frontpage.current_bid') }}:</div>
+            <div class="text-uppercase">{{ $t('auctions.frontpage.current_bid') }}:</div>
             <div class="bid-details-price-value">${{ activeAuction.highest_bid || activeAuction.start_bid_price | formatPrice }}</div>
             <div class="bid-details-price-estimate text-capitalize">
               <span>({{ $t('auctions.frontpage.estimated_value') }}: </span>
@@ -124,8 +124,8 @@
             </div>
           </div>
           <!-- Quickc bid -->
-          <div class="mt-4 quick-bid">
-            <div class="mb-2 text-left text-uppercase quick-bid-title">
+          <div class="quick-bid">
+            <div class="text-left text-uppercase quick-bid-title">
               {{ $t('auctions.frontpage.quick_bid') }}
               <img
                 v-b-tooltip.hover
@@ -147,8 +147,8 @@
           </div>
 
           <!-- AutoBid -->
-          <div class="mt-4 quick-bid d-block place-bid-form">
-            <div class="mb-2 text-left text-uppercase quick-bid-title">
+          <div class="quick-bid d-block place-bid-form">
+            <div class="text-left text-uppercase quick-bid-title">
               {{ $t('auctions.frontpage.auto_bid') }}
               <img id="info-icon" class="mt-n1 ml-1" src="~/assets/img/icons/info-dark-blue.svg" />
               <b-tooltip target="info-icon" custom-class="auto-bid-tooltip" triggers="hover">
@@ -188,8 +188,8 @@
             </div>
           </div>
 
-          <div class="mt-4 quick-bid d-block place-bid-form">
-            <div class="mb-2 text-left text-uppercase quick-bid-title">
+          <div class="quick-bid d-block place-bid-form">
+            <div class="text-left text-uppercase quick-bid-title">
               {{ $t('auctions.frontpage.direct_bid') }}
             </div>
             <div class="d-flex align-items-center">
@@ -264,8 +264,8 @@
       </div>
       <template v-if="!isExpired">
         <!-- quick bid -->
-        <div  class="mt-4 quick-bid">
-          <div class="mb-2 text-left text-uppercase quick-bid-title">
+        <div  class="quick-bid">
+          <div class="text-left text-uppercase quick-bid-title">
             {{ $t('auctions.frontpage.quick_bid') }}
             <img class="mt-n1 ml-1" src="~/assets/img/icons/info-dark-blue.svg" @click="openQuickBidDescSheet"/>
           </div>
@@ -282,7 +282,7 @@
         </div>
         <!-- Auto bid -->
         <div class="mt-4 quick-bid">
-          <div class="mb-2 text-left text-uppercase quick-bid-title">
+          <div class="text-left text-uppercase quick-bid-title">
             {{ $t('auctions.frontpage.auto_bid') }}
             <img class="mt-n1 ml-1" src="~/assets/img/icons/info-dark-blue.svg" @click="openAutoBidDescSheet"/>
           </div>
@@ -304,7 +304,7 @@
         </div>
       </template>
       <!-- Auction details -->
-      <div class="mt-4 auction-details">
+      <div class="mt-4 pt-3 auction-details">
         <div class="auction-details-title">{{ $t('auctions.frontpage.details') }}</div>
         <div class="auction-details-content">
           <div class="d-flex align-items-center justify-content-between">
@@ -424,12 +424,15 @@
         :title="$t('auctions.frontpage.auction_details.similar_auctions')"
         :auctions="similarAuctions"
         :showAllText="isMobileSize"
+        :itemsCount="5"
+        :margin="33"
+        :showArrows="true"
         @showAll="showAllAuctions"
       ></product-slider>
     </div>
     <div
       v-if="activeAuction.auction_items && activeAuction.auction_items[currentItemIdx] && !isMobileSize"
-      class="mt-5 d-md-block auctions-block product-details"
+      class="d-md-block auctions-block product-details"
     >
       <b-tabs pills class="product-details-tabs">
         <b-tab title="Product Details" active>
@@ -683,7 +686,7 @@
         <div class="my-4 d-flex justify-content-center">
           <b-button
             class="w-100"
-            :disabled="placeBidPrice < (activeAuction.highest_bid / 100) || placeBidPrice < (activeAuction.start_bid_price / 100)"
+            :disabled="placeBidPrice <= (activeAuction.highest_bid / 100) || placeBidPrice <= (activeAuction.start_bid_price / 100)"
             pill
             @click="placeBid('sheet')"
           >
@@ -873,7 +876,7 @@ export default {
           href: '/auction'
         },
         {
-          text: this.$t('home_page.collections'),
+          text: newV.type === AUCTION_TYPE_COLLECTION ? this.$t('home_page.collections') : this.$tc('common.single_item', 2),
         },
         {
           text: `${this.$t('auctions.frontpage.auction_id')}# ${newV.id}`,
@@ -1144,11 +1147,14 @@ export default {
     span
       color: $color-gray-5
   .stats
+    margin-bottom: 27px
     .stat-name,
     .stat-value
       font-weight: $medium
       @include body-8
       color: $color-gray-5
+      &.fontweight-normal
+        font-weight: $normal
     .stat-divider
       width: 1px
       height: 18px
@@ -1162,16 +1168,21 @@ export default {
       &-value
         @include heading-2
         font-weight: $medium
+        line-height: 34px
+        color: $color-black-10
+        margin: 7px 0 6px
       &-estimate
         font-weight: $normal
         @include body-10
         letter-spacing: -0.02em
         color: $color-gray-5
   .quick-bid
+    margin-top: 28px
     &-title
       font-weight: $normal
       @include body-8
       color: $black
+      margin-bottom: 10px
       img
         width: 14px
         height: 14px
@@ -1187,6 +1198,7 @@ export default {
       border-radius: 4px
       flex: 1
   .place-bid-form
+    margin-top: 21px
     input
       padding: 10px 18px
       border: 1px solid $black
@@ -1206,7 +1218,7 @@ export default {
       &.auto-bid
         background: $color-blue-20
   .auth-guaranteed
-    margin: 25px 0 40px
+    margin: 25px 0 16px
     img
       width: 36px
       height: 36px
@@ -1231,16 +1243,20 @@ export default {
         font-family: $font-sp-pro
         font-weight: $bold
         letter-spacing: 0
+    .auctions-block
+      margin-bottom: 30px
+    .auctions-block-list
+      margin-top: 30px
     .view-more-products-text
       display: none
   .product-details-tabs::v-deep
     ul
       border-bottom: 0.5px solid $color-gray-23
-      padding: 14px 30px
+      padding: 0 30px 17px
     .nav-link
       font-family: $font-sp-pro
       font-weight: $bold
-      letter-spacing: 0
+      letter-spacing: 0.01em
     .tab-content > div
       padding-left: 50px
     .field-name
@@ -1306,6 +1322,7 @@ export default {
         padding: 0
         margin-top: 5px
     .quick-bid
+      margin-top: 35px
       &-title
         @include body-5
         font-weight: $normal

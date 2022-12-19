@@ -12,8 +12,14 @@
       tbody-class="offers-table-head"
       tbody-tr-class="bg-white vd-selling-bt border-bottom-solid"
     >
-      <template #empty="scope">
-        <h4 class="text-center">{{ scope.emptyText }}</h4>
+      <template #head()="scope">
+        <div class="text-nowrap" role="button" @click="orderBy(scope)">
+          <span class="mr-1">{{ scope.label }}</span>
+          <img v-if="isSortActive(scope.field)"
+               :src="require('~/assets/img/icons/down-arrow-solid.svg')"
+               :alt="scope.label"
+               class="sort-icon" :class="reverseDirection(scope.column)">
+        </div>
       </template>
 
       <!-- Table Busy -->
@@ -248,7 +254,7 @@ export default {
         {
           key: 'offer_amount',
           label: this.$t('placed_offers.table.offer_amount'),
-          sortable: false,
+          sortable: true,
           thClass: 'text-center active-row',
           tdClass: 'text-center',
         },
@@ -272,6 +278,8 @@ export default {
       selectedId: '',
       inputAmount: '',
       actionType: '',
+      orderByField: 'id',
+      orderByDirection: 'asc',
     }
   },
 
@@ -382,6 +390,23 @@ export default {
         return '--'
       }
     },
+
+    isSortActive(field){
+      return field.sortable
+    },
+    orderBy(field){
+      if (this.isSortActive(field.field)){
+        this.orderByDirection = this.reverseDirection(field.column)
+        this.orderByField = field.column
+        this.$emit('sort', {
+          orderByField: this.orderByField,
+          orderByDirection: this.orderByDirection,
+        })
+      }
+    },
+    reverseDirection(column){
+      return column === this.orderByField? (this.orderByDirection === 'asc'? 'desc' : 'asc'): 'desc'
+    },
   },
 }
 </script>
@@ -472,14 +497,11 @@ export default {
 .offer-placed-table::v-deep
   .offer-table
     .table.b-table > thead > tr > [aria-sort=none]
-      background-image: url('~/assets/img/icons/table-carot.svg')
-      background-size: 9px
+      background-size: 0px
     .table.b-table > thead > tr > [aria-sort=ascending]
-      background-image: url('~/assets/img/icons/table-carot.svg')
-      background-size: 9px
+      background-size: 0px
     .table.b-table > thead > tr > [aria-sort=descending]
-      background-image: url('~/assets/img/icons/table-carot.svg')
-      background-size: 9px
+      background-size: 0px
     .expire-date
       font-family: $font-sp-pro
       font-style: normal
@@ -528,4 +550,7 @@ export default {
       align-items: center
       text-align: center
       color: $color-red-3
+.sort-icon
+  &.asc
+    transform: rotate(180deg)
 </style>

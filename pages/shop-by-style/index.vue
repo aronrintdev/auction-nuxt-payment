@@ -1,19 +1,20 @@
 <template>
   <div class="container container-shop-by-style h-auto">
     <div class="d-none d-sm-block">
-      <div class="text-right mr-5">
-        <Button
-          to="/shop-by-style/archive"
-          variant="link"
-          class="btn-draft"
-          underlinedText
-          >{{ $t('shop_by_style.archive') }} ({{ styleCount }})</Button
-        >
+      <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between align-items-center mmt-8">
+          <h2 class="title">{{ $t('shop_by_style.title') }}</h2>
+        </div>
+        <div class="text-right">
+          <Button
+            to="/shop-by-style/archive"
+            variant="link"
+            class="btn-draft"
+            underlinedText
+            >{{ $t('shop_by_style.archive') }} ({{ styleCount }})</Button
+          >
+        </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center mmt-8">
-        <h2 class="title">{{ $t('shop_by_style.title') }}</h2>
-      </div>
-
       <div class="text-center position-relative d-flex offset-sm-4 mt-10">
         <NavGroup
           v-model="type"
@@ -77,6 +78,12 @@
         </div>
       </template>
     </div>
+    <Portal to="back-icon-slot">
+      <Hamburger class="hamburger-icon" />
+    </Portal>
+    <Portal to="cart-icon-slot">
+      <Cart class="cart-icon" />
+    </Portal>
   </div>
 </template>
 <script>
@@ -86,7 +93,8 @@ import ShopByStyleFilter from '~/components/shop-by-style/Filter'
 import ShopByStyleCard from '~/components/shop-by-style/Card'
 import { TYPE } from '~/static/constants/shop-by-style'
 import ResponsivenessFilter from '~/components/shop-by-style/ResponsivenessFilter'
-
+import Cart from '~/assets/icons/Cart'
+import Hamburger from '~/assets/icons/Hamburger'
 export default {
   components: {
     NavGroup,
@@ -94,6 +102,8 @@ export default {
     ShopByStyleFilter,
     ShopByStyleCard,
     ResponsivenessFilter,
+    Cart,
+    Hamburger,
   },
 
   layout: 'IndexLayout',
@@ -189,8 +199,10 @@ export default {
   display: grid
   grid-template-columns: repeat(5, 182px)
   @media (max-width: 576px)
-    margin: 0 16px
-    grid-template-columns: repeat(3, 114px)
+    max-width: max-content
+    margin: 0 auto
+    grid-template-columns: repeat(3, 115px)
+    column-gap: 0
 .mt-10
   margin-top: 10px
 .w-345
@@ -202,7 +214,7 @@ export default {
     margin: 0 178px
 .container-shop-by-style
   max-width: 1440px
-  padding: 64px 86px 64px 87px
+  padding: 40px 86px 64px 86px
 
   .title
     @include heading-2

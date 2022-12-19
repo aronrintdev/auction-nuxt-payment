@@ -167,12 +167,16 @@ export default {
     openSearchbar() {
       this.$refs.searchBottomSheet.open()
       this.$refs.searchbar.focusInput()
+      this.$refs.searchbar.getTrending()
+      this.$refs.searchbar.getRecentSearches()
+      
     },
     closeSearchbar() {
       this.$refs.searchBottomSheet.close()
     },
     apply() {
       this.$emit('apply')
+      this.close()
     },
     updateScroll() {
       this.scrollPosition = window.scrollY

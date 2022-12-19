@@ -304,7 +304,7 @@ export default {
 .main-mobile-image
   padding: 20px 0px 0px 1px
 @media (max-width: 768px)
-  .login-main
+  .login-main::v-deep
     .main-mobile-image
       padding: 76px 0px 0px 0px
     .welcome-back-text
@@ -318,8 +318,8 @@ export default {
       justify-content: space-between
       border-radius: 50px
       .signup-btn, .login-btn
-        width: 168px !important
-        height: 28px !important
+        width: 168px
+        height: 28px
         padding: 0px
         display: flex
         align-items: center

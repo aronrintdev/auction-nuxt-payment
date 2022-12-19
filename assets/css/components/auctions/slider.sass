@@ -1,5 +1,5 @@
 .auctions-block
-  padding: 0 40px
+  padding: 0 60px
   margin: auto
   .new-releases-heading
     font-weight: $bold
@@ -37,7 +37,7 @@
     flex: none
     margin: auto
     .item
-      padding: 15px
+      padding: 13px 12px
   .item
     position: relative
     &:hover
@@ -112,7 +112,7 @@
         text-overflow: ellipsis
         white-space: nowrap
       &-text
-        @include body-5-regular
+        @include body-5-normal
         font-family: $font-sp-pro
         margin-bottom: 6px
         color: $dark-gray
@@ -145,11 +145,14 @@
         line-height: 15px
     .bid-now-btn
       @include body-8-normal
+      font-family: $font-sp-pro
       background: $black
       border: 2px solid $black
       border-radius: 4px
       color: $color-white-1
       height: 40px
+      width: 94px
+      transition: all 0.3s ease
       &:hover
         background: $color-white-1
         color: $black
@@ -200,8 +203,10 @@
       .bid-now-btn
         font-size: 10px
         line-height: 12px
-        padding: 4px 10px
-        height: auto
+        height: 21px
+        width: 62px
+        border-radius: 0
+        padding: 1px 0 2px
       .auct-card
         padding: 10px
         &-title,
@@ -212,3 +217,4 @@
         &-price
           font-size: 12px
           line-height: 14px
+          font-family: $font-sp-pro

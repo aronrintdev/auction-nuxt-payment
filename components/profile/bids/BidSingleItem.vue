@@ -22,7 +22,7 @@
               </NuxtLink>
             </template>
           </b-col>
-          <b-col cols="8" md="8" class="pl-0 pl-md-4 pr-3 d-md-flex align-items-md-center">
+          <b-col cols="8" md="8" class="pl-0 pl-md-4 pr-3 d-md-flex align-items-md-center w-md-100">
             <b-row class="mb-2 mb-md-0 d-block mx-md-0 product-details-info" :class="{ 'flex-grow-1' : isMobileSize }">
               <div class="mb-12 mb-md-2 d-flex align-items-center">
                 <div :class="isMobileSize ?
@@ -99,7 +99,7 @@
              :class="{'bg-lightgrey': isMobileSize}">
         <div class="d-flex justify-content-between d-md-block  align-items-center short-row-section">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.time_remaining') }}:</span>
-          <span :class="isMobileSize ? 'body-9-regular text-gray-6 text-capitalize' : 'body-4-normal sf-pro-text text-capitalize'">{{ !isExpiredOrDelisted ? bid.auction.remaining_time : 'Expired' }}</span>
+          <span :class="isMobileSize ? 'body-9-regular text-gray-6 text-capitalize' : 'body-4-normal sf-pro-font text-capitalize'">{{ !isExpiredOrDelisted ? bid.auction.remaining_time : 'Expired' }}</span>
         </div>
       </b-col>
       <b-col
@@ -291,6 +291,7 @@ export default {
 .single-item
   padding: 16px
   margin-bottom: 11px
+  color: $black
   @media (max-width: 576px)
     padding: 14px 0 6px
     margin-bottom: 15px
@@ -335,6 +336,7 @@ export default {
 
 @media (max-width: 576px)
   .product-details-info
+    width: 100%
     .mb-12
       margin-bottom: 12px
     .mb-02

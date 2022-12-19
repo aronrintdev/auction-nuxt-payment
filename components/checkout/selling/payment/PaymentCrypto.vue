@@ -13,7 +13,7 @@
       :name="cryptoOption.name"
       :checked="cryptoOption.checked"
       :value="cryptoOption.value"
-      :text="$t(`shopping_cart.${cryptoDetails.currency}`)"
+      :text="$t(`shopping_cart.${cryptoDetails.currency}`).toString()"
       :image-urls="`${cryptoDetails.currency}-logo.png`"
     />
    <!-- End of Crypto Payment Radio Option -->
@@ -36,7 +36,7 @@
               </div>
             </b-col>
             <b-col v-else md="9">
-              <b-spinner class="pull-right" variant="color-blue-2" small></b-spinner>
+              <b-spinner class="pull-right" variant="blue-20" small></b-spinner>
             </b-col>
           </b-row>
           <b-row>
@@ -46,7 +46,7 @@
               </span>
             </b-col>
             <b-col v-else md="12">
-              <b-spinner class="pull-right" variant="color-blue-2" small></b-spinner>
+              <b-spinner class="pull-right" variant="blue-20" small></b-spinner>
             </b-col>
           </b-row>
 
@@ -75,7 +75,7 @@
               </b-input-group>
             </b-col>
             <b-col v-else md="7">
-              <b-spinner variant="color-blue-2" small></b-spinner>
+              <b-spinner variant="blue-20" small></b-spinner>
             </b-col>
           </b-row><!-- End of Crypto Estimated Amount & Copy to Clipboard -->
 
@@ -101,7 +101,7 @@
           </b-row>
           <b-row v-else class="mt-4">
             <b-col md="12" class="text-center">
-              <b-spinner class="w-120 h-120" variant="color-blue-2"></b-spinner>
+              <b-spinner class="w-120 h-120" variant="blue-20"></b-spinner>
             </b-col>
           </b-row>
           <b-row v-if="! spinnerLoading" class="mt-2">
@@ -120,38 +120,39 @@
           </b-row><!-- End of Crypto Address QR Code & Copy to Clipboard -->
           <b-row v-else class="mt-2">
             <b-col md="12" class="text-center">
-              <b-spinner variant="color-blue-2" small></b-spinner>
+              <b-spinner variant="blue-20" small></b-spinner>
             </b-col>
           </b-row>
 
           <!-- Terms & Conditions Paragraph -->
-          <b-row class="mt-4">
-            <b-col md="3" class="text-center">
-              <b-form-checkbox v-model="agreedToTerms"></b-form-checkbox>
+          <b-row class="mt-4 terms-and-conditions-wrapper">
+            <b-col md="12">
+              <b-form-checkbox v-model="hasAgreedToTerms">
+                <template #default>
+                  <i18n
+                    path="shopping_cart.terms_and_conditions_paragraph"
+                    tag="p"
+                    class="body-5-normal justify-content-start pl-1"
+                  >
+                    <span class="text-decoration-underline" role="button" @click="$router.push('/terms-and-conditions')">
+                      {{ $t('shopping_cart.terms_and_conditions') }}
+                    </span>
+                  </i18n>
+                </template>
+              </b-form-checkbox>
             </b-col>
-            <b-col md="9">
-              <i18n
-                path="shopping_cart.terms_and_conditions_paragraph"
-                tag="p"
-                class="body-5-normal justify-content-start"
-              >
-                <span class="text-decoration-underline">{{
-                  $t('shopping_cart.terms_and_conditions')
-                }}</span>
-              </i18n>
-            </b-col> </b-row
-          ><!-- End of Terms & Conditions Paragraph -->
+          </b-row><!-- End of Terms & Conditions Paragraph -->
         </b-card>
 
         <!-- Continue Button -->
         <b-row class="mt-4">
           <b-col v-if="! spinnerLoading" class="text-center">
-            <b-button type="button" :disabled="! agreedToTerms" class="px-5" variant="confirm" pill @click="selectPaymentOption">{{
+            <b-button type="button" :disabled="! hasAgreedToTerms" class="px-5" variant="confirm" pill @click="selectPaymentOption">{{
                 $t('shopping_cart.deposit')
               }}</b-button>
           </b-col>
           <b-col v-else class="text-center">
-            <b-spinner variant="color-blue-2"></b-spinner>
+            <b-spinner variant="blue-20"></b-spinner>
           </b-col>
         </b-row
         ><!-- End of Continue Button -->
@@ -166,6 +167,7 @@ import VueQrcode from '@chenfengyuan/vue-qrcode'
 import clipboardMixin from '~/plugins/mixins/clipboard'
 import CopyIcon from '~/assets/img/shopping-cart/clone.svg?inline'
 import eventMixin from '~/plugins/mixins/emit-event'
+import orderDetailsMixin from '~/plugins/mixins/order-details'
 import OrderTitle from '~/components/checkout/common/OrderTitle'
 import RadioOptionCard from '~/components/checkout/common/RadioOptionCard'
 import { BAD_REQUEST } from '~/static/constants'
@@ -178,7 +180,7 @@ export default {
     VueQrcode,
     CopyIcon,
   },
-  mixins: [eventMixin, clipboardMixin],
+  mixins: [ eventMixin, orderDetailsMixin, clipboardMixin ],
   data() {
     return {
       cryptoOption: {
@@ -191,15 +193,11 @@ export default {
         width: 150,
         height: 150,
       },
-      agreedToTerms: false,
-      shippingFee: 1000, // TODO: Temporary dummy data
-      processingFee: 900, // TODO: Temporary dummy data
-      tax: 100, // TODO: Temporary dummy data
+      hasAgreedToTerms: false,
     }
   },
   computed: {
     ...mapGetters({
-      shoppingCart: 'shopping-cart/getShoppingCart',
       cryptoDetails: 'order-details/getCryptoDetails'
     }),
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
@@ -208,27 +206,6 @@ export default {
       if (vm.cryptoDetails.currency) {
         return Math.floor(vm.getTotal / vm.cryptoDetails.estimatedAmount)
       }
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getSubtotal: (vm) => {
-      return vm.shoppingCart.reduce((sum, product) => {
-        return sum + product.price * product.quantity
-      }, 0)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getTotal: (vm) => {
-      // TODO: Handle coupons as well
-      let total = vm.shippingFee + vm.processingFee + vm.tax + vm.getSubtotal
-
-      if (vm.promoCode) {
-        total -= vm.promoCode.amount
-      }
-
-      if (vm.giftCard) {
-        total -= vm.giftCard.amount
-      }
-
-      return total
     },
   },
   beforeMount() {

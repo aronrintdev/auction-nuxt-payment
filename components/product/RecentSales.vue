@@ -4,17 +4,17 @@
       <b-overlay :opacity="0.85" blur="2px" :show="loading" rounded="sm">
         <table class="table-recent-sales">
           <tr>
-            <th>{{ $t('products.date_time') }}</th>
-            <th>{{ $tc('common.size', 1) }}</th>
-            <th>{{ $t('products.sales') }}&nbsp;&dollar;</th>
+            <th class="text-center">{{ $t('products.date_time') }}</th>
+            <th class="text-center">{{ $tc('common.size', 1) }}</th>
+            <th class="text-center">{{ $t('products.sales') }}&nbsp;&dollar;</th>
           </tr>
           <tr v-for="(row, index) in sales" :key="`recent-sale-${index}`">
-            <td>
-              <div>{{ row.date | formatDate('DD-MM-YYYY') }}</div>
+            <td class="text-center">
+              <div>{{ row.date | formatDate('MM-DD-YYYY') }}</div>
               <div class="time">{{ row.date | formatTime(':') }}</div>
             </td>
-            <td>{{ row.size }}</td>
-            <td>{{ row.sale_price | toCurrency }}</td>
+            <td class="text-center">{{ row.size }}</td>
+            <td class="text-center">{{ row.sale_price | toRoundedCurrency }}</td>
           </tr>
         </table>
       </b-overlay>
@@ -51,7 +51,6 @@ export default {
 @import '~/assets/css/_variables'
 
 .recent-sales-wrapper
-  padding-top: 24px
   position: relative
 
   .table-wrapper
@@ -63,16 +62,15 @@ export default {
     width: 100%
 
     th
-      @include body-8-bold
+      @include body-8-normal
       color: $color-black-1
-      text-align: center
       padding: 12px 9px
 
     td
       @include body-8-normal
-      text-align: center
       padding: 15px 3px
 
       .time
+        display: block
         color: $color-gray-4
 </style>

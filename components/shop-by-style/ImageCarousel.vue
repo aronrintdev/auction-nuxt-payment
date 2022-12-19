@@ -1,5 +1,4 @@
 <template>
-
   <div class="style-image-carousel-wrapper">
     <client-only>
       <Carousel
@@ -14,14 +13,13 @@
         class="carousel d-flex align-items-center"
         @changed="handleCarouselChanged"
       >
-
         <template #default>
           <div
             v-for="(image, index) in images"
             :key="`style-image-carousel-${index}`"
-            :class="[mainImage ? 'style-image': '']"
+            :class="[mainImage ? 'style-image' : '']"
           >
-            <img :src="image" class="w-100" />
+            <img :src="image" class="w-100 mobile-feature-image" />
           </div>
         </template>
 
@@ -51,8 +49,8 @@ export default {
     },
     mainImage: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data() {
@@ -71,13 +69,18 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.mobile-feature-image
+  object-fit: contain
+  height: auto
+  @media (max-width: 576px)
+    height: 371px
 .style-image-carousel-wrapper
   .pages
     @include body-4-medium
     color: $color-gray-5
 
   .carousel::v-deep
-    padding: 0 79px
+    padding: 0 111px
 
     .owl-nav
       width: auto
@@ -96,4 +99,5 @@ export default {
 @media(min-width: 576px)
   .style-image
     width: 305px
+    margin: 0 auto
 </style>

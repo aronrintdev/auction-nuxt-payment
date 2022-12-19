@@ -5,7 +5,7 @@
       :desc="$t('home_page.shop_by_category_desc')"
       :label="$t('home_page.view_more_products')"
       marginLeft="60px"
-      to="#"
+      to="/shop"
     />
     <div
       class="row products-category no-gutters overflow-hidden px-2 d-none d-md-flex"
@@ -16,7 +16,7 @@
         :to="category.to"
         class="col-6 category col-lg-3 col p-0"
       >
-        <nuxt-link :to="`/shop/${category.id}`">
+        <nuxt-link :to="`/shop?category=${category.title}`">
           <div class="overflow-wrapper">
             <div
               class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
@@ -38,16 +38,18 @@
         :key="index"
         class="col-6 category col-lg-3 col p-0"
       >
-        <div class="overflow-wrapper">
-          <div
-            class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
-            :style="{ '--image': `url(${category.image})` }"
-          >
-            <h1 class="fs-24 fw-4 font-primary text-white text-uppercase">
-              {{ category.title }}
-            </h1>
+        <nuxt-link :to="`/shop?category=${category.title}`">
+          <div class="overflow-wrapper">
+            <div
+              class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
+              :style="{ '--image': `url(${category.image})` }"
+            >
+              <h1 class="fs-24 fw-4 font-primary text-white text-uppercase">
+                {{ category.title }}
+              </h1>
+            </div>
           </div>
-        </div>
+        </nuxt-link>
       </div>
     </div>
   </div>
@@ -125,9 +127,9 @@ export default {
           title: this.$t('home_page.accessories'),
           image: require('~/assets/img/home/categories/accessories.svg'),
         },
-      ],
+      ]
     }
-  },
+  }
 }
 </script>
 <style lang="sass" scoped>

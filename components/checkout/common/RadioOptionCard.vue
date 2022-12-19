@@ -87,3 +87,25 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.card-body
+  ::v-deep.custom-control-input:checked ~ .custom-control-label::before
+    color: $white
+    border: none
+    background-image: url('~@/assets/img/shopping-cart/radio-checked.svg')
+    box-shadow: none
+
+  ::v-deep.custom-radio .custom-control-input:checked~.custom-control-label::after
+    background-image: none
+
+  ::v-deep.custom-radio .custom-control-label::before
+    background: none
+    box-shadow: none
+    border: 2.5px solid $drop-shadow1
+
+  img
+    max-height: 24px
+</style>

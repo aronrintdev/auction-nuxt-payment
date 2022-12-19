@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="container w-95">
+  <div ref="container" class="container">
     <PinchScrollZoom
       v-if="shouldMount"
       ref="zoomer"
@@ -15,6 +15,7 @@
     </PinchScrollZoom>
 
     <b-form-input
+      v-if="showSlider"
       v-model="scale"
       type="range"
       :min="MIN_SCALE"
@@ -42,6 +43,10 @@ export default {
     product: {
       type: Object,
       default: null,
+    },
+    showSlider: {
+      type: Boolean,
+      default: true,
     },
   },
 
@@ -110,15 +115,15 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
-.w-95
-  width: 95% !important
-
 .container
   display: flex
   align-items: center
   justify-content: center
   flex-direction: column
-  width: 100%
+
+  @media (min-width: 576px)
+    width: 512px
+    height: 512px
 
   .input-range
     width: 189px
