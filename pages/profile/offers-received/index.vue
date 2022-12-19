@@ -15,7 +15,8 @@
         </div>
       </div>
 
-      <div class="row filter-row-top mt-3"
+      <div class="row filter-row-top"
+           :class="isScreenXS ? 'mt-1' : 'mt-3'"
       >
         <!-- Input search -->
         <div
@@ -192,7 +193,7 @@
         <div :class="`col-xs-7 ${!mobileClass ? 'placed-offer-item-col' : ''}`">
           <div class="d-flex align-items-baseline">
             <span :class="`placed-offers-items d-flex text-align-center ${mobileClass}`">
-              {{
+             {{
                 $t('offers_received.your_placed_offers', { count: offerCount })
               }}
             </span>
@@ -851,6 +852,9 @@ export default {
       color: $color-gray-5
   &.mobile
     background-color: $color-white-5
+    height: 33px
+    #search-result
+      height: 33px
 #btn-dropdown-sort-by
   border-radius: none
 .placed-offers-items
@@ -866,7 +870,7 @@ export default {
     color: $color-gray-5
 
   &.mobile
-    font-family: $font-sp-pro
+    font-family: $font-montserrat
     font-style: normal
     @include body-4-medium
     text-align: center
