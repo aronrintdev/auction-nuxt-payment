@@ -41,7 +41,7 @@
           :loop="true"
           :nav="true"
           :center="true"
-          :margin="50"
+          :margin="38"
           :responsive="{
             0: { items: xsCount, nav: false, center: xsCenter },
             576: { items: 6, nav: false },
@@ -357,6 +357,8 @@ export default {
     max-width: 100%
     padding: 0
     margin-top: 8px
+    @media (min-width: 576px)
+      padding: 0 30px
 
     >span .owl-nav
       display: block !important
