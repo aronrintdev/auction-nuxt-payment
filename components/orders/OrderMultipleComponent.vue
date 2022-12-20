@@ -47,7 +47,7 @@
                     <div class="text-center">
                       <div class="pr-2"><Thumb :product="product(single)" width="74px" /></div>
                       <NuxtLink :to="`/orders/${order.order_id}-${index + 1}`" class="d-none d-md-block">
-                        <span>#{{ order.order_id }}-{{ index + 1 }}</span>
+                        <span class="order-id">#{{ order.order_id }}-{{ index + 1 }}</span>
                       </NuxtLink>
                     </div>
                   </div>

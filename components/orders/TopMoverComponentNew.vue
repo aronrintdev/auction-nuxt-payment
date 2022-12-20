@@ -63,6 +63,9 @@ export default {
 ::v-deep .sf-pro
   font-family: $font-family-sf-pro-display
 
+::v-deep a span.order-id
+  text-decoration: underline
+
 @media (max-width: 993px)
   .top-movers-row
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
