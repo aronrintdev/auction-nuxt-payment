@@ -137,6 +137,10 @@
             <img :src="require('~/assets/img/icons/arrow-up-dark-gray.svg')" />
           </b-row>
         </div>
+
+      </div>
+      <div class="float-right del-bx" @click="removeExpired()">
+        <img  v-if="totalCount" :src="require('~/assets/img/Delete.svg')"  @click="removeExpired()"/> <span class="del-text">{{$t('trades.delete_expired_listings-sm')}}</span>
       </div>
     </div>
 
@@ -842,4 +846,13 @@ export default {
   @include body-13
   color: $color-black-1
   font-weight: $medium
+.del-text
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  @include body-9
+  line-height: 14px
+  color: $color-gray-47
+.del-bx
+  padding-top: 18px
 </style>

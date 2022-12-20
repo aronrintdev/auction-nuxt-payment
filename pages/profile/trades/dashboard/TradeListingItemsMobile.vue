@@ -9,7 +9,7 @@
       <b-row class="justify-content-end">
         <b-checkbox
           v-if="selectable"
-          class="pr-2 pt-2"
+          class="pr-2"
           :checked="selected"
           :value="trade.id"
           @change="toggleSelect(trade.id)"
