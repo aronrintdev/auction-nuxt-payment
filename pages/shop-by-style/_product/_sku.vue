@@ -38,7 +38,6 @@
             "
             class="mt-5"
           />
-
           <!-- Lowest Price & Highest Offer Nav Group -->
           <NavGroup
             v-model="method"
@@ -50,7 +49,6 @@
             }"
             @change="handleMethodNavClick"
           />
-
           <b-row class="mt-2 offer-text d-none d-sm-flex mx-auto">
             <b-col md="6" class="text-center">
               <span class="body-1-medium" :class="method === 'buy' && 'active'">
@@ -236,9 +234,10 @@
     >
       <div class="all-sizes-bottom-sheet">
         <div class="border-bottom mb-3 pb-2 bottom_sheet_header">
-          <h3 class="font-secondary fs-16 fw-7 text-black text-center">
-            All Sizes
+          <h3 class="font-secondary fs-16 fw-7 text-black text-center mb-1">
+            {{ $t('shop_by_style.general.all_sizes') }}
           </h3>
+          <p class="text-center mb-1 fs-15 fw-4">{{ product ? product.name : '' }}</p>
         </div>
         <div class="bottom_sheet_body">
           <div class="radio_wrapper">
@@ -248,7 +247,7 @@
                 list
                 :size="size.size"
                 :price="getPriceBySize(size.id)"
-                :boxCondition="'Excellent Condition'"
+                :boxCondition="'Excellent'"
                 :val="size.id"
                 name="sizePicker"
                 @notify-me="handleNotifyMeClick"
