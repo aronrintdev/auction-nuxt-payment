@@ -70,58 +70,62 @@
           />
         </div>
       </div>
-      <div class="right-side-details">
-        <p class="items-counter mb-2">
-          {{ style.products.length }} {{ $t('common.items') }}
-        </p>
-        <div class="d-none d-sm-flex flex-column row-gap-60">
-          <ShopByStyleProductCard
-            v-for="product in style.products"
-            :key="`product-${product.id}`"
-            :product="product"
-            @styleProduct="productDetail"
-          />
-          <button class="view-cart-button fs-16 fw-5 font-secondary text-white">
-            {{ $t('shop_by_style.general.view_cart') }}
-          </button>
-        </div>
-        <div class="d-block d-sm-none mb-4">
-          <ProductCarousel
-            v-show="showStyleProduct ? showStyleProduct : true"
-            :products="style.products"
-            :pageName="pageName"
-            itemWidth="164px"
-            autoWidth
-          >
-            <template #product>
-              <div
-                v-for="(product, index) in style.products"
-                :key="`product-carousel-${index}`"
-                class="item"
-              >
-                <DetailCard
-                  :product="product"
-                  :showActionBtn="false"
-                  :showActions="false"
-                  cardHeight="137px"
-                  cardHeightSm="180px"
-                  cardWidthSm="164px"
-                  :showSize="false"
-                  :showPrice="true"
-                  noRedirect
+      <div class="right-side-scroll-wrapper">
+        <div class="right-side-details">
+          <p class="items-counter mb-2">
+            {{ style.products.length }} {{ $t('common.items') }}
+          </p>
+          <div class="d-none d-sm-flex flex-column row-gap-60">
+            <ShopByStyleProductCard
+              v-for="product in style.products"
+              :key="`product-${product.id}`"
+              :product="product"
+              @styleProduct="productDetail"
+            />
+            <button
+              class="view-cart-button fs-16 fw-5 font-secondary text-white"
+            >
+              {{ $t('shop_by_style.general.view_cart') }}
+            </button>
+          </div>
+          <div class="d-block d-sm-none mb-4">
+            <ProductCarousel
+              v-show="showStyleProduct ? showStyleProduct : true"
+              :products="style.products"
+              :pageName="pageName"
+              itemWidth="164px"
+              autoWidth
+            >
+              <template #product>
+                <div
+                  v-for="(product, index) in style.products"
+                  :key="`product-carousel-${index}`"
+                  class="item"
                 >
-                  <template #badge>
-                    <div
-                      class="d-flex justify-content-end"
-                      @click="redirectToDetail(product)"
-                    >
-                      <PlusCircle />
-                    </div>
-                  </template>
-                </DetailCard>
-              </div>
-            </template>
-          </ProductCarousel>
+                  <DetailCard
+                    :product="product"
+                    :showActionBtn="false"
+                    :showActions="false"
+                    cardHeight="137px"
+                    cardHeightSm="180px"
+                    cardWidthSm="164px"
+                    :showSize="false"
+                    :showPrice="true"
+                    noRedirect
+                  >
+                    <template #badge>
+                      <div
+                        class="d-flex justify-content-end"
+                        @click="redirectToDetail(product)"
+                      >
+                        <PlusCircle />
+                      </div>
+                    </template>
+                  </DetailCard>
+                </div>
+              </template>
+            </ProductCarousel>
+          </div>
         </div>
       </div>
     </div>
@@ -256,10 +260,13 @@ export default {
   .left-side-details
     width: 100%
     max-width: 562px
-  .right-side-details
+  .right-side-scroll-wrapper
     margin-top: 43px
     width: 100%
-    max-width: 498px
+    max-width: 520px
+    .right-side-details
+      @media (min-width: 576px)
+        margin: 0 25px
     @media (min-width: 576px)
       max-height: calc(100vh - 130px)
       overflow-y: auto
@@ -269,8 +276,7 @@ export default {
         width: 0px
     @media (min-width: 576px)
       margin-top: 40px
-      margin-left: 202px
-      margin-right: 17px
+      margin-left: 177px
 
 .row-gap-60
   row-gap: 60px
@@ -298,6 +304,10 @@ export default {
   padding-bottom: 60px
   @media (min-width: 576px)
     margin-top: 30px
+    &.container
+      @media (max-width: 1440px)
+        max-width: 1325px
+        margin-left: 60px
   .product-list
     padding: 64px 0 0 89px
     > div
