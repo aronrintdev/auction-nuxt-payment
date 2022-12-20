@@ -88,6 +88,7 @@
                       border-radius="4px"
                       dropDownHeight="38px"
                       variant="white"
+                      :showFilterBtn="false"
                       @change="changeCategory"
                     />
                   </div>
@@ -113,6 +114,7 @@
                       borderRadiusClose="4px 4px 0 0"
                       padding-x="10px"
                       border-radius="4px"
+                      :showFilterBtn="false"
                       @change="changeSizeTypeFilter"
                     />
                   </div>
@@ -138,6 +140,7 @@
                       }"
                       padding-x="10px"
                       border-radius="4px"
+                      :showFilterBtn="false"
                       @change="changeSizeFilter"
                     />
                   </div>
@@ -170,6 +173,7 @@
                     marginTop: '0 !important',
                     color: '#000'
                   }"
+                  :showFilterBtn="false"
                   @change="changeOrderFilter"
                 />
               </client-only>
