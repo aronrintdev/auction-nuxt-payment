@@ -7,7 +7,7 @@
           <div v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="col-4">
             <div class="bg-white">
               <div class="offer-item-small">
-                <img 
+                <img
                   v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
                   class="img-fluid"
                 />
@@ -33,19 +33,24 @@
           <div
             v-for="(item) in offerItems"
             :key="'offer-item-list-' + item.id"
-            class="d-flex justify-content-center align-content-center col-4"
+            class="d-flex justify-content-center align-content-center box-pad"
           >
-            <div class="d-inline body-section-box w-100 m-1">
-              <img 
-                v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
-                class="img-fluid pt-4" 
-              />
-              <img v-else :src="item.product | getProductImageUrl" class="img-fluid pt-4" />
+            <div class="d-inline body-section-box w-100">
+              <div class="image-wrapper">
+                <img
+                  v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
+                  class="pro-image pt-4"
+                />
+                <img v-else :src="item.product | getProductImageUrl" class="pro-image pt-4" />
+                <div class="overlay"></div>
+              </div>
+
 
               <div class="bottom-section mt-4">
                 <div class="product-name pt-1">  {{item.inventory ? item.inventory.product.name : item.product.name}}</div>
-                <div class="product-box "><span>{{$t('common.box')}}: </span>{{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
                 <div class="product-size "><span>{{ $tc('common.size') }} </span> {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
+                <div class="product-box "><span>{{$t('common.box')}}: </span>{{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
+
               </div>
             </div>
 
@@ -178,7 +183,7 @@ export default {
   color: #667799
 
 .product-name
-  width: 90px
+  width: 150px
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-6-medium
@@ -187,7 +192,7 @@ export default {
   text-overflow: ellipsis
   @media (min-width: 576px)
     @include body-10-medium
-    width: auto
+    width: 150px
     color: $color-black-1
 
 .product-size, .product-box
@@ -225,6 +230,20 @@ export default {
     width: 72%
 
 .inner-section
-  padding: 5px 
-
+  padding: 5px
+.image-wrapper
+  position: relative
+  width: 150px
+.image-wrapper
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: $color-grey-70
+.pro-image
+  width: 140px
+.box-pad
+  padding-right: 40px
 </style>
