@@ -43,7 +43,6 @@
               <img class="pro-image" :src="offer.inventory.product | getProductImageUrl"  alt="image" />
               <div class="overlay"></div>
             </div>
-<!--            <img class="img-fluid mt-1" :src="offer.inventory.product | getProductImageUrl" />-->
             <div class="mt-1 product-name text-truncate">{{ offer.inventory.product.name }}</div>
             <div class="mt-1 product-box">
               <span>{{ $t('sell.inventory.box') }}: </span>
