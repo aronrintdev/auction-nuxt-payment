@@ -107,7 +107,7 @@
                       class="fs-15 fw-4 font-primary text-black"
                       to="/login"
                     >
-                        {{$t('signup.skip')}}
+                      {{ $t('signup.skip') }}
                     </b-link>
                   </u>
                 </b-col>
@@ -125,7 +125,7 @@
                           <Logo class="img-main" />
                         </nuxt-link>
                         <span
-                          class="signup-heading fs-15 fw-5 font-primary w-75 text-center mb-3 pre-line"
+                          class="signup-heading fs-15 fw-5 font-primary w-75 text-center mb-4 pre-line"
                         >
                           {{ $t('signup.create_your_account') }}
                         </span>
@@ -135,32 +135,33 @@
                       :data="tabs"
                       :value="currentTab"
                       nav-key="new_releases"
-                      class="text-center px-2 mb-4 d-lg-none d-block"
+                      class="text-center px-2 mb-4 d-lg-none d-block nav-buttons"
                       @change="handleTabChange"
                     />
                     <ValidationProvider
-                        v-slot="validationContext"
-                        :name="$t('auth.first_name')"
-                        :rules="{
-                          required: true,
-                          alphaNum: true,
-                          min: 3,
-                          max: 128,
-                        }"
-                      >
+                      v-slot="validationContext"
+                      :name="$t('auth.first_name')"
+                      :rules="{
+                        required: true,
+                        alphaNum: true,
+                        min: 3,
+                        max: 128,
+                      }"
+                    >
                       <b-form-group class="px-1">
-                        <b-input-group class="d-flex align-items-end w-95 pull-left">
+                        <b-input-group
+                          class="d-flex align-items-end w-95 pull-left"
+                        >
                           <b-form-input
                             id="first-name"
                             v-model="form.first_name"
-                            class="rounded-pill rounded-md input-signup ml-3"
+                            class="rounded-pill rounded-md input-signup"
                             :placeholder="$t('auth.first_name')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
                           <b-form-invalid-feedback>{{
                             validationContext.errors[0]
                           }}</b-form-invalid-feedback>
-
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
@@ -185,11 +186,13 @@
                       }"
                     >
                       <b-form-group class="px-1">
-                        <b-input-group class="d-flex align-items-end w-95 pull-left">
+                        <b-input-group
+                          class="d-flex align-items-end w-95 pull-left"
+                        >
                           <b-form-input
                             id="last-name"
                             v-model="form.last_name"
-                            class="rounded-pill input-signup ml-3"
+                            class="rounded-pill input-signup"
                             :placeholder="$t('auth.last_name')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -220,18 +223,19 @@
                       }"
                     >
                       <b-form-group class="px-1">
-                        <b-input-group  class="d-flex align-items-end w-95 pull-left">
+                        <b-input-group
+                          class="d-flex align-items-end w-95 pull-left"
+                        >
                           <b-form-input
                             id="username"
                             v-model="form.username"
-                            class="rounded-pill input-signup ml-3"
+                            class="rounded-pill input-signup"
                             :placeholder="$t('auth.username')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
                           <b-form-invalid-feedback>{{
                             validationContext.errors[0]
                           }}</b-form-invalid-feedback>
-
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
@@ -256,11 +260,13 @@
                       }"
                     >
                       <b-form-group class="px-1">
-                        <b-input-group  class="d-flex align-items-end w-95 pull-left">
+                        <b-input-group
+                          class="d-flex align-items-end w-95 pull-left"
+                        >
                           <b-form-input
                             id="email-address"
                             v-model="form.email"
-                            class="rounded-pill input-signup ml-3"
+                            class="rounded-pill input-signup"
                             :placeholder="$t('auth.email_address')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -293,11 +299,13 @@
                       vid="password"
                     >
                       <b-form-group class="px-1">
-                        <b-input-group  class="d-flex align-items-end w-95 pull-left">
+                        <b-input-group
+                          class="d-flex align-items-end w-95 pull-left"
+                        >
                           <b-form-input
                             id="password"
                             v-model="form.password"
-                            class="rounded-pill input-signup input-append ml-3"
+                            class="rounded-pill input-signup input-append"
                             :placeholder="$t('auth.password')"
                             :state="getValidationState(validationContext)"
                             :type="passwordFieldType"
@@ -349,11 +357,13 @@
                       }"
                     >
                       <b-form-group class="px-1">
-                        <b-input-group  class="d-flex align-items-end w-95 pull-left">
+                        <b-input-group
+                          class="d-flex align-items-end w-95 pull-left"
+                        >
                           <b-form-input
                             id="password-confirmation"
                             v-model="form.password_confirmation"
-                            class="rounded-pill input-signup input-append ml-3"
+                            class="rounded-pill input-signup input-append"
                             :placeholder="$t('auth.confirm_password')"
                             :state="getValidationState(validationContext)"
                             :type="confirmPasswordFieldType"
@@ -476,7 +486,7 @@ export default {
     NavGroup,
     Logo,
   },
-  mixins: [ screenSize ],
+  mixins: [screenSize],
   layout: 'Auth',
   data() {
     return {
@@ -499,7 +509,7 @@ export default {
     }
   },
   computed: {
-     isResponsive(vm) {
+    isResponsive(vm) {
       return vm.isScreenXS || vm.isScreenSM
     },
     passwordFieldType(vm) {
@@ -558,15 +568,26 @@ export default {
       try {
         this.form.token = await this.$recaptcha.execute('login')
         // Do the registration process
-        this.$axios.post('/register', this.form, { handleError: false }).then((response) => {
-          this.$toasted.success(this.$t('signup.success_message.user_successfully_registered').toString())
-          this.$emit('complete', response.data.user)
-          this.$router.push('/login')
-        }).catch((error) => {
-          if (error.response.status === UNPROCESSABLE_ENTITY){
-            if (error.response.data.errors.email) {
-              this.$toasted.error(this.$t('auth.error.the_email_has_already_been_taken').toString())
-            }
+        this.$axios
+          .post('/register', this.form, { handleError: false })
+          .then((response) => {
+            this.$toasted.success(
+              this.$t(
+                'signup.success_message.user_successfully_registered'
+              ).toString()
+            )
+            this.$emit('complete', response.data.user)
+            this.$router.push('/login')
+          })
+          .catch((error) => {
+            if (error.response.status === UNPROCESSABLE_ENTITY) {
+              if (error.response.data.errors.email) {
+                this.$toasted.error(
+                  this.$t(
+                    'auth.error.the_email_has_already_been_taken'
+                  ).toString()
+                )
+              }
 
               if (error.response.data.errors.username) {
                 this.$toasted.error(
@@ -591,23 +612,30 @@ export default {
       })
     },
     verify() {
-      if (this.$router.currentRoute.query.token && this.$router.currentRoute.query.email) {
+      if (
+        this.$router.currentRoute.query.token &&
+        this.$router.currentRoute.query.email
+      ) {
         const data = {
           token: this.$router.currentRoute.query.token,
-          email: this.$router.currentRoute.query.email
+          email: this.$router.currentRoute.query.email,
         }
         const searchParams = new URLSearchParams(data)
 
-        this.$axios.get('verify/?' + searchParams, { handleError: false }).then((response) => {
-          this.$toasted.success(this.$t(response.data.message).toString())
-        }).catch((error) => {
-          this.$toasted.error(this.$t(error.response.data.message).toString())
-        }).finally(() => {
-          this.$router.push('/login')
-        })
+        this.$axios
+          .get('verify/?' + searchParams, { handleError: false })
+          .then((response) => {
+            this.$toasted.success(this.$t(response.data.message).toString())
+          })
+          .catch((error) => {
+            this.$toasted.error(this.$t(error.response.data.message).toString())
+          })
+          .finally(() => {
+            this.$router.push('/login')
+          })
       }
     },
-  }
+  },
 }
 </script>
 
@@ -831,4 +859,20 @@ export default {
 
   .btn.btn-confirm.btn-disabled
     background: $color-black-1 !important
+  .form-area::v-deep
+    padding: 0px
+  fieldset
+    width: 343px
+    .input-group
+      width: 343px
+      margin-left: 4px
+      .input-signup
+        &::placeholder
+          color: $color-gray-47
+          font-size: 14px
+          font-weight: 500
+        &::-webkit-input-placeholder
+          color: $color-gray-47
+        &:-ms-input-placeholder
+          color: $color-gray-47
 </style>

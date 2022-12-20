@@ -310,7 +310,8 @@
       "invalid_token": "Password reset token is invalid or expired",
       "invalid_verification_code": "Invalid verification code.",
       "code_generation_failed": "Verification code generation failed."
-    }
+    },
+    "forgot_password_placeholder": "joesmith@gmail.com"
   },
   "signup": {
     "or": "OR",
@@ -3551,7 +3552,7 @@
       "city": "City",
       "state": "State",
       "zip": "Zip/ Postal Code",
-      "please_provide_billing_first"  : "Please provide billing address.",
+      "please_provide_billing_first": "Please provide billing address.",
       "country": "Country",
       "billing_address": "Billing Address",
       "social_media_links": "Social Media Links",
@@ -3760,14 +3761,14 @@
       },
       "add_gift_card": "Add Gift Card",
       "add_card_payments": "Add Card Payment",
-      "ds_wallet" : "DS Wallet",
-      "enter_card_info" : "Enter your card information",
-      "card_expiration_date" : "Expiration Date",
+      "ds_wallet": "DS Wallet",
+      "enter_card_info": "Enter your card information",
+      "card_expiration_date": "Expiration Date",
       "add_new_default": "Add New Default",
       "add_new_default_alert": "You must have one default card payment saved in your profile",
       "change_default_card_alert": "Are you sure you want to make this card your default method of payment?",
       "card_scan_alert": "Move your card inside the frame and we’ll scan it for you.",
-      "card_save_success_alert":"Card has been added successfully",
+      "card_save_success_alert": "Card has been added successfully",
       "update_exp_cvv": "*Please update expiration date and CVV",
       "form_not_valid_message": "*Please enter valid payment information",
       "scan_card": "Scan Card",
@@ -3777,7 +3778,7 @@
       "purchase_a_gift_card": "Purchase a Gift Card",
       "purchase_gift_card_caption": "Gift a digital gift card for your friends, family or yourself!",
       "gift_card_success_alert": "Gift card has been added successfully",
-      "gift_card_remaining" : "Remaining Amount",
+      "gift_card_remaining": "Remaining Amount",
       "pin": "PIN",
       "view_gift_card_detail": "View Gift Card Details",
       "reload_gift_card": "Reload Gift Card",
@@ -3790,7 +3791,7 @@
       "recipients": "Recipients",
       "terms_and_services_agreement": "By ordering, I agree to the",
       "add_billing_address": "Adding Billing Address",
-      "gift_card_checkout_form":{
+      "gift_card_checkout_form": {
         "first_name": "First Name",
         "last_name": "Last Name",
         "address_line_1": "Address Line 1",
@@ -3800,7 +3801,7 @@
         "state": "State",
         "phone": "Phone #"
       },
-      "new_balance" : "New Balance"
+      "new_balance": "New Balance"
     }
   },
   "monthNames": {
@@ -5272,8 +5273,8 @@
     "redeemed": "Redeemed",
     "giftcard_error": "*Unfortunately, this gift card code and PIN is invalid. Please check your code for typos and enter it again.",
     "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number.",
-    "invalid_data"  : "*Unfortunately, this gift card code and PIN is invalid.",
-    "redeem_success"  : "Once you receive a gift card, an email confirmation will be delivered with details including your gift code and pin number."
+    "invalid_data": "*Unfortunately, this gift card code and PIN is invalid.",
+    "redeem_success": "Once you receive a gift card, an email confirmation will be delivered with details including your gift code and pin number."
   },
   "thresholds": {
     "success_message": "Commission Threshold Saved Successfully",
