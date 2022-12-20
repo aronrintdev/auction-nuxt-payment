@@ -27,7 +27,7 @@
               class="d-sm-none"
               :class="iconClass"
             />
-            <span class="all-sizes" :class="iconTextClass" role="button">
+            <span class="all-sizes mr-2" :class="iconTextClass" role="button">
               {{ $t('shop_by_style.general.all_sizes') }}
             </span>
           </div>

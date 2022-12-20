@@ -237,7 +237,7 @@
       <div class="all-sizes-bottom-sheet">
         <div class="border-bottom mb-3 pb-2 bottom_sheet_header">
           <h3 class="font-secondary fs-16 fw-7 text-black text-center">
-            All Sizes
+            {{ $t('shop_by_style.general.all_sizes') }}
           </h3>
         </div>
         <div class="bottom_sheet_body">
