@@ -39,7 +39,11 @@
             :key="'trade-offer-'+offer.id"
             class="d-flex flex-column justify-content-center align-content-center col-4"
           >
-            <img class="img-fluid mt-1" :src="offer.inventory.product | getProductImageUrl" />
+            <div class="image-wrapper">
+              <img class="pro-image" :src="offer.inventory.product | getProductImageUrl"  alt="image" />
+              <div class="overlay"></div>
+            </div>
+<!--            <img class="img-fluid mt-1" :src="offer.inventory.product | getProductImageUrl" />-->
             <div class="mt-1 product-name text-truncate">{{ offer.inventory.product.name }}</div>
             <div class="mt-1 product-box">
               <span>{{ $t('sell.inventory.box') }}: </span>
@@ -178,5 +182,16 @@ export default {
 .product-size
   @include body-9-medium
   color: $color-black-1
-
+.image-wrapper
+  position: relative
+.image-wrapper
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: $color-grey-70
+.pro-image
+  width: 140px
 </style>
