@@ -243,7 +243,7 @@
           <Button variant="dark-blue" @click="applyFilters">
             {{ $t('trades.apply') }}
           </Button>
-          <div class="text-center">
+          <div class="text-center" v-if="start_date !== '' || end_date !== '' || statusFilter.length  ">
             <span
               class="clear-all"
               role="button"
