@@ -83,12 +83,14 @@
             v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0"
             :offerItems="offer.yours_items"
             marginItems="mr-3"
+            :isOfferSummary="true"
             class="w-100"
           />
           <offer-items
             v-if="!isOfferMine(offer) && offer.theirs_items && offer.theirs_items.length > 0"
             :offerItems="offer.theirs_items"
             marginItems="mr-3"
+            :isOfferSummary="true"
             class="w-100"
           />
         </b-col>
@@ -130,12 +132,14 @@
             v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0"
             :offerItems="offerHistory.yours_items"
             marginItems="mr-3"
+            :isOfferSummary="true"
             class="w-100"
           />
           <offer-items
             v-if="!isOfferMine(offerHistory) && offerHistory.theirs_items && offerHistory.theirs_items.length > 0"
             :offerItems="offerHistory.theirs_items"
             marginItems="mr-3"
+            :isOfferSummary="true"
             class="w-100"
           />
         </b-col>
