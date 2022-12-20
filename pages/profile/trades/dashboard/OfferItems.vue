@@ -38,10 +38,10 @@
           >
             <div class="d-inline body-section-box w-100 m-1">
               <div class="d-flex align-items-center justify-content-center position-relative" :class="{'image-container': isOfferSummary}">
-                <div class="thumb-wrapper">
+                <div class=""  :class="{'thumb-wrapper': isOfferSummary}">
                   <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl" class="img-fluid" :class="{'pt-4': !isOfferSummary}"/>
                   <img v-else :src="item.product | getProductImageUrl" class="img-fluid" :class="{'pt-4': !isOfferSummary}" />
-                  <div class="overlay-image"></div>
+                  <div  :class="{'overlay-image': isOfferSummary}"></div>
                 </div>
               </div>
 
