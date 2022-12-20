@@ -10,19 +10,19 @@
     </div>
     <b-row class="mt-2">
       <b-col sm="12" md="9">
-        <div class="d-flex flex-column mt-3 card-summary-header">
+        <div class="d-flex flex-column card-summary-header">
           <b-row>
-            <b-col cols="8" sm="3" class="body-4-bold text-color-blue-1">
+            <b-col cols="8" sm="5" class="body-4-bold text-color-blue-1 card-summary-header-title">
               {{ $t('bids.auction_id') }} #{{ auction.id }}
             </b-col>
-            <b-col cols="4" sm="3" class="text-right text-md-left">
+            <b-col cols="4" sm="2" class="text-right text-md-left card-summary-header-status">
               <span v-if="auction.status === 'live'" class="text-success body-4-medium">&bull; &nbsp; {{
                   $t('bids.live')
                 }}</span>
-              <span v-else
+              <span v-if="isAuctionLZ"
                     class="text-gray-24 body-4-medium">&bull; &nbsp;{{ $t('bids.expired') }}</span>
             </b-col>
-            <b-col cols="12" sm="6" class="text-danger body-4-medium">
+            <b-col cols="12" sm="5" class="text-danger body-4-medium">
               {{ $t('bids.headers.time_remaining') }}&colon;
               {{
                 auction.remaining_time
@@ -208,6 +208,7 @@ import BidAuctionSummaryCollection from '~/components/profile/bids/BidAuctionSum
 import {
   BID_ACCEPTED,
   BID_AUCTION_TYPE_COLLECTION, BID_AUCTION_TYPE_SINGLE,
+  EXPIRED_STATUS,
   HIGHEST_BID_STATUS,
   OUTBID_BID_STATUS,
   WINNING_BID_STATUS
@@ -257,7 +258,7 @@ export default {
       return this.auction.highest_bid === this.selectedBid.price
     },
     auctionIsLive() {
-      return this.auction.status === 'live'
+      return this.auction.status === 'live' && this.auction.remaining_time !== EXPIRED_STATUS
     },
     /**
      * Returning the first item in the array if the auction type is single, otherwise it returns the entire array.

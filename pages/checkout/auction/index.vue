@@ -4,7 +4,7 @@
       <AuctionCart :auction="activeAuction" />
 
       <CheckoutSidebar class="order-summary auction-checkout" />
-
+      
       <!-- Quick Bid Modal -->
       <b-modal id="quick-bid-modal" hide-footer hide-header size="md">
         <div class="text-right">
@@ -108,7 +108,11 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
 .auction-checkout
   min-height: calc(100vh - 224px)
-
+  @media (max-width: 576px)
+    background: $white
+    padding: 18px 0
 </style>

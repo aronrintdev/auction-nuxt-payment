@@ -39,7 +39,7 @@
           />
         </div>
       </b-col>
-      <b-col cols="3" md="2" class="text-center d-none d-md-flex">
+      <b-col cols="3" md="2" class="text-center d-none d-md-flex justify-content-center">
         <div class="body-5-bold text-gray-6 text-uppercase">
             {{ $t('shopping_cart.quantity') }}
         </div>
@@ -71,7 +71,7 @@
           </b-col>
         </b-row>
       </b-col>
-      <b-col cols="3" md="2" class="text-center quantity d-none d-md-flex">
+      <b-col cols="3" md="2" class="text-center quantity d-none d-md-flex justify-content-center">
         {{ item.quantity }}
       </b-col>
     </b-row>
@@ -200,6 +200,7 @@ export default {
         @include body-9
     &-item
       padding: 25px 0 24px
+      margin-bottom: 0
       border-bottom: 0.5px solid $color-gray-47
     .quantity
       @include body-10

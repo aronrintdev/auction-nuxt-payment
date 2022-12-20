@@ -513,6 +513,14 @@ export default {
     color: $white
 
   @media (max-width: 576px)
+    .summary-wrapper
+      padding: 0
+    .terms-and-conditions
+      width: 100%
+    .place-bid-btn
+      height: 40px
+      margin-top: 30px
+      box-shadow: none
     .custom-card
       .card-body
         .d-flex
