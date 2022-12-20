@@ -65,8 +65,8 @@
                 <b-collapse id="collapse-1" v-model="isVisible">
                   <b-row class="row mt-1">
                     <b-col v-for="(status, key) in getStatusFilterItems" :key="'cat-' + key">
-                      <div 
-                        :value="status" 
+                      <div
+                        :value="status"
                         class="unselected-item m-1 d-flex justify-content-center align-items-center"
                         :class="{
                           'active-item': statusFilter.includes(status)
@@ -175,8 +175,8 @@
               color: '#000',
               marginTop: '0 !important'
             }"
-            :dropdownStyle="{ 
-              border: '1px solid #cbcbcb', 
+            :dropdownStyle="{
+              border: '1px solid #cbcbcb',
               borderTop: 0,
               borderRadius: '0 0 5px 5px'
             }"
@@ -207,8 +207,8 @@
             borderRadiusClose="5px 5px 0 0"
             borderRadiusOptions="0 0 5px 5px"
             paddingX="10px"
-            :dropdownStyle="{ 
-              border: '1px solid #cbcbcb', 
+            :dropdownStyle="{
+              border: '1px solid #cbcbcb',
               borderTop: 0,
               borderRadius: '0 0 5px 5px'
             }"
@@ -663,7 +663,7 @@ export default {
   padding-left: 15px
   padding-right: 15px
   @media (min-width: 576px)
-    margin-top: -50px
+    //margin-top: -50px
     padding-top: 50px
     background: $color-white-5
     padding-left: 25px
@@ -710,7 +710,7 @@ export default {
   ::v-deep.custom-control-label
     display: flex
     align-items: center
-  
+
 .filtersHeading
   @include body-13-bold
   font-family: $font-sp-pro
@@ -799,7 +799,7 @@ export default {
   button
     width: 44%
     padding-left: 15px
-    padding-right: 15px 
+    padding-right: 15px
 
 .filtersSection
   padding-left: 20px
