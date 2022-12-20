@@ -2,7 +2,7 @@
   <div :class="{
     'mobile d-flex flex-column align-items-center' : isScreenXS
   }" class="stat-card bg-white br-10 mb-2 mb-md-0">
-    <img :src="icon" aria-hidden="true" class="mb-11"/>
+    <img v-if="showIcon" :src="icon" aria-hidden="true" class="mb-11"/>
     <div
         :class="{
           'mobile': isScreenXS,
@@ -48,6 +48,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    showIcon: {
+      type: Boolean,
+      default: true,
+    },
   }
 }
 </script>
@@ -59,6 +63,9 @@ export default {
     font-family: $font-montserrat
     font-style: normal
     color: $color-black-4
+    @if var(--color)
+      color: var(--color)
+
 
 .stat-card
   padding: 15px 36px

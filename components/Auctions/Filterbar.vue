@@ -3,7 +3,7 @@
     <div class="auction-filters-content">
       <div class="d-flex justify-content-between">
         <div v-click-outside="hideDropdown" class="searchbox" :class="{ 'open': hasSearchResult }">
-          <search-box :searchText="searchText" :placeholder="$t('auctions.frontpage.filterbar.searchbox')" @search="search" />
+          <search-box :searchText="searchText" :placeholder="$t('common.search')" @search="search" />
           <div v-if="hasSearchResult" class="dropdown-options">
             <div
               v-for="prod in searchedProducts"
@@ -41,14 +41,14 @@
         />
       </div>
     </div>
-    <div v-if="!moreFiltersVisible" class="mt-4 d-flex align-items-center">
+    <div v-if="!moreFiltersVisible" class="subfilters-bar d-flex align-items-center">
       <!-- Categories -->
       <MultiSelectDropdown
         v-model="selectedFilters.categories"
         collapseKey="categories"
         :title="$t('home_page.categories')"
         :options="categoryOptions"
-        class="mr-3 mr-xl-4"
+        class="categories-selector"
         width="160"
       />
 
@@ -58,7 +58,7 @@
         collapseKey="size-types"
         :title="$t('filter_sidebar.size_types')"
         :options="sizeTypeOptions"
-        class="mr-3 mr-xl-4"
+        class="size-types-selector"
         width="180"
       />
 
@@ -68,7 +68,7 @@
         collapseKey="sizes"
         :title="$t('filter_sidebar.sizes')"
         :options="sizeOptions"
-        class="mr-3 mr-xl-4 flex-grow-1"
+        class="sizes-selector"
       />
 
       <!-- Current Bid -->
@@ -82,7 +82,7 @@
         :step="50"
         :title="$t('home_page.current_bid')"
         :value="selectedPrices"
-        class="mr-3 mr-xl-4 flex-grow-1"
+        class="prices-selector"
         @change="updatePriceFilters"
       />
 
@@ -92,35 +92,25 @@
         collapseKey="brands"
         :title="$t('filter_sidebar.brands')"
         :options="brandOptions"
-        class="mr-3 mr-xl-4 d-none d-xl-block flex-grow-1"
+        class="brands-selector d-none d-xl-block flex-grow-1"
       />
-      <div role="button" class="d-inline-flex align-items-center more-filters-btn ml-3" @click="moreFiltersVisible=true">
+      <div role="button" class="d-inline-flex align-items-center more-filters-btn" @click="moreFiltersVisible=true">
         <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
         <img class="ml-2" src="~/assets/img/home/arrow-right.svg" />
       </div>
     </div>
-    <div v-else class="mt-4 d-flex align-items-center">
-      <div role="button" class="d-inline-flex align-items-center more-filters-btn mr-3" @click="moreFiltersVisible=false">
+    <div v-else class="subfilters-bar d-flex align-items-center">
+      <div role="button" class="d-inline-flex align-items-center more-filters-btn" @click="moreFiltersVisible=false">
         <img class="mr-2 before" src="~/assets/img/home/arrow-right.svg" />
         <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
       </div>
-       <!-- Brand -->
-       <MultiSelectDropdown
-        v-model="selectedFilters.brands"
-        collapseKey="brands"
-        :title="$t('filter_sidebar.brands')"
-        :options="brandOptions"
-        class="mr-3 mr-xl-4 d-none d-md-block d-xl-none"
-        :width="250"
-      />
       <!-- Status -->
       <MultiSelectDropdown
         v-model="selectedFilters.status"
         collapseKey="status"
         :title="$t('filter_sidebar.status')"
         :options="statusOptions"
-        class="mr-3 mr-xl-4"
-        :width="250"
+        class="status-selector"
       />
 
       <!-- Years -->
@@ -134,8 +124,7 @@
         :step="1"
         :title="$t('auctions.frontpage.filterbar.year')"
         :value="selectedYears"
-        class="mr-3 mr-xl-4"
-        :width="250"
+        class="years-selector"
         @change="updateYearFilters"
       />
     </div>
@@ -489,8 +478,8 @@ export default {
     border: 1px solid transparent
     background-color: $color-white-4
     border-radius: 8px
-    height: 48px
-    width: 327px
+    height: 46px
+    width: 328px
     padding: 0 13px 0 23px
 
     .icon-main
@@ -562,4 +551,26 @@ export default {
       margin-right: 16px
     img
       width: 10px
+.subfilters-bar
+  margin-top: 26px
+  .categories-selector
+    width: 165px
+    margin-right: 33px
+  .size-types-selector
+    width: 200px
+    margin-right: 33px
+  .sizes-selector
+    margin-right: 33px
+    width: 149px
+  .prices-selector
+    width: 211px
+    margin-right: 33px
+  .brands-selector
+    margin-right: 32px
+  .status-selector
+    width: 165px
+    margin-left: 32px
+  .years-selector
+    width: 211px
+    margin-left: 33px
 </style>

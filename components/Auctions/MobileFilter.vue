@@ -1,10 +1,9 @@
 <template>
   <section class="position-relative auction-mobile-filter">
-    <img src="~/assets/img/auctions/auctionbannermobilebrowse2.png" class="w-100 auction-mobile-filter-bg" />
-    <div class="d-flex align-items-center auction-mobile-filter-content searchbox" :class="{ 'active' : searchEnabled }">
+    <div class="d-flex align-items-center w-100 searchbox" :class="{ 'active' : searchEnabled }">
       <img v-if="searchEnabled" src="~/assets/img/icons/back.svg" class="mr-2 back-btn" @click="searchEnabled = false" />
       <search-box :searchText="searchText" :placeholder="$t('auctions.frontpage.filterbar.search_auctions')" @search="search" @focus="enableSearch" />
-      <img src="~/assets/img/icons/more-filter-icon.svg" role="button" class="ml-3 more-btn" @click="openBottomFilter" />
+      <img src="~/assets/img/icons/more-filter-icon.svg" role="button" class="more-btn" @click="openBottomFilter" />
     </div>
     <div v-if="searchEnabled" class="position-fixed search-results">
       <div v-if="hasSearchResult" class="products">
@@ -437,19 +436,21 @@ export default {
   ::v-deep
     @media (max-width: 576px)
       .auction-filters-type-selector
-        margin: 26px 10px
+        margin: 24px 10px 27px
         .nav-group
           .btn-group
             flex-direction: row
             border-radius: 20px
     .searchbox
       margin-right: 25px
-      position: absolute
+      padding: 10px 16px
       &.open
         .rounded-search-input
           border-bottom-left-radius: 0
           border-bottom-right-radius: 0
           border: 1px solid $gray
+      .more-btn
+        margin-left: 13px
       .rounded-search-input
         flex: 1
         border-radius: 8px

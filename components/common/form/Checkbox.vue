@@ -79,6 +79,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 input[type="checkbox"]
   width: 15px
   height: 15px
@@ -106,13 +107,15 @@ input[type="checkbox"]
     color: $color-black-1
     padding: 10px 0
     font-size: 14px
-    font-weight: 500
+    font-weight: $normal
     display: flex
     justify-content: space-between
+    &:active
+      background-color: $color-gray-21
     .checkedIcon
       display: none
   input
-    display: none 
+    display: none
     &:checked~.checkbox-title
       .checkedIcon
         display: inline

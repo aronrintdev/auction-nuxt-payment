@@ -14,7 +14,8 @@
         :data="CATEGORIES"
         :value="category"
         nav-key="category"
-        class="section-nav text-center mt-3 mx-3 mx-sm-0"
+        btn-class="px-lg-5 px-0"
+        class="section-nav text-center my-4 mx-3 mx-sm-0"
         @change="handleCategoryChange"
       />
       <div v-if="!noSearchResult" class="container">
@@ -198,9 +199,13 @@ export default {
       'selectedCategory'
     ]),
   },
-
+  created(){
+    this.resetFilters()
+    const categoryName = this.$router.currentRoute.query.category?this.$router.currentRoute.query.category.toLowerCase():'';
+    this.$store.commit('browse/setSelectedCategory', categoryName)
+  },
   methods: {
-    ...mapActions('browse', ['fetchFilters']),
+    ...mapActions('browse', ['fetchFilters','resetFilters']),
 
     handleCategoryChange(category) {
       this.category = category

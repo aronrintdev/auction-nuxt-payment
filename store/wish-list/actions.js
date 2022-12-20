@@ -23,12 +23,28 @@ export async function addProductsToWishList({ commit }, { wishList, ids }) {
 
 export async function createWishList({ commit }, { name, privacy }) {
   return await this.$axios
-    .post('/wish-lists', {
-      name,
-      privacy,
-    })
+    .post('/wish-lists/', { name, privacy })
     .then((res) => {
       commit('addWishList', res.data)
+      return res.data
+    })
+}
+
+export async function editWishList({ commit }, { id, name }) {
+  return await this.$axios
+    .put(`/wish-lists/${id}`, {
+      name,
+    })
+    .then((res) => {
+      commit('updateWishListName', res.data)
+      return res.data
+    })
+}
+
+export async function deleteWishList({ commit }, { id }) {
+  return await this.$axios
+    .delete(`/wish-lists/${id}`)
+    .then((res) => {
       return res.data
     })
 }

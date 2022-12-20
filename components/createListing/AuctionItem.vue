@@ -614,7 +614,7 @@ export default {
     .value
       color: $black
   @media (max-width: 576px)
-    padding: 12px
+    padding: 19px 12px 36px
     box-shadow: 0px 1px 4px rgba($black, 0.25)
     border-radius: 10px
     .more-btn
@@ -624,23 +624,23 @@ export default {
       .btn-link
         padding: 0
     .detail-section
-      .col-sm-3
+      .col-3
         flex: 3
-      .col-sm-9
+      .col-9
         flex: 9
         padding-right: 1em
-        .product
-          &-name
-            font-size: 14px
-            font-weight: $medium
-          &-sku,
-          &-size,
-          &-color,
-          &-condition
-            font-weight: $regular
-            font-size: 13px
-            line-height: 16px
-            color: $color-gray-6
+      .product
+        &-name
+          font-size: 14px
+          font-weight: $medium
+        &-sku,
+        &-size,
+        &-color,
+        &-condition
+          font-weight: $regular
+          font-size: 13px
+          line-height: 16px
+          color: $color-gray-6
     .duration-section
       .form-dropdown-wrapper
         .btn-dropdown
@@ -687,6 +687,8 @@ export default {
     .auction-form-label
       font-size: 12px
       line-height: 15px
+      font-weight: $medium
+      font-family: $font-montserrat
 .bottom-sheet::v-deep
   .bottom-sheet__content
     overflow: hidden

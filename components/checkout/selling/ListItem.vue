@@ -14,9 +14,9 @@
         <b-col md="8">
           <b-row class="mb-2 d-block">
             <div class="body-4-bold mb-2">{{ name }}</div>
-            <div class="body-4-normal mb-2 text-gray-6 text-uppercase">
-              {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ sku }} &nbsp;
-              {{ $tc('common.size', 1) }}&colon;&nbsp;{{ product.size.size }}
+            <div class="body-4-normal mb-2 text-gray-6">
+              <span class="text-uppercase">{{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ sku }} &nbsp;</span>
+              <span>{{ $tc('common.size', 1) }}&colon;&nbsp;{{ product.size.size }}</span>
             </div>
             <div class="body-4-normal mb-2 text-gray-6">
               {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ product.colorWay }}

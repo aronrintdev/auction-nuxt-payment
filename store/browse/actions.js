@@ -12,4 +12,5 @@ export function resetFilters({ commit }) {
   commit('setSelectedOrdering', null)
   commit('setSelectedSort', null)
   commit('setSelectedSearch', null)
+  commit('setIsFilter', false)
 }

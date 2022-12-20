@@ -25,18 +25,7 @@
               icon="share.svg"
               icon-only
               pill
-              class="mr-3"
             />
-            <Button
-              :id="`popover-wishlist-${style.id}`"
-              variant="white"
-              :icon="wishList ? `heart-red.svg` : 'heart2.svg'"
-              icon-only
-              tabindex="0"
-              :tooltip-text="wishList ? wishList.name : ''"
-              pill
-            >
-            </Button>
           </div>
         </div>
         <b-popover
@@ -56,10 +45,20 @@
             :description="style.name"
           />
         </b-popover>
+
         <div class="style-image mt-4 position-relative">
           <div class="position-absolute add-to-wishlist d-block d-sm-none">
-            <HeartIcon />
+            <HeartIcon :id="`popover-wishlist-${style.id}`" />
           </div>
+          <WishListPopover
+            v-if="!wishList"
+            :product="style"
+            :wish-list="wishList"
+            :target="`popover-wishlist-${style.id}`"
+            @wishlisted="onWishListed"
+            @show="wishListShow = true"
+            @hidden="wishListShow = false"
+          />
           <ShopByStyleImageCarousel
             v-if="!has360Images"
             :images="style.images"
@@ -82,6 +81,9 @@
             :product="product"
             @styleProduct="productDetail"
           />
+          <button class="view-cart-button fs-16 fw-5 font-secondary text-white">
+            {{ $t('shop_by_style.general.view_cart') }}
+          </button>
         </div>
         <div class="d-block d-sm-none mb-4">
           <ProductCarousel
@@ -141,6 +143,7 @@
   </b-overlay>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import { Button } from '~/components/common'
 import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
 import PlusCircle from '~/assets/icons/PlusCircle'
@@ -152,6 +155,8 @@ import ShareIcon from '~/assets/icons/ShareIcon'
 import HeartIcon from '~/assets/icons/HeartIcon'
 import Cart from '~/assets/icons/Cart'
 import ShareButton from '~/components/common/ShareButton'
+import WishListPopover from '~/components/wish-list/Popover'
+
 export default {
   components: {
     Button,
@@ -165,6 +170,7 @@ export default {
     Cart,
     ProductCarousel,
     DetailCard,
+    WishListPopover,
   },
 
   layout: 'IndexLayout',
@@ -179,6 +185,7 @@ export default {
       wishList: false,
       showStyleProduct: '',
       shareUrl: process.env.APP_URL + '/shop-by-style/',
+      wishListShow: false,
     }
   },
 
@@ -205,6 +212,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      removeProductsFromWishList: 'wish-list/removeProductsFromWishList',
+    }),
     handleStyleAddToCart() {
       this.addingToCart = true
     },
@@ -214,6 +224,24 @@ export default {
     redirectToDetail(product) {
       this.$router.push(`/shop-by-style/${this.style.id}/${product.sku}`)
     },
+
+    removeFromWishList() {
+      if (this.wishList) {
+        this.removeProductsFromWishList({
+          wishList: this.wishList,
+          ids: [this.style.id],
+        })
+        this.wishList = null
+        this.$emit('unwishlisted', this.style)
+      }
+    },
+    onWishListed(wishList) {
+      if (wishList) {
+        this.$set(this, 'wishList', wishList)
+        this.wishListShow = false
+        this.$emit('wishlisted', this.style, wishList)
+      }
+    },
   },
 }
 </script>
@@ -222,6 +250,9 @@ export default {
 @import '~/assets/css/_typography'
 
 .style-details-wrapper
+  @media (min-width: 576px)
+    max-height: calc(100vh - 130px)
+    overflow: hidden
   .left-side-details
     width: 100%
     max-width: 562px
@@ -230,8 +261,16 @@ export default {
     width: 100%
     max-width: 498px
     @media (min-width: 576px)
-      margin-top: 14px
+      max-height: calc(100vh - 130px)
+      overflow-y: auto
+      overflow-x: hidden
+      padding-bottom: 50px
+      &::-webkit-scrollbar
+        width: 0px
+    @media (min-width: 576px)
+      margin-top: 40px
       margin-left: 202px
+      margin-right: 17px
 
 .row-gap-60
   row-gap: 60px
@@ -257,7 +296,7 @@ export default {
   min-height: 925px
   padding-bottom: 60px
   @media (min-width: 576px)
-    margin-top: 27px
+    margin-top: 30px
   .product-list
     padding: 64px 0 0 89px
     > div
@@ -280,4 +319,13 @@ export default {
 
 .add-to-wishlist
   right: 0
+
+.view-cart-button
+  width: 309px
+  height: 38px
+  background-color: $color-blue-20
+  border: 0
+  margin: 0 auto
+::v-deep .Magic360-container
+  max-width: 305px
 </style>

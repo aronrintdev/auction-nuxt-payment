@@ -8,7 +8,7 @@
             :name="$t('auth.login')"
             :rules="{ required: true, min: 3, max: 128 }"
           >
-            <b-form-group class="px-1 pr-3">
+            <b-form-group class="px-md-1 pr-md-3">
               <b-form-input
                 id="login"
                 v-model="form.login"
@@ -27,7 +27,7 @@
             :rules="{ required: true }"
           >
             <b-form-group>
-              <b-input-group class="px-1 pr-3">
+              <b-input-group class="px-md-1 pr-md-3">
                 <b-form-input
                   id="password"
                   v-model="form.password"
@@ -61,8 +61,13 @@
             </b-form-group>
           </ValidationProvider>
 
-          <b-row class="mt-5 login-btn">
-            <b-col md="4" offset-md="4" class="text-center mt-3">
+          <b-row
+            class="mt-5 login-btn mx-0 row w-100 d-flex justify-content-center"
+          >
+            <b-col
+              md="4"
+              class="d-flex justify-content-center px-0 text-center w-100"
+            >
               <Button
                 :disabled="!isFormFilled"
                 block
@@ -155,7 +160,7 @@ export default {
               }
             } else if (this.isVendor) {
               this.$router.push({
-                path: '/'
+                path: '/',
               })
             } else {
               this.$router.push({
@@ -242,6 +247,7 @@ export default {
         box-shadow: none
 
 @media (min-width: 992px)
+
   .input-login
     background-color: $color-white-5
     border: 1px solid $color-white-5
@@ -259,13 +265,15 @@ export default {
     border-radius: 0 20px 20px 0 !important
 
 
-@media (min-width: 320px) and (max-width: 556px)
-  .login-btn
-    width: 50%
-    margin: 0 auto
+@media (max-width: 768px)
   .input-append
     border-right: none
 
   .btn.btn-confirm.btn-disabled
     background: $color-black-1
+  .login-btn
+    .btn
+      width: 171px
+      height: 42px
+      font-weight: $normal
 </style>
