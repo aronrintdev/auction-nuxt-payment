@@ -689,7 +689,7 @@ export default {
     border: none
 
     &:hover
-      background-color: $white-2
+      background-color: $white
 
 ::v-deep .label-wrapper
   border-radius: 5px
