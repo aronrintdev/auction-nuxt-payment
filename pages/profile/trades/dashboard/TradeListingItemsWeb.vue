@@ -1,8 +1,8 @@
 <template>
   <div class="row justify-content-between flex-wrap">
-    <div 
-      v-for="(trade) in tradesList" 
-      :key="'trade-' + trade.id" 
+    <div
+      v-for="(trade) in tradesList"
+      :key="'trade-' + trade.id"
       role="button"
       class="col-12 col-xl-6 mt-3"
     >
@@ -34,9 +34,9 @@
           </div>
         </div>
         <div class="row justify-content-center align-content-center" @click="showTrade(trade.id)">
-          <div 
-            v-for="(offer) in trade.offers" 
-            :key="'trade-offer-'+offer.id" 
+          <div
+            v-for="(offer) in trade.offers"
+            :key="'trade-offer-'+offer.id"
             class="d-flex flex-column justify-content-center align-content-center col-4"
           >
             <img class="img-fluid mt-1" :src="offer.inventory.product | getProductImageUrl" />
@@ -88,7 +88,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .trade-listing-item-single
-  background: $color-white-4
+  background: $color-white-0
   border-radius: 10px
   padding: 20px 28px 7px 28px
 
