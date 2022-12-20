@@ -255,20 +255,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="sass">
-@import '/assets/css/variables'
-
-.title
-  @include body-5-bold
-
-.sku, .attribute
-  @include body-10
-  color: $color-gray-6
-
-.status
-  width: 141px
-  padding: 10px 15px
-  border-radius: 4px
-
-</style>
