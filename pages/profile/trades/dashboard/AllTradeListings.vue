@@ -261,9 +261,13 @@
       </div>
     </div>
 
-    <div class="mt-4 listings">
+    <div class="mt-4 listings"  v-if="!isScreenXS">
       {{ $t('trades.listings', { '0': totalCount }) }}
     </div>
+    <div class="mt-4 listings-sm" v-else>
+      {{ $t('trades.listings', { '0': totalCount }) }}
+    </div>
+
     <div v-if="delete_expired">
       <BulkSelectToolbar
         ref="bulkSelectToolbar"
@@ -832,5 +836,10 @@ export default {
   text-decoration: underline
   @media (min-width: 1200px)
     margin-right: 8px
-
+.listings-sm
+  font-family: $font-montserrat
+  font-style: normal
+  @include body-13
+  color: $color-black-1
+  font-weight: $medium
 </style>
