@@ -1,5 +1,5 @@
 <template>
-  <b-row class="m-2">
+  <b-row class="my-2 mx-3">
     <b-col md="6" class="text-center w-50 line-bar">
       <p class="fw-6 fs-13 lh-16 mb-1">
         {{ $t('shop_by_style.style_id') }}
@@ -12,19 +12,30 @@
       </p>
       <p class="mb-1 fw-5 fs-14 lh-17">{{ product ? product.colorway : '' }}</p>
     </b-col>
-    <b-col md="12" xl="12">
+    <b-col cols="12" class="p-0">
       <Loader v-if="loading" class="min-vh-100" />
-      <b-row v-if="product">
-        <b-col md="7" xl="7">
-          <ProductImageViewer v-if="!has360Images" :product="product" class="product-image-wrapper" />
-          <ProductImageViewerMagic360 v-if="has360Images" :product="product" class="product-image-wrapper" />
-        </b-col>
-        <b-col md="4" xl="4" class="px-md-1 px-xl-1">
+      <div v-if="product">
+        <div>
+          <ProductImageViewer
+            v-if="!has360Images"
+            :product="product"
+            :showSlider="false"
+            class="product-image-wrapper"
+          />
+          <ProductImageViewerMagic360
+            v-if="has360Images"
+            :product="product"
+            class="product-image-wrapper"
+          />
+        </div>
+        <div class="px-md-1 px-xl-1">
           <ProductTitle
             :product-name="product.name"
             :product="product"
             :lowest-price="lowestPrice"
-            :product-last-sale-price="isNaN(product.last_sold_for) ? 0 : product.last_sold_for"
+            :product-last-sale-price="
+              isNaN(product.last_sold_for) ? 0 : product.last_sold_for
+            "
             class="mt-5"
           />
 
@@ -35,17 +46,14 @@
             nav-key="method"
             class="text-center mt-4 body-8-normal d-none d-sm-block"
             :btnGroupStyle="{
-              minHeight: '40px'
+              minHeight: '40px',
             }"
             @change="handleMethodNavClick"
           />
 
           <b-row class="mt-2 offer-text d-none d-sm-flex mx-auto">
             <b-col md="6" class="text-center">
-              <span
-                class="body-1-medium"
-                :class="method === 'buy' && 'active'"
-              >
+              <span class="body-1-medium" :class="method === 'buy' && 'active'">
                 {{ lowestPrice | toCurrency }}
               </span>
             </b-col>
@@ -65,11 +73,27 @@
             :prices="pricesBySize"
             :value="currentSize"
             :viewMode="sizeViewMode"
+            :arrows-visible="false"
             class="size-picker"
-            :xsCount="4"
+            :xsCount="5"
             @update="handleSizeChange"
             @changeViewMode="handleSizeViewModeChange"
-          />
+          >
+            <template #all-sizes-btn>
+              <div @click="openSizePicker">
+                <img
+                  width="18"
+                  height="18"
+                  :src="require('~/assets/img/icons/eye2.svg')"
+                  class="d-sm-none"
+                  :class="iconClass"
+                />
+                <span class="all-sizes" :class="iconTextClass" role="button">
+                  {{ $t('products.all_sizes') }}
+                </span>
+              </div>
+            </template>
+          </ProductSizePicker>
 
           <ProductBoxConditionPicker
             :value="currentCondition"
@@ -80,7 +104,12 @@
 
           <!-- User Conditional Actions -->
           <OutOfStock
-            v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel' && ! offerAmount"
+            v-if="
+              method === 'buy' &&
+              isOutOfStock &&
+              sizeViewMode === 'carousel' &&
+              !offerAmount
+            "
             class="mt-3 px-4 d-none d-sm-block px-sm-0"
             :product="product"
             @notify-me="handleNotifyMeClick"
@@ -106,22 +135,23 @@
           />
 
           <SellNow
-            v-else-if="sizeViewMode === 'carousel' && ! offerAmount"
+            v-else-if="sizeViewMode === 'carousel' && !offerAmount"
             class="mt-3 px-3 px-sm-0"
             :highest-offer="highestOffer"
             @offer-duration="handleOfferDurationEvent"
             @sell-now="handleSellNowClick"
           />
           <!-- End of User Conditional Actions -->
-        </b-col>
-      </b-row>
+        </div>
+      </div>
 
       <!-- Product Details & Size Guide Section -->
-      <b-row v-if="product" class="mx-72">
-        <b-col md="12">
-          <ProductDetailsTab :product="product" :selected-size="productCurrentSize" />
-        </b-col>
-      </b-row>
+      <div v-if="product">
+        <ProductDetailsTab
+          :product="product"
+          :selected-size="productCurrentSize"
+        />
+      </div>
       <!-- End of Product Details & Size Guide Section -->
 
       <AlertModal id="message-modal" :message="message" icon="tick" />
@@ -133,50 +163,51 @@
           <p>{{ $t('shop_by_style.view_all') }}</p>
         </div>
       </div>
-      <ShopProductCarousel
+      <ProductCarousel
         :products="style.products"
         :pageName="pageName"
-        itemWidth="129px"
+        itemWidth="164px"
         autoWidth
       >
         <template #product>
           <div
-            v-for="(product, index) in style.products"
+            v-for="(product, index) in filteredProducts"
             :key="`product-carousel-${index}`"
             class="item"
           >
-            <ShopByStyleProductCard
+            <DetailCard
               :product="product"
               :showActionBtn="false"
               :showActions="false"
               cardHeight="137px"
-              cardHeightSm="137px"
-              cardWidthSm="192px"
+              cardHeightSm="180px"
+              cardWidthSm="164px"
               :showSize="false"
               :showPrice="true"
               noRedirect
             >
               <template #badge>
-                <div class="d-flex justify-content-end"
+                <div
+                  class="d-flex justify-content-end"
                   @click="redirectToDetail(product)"
                 >
                   <PlusCircle />
                 </div>
               </template>
-            </ShopByStyleProductCard>
+            </DetailCard>
           </div>
         </template>
-      </ShopProductCarousel>
+      </ProductCarousel>
 
       <!-- Error message text -->
       <b-row v-if="errorText" class="mt-2 text-center">
-          <b-col md="12">
+        <b-col md="12">
           <div class="body-5-normal text-color-red-3">{{ errorText }}</div>
         </b-col>
       </b-row>
       <!-- End of Error message text -->
-      
-      <OutOfStock
+
+      <OutOfStockSm
         v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
         class="px-4 d-sm-none"
         :product="product"
@@ -194,6 +225,53 @@
         @shipping-option-selected="handleShippingOptionSelected"
       />
     </b-col>
+
+    <!-- bottom sheet for all sizes  -->
+    <vue-bottom-sheet
+      ref="sizePicker"
+      max-width="auto"
+      max-height="95vh"
+      :rounded="true"
+      :is-full-screen="true"
+    >
+      <div class="all-sizes-bottom-sheet">
+        <div class="border-bottom mb-3 pb-2 bottom_sheet_header">
+          <h3 class="font-secondary fs-16 fw-7 text-black text-center">
+            All Sizes
+          </h3>
+        </div>
+        <div class="bottom_sheet_body">
+          <div class="radio_wrapper">
+            <div v-for="(size, index) in sizes" :key="index">
+              <SizePickerMobile
+                v-model="selectedSize"
+                list
+                :size="size.size"
+                :price="getPriceBySize(size.id)"
+                :boxCondition="'Excellent Condition'"
+                :val="size.id"
+                name="sizePicker"
+                @notify-me="handleNotifyMeClick"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="bottom-sheet-footers position-absolute d-flex justify-content-between align-items-center w-100 p-3 bg-white"
+        >
+          <button
+            class="btn fs-16 fw-6 font-secondary rounded-pill btn-outline-dark"
+          >
+            {{ $t('common.reset') }}
+          </button>
+          <button
+            class="btn text-white fs-16 fw-6 font-secondary rounded-pill apply-btn"
+          >
+            {{ $t('orders.apply_filter') }}
+          </button>
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </b-row>
 </template>
 
@@ -212,16 +290,19 @@ import { API_PROD_URL } from '~/static/constants/environments'
 import { AMOUNT_OFFSET, INSTANT_SHIPPING } from '~/static/constants'
 import BuyNow from '~/components/shop-by-style/BuyNow'
 import OutOfStock from '~/components/product/OutOfStock'
+import OutOfStockSm from '~/components/shop-by-style/OutOfStock'
 import SellNow from '~/components/product/SellNow'
 import OfferDuration from '~/components/product/OfferDuration'
 import PlusCircle from '~/assets/icons/PlusCircle'
-import ShopProductCarousel from '~/components/shop-by-style/ProductCarousel'
-import ShopByStyleProductCard from '~/components/shop-by-style/ProductCard'
-
+import ProductCarousel from '~/components/shop-by-style/ProductCarousel'
+import DetailCard from '~/components/shop-by-style/DetailCard'
+import SizePickerMobile from '~/components/shop-by-style/SizePickerMobile'
 export default {
+  name: 'ShopByStyleProductDetails',
   components: {
     OfferDuration,
     OutOfStock,
+    OutOfStockSm,
     BuyNow,
     SellNow,
     ProductTitle,
@@ -234,10 +315,10 @@ export default {
     Loader,
     AlertModal,
     PlusCircle,
-    ShopProductCarousel,
-    ShopByStyleProductCard
+    ProductCarousel,
+    DetailCard,
+    SizePickerMobile,
   },
-  name: 'ShopByStyleProductDetails',
   layout: 'IndexLayout',
   fetchOnServer: false,
   data() {
@@ -249,6 +330,7 @@ export default {
       currentCondition: null,
       currentListingItem: null,
       loading: true,
+      selectedSize: null,
       methods: [
         {
           label: this.$t('products.lowest_price'),
@@ -272,7 +354,7 @@ export default {
       shippingOption: '',
       offerAmount: null,
       style: {
-        id: ''
+        id: '',
       },
     }
   },
@@ -294,18 +376,18 @@ export default {
       }
     }
     this.$axios
-    .get('/shop-by-style/' + this.$route.params.product)
-    .then((res) => {
-      this.style = {
-        styleID,
-        images: res.data.data.images,
-        products: res.data.data.products,
-        style: res.data.data.style,
-      }
-    })
-    .catch((error) => {
-      this.$toasted.error(error)
-    })
+      .get('/shop-by-style/' + this.$route.params.product)
+      .then((res) => {
+        this.style = {
+          styleID,
+          images: res.data.data.images,
+          products: res.data.data.products,
+          style: res.data.data.style,
+        }
+      })
+      .catch((error) => {
+        this.$toasted.error(error)
+      })
     this.loading = false
   },
   computed: {
@@ -313,8 +395,14 @@ export default {
       isVendor: 'auth/isVendor',
       isAuthenticated: 'auth/authenticated',
       getSelectedItemforVendor: 'sell-now/getSelectedItem',
-      hasVendorPayoutMethod: 'auth/getVendorPayoutMethod'
+      hasVendorPayoutMethod: 'auth/getVendorPayoutMethod',
     }),
+
+    filteredProducts() {
+      return this.style.products.filter(
+        (item) => item.sku !== this.$route.params.sku
+      )
+    },
     category() {
       return this.product?.category?.name
     },
@@ -378,14 +466,25 @@ export default {
       return false
     },
     productCurrentSize(vm) {
-      return vm.sizes.find(size => size.id === vm.currentSize)
-    }
+      return vm.sizes.find((size) => size.id === vm.currentSize)
+    },
   },
   methods: {
     ...mapActions({
       checkItemExistforVendor: 'sell-now/checkItemExistforVendor',
-      storeOfferDetails: 'offer/storeOfferDetails'
+      storeOfferDetails: 'offer/storeOfferDetails',
     }),
+    // Get min price for a given size among listing items
+    getPriceBySize(sizeId) {
+      return this.pricesBySize.find((i) => String(i.size_id) === String(sizeId))
+        ?.price
+    },
+    openSizePicker() {
+      this.$refs.sizePicker.open()
+    },
+    closeSizePicker() {
+      this.$refs.sizePicker.close()
+    },
     handleShippingOptionSelected(shippingOption) {
       this.shippingOption = shippingOption
     },
@@ -403,7 +502,9 @@ export default {
       }
     },
     redirectToDetail(product) {
-      this.$router.push(`/shop-by-style/${this.style.id}/${product.sku}`)
+      this.$router.push(
+        `/shop-by-style/${this.$route.params.product}/${product.sku}`
+      )
     },
     async findListingItem() {
       if (!this.currentSize || !this.currentCondition) return
@@ -447,8 +548,7 @@ export default {
         this.findListingItem()
       }
     },
-    showMessageModal(message, callback = () => {
-    }) {
+    showMessageModal(message, callback = () => {}) {
       this.message = message
       this.$bvModal.show('message-modal')
       setTimeout(() => {
@@ -463,13 +563,18 @@ export default {
         brand: this.product.brand,
         sku: this.product.sku,
         colorWay: this.product.colorway,
-        size: this.sizes.find(item => item.id === this.currentSize),
+        size: this.sizes.find((item) => item.id === this.currentSize),
         quantity: 1,
         wishLists: this.product?.wish_lists,
-        packaging_condition: this.packagingConditions.find(item => item.id === this.currentCondition).name,
+        packaging_condition: this.packagingConditions.find(
+          (item) => item.id === this.currentCondition
+        ).name,
         inventory_stock: this.currentListingItem?.inventory_stock,
         price: this.currentListingItem?.inventory?.sale_price,
-        instantShipPrice: this.shippingOption === INSTANT_SHIPPING ? this.currentListingItem?.inventory?.instant_ship_price : 0,
+        instantShipPrice:
+          this.shippingOption === INSTANT_SHIPPING
+            ? this.currentListingItem?.inventory?.instant_ship_price
+            : 0,
         image: `${this.API_PROD_URL}/${this.category}/${this.sku}/image`,
         listing_item_id: this.currentListingItem?.id,
       }
@@ -482,11 +587,16 @@ export default {
       }
 
       if (this.instantShip && !this.shippingOption) {
-        return (this.error.shipping = this.$t('products.error.select_shipping_type'))
+        return (this.error.shipping = this.$t(
+          'products.error.select_shipping_type'
+        ))
       }
 
       this.addingToCart = true
-      this.$store.dispatch('shopping-cart/addOrIncrementQuantityProduct', this.getCartProduct())
+      this.$store.dispatch(
+        'shopping-cart/addOrIncrementQuantityProduct',
+        this.getCartProduct()
+      )
       this.showMessageModal(
         this.$t('products.message.added_to_cart', {
           productName: this.product.name,
@@ -503,7 +613,9 @@ export default {
       }
 
       if (this.instantShip && !this.shippingOption) {
-        return (this.error.shipping = this.$t('products.error.select_shipping_type'))
+        return (this.error.shipping = this.$t(
+          'products.error.select_shipping_type'
+        ))
       }
 
       this.$store.dispatch('shopping-cart/addProduct', this.getCartProduct())
@@ -556,7 +668,7 @@ export default {
         ))
       }
       // If not duration.
-      if (! payload.offerDuration) {
+      if (!payload.offerDuration) {
         return (this.error.makeOffer = this.$t(
           'products.error.select_offer_duration'
         ))
@@ -568,12 +680,14 @@ export default {
         size_id: this.currentSize,
         product: this.product,
         duration: payload.offerDuration,
-        quantity: 1
-      }).then(() => {
-        this.$router.push('/checkout/place-offer')
-      }).catch((err) => {
-        this.$logger.logToServer('Place an offer', err.response);
+        quantity: 1,
       })
+        .then(() => {
+          this.$router.push('/checkout/place-offer')
+        })
+        .catch((err) => {
+          this.$logger.logToServer('Place an offer', err.response)
+        })
     },
     // On sell now click
     handleSellNowClick() {
@@ -598,13 +712,15 @@ export default {
         productID: this.getCartProduct().id,
         sizeId: this.currentSize,
         packagingConditionId:
-        this.packagingConditions[this.currentCondition - 1].id,
+          this.packagingConditions[this.currentCondition - 1].id,
         offerAmount: this.highestOffer,
       })
         .then((res) => {
-          this.$store.dispatch('sell-now/selectedItem', res.data.data).then(() => {
-            return this.moveToSellNow()
-          })
+          this.$store
+            .dispatch('sell-now/selectedItem', res.data.data)
+            .then(() => {
+              return this.moveToSellNow()
+            })
         })
         .catch((err) => {
           this.$logger.logToServer(
@@ -638,16 +754,16 @@ export default {
           quantity: 1,
           packaging_condition:
             this.packagingConditions[
-            this.getSelectedItemforVendor.packaging_condition_id - 1
-              ],
+              this.getSelectedItemforVendor.packaging_condition_id - 1
+            ],
           packaging_condition_id:
-          this.packagingConditions[
-          this.getSelectedItemforVendor.packaging_condition_id - 1
+            this.packagingConditions[
+              this.getSelectedItemforVendor.packaging_condition_id - 1
             ].id,
           price: this.getSelectedItemforVendor.sale_price,
           listing_item_id: this.getSelectedItemforVendor.listing_items[0].id,
           highestOffer: this.highestOffer,
-          selectedOfferId: this.highestOfferId
+          selectedOfferId: this.highestOfferId,
         }
 
         this.$store.dispatch('sell-now/addItem', sellNowData)
@@ -657,7 +773,7 @@ export default {
     // On create listing click, redirect to list creation page.
     redirectToCreateListing() {
       // If not authenticated redirect to login
-      if(!this.authenticated){
+      if (!this.authenticated) {
         return this.$router.push('/login')
       }
       // If authenticated, but the user is not a vendor, redirect to vendor hub.
@@ -666,7 +782,7 @@ export default {
       }
       // Redirect to listing page.
       this.$router.push('/profile/create-listing')
-    }
+    },
   },
 }
 </script>
@@ -709,9 +825,21 @@ export default {
     color: $black
 
 .size-picker::v-deep
+  padding: 0
+  margin: 0 -16px
+  max-width: 100vw
+  width: 100vw
   .carousel-wrapper
-    @media (min-width: 576px)
-      padding-top: 32px
+    .owl-item
+      margin-right: 17px
+    .row
+      margin: 0 16px
+::v-deep .box-conditions
+  .dropdown-wrapper
+    padding: 0
+    width: 315px
+    margin: 15px auto
+    margin-bottom: 26px
 
 .text-color-red-3
   color: $color-red-3
@@ -742,4 +870,28 @@ export default {
   border-radius: 20px
   color: $color-white-1
 
+.product-image-wrapper
+  margin-top: 13px
+  width: 286px
+  height: 286px
+  margin-left: 45px
+
+.buy-now-section, .out-of-stock-section
+  position: fixed
+  bottom: 94px
+  z-index: 9
+  width: 100vw
+  height: 90px
+  background: $color-white-1
+  padding: 4px 17px 14px 17px
+  left: 0
+.all-sizes-bottom-sheet
+  padding-bottom: 90px
+  .bottom_sheet_body
+    margin: 0 19px
+    .radio_wrapper
+      margin: 0 -19px
+      ::v-deep .list-type .radio-title
+        padding-left: 19px
+        padding-right: 19px
 </style>

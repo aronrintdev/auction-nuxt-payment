@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="fa-2-security-main">
     <FeatureContentWrapper
       :backgroundImage="banner.backgroundImage"
       :backgroundImageXS="banner.backgroundImageXS"
@@ -16,14 +16,16 @@
       :nextPageXS="bottomBanner.nextPageXS"
       :nextPageLink="bottomBanner.nextPageLink"
     >
-      <HorizontalBenefitBox
-        v-for="(benefit, index) in benefits"
-        :key="index"
-        :benefitImage="benefit.benefitImage"
-        :benefitImageXS="benefit.benefitImageXS"
-        :benefitTitle="benefit.benefitTitle"
-        :benefitDescription="benefit.benefitDescription"
-      />
+      <div class="fa-security-hoz-box">
+        <HorizontalBenefitBox
+          v-for="(benefit, index) in benefits"
+          :key="index"
+          :benefitImage="benefit.benefitImage"
+          :benefitImageXS="benefit.benefitImageXS"
+          :benefitTitle="benefit.benefitTitle"
+          :benefitDescription="benefit.benefitDescription"
+        />
+      </div>
     </FeatureContentWrapper>
   </div>
 </template>
@@ -95,3 +97,9 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+.fa-security-hoz-box
+  margin-bottom: 100px
+  @media (max-width: 768px)
+    margin-bottom: 50px
+</style>
