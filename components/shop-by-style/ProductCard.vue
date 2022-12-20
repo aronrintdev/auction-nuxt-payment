@@ -129,7 +129,7 @@
             class="accordion-filter-collapse"
             aria-labelledby="panelsStayOpen-headingOne"
           >
-            <div class="accordion-filter-body">
+            <div class="accordion-filter-body sf-pro-text">
               <ProductSizeGuideShoe
                 v-if="
                   products.size_type &&
@@ -489,6 +489,8 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.sf-pro-text
+  font-family: $font-family-sf-pro-text
 .mt-40
   margin-top: 13px
 .product-image

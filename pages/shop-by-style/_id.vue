@@ -292,6 +292,7 @@ export default {
   line-height: 21px
   letter-spacing: -0.02em
   color: $color-gray-6
+  font-family: $font-family-sf-pro-display
 .container-style-detail
   min-height: 925px
   padding-bottom: 60px

@@ -28,7 +28,7 @@
               :class="iconClass"
             />
             <span class="all-sizes" :class="iconTextClass" role="button">
-              {{ $t('products.all_sizes') }}
+              {{ $t('shop_by_style.general.all_sizes') }}
             </span>
           </div>
         </b-col>

@@ -5285,7 +5285,8 @@
       "add_to_bag": "Add {type} to Bag",
       "add_style_to_bag": "Add Style to Cart",
       "back_to_style": "< Back to All Styles",
-      "view_cart": "View Cart"
+      "view_cart": "View Cart",
+      "all_sizes": "All Sizes"
     },
     "title": "Shop by Style",
     "title_archive": "Shop by Style (Archive)",
