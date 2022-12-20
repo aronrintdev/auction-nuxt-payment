@@ -187,7 +187,7 @@
                 </div>
               </div>
               <div
-                class="center-container d-flex align-items-center"
+                class="center-container d-flex"
                 :class="{'center-cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length > ONE_ITEM),
                   'center-cont-height-ones':(lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM)
                 }"
@@ -252,8 +252,8 @@
                 </div>
               </div>
             </div>
-            <div v-if="!isAcceptedOffer()" class="d-flex flex-column align-items-center margin-top-minus"
-           :class="{'margin-top-minus-one':(lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM) }"
+            <div v-if="!isAcceptedOffer()" class="d-flex flex-column align-items-center"
+           :class="{'mt-35px':(lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM) }"
             >
               <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
                 <Meter :highest="getTheirTotal(false)"
@@ -713,6 +713,7 @@ export default {
   margin: 0 10px
   min-width: 100px
   max-width: 300px
+
 .long-line-length-small
   width: 40px
   border: 1px solid $light-gray-2
@@ -841,7 +842,8 @@ export default {
 .center-item
   width: unset
   margin: 0 12px
-  padding-top: 210px
+  padding-top: unset
+  height: 45px
 .pointer-left-sm,.pointer-right-sm
   width: 25px
 
@@ -910,10 +912,8 @@ export default {
   min-height: 62px
   margin-left: 123px
   padding: 0 63px
-.margin-top-minus
-  margin-top: -118px
-.margin-top-minus-one
-  margin-top: 375px
+.mt-35px
+  margin-top: 35px
 .center-cont-height-one
   min-height: 351px
 .item-normal
@@ -939,5 +939,5 @@ export default {
 .one-item-margin-top
   margin-top: 123px
 .mt-210px
-  //margin-top: 210px
+  margin-top: 210px
 </style>
