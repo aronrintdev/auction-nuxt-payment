@@ -176,7 +176,22 @@ export default {
 @import "~/assets/css/variables"
 .notification-setting-main::v-deep
   .notification-setting-nav
-    margin: 26px 0 18px 0
+    margin: 20px auto 18px auto
+    width: 236px
+    &.mobile
+      width: 100%
+    .btn-group
+      height: 32px
+      background-color: $color-gray-3
+      button.btn
+        @include body-6-regular
+        font-family: $font-montserrat
+        width: 103px
+        padding-block: 1px
+        &:not(.active)
+          background-color: $color-gray-3
+        &.active
+          font-weight: $medium
   .buttons-sec
     button
       width: 217px

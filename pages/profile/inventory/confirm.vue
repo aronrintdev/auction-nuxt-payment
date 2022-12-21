@@ -10,10 +10,10 @@
     <table class="mt-2 w-100 table-inventory">
       <thead>
         <tr>
-          <th class="p-3">{{ $t('common.details') }}</th>
-          <th class="text-center p-3">{{ $t('common.amount') }}</th>
-          <th class="text-center p-3">{{ $t('common.price') }}</th>
-          <th class="text-center p-3">{{ $tc('common.action', 2) }}</th>
+          <th class="p-3 font-sf-pro">{{ $t('common.details') }}</th>
+          <th class="text-center p-3 font-sf-pro">{{ $t('common.amount') }}</th>
+          <th class="text-center p-3 font-sf-pro">{{ $t('common.price') }}</th>
+          <th class="text-center p-3 font-sf-pro">{{ $tc('common.action', 2) }}</th>
         </tr>
       </thead>
       <tbody>
@@ -84,7 +84,7 @@
         pill
         >{{ $t('inventory.add_another_item') }}</Button
       >
-      <Button variant="info" pill @click="handleAddInventoryClick">{{
+      <Button variant="dark-blue" pill @click="handleAddInventoryClick">{{
         $t('inventory.add_to_inventory')
       }}</Button>
     </div>
@@ -199,12 +199,14 @@ export default {
       border-bottom: 10px solid $color-white-5
 
       .title
-        @include body-5-bold
+        @include body-8-medium
         color: $color-black-1
+        font-family: $font-sp-pro
 
       .info
-        @include body-5-normal
+        @include body-10-normal
         color: $color-gray-6
+        font-family: $font-sp-pro
 
       .btn-copy
         width: 30px
@@ -230,4 +232,7 @@ export default {
 .product-img
   width: 83px
   height: 53px
+
+.font-sf-pro
+  font-family: $font-sp-pro
 </style>

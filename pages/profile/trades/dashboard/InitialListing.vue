@@ -5,9 +5,9 @@
         {{ $t('trades.initial_listing') }}
       </div>
       <div class="d-flex justify-content-center mt-3">
-        <offer-items 
-          v-if="initialWantsItems && initialWantsItems.length > 0" 
-          :offerItems="initialWantsItems" 
+        <offer-items
+          v-if="initialWantsItems && initialWantsItems.length > 0"
+          :offerItems="initialWantsItems"
           :heading="$t('trades.your_listed_items')"
           class="w-100"
         />
@@ -28,6 +28,7 @@
           :offerItems="initialWantsItems"
           :heading="$t('trades.your_listed_items')"
           marginItems="mr-0"
+          :isOfferSummary="true"
           class="w-100"
         />
       </div>

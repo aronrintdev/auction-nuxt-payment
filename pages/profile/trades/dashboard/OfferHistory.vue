@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if="isScreenXS">
-      <div 
-        v-for="(offer) in offerHistory.offer_history" 
-        :key="'offer-history-'+ offer.id" 
-        class="offer-history-mobile" 
+      <div
+        v-for="(offer) in offerHistory.offer_history"
+        :key="'offer-history-'+ offer.id"
+        class="offer-history-mobile"
         :class="'background-' + (isOfferMine(offer) ? 'blue ml-3' : 'white mr-3')"
       >
         <div class="history-heading"> {{ getOfferTitle(offer) }} </div>
@@ -15,7 +15,7 @@
             {{ $t('common.on') }} {{ offer.created_at | formatDateTimeString }}
           </div>
         </div>
-        
+
         <div class="row justify-content-start pt-2 m-0">
           <offer-items v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0" :offerItems="offer.yours_items" marginItems="mr-3"/>
           <offer-items v-if="!isOfferMine(offer) && offer.theirs_items && offer.theirs_items.length > 0" :offerItems="offer.theirs_items" marginItems="mr-3"/>
@@ -33,8 +33,8 @@
           </div>
         </div>
       </div>
-      <div 
-        class="offer-history-mobile mt-3" 
+      <div
+        class="offer-history-mobile mt-3"
         :class="'background-' + (isOfferMine(offerHistory) ? 'blue ml-3' : 'white mr-3')"
       >
         <div class="history-heading"> {{ getOfferTitle(offerHistory) }} </div>
@@ -64,10 +64,10 @@
       </div>
     </div>
     <div v-else>
-      <div 
-        v-for="(offer) in offerHistory.offer_history" 
-        :key="'offer-history-'+ offer.id" 
-        class="offer-history col-12 col-lg-10 col-xl-7 pb-4 mt-4" 
+      <div
+        v-for="(offer) in offerHistory.offer_history"
+        :key="'offer-history-'+ offer.id"
+        class="offer-history col-12 col-lg-10 col-xl-7 pb-4 mt-4"
         :class="'background-' + (isOfferMine(offer) ? 'blue' : 'white ml-auto')"
       >
         <b-row class="justify-content-between">
@@ -79,16 +79,18 @@
         <div v-if="!isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</div>
         <div v-else-if="isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.you_asking_for')}}</div>
         <b-col class="row justify-content-start px-54 pt-2 m-0">
-          <offer-items 
-            v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0" 
-            :offerItems="offer.yours_items" 
+          <offer-items
+            v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0"
+            :offerItems="offer.yours_items"
             marginItems="mr-3"
+            :isOfferSummary="true"
             class="w-100"
           />
-          <offer-items 
-            v-if="!isOfferMine(offer) && offer.theirs_items && offer.theirs_items.length > 0" 
+          <offer-items
+            v-if="!isOfferMine(offer) && offer.theirs_items && offer.theirs_items.length > 0"
             :offerItems="offer.theirs_items"
             marginItems="mr-3"
+            :isOfferSummary="true"
             class="w-100"
           />
         </b-col>
@@ -103,8 +105,8 @@
           </sup>
         </div>
       </div>
-      <div 
-        class="mt-4 offer-history col-12 col-lg-10 col-xl-7 pb-2" 
+      <div
+        class="mt-4 offer-history col-12 col-lg-10 col-xl-7 pb-2"
         :class="[
           isOfferMine(offerHistory) ? 'blue-theme' : 'white-theme',
           isLastOfferMine ? 'ml-auto' : '',
@@ -126,16 +128,18 @@
           {{ $t('trades.you_asking_for') }}
         </div>
         <b-col class="row justify-content-center px-54 pt-2 pb-4 m-0">
-          <offer-items            
-            v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0" 
-            :offerItems="offerHistory.yours_items" 
+          <offer-items
+            v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0"
+            :offerItems="offerHistory.yours_items"
             marginItems="mr-3"
+            :isOfferSummary="true"
             class="w-100"
           />
-          <offer-items 
-            v-if="!isOfferMine(offerHistory) && offerHistory.theirs_items && offerHistory.theirs_items.length > 0" 
-            :offerItems="offerHistory.theirs_items" 
+          <offer-items
+            v-if="!isOfferMine(offerHistory) && offerHistory.theirs_items && offerHistory.theirs_items.length > 0"
+            :offerItems="offerHistory.theirs_items"
             marginItems="mr-3"
+            :isOfferSummary="true"
             class="w-100"
           />
         </b-col>
@@ -261,7 +265,7 @@ export default {
   color: $color-blue-20
   @media (min-width: 576px)
     @include body-2-bold
-    color: $color-blue-1
+    color: $color-blue-20
 
 .history-time
   font-family: $font-family-sf-pro-display
