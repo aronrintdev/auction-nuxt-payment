@@ -465,12 +465,12 @@ export default {
   width: 200px
   &.open
     .items
-      border-top: 0.5px solid $color-black-14 !important
+      border-top: 0.5px solid $color-black-14
 
   .selected
     @include body-13-medium
     color: $color-black-1
-    background-color: $color-white-1 !important
+    background-color: $color-white-1
     font-family: $font-family-sf-pro-display
     border: none !important
     padding-inline: 18px
