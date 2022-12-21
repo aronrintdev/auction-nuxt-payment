@@ -5,30 +5,30 @@
       class="position-relative mx-auto carousel-wrapper"
       :style="wrapperStyle"
     >
-      <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex justify-content-between align-items-center sizePickerHeader">
         <span class="select-size">
           {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
           <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
         </span>
-
-        <div
-          v-if="!singleMode"
-          class="position-absolute view-all-btn"
-          @click="handleViewAllClick"
-        >
-          <img
-            width="18"
-            height="18"
-            :src="require('~/assets/img/icons/eye2.svg')"
-            class="d-sm-none"
-            :class="iconClass"
-          />
-          <span class="all-sizes" :class="iconTextClass" role="button">
-            {{ $t('shop_by_style.general.all_sizes') }}
-          </span>
-        </div>
+        <slot name="all-sizes-btn">
+          <div
+            v-if="!singleMode"
+            class="position-absolute view-all-btn"
+            @click="handleViewAllClick"
+          >
+            <img
+              width="18"
+              height="18"
+              :src="require('~/assets/img/icons/eye2.svg')"
+              class="d-sm-none"
+              :class="iconClass"
+            />
+            <span class="all-sizes" :class="iconTextClass" role="button">
+              {{ $t('shop_by_style.general.all_sizes') }}
+            </span>
+          </div>
+        </slot>
       </div>
-
       <Carousel
         ref="sizeCarousel"
         :loop="true"
@@ -36,7 +36,13 @@
         :center="true"
         :margin="30"
         :responsive="{
-          0: { items: xsCount, nav: false, center: xsCenter },
+          0: {
+            items: xsCount,
+            nav: false,
+            center: xsCenter,
+            margin: 17,
+            loop: true,
+          },
           576: { items: 6, nav: false },
           1268: { items: 5, nav: false },
         }"
@@ -294,14 +300,14 @@ export default {
 @import '~/assets/css/_variables'
 
 .select-size
-  @include body-10-regular
+  @include body-10-normal
   color: $color-black-1
   @media (min-width: 576px)
     @include body-8-normal
     text-transform: uppercase
 
 .all-sizes
-  @include body-10-regular
+  @include body-10-normal
   color: $color-black-1
   @media (min-width: 576px)
     @include body-8-medium
@@ -314,7 +320,6 @@ export default {
 
 .text-color-blue-30
   color: $color-blue-30
-
 .size-label-responsive
   @include body-10
   display: block
@@ -324,7 +329,6 @@ export default {
   @media (min-width: 576px)
     @include body-8-normal
     text-transform: uppercase
-
 .icon-text-responsive
   font-size: 13px
   font-weight: $regular
@@ -332,24 +336,19 @@ export default {
   @media (min-width: 576px)
     color: $color-blue-30
     font-weight: $medium
-
 .owl-carousel
   .owl-item
     width: 70px
     marging-right: 38px !important
-
 .container
   .carousel-wrapper
     max-width: 100%
-
   .size-carousel::v-deep
     max-width: 100%
     padding: 0
     margin-top: 8px
-
     >span .owl-nav
       display: block
-
     .owl-carousel
       .owl-item
         // margin-right: 38px !important
@@ -357,32 +356,30 @@ export default {
         cursor: pointer
         margin: 0
         magin-right: 25px
+        .card
+          border-radius: 4px
         &.active
           .card
             border: 1px solid $color-black-4
-            border-radius: 4px
-
+            width: 52px
+            height: 52px
           .price
             display: none
-
           &::after
             content: " "
-            border-bottom: 2px solid $color-grey-101
-            margin-top: 11px
+            border-bottom: 2px solid $color-blue-19
+            margin-top: 15px
             display: block
             margin-left: auto
             margin-right: auto
-            width: 49px
+            width: 36px
             @media (min-width: 576px)
               width: 63px
-
     .owl-nav
       margin-bottom: 0px
       cursor: pointer
-
       [class*='owl-']
         background: none
-
       &.owl-next
         float: right
         width: auto
@@ -391,7 +388,6 @@ export default {
         @media (min-width: 576px)
           margin-right: -30px
           margin-top: -80px
-
       &.owl-prev
         float: left
         width: auto
@@ -400,7 +396,6 @@ export default {
         @media (min-width: 576px)
           margin-top: 18px
           margin-left: -30px
-
     .card
       @include body-9-medium
       border: 1px solid $color-gray-21
@@ -418,32 +413,24 @@ export default {
       @include body-13-normal
       margin-top: 8px
       color: $color-gray-20
-
   .view-all-btn
     right: 0
     top: 0
-
   .all-sizes
     max-width: 100%
-
     .items-wrapper
       max-height: 450px
       overflow-y: scroll
-
     .item
       width: 20%
       margin-bottom: 17px
       cursor: pointer
-
       &.active
         vertical-align: top
-
         .card
           border-color: $color-black-4
-
         .price
           display: none
-
         &::after
           content: " "
           width: 53px
@@ -452,7 +439,6 @@ export default {
           display: block
           margin-left: auto
           margin-right: auto
-
       .card
         @include body-9-medium
         width: 49px
@@ -466,22 +452,18 @@ export default {
           @include body-2-medium
           width: 64px
           height: 64px
-
       .price
         @include body-13-normal
         margin-top: 12px
         color: $color-gray-20
-
     .close-btn
       right: 8px
       top: -38px
-
 @media (max-width: 768px)
   .container
     .all-sizes
       .item
         width: 25%
-
 .edit-item
   .view-all-btn
     top: -2px

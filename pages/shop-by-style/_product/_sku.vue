@@ -73,7 +73,8 @@
             :viewMode="sizeViewMode"
             :arrows-visible="false"
             class="size-picker"
-            :xsCount="5"
+            :xsCount="6"
+            :xsCenter="true"
             @update="handleSizeChange"
             @changeViewMode="handleSizeViewModeChange"
           >
@@ -153,13 +154,9 @@
       <!-- End of Product Details & Size Guide Section -->
 
       <AlertModal id="message-modal" :message="message" icon="tick" />
-      <div class="row mt-3 ml-2 mr-2">
-        <div class="w-75 text-left">
-          <p class="fw-6 fs-16">{{ $t('shop_by_style.more_look') }}</p>
-        </div>
-        <div class="w-25 fw-5 fs-14 text-right view-all">
-          <p>{{ $t('shop_by_style.view_all') }}</p>
-        </div>
+      <div class="d-flex align-items-center justify-content-between mt-22">
+        <p class="fw-6 fs-16">{{ $t('shop_by_style.more_look') }}</p>
+        <p class="fw-5 fs-14 view-all">{{ $t('shop_by_style.view_all') }}</p>
       </div>
       <ProductCarousel
         :products="style.products"
@@ -169,12 +166,12 @@
       >
         <template #product>
           <div
-            v-for="(product, index) in filteredProducts"
+            v-for="(item, index) in filteredProducts"
             :key="`product-carousel-${index}`"
             class="item"
           >
             <DetailCard
-              :product="product"
+              :product="item"
               :showActionBtn="false"
               :showActions="false"
               cardHeight="137px"
@@ -187,7 +184,7 @@
               <template #badge>
                 <div
                   class="d-flex justify-content-end"
-                  @click="redirectToDetail(product)"
+                  @click="redirectToDetail(item)"
                 >
                   <PlusCircle />
                 </div>
@@ -830,9 +827,10 @@ export default {
   padding: 0 !important
   margin: 0
   .carousel-wrapper
-    .owl-item
-      margin-right: 17px !important
-    .row
+    margin: 0 -16px !important
+    max-width: 100vw
+    width: 100vw
+    .sizePickerHeader
       margin: 0 16px
 ::v-deep .box-conditions
   .dropdown-wrapper
@@ -898,4 +896,6 @@ export default {
 .mobile-sizes-scroll
   ::-webkit-scrollbar-thumb
     background-color: $color-gray-23
+.mt-22
+  margin-top: 22px
 </style>

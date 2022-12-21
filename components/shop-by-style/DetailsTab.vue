@@ -58,7 +58,7 @@
 
     <div class="d-sm-none d-flex flex-column">
       <div class="field" @click="isDetailsModalOpen = true">
-        <div>{{ $t('products.product_details') }}</div>
+        <div class="font-primary">{{ $t('products.product_details') }}</div>
         <Icon
           src="arrow-down-gray2.svg"
           width="25"
@@ -68,7 +68,7 @@
       </div>
 
       <div class="mt-3 field" @click="isSizeModalOpen = true">
-        <div>{{ $t('products.size_guide') }}</div>
+        <div class="font-primary">{{ $t('products.size_guide') }}</div>
         <Icon
           src="arrow-down-gray2.svg"
           width="25"
@@ -170,7 +170,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
-*
+*:not(.font-primary)
   font-family: 'SF Pro Display', serif
 
 .details-text-wrapper
