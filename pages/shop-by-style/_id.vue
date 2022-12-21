@@ -47,9 +47,6 @@
         </b-popover>
 
         <div class="style-image mt-4 position-relative">
-          <div class="position-absolute add-to-wishlist d-block d-sm-none">
-            <HeartIcon :id="`popover-wishlist-${style.id}`" />
-          </div>
           <WishListPopover
             v-if="!wishList"
             :product="style"
@@ -156,7 +153,6 @@ import DetailCard from '~/components/shop-by-style/DetailCard'
 import ProductCarousel from '~/components/shop-by-style/ProductCarousel'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 import ShareIcon from '~/assets/icons/ShareIcon'
-import HeartIcon from '~/assets/icons/HeartIcon'
 import Cart from '~/assets/icons/Cart'
 import ShareButton from '~/components/common/ShareButton'
 import WishListPopover from '~/components/wish-list/Popover'
@@ -168,7 +164,6 @@ export default {
     ShopByStyleImageCarousel,
     ProductImageViewerMagic360,
     ShareIcon,
-    HeartIcon,
     ShareButton,
     ShopByStyleProductCard,
     Cart,
