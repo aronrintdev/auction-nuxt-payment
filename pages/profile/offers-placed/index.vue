@@ -87,6 +87,7 @@
             <CustomSelectwithCheckbox
               id="filterby"
               class="dropdown-filters"
+              :filter-count-item-class="'filterCountArea'"
               :options="STATUS_OPTIONS"
               :value="filterBy"
               :icon-arrow-down="DownArrow"
@@ -1480,22 +1481,22 @@ label.filter-label
     overflow: auto
     border: 1px solid $color-gray-60
     .filter-select-count
-      padding: 10px !important
+      display: none
     .item-wrapper
       border: none
       & > div
-        border: none
-        border-bottom: 1px solid $color-gray-60
+          border: none
+          border-bottom: 1px solid $color-gray-60
+          &:last-child
+            border-bottom: none
       .d-flex
         font-weight: $regular
         @include body-5
         color: $black
         border: none
-        padding: 9px 10px !important
+        padding: 9px 10px
         .custom-checkbox
           min-height: 18px
           line-height: 18px
-          margin-left: 20px !important
-
-
+          margin-left: 20px
 </style>
