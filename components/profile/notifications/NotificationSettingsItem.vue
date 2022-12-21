@@ -152,7 +152,7 @@ import {
   NOTIFICATION_CHANNEL_TEXT,
 } from '~/static/constants/notifications'
 import screenSize from '~/plugins/mixins/screenSize'
-import arrowRight from '~/assets/img/home/arrow-right.svg?inline'
+import arrowRight from '~/assets/img/home/arrow-right-small-black.svg?inline'
 import settingsItem from '~/plugins/mixins/settings-item'
 
 export default {

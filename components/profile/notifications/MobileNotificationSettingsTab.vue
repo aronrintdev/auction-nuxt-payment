@@ -17,7 +17,7 @@
           <div v-for="channel in channels" :key="channel.value" class="my-4 ">
             <hr class="divider">
             <div class="d-flex align-items-center justify-content-between ">
-              <span class="label">{{ channel.text }}</span>
+              <span class="label switch">{{ channel.text }}</span>
               <NotificationSwitch
                   :value="channelSettings[channel.value]"
                   class="mr-3"
@@ -58,9 +58,12 @@
           >
           </vue-slider>
           <div class="until-desc mt-2">
-            {{
-              $t(`notifications.settings.texts.${selectedSetting.setting.key}.until_desc`, {n: selectedSetting.setting.data.until.value})
-            }}
+            <i18n
+                :path="`notifications.settings.texts.${selectedSetting.setting.key}.until_desc`"
+                tag="div"
+            >
+              <span class="body-21-regular text-decoration-underline text-black">{{ formData.extra.until.value }}</span>
+            </i18n>
           </div>
         </template>
       </MobileSettingsItemCard>
@@ -117,7 +120,7 @@
               <hr class="divider">
               <div class="d-flex align-items-center justify-content-between ">
                 <div class="d-flex align-items-center">
-                  <span class="label">{{ $t('notifications.settings.custom') }}:</span>
+                  <span class="label input">{{ $t('notifications.settings.custom') }}:</span>
                   <b-input
                       v-model="everyValue"
                       :placeholder="$t('notifications.enter_custom_amount')"
@@ -182,7 +185,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      selectedSetting: 'notifications/getSelectedSetting'
+      selectedSetting: 'notifications/getSelectedSetting',
+      getSettings: 'notifications/getSettings'
     }),
     tabTitle() {
       return this.$t('notifications.settings_titles.' + this.selectedSetting.path)
@@ -255,8 +259,11 @@ export default {
       this.updateChanges()
     },
     updateFormConstructor(channel) {
+      const id = this.getSettings.filter(
+          (sett) => sett.key === this.selectedSetting.setting.key && sett.channel === channel
+      )[0].id
       const data = {
-        id: this.selectedSetting.id,
+        id,
         data: JSON.stringify(Object.keys(this.selectedSetting.setting.data).reduce((obj, key) => {
           obj[key] = this.formData.extra[key]
           if (this.everyValue !== null && key === 'every') {
@@ -302,6 +309,10 @@ export default {
   font-style: normal
   font-weight: $normal
   color: $color-black-1
+  &:not(.input)
+    margin-top: 15px
+  &.switch
+    margin-top: 14px
 
 .until-desc
   @include body-10

@@ -32,7 +32,7 @@ export const ALL_SETTINGS = {
         shop: {
             shipping: {
                 key: 'buying_shipping_status',
-                label: 'Shipping',
+                label: 'Shipping Status',
                 desc: 'Get a notification with the shipping status of your purchased order',
                 data: {
                     when: {
@@ -65,6 +65,10 @@ export const ALL_SETTINGS = {
                         value: 65,
                         type: 'slider'
                     },
+                    every: {
+                        value: 1,
+                        type: 'hour'
+                    }
                 }
             },
             trade_expire: {

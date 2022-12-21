@@ -2,7 +2,7 @@
   <div
     :class="{
       'mt-4': !isScreenXS,
-      'm-2': isScreenXS,
+      'm-3': isScreenXS,
     }"
     class="notification-setting-main"
   >
@@ -51,6 +51,7 @@
           :value="currentTab"
           nav-key="notification-tabs"
           class="notification-setting-nav"
+          :class="mobileClass"
           @change="handlePageChange"
         />
       </div>
@@ -178,6 +179,15 @@ export default {
 
 .notification-setting-main::v-deep
   .notification-setting-nav
+    &.mobile
+      margin: 25px 0 20px 0
+      margin-inline: auto
+      .btn-group
+        width: 343px
+        height: 36px
+        button.btn
+          @include body-21
+
     margin: 26px 0 18px 0
     .btn-group
       width: 236px
@@ -190,13 +200,13 @@ export default {
       @include body-8-medium
 
 .push-title
-  @include body-8-medium
+  @include body-4-medium
   font-family: $font-family-sf-pro-display
   font-style: normal
   color: $color-black-1
 
 .push-sub-title
-  @include body-8-regular
+  @include body-21-regular
   font-family: $font-family-sf-pro-display
   font-style: normal
   color: $color-gray-5
