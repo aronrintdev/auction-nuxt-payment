@@ -68,7 +68,10 @@
                 :key="'offer-item-'+ theirItems.id"
                 class="col-4 text-left mx-auto"
               >
-                <img :src="theirItems.inventory.product | getProductImageUrl" class="img-fluid">
+                <div class="image-wrapper">
+                  <img class="pro-image" :src="theirItems.inventory.product | getProductImageUrl"/>
+                  <div class="overlay"></div>
+                </div>
                 <div class="product-name">
                   {{ theirItems.inventory.product.name }}
                 </div>
@@ -99,7 +102,7 @@
               >
                 <div class="image-wrapper">
                   <img class="pro-image" :src="yoursItems.inventory.product | getProductImageUrl"/>
-                  <div class="overlay-offer"></div>
+                  <div class="overlay"></div>
                 </div>
 
                 <div class="product-name">
@@ -419,6 +422,8 @@ export default {
 .items-section
   border: 1px solid $color-gray-th-44
   border-radius: 4px
+  height: 272px
+  width: 451px
   padding: 20px 11px 8px 11px
 
 .view-details
@@ -448,6 +453,8 @@ export default {
   padding: 27px 20px
   box-shadow: 0px 1px 4px $color-black-rgb2
   border-radius: 10px
+  width: 1050px
+  height: 466px
 
 .circle-full, .circle-blue
   width: 19px
@@ -675,17 +682,15 @@ export default {
   @include body-12-normal
   color: $color-gray-5
 .image-wrapper
-  width: 140px
-  height: 160px
-  background: $color-white-4
   position: relative
 .image-wrapper
-  .overlay-offer
+  .overlay
     position: absolute
     top: 0
     left: 0
-    width: 150px
+    width: 100%
+    height: 100%
     background: $color-grey-70
 .pro-image
-  width: 110px
+  width: 130px
 </style>
