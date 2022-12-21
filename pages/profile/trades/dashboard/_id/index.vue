@@ -188,11 +188,10 @@
               </div>
               <div
                 class="center-container d-flex"
-                :class="{'center-cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length > ONE_ITEM),
-                  'center-cont-height-ones':(lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM)
-                }"
+                :class="{'cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length > ONE_ITEM)}"
               >
-                <div class="left-item" :class="{'one-item-margin-top': lastSubmittedOffer.theirs_items.length === ONE_ITEM }">
+                <div class="left-item" :class="{'one-item-margin-top': lastSubmittedOffer.theirs_items.length === ONE_ITEM,
+                 'two-item-margin-top': lastSubmittedOffer.theirs_items.length > ONE_ITEM,}">
                   <div v-for="(item, index) in lastSubmittedOffer.theirs_items" :id="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ?'trade-item-'+index : ''"
                       :key="item.id" class="item-normal">
                     <div class="d-flex align-items-center justify-content-center position-relative image-container">
@@ -223,7 +222,8 @@
                   <div class="long-line" :class="{'w-xl-100' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
                   <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right"></div>
                 </div>
-                <div class="right-item" :class="{'one-item-margin-top': lastSubmittedOffer.yours_items.length === ONE_ITEM }">
+                <div class="right-item" :class="{'one-item-margin-top': lastSubmittedOffer.yours_items.length === ONE_ITEM,
+                 'two-item-margin-top':lastSubmittedOffer.yours_items.length > ONE_ITEM}">
                   <div v-if="lastSubmittedOffer.yours_items.length" >
                     <div v-for="(item, index) in lastSubmittedOffer.yours_items"
                         :id="lastSubmittedOffer.yours_items.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="item.id"
@@ -547,6 +547,9 @@ export default {
     margin-top: 110px
     margin-left: -115%
 
+#your-trade-item-1,#your-trade-item-2
+  @media (min-width: 1200px)
+    padding-top: 4px
 .mt-10p
   margin-top: 10%
 
@@ -852,6 +855,8 @@ export default {
   border-left: 0
   margin-right: 10px
 
+.pointer-left,.pointer-right
+  width: 174px
 .pointer-right-sm
   border: 0.5px solid $color-white-21
   border-right: 0
@@ -940,4 +945,8 @@ export default {
   margin-top: 123px
 .mt-210px
   margin-top: 210px
+.two-item-margin-top
+  margin-top: 22px
+.cont-height
+  min-height: 541px
 </style>
