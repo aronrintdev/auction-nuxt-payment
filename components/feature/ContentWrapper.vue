@@ -106,7 +106,7 @@ export default {
   background-color: $color-gray-1
   .feature-content
     width: 1216px
-    padding: 3rem 0px
+    padding: 46px 0px 73px 0
     h3.benefit-title
       color: #1d1d1d
 @media screen and (max-width: 1280px)

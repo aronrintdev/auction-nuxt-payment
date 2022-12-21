@@ -182,8 +182,6 @@ export default {
     }
   },
   async fetch() {
-    const categoryName = this.$router.currentRoute.query.category.toLowerCase();
-    this.$store.commit('browse/setSelectedCategory', categoryName)
     await this.fetchFilters()
     this.fetchProducts()
   },
@@ -203,6 +201,8 @@ export default {
   },
   created(){
     this.resetFilters()
+    const categoryName = this.$router.currentRoute.query.category?this.$router.currentRoute.query.category.toLowerCase():'';
+    this.$store.commit('browse/setSelectedCategory', categoryName)
   },
   methods: {
     ...mapActions('browse', ['fetchFilters','resetFilters']),

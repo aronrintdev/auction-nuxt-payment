@@ -10,5 +10,6 @@ export default function () {
     selectedOrdering: true,
     search: null,
     sizes:[],
+    isFilter:false,
   }
 }

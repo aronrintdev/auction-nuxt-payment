@@ -59,8 +59,8 @@ export default {
     height: 106px
     width: 221px
     color: $color-black-1
-    margin-right: 75px
-    margin-bottom: 37px
+    margin-right: 66px
+    margin-bottom: 48px
     border-radius: 24px
     border: none
     padding: 0

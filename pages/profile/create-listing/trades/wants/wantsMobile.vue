@@ -992,6 +992,8 @@ export default {
   border-radius: 3px
   background-color: $color-white-1
   border: 0.5px solid $color-gray-23
+  bottom: 76px
+  position: absolute
   @media (min-width: 300px)  and (max-width: 349px)
     width: 294px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -1120,7 +1122,7 @@ export default {
   height: 28px
   padding: 0 25px 0 14px
   right: 15px
-  bottom: 120px
+  bottom: 110px
   position: fixed
   z-index: 80
 .offer-text
