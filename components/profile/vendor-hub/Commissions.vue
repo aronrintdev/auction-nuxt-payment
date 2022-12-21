@@ -341,36 +341,42 @@ export default {
       commissionItems: [
         {
           image: require('~/assets/img/icons/profile/orders.svg'),
+          mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/orders.svg'),
           description: this.$t('vendor_hub.commission.orders_fulfilled'),
           amount: '-',
           color: 'blue'
         },
         {
           image: require('~/assets/img/icons/purchase.svg'),
+          mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/purchase.svg'),
           description: this.$t('vendor_hub.commission.orders_pending'),
           amount: '-',
           color: 'orange'
         },
         {
           image: require('~/assets/img/profile/vendor-hub/infor-orders.svg'),
+          mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/orders-taken-over.svg'),
           description: this.$t('vendor_hub.commission.orders_taken_over'),
           amount: '-',
           color: 'orange'
         },
         {
           image: require('~/assets/img/profile/vendor-hub/singe-dollar.svg'),
+          mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/paid-commision.svg'),
           description: this.$t('vendor_hub.commission.total_commission'),
           amount: '-',
           color: 'blue'
         },
         {
           image: require('~/assets/img/profile/vendor-hub/comission-due.svg'),
+          mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/due-commision.svg'),
           description: this.$t('vendor_hub.commission.total_commission_due'),
           amount: '-',
           color: 'orange'
         },
         {
           image: require('~/assets/img/profile/vendor-hub/tri-star.svg'),
+          mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/vendor-rating.svg'),
           description: this.$t('vendor_hub.commission.vendor_rating'),
           amount: '-',
           color: 'blue'
@@ -488,36 +494,42 @@ export default {
         this.commissionItems = [
           {
             image: require('~/assets/img/icons/profile/orders.svg'),
+            mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/orders.svg'),
             description: this.$t('vendor_hub.commission.orders_fulfilled'),
             amount: String(stats.orders.fulfilled),
             color: 'blue'
           },
           {
             image: require('~/assets/img/icons/purchase.svg'),
+            mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/purchase.svg'),
             description: this.$t('vendor_hub.commission.orders_pending'),
             amount: String(stats.orders.pending),
             color: 'orange'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/infor-orders.svg'),
+            mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/orders-taken-over.svg'),
             description: this.$t('vendor_hub.commission.orders_taken_over'),
             amount: String(stats.orders.taken_over),
             color: 'orange'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/singe-dollar.svg'),
+            mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/paid-commision.svg'),
             description: this.$t('vendor_hub.commission.total_commission'),
             amount: this.$options.filters.toCurrency(parseFloat(stats.commission.paid)),
             color: 'blue'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/comission-due.svg'),
+            mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/due-commision.svg'),
             description: this.$t('vendor_hub.commission.total_commission_due'),
             amount: this.$options.filters.toCurrency(parseFloat(stats.commission.due)),
             color: 'orange'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/tri-star.svg'),
+            mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/vendor-rating.svg'),
             description: this.$t('vendor_hub.commission.vendor_rating'),
             amount: String(stats.vendor_data[0].current_points),
             color: 'blue'

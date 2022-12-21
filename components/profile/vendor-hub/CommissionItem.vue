@@ -1,8 +1,12 @@
 <template>
   <div class="d-flex flex-row flex-sm-column justify-sm-content-center"
        :class="{'m-2 px-1 py-1 mobile-box': mobileClass.length}">
-    <div :class="mobileClass.length ? 'circle rounded-circle' : 'text-center'">
-      <img :src="item.image" :alt="item.description" :height="mobileClass ? 30 : 40" :width="mobileClass ? 30 : 'auto'">
+    <div :class="!mobileClass.length ? 'text-center' : ''">
+      <img :src="isScreenXS ? item.mobile_image : item.image"
+           :alt="item.description"
+           :height="mobileClass ? 32 : 40"
+           :width="mobileClass ? 32 : 'auto'"
+      >
     </div>
     <div class="flex-column flex-sm-row pl-3 pl-sm-0">
       <div class="text-sm-center my-1" :class="mobileClass ? 'body-6-medium text-nowrap text-truncate d-flex': 'body-5-normal title'">
