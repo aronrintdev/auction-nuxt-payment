@@ -773,7 +773,6 @@ export default {
       color: $color-black-1
       &:hover
         border-bottom: 1px solid $color-black-1
-.tablist
 ::v-deep .btn-group
     height: 32px
 ::v-deep .nav-group
