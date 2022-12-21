@@ -158,6 +158,7 @@
   </section>
 </template>
 <script>
+import {Chart} from 'chart.js'
 import { CustomSelect } from '~/components/common'
 import {
   DEFAULT,
@@ -355,13 +356,11 @@ export default {
     },
   },
   created() {
-    // eslint-disable-next-line no-undef
     Chart.plugins.register({
       afterDraw: (chart) => this.chartAfterDrawPlugin(chart, this.emptyOrLoadingText),
     })
   },
   destroyed() {
-    // eslint-disable-next-line no-undef
     Chart.plugins.unregister({
       afterDraw: (chart) => this.chartAfterDrawPlugin(chart, this.emptyOrLoadingText),
     })
