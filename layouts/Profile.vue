@@ -172,6 +172,11 @@ export default {
     .custom-wrapper
       background-color: $color-white-19
 
+@media (max-width: 576px)
+  .wrapper
+    .custom-wrapper
+      background-color: $color-white
+
 .mobile-p-b
   padding-bottom: 98px
 </style>

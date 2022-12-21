@@ -1,6 +1,6 @@
 <template>
   <div v-if="user.vendor_status" class="vendor-page h-100 d-flex flex-column">
-    <div :class="mobileClass ? 'p-3' : 'title-area'">
+    <div v-if="!isScreenXS" class="title-area">
       <span class="title" :class="mobileClass ? 'body-13-medium' : 'heading-4-bold'">
         {{ $t('vendor_hub.vendor_hub') }}
       </span>
@@ -47,18 +47,29 @@ export default {
     return {
       modalActionLoading: false,
       currentTab: 'store_details',
+      /*
       NAV_ITEMS: Object.keys(this.$t('vendor_hub.tabs')).map((key) => {
         return {
           label: this.$t('vendor_hub.tabs.' + key),
           value: key
         }
       })
+      */
     }
   },
   computed: {
     ...mapGetters({
       user: 'auth/user'
-    })
+    }),
+    NAV_ITEMS() {
+      return Object.keys(this.$t('vendor_hub.tabs')).map((key) => {
+        const k = key !== 'documents' ? key : this.isScreenXS ? 'docs' : key
+        return {
+          label: k === 'docs' ? 'Docs.' : this.$t('vendor_hub.tabs.' + k),
+          value: key
+        }
+      })
+    }
   },
   mounted() {
     this.getVendorDocRequirements()
