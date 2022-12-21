@@ -503,6 +503,7 @@ export default {
 ::v-deep .nav-group
   .btn-group
     background-color: $white-5
+    height: auto
 
     .btn
       @include body-6

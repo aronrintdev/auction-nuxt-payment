@@ -1,5 +1,5 @@
 <template>
-  <div class="login-main w-100">
+  <div>
     <b-row v-if="Object.keys(credentials).length">
       <b-col lg="12" class="w-100 py-5 px-5 px-md-0">
         <TwoFaVerificationCodeForm
@@ -9,16 +9,16 @@
         />
       </b-col>
     </b-row>
-    <b-row v-else class="w-100 mx-0">
-      <b-col lg="8" class="px-md-5 px-lg-1 pt-lg-5">
+    <b-row v-else class="w-100">
+      <b-col lg="8" class="w-100 px-sm-1 px-md-5 px-lg-1 pt-lg-5">
         <b-row class="h-100">
           <b-col
             md="7"
             offset-md="3"
-            class="d-flex flex-column align-items-center justify-content-center px-0"
+            class="d-flex flex-column align-items-center justify-content-center"
           >
             <b-row class="justify-content-center flex-column align-items-center"
-              ><b-row class="mb-md-4">
+              ><b-row class="mb-1">
                 <b-col md="12">
                   <div class="right-heading-bold text-center d-none d-lg-flex">
                     {{ $t('auth.login_to_your_account') }}
@@ -30,7 +30,7 @@
                   </div>
                 </b-col>
               </b-row>
-              <b-row class="mb-md-3">
+              <b-row>
                 <b-col md="12">
                   <div class="text-center main-mobile-image d-block d-lg-none">
                     <nuxt-link to="/">
@@ -54,10 +54,10 @@
                   {{ $t('auth.login') }}
                 </button>
               </div>
-              <SocialLoginButtons class="mt-4 d-none d-lg-block" />
+              <SocialLoginButtons class="d-none d-lg-block mt-sm-3" />
 
               <b-row
-                class="my-2 w-100 order-1 order-lg-3 px-4 px-lg-0 mt-5 d-none d-lg-block"
+                class="mb-3 w-100 order-1 order-lg-3 px-4 px-lg-0 mt-5 d-none d-lg-block"
               >
                 <b-col md="12">
                   <div class="text-line-middle">
@@ -71,25 +71,22 @@
               </b-row>
             </b-row>
             <LoginForm
-              class="mt-md-4 w-100 d-flex ml-md-auto px-2 form-login-main"
+              class="w-100 d-flex ml-3 mr-0 login-form-section"
               @verify="handleVerify"
             />
 
-            <b-row class="mt-2 w-100">
+            <b-row class="mt-4 w-100">
               <b-col md="12" class="text-center py-md-4">
                 <b-link
-                  class="text-color-gray-47 text-decoration-underline forgot-pass-text ml-md-3"
+                  class="text-color-gray-47 text-decoration-underline forgot-pass-text ml-3"
                   to="/forgot-password"
                 >
                   {{ $t('auth.forgot_password') }}&quest;
                 </b-link>
               </b-col>
             </b-row>
-            <b-col
-              md="12"
-              class="d-lg-none px-0 text-line-middle-mobile-main d-flex justify-content-center"
-            >
-              <div class="text-line-middle">
+            <b-col md="12 d-lg-none pb-3 ml-auto mt-4">
+              <div class="text-line-middle pl-2">
                 <span
                   class="body-4-bold text-color-gray-22 text-uppercase mx-3"
                 >
@@ -98,7 +95,7 @@
               </div>
             </b-col>
             <div
-              class="body-8 text-color-gray-38 text-center mt-md-2 d-block d-lg-none"
+              class="body-5-normal text-color-gray-38 text-center mt-2 d-block d-lg-none"
             >
               {{ $t('auth.login_via_social_media') }}
             </div>
@@ -273,66 +270,52 @@ export default {
   font-style: normal
   font-weight: $bold
   font-size: 17px
-  line-height: 51px
 .toggle-btn
   width: 320px !important
 .toggler-main
   background-color: $color-gray-75
-  padding: 4px 5px
   border-radius: 20px
-  display: inline
-  width: 100%
-  text-align: center
-  margin: 0 auto
-  margin-left: 5px
-  margin-top: 3px
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 346px
+  height: 36px
+  margin-left: 12px
 .login-btn
   border: none
-  padding: 2px 38px
   background-color: $color-white-1
   border-radius: 20px
-  font-weight: 700
-  font-size: 13px
+  font-weight: 600
+  font-size: 11px
+  height: 28.8px
+  width: 168px
+  padding: 0
 .signup-btn
   border: none
-  padding: 1px 15px
   background-color: $color-gray-75
   border-radius: 20px
-  padding-right: 27px
   font-weight: 500
-  font-size: 13px
+  font-size: 11px
+  height: 28.8px
+  width: 168px
+  display: inline-flex
+  justify-content: center
+  align-items: center
 .main-mobile-image
-  padding: 20px 0px 0px 1px
-@media (max-width: 768px)
-  .login-main::v-deep
-    .main-mobile-image
-      padding: 76px 0px 0px 0px
-    .welcome-back-text
-      font-weight: 600
-      line-height: 18px
-      margin-top: 18px
-    .toggler-main
-      margin: 26px auto 50px auto
-      width: 343px
-      display: flex
-      justify-content: space-between
-      border-radius: 50px
-      .signup-btn, .login-btn
-        width: 168px
-        height: 28px
-        padding: 0px
-        display: flex
-        align-items: center
-        justify-content: center
-    .form-login-main
-      .form-group
-        margin-bottom: 26px
-    .text-line-middle-mobile-main
-      padding: 30px 0 23px 0
-      .text-line-middle
-        width: 161px
-    .sociallogin-btn-mobile
-      margin: 23px 0 142px 0
-      .social_login_btn
-        width: 48px !important
+  padding: 35px 0px 0px 1px
+
+@media (min-width: 320px) and (max-width: 556px)
+  .img-main
+    height: 44px !important
+    width: 133.2px !important
+  .forgot-pass-text
+    font-size: 14px !important
+  .text-line-middle
+    width: 50%
+    margin: 0 auto
+  .welcome-back-text
+    margin-left: auto
+    margin-right: auto
+    margin-top: 18px
+    margin-bottom: 24px
 </style>
