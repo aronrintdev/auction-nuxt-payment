@@ -413,6 +413,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 /* eslint-disable vue/no-unused-components */
 import InfiniteLoading from 'vue-infinite-loading'
 import VendorPurchaseCustomSelect from '~/components/common/CustomSelect.vue'
@@ -507,7 +508,7 @@ export default {
           type: this.$t('vendor_purchase.type'),
         },
       ],
-      productsOptions: [
+      buyerOptions: [
         {
           id: 1,
           text: this.$t('vendor_purchase.products'),
@@ -515,41 +516,143 @@ export default {
           type: 'products',
         },
         {
-          id: 2,
-          text: this.$t('vendor_purchase.orderstatus.pending'),
-          value: 'pending_products',
-          type: 'products',
-        },
-        {
           id: 3,
-          text: this.$t('vendor_purchase.orderstatus.shipped_to_ds'),
-          value: 'shipped_to_ds_products',
+          text: this.$t('vendor_purchase.orderstatus.processing'),
+          value: 'processing,awaiting_shipment_to_ds',
           type: 'products',
         },
         {
           id: 4,
-          text: this.$t('vendor_purchase.orderstatus.received_at_ds'),
-          value: 'received_at_deadstock_products',
+          text: this.$t('vendor_purchase.orderstatus.pending'),
+          value: 'pending',
           type: 'products',
         },
         {
           id: 5,
-          text: this.$t(
-              'vendor_purchase.orderstatus.authenticated_and_shipped'
-          ),
-          value: 'authenticated_and_shipped_products',
+          text: this.$t('vendor_purchase.orderstatus.sent_to_deadstock'),
+          value: 'shipped_to_ds',
           type: 'products',
         },
         {
           id: 6,
-          text: this.$t('vendor_purchase.orderstatus.delivered'),
-          value: 'delivered_products',
+          text: this.$t('vendor_purchase.orderstatus.received_at_deadstock'),
+          value: 'arrived_at_ds,auth_issue,awaiting_auth',
           type: 'products',
         },
         {
           id: 7,
+          text: this.$t('vendor_purchase.orderstatus.authentication_failed'),
+          value: 'auth_failed',
+          type: 'products',
+        },
+        {
+          id: 8,
           text: this.$t('vendor_purchase.orderstatus.cancelled'),
-          value: 'cancelled_products',
+          value: 'cancel,failed,refunded,voided',
+          type: 'products',
+        },
+        {
+          id: 9,
+          text: this.$t('vendor_purchase.orderstatus.authenticated'),
+          value: 'auth_completed,awaiting_shipment_to_buyer',
+          type: 'products',
+        },
+        {
+          id: 10,
+          text: this.$t('vendor_purchase.orderstatus.authenticated_and_shipped'),
+          value: 'shipped_to_buyer',
+          type: 'products',
+        },
+        {
+          id: 11,
+          text: this.$t('vendor_purchase.orderstatus.delivered'),
+          value: 'delivered,completed',
+          type: 'products',
+        },
+        {
+          id: 12,
+          text: this.$t('vendor_purchase.orderstatus.declined'),
+          value: 'declined',
+          type: 'products',
+        },
+        {
+          id: 13,
+          text: this.$t('vendor_purchase.giftcard'),
+          value: '',
+          type: 'giftcard',
+        },
+        {
+          id: 14,
+          text: this.$t('vendor_purchase.purchased'),
+          value: 'complete_giftcard',
+          type: 'giftcard',
+        },
+      ],
+      vendorOptions: [
+        {
+          id: 1,
+          text: this.$t('vendor_purchase.products'),
+          value: '',
+          type: 'products',
+        },
+        {
+          id: 3,
+          text: this.$t('vendor_purchase.orderstatus.ship_to_deadstock_status'),
+          value: 'processing',
+          type: 'products',
+        },
+        {
+          id: 31,
+          text: this.$t('vendor_purchase.orderstatus.awaiting_drop_off_with_shipping_carrier'),
+          value: 'awaiting_shipment_to_ds',
+          type: 'products',
+        },
+        {
+          id: 4,
+          text: this.$t('vendor_purchase.orderstatus.pending'),
+          value: 'pending',
+          type: 'products',
+        },
+        {
+          id: 5,
+          text: this.$t('vendor_purchase.orderstatus.sent_to_deadstock'),
+          value: 'shipped_to_ds',
+          type: 'products',
+        },
+        {
+          id: 6,
+          text: this.$t('vendor_purchase.orderstatus.received_at_deadstock'),
+          value: 'arrived_at_ds,auth_issue,awaiting_auth',
+          type: 'products',
+        },
+        {
+          id: 7,
+          text: this.$t('vendor_purchase.orderstatus.authentication_failed'),
+          value: 'auth_failed',
+          type: 'products',
+        },
+        {
+          id: 8,
+          text: this.$t('vendor_purchase.orderstatus.cancelled'),
+          value: 'cancel,failed,refunded,voided',
+          type: 'products',
+        },
+        {
+          id: 9,
+          text: this.$t('vendor_purchase.orderstatus.authenticated'),
+          value: 'auth_completed',
+          type: 'products',
+        },
+        {
+          id: 10,
+          text: this.$t('vendor_purchase.orderstatus.commission_paid'),
+          value: 'awaiting_shipment_to_buyer,shipped_to_buyer,completed,delivered',
+          type: 'products',
+        },
+        {
+          id: 13,
+          text: this.$t('vendor_purchase.orderstatus.declined'),
+          value: 'declined',
           type: 'products',
         },
         {
@@ -565,6 +668,7 @@ export default {
           type: 'giftcard',
         },
       ],
+      productsOptions: [],
       statusFilter: [],
       typeFilter: [],
       filters: {
@@ -583,6 +687,11 @@ export default {
     }
   },
   computed: {
+
+    ...mapGetters({
+      isVendor: 'auth/isVendor',
+      isAuthenticated: 'auth/authenticated',
+    }),
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     purchaseDataCount: (vm) => {
       if (vm.purchaseDatas && vm.purchaseDatas.data) {
@@ -620,6 +729,7 @@ export default {
 
   mounted() {
     this.loadData()
+    this.productsOptions = (this.isAuthenticated && this.isVendor) ? this.vendorOptions : this.buyerOptions
   },
   methods: {
     infiniteHandler($state) {
@@ -792,7 +902,11 @@ export default {
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
 
-
+::v-deep.custom-selectbox
+  .items
+    .custom-checkbox
+      margin-left: 0 !important
+      padding-right: 20px !important
 .title
   @include body-13
   font-family: $font-family-sf-pro-display
