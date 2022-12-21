@@ -228,9 +228,10 @@
     <vue-bottom-sheet
       ref="sizePicker"
       max-width="auto"
-      max-height="95vh"
+      max-height="85vh"
       :rounded="true"
       :is-full-screen="true"
+      class="mobile-sizes-scroll"
     >
       <div class="all-sizes-bottom-sheet">
         <div class="border-bottom mb-3 pb-2 bottom_sheet_header">
@@ -284,7 +285,7 @@ import ProductTitle from '~/components/shop-by-style/ProductTitle'
 import ProductImageViewer from '~/components/product/ImageViewerV2'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 import ProductSizePicker from '~/components/shop-by-style/SizePicker'
-import ProductBoxConditionPicker from '~/components/product/BoxConditionPicker'
+import ProductBoxConditionPicker from '~/components/shop-by-style/SBSProductConditionPicker'
 import ProductDetailsTab from '~/components/shop-by-style/DetailsTab'
 import AlertModal from '~/components/modal/Alert'
 import { API_PROD_URL } from '~/static/constants/environments'
@@ -894,4 +895,7 @@ export default {
       ::v-deep .list-type .radio-title
         padding-left: 19px
         padding-right: 19px
+.mobile-sizes-scroll
+  ::-webkit-scrollbar-thumb
+    background-color: $color-gray-23
 </style>
