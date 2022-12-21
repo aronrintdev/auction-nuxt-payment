@@ -62,6 +62,7 @@
       <NotificationsTab v-if="onNotifications" @infinite="infiniteScroll" />
       <NotificationSettings v-if="onSettings" />
       <MobileNotificationSettingsTab v-if="onSettingsItemTab" />
+      <Portal to="page-title"> {{ tabTitle }} </Portal>
     </div>
   </client-only>
 </template>
@@ -122,12 +123,16 @@ export default {
     ...mapGetters({
       currentTab: 'notifications/getTab',
       total: 'notifications/getTotal',
+      selectedSetting: 'notifications/getSelectedSetting',
     }),
+    tabTitleSelected() {
+      return this.$t('notifications.settings_titles.' + this.selectedSetting.path)
+    },
     tabTitle() {
       return this.onNotifications
         ? this.$t('notifications.title')
         : this.isScreenXS
-        ? this.$t('notifications.push_notifications')
+        ? (this.selectedSetting? this.tabTitleSelected: this.$t('notifications.push_notifications'))
         : this.$t('notifications.notification_settings')
     },
     onSettings() {
