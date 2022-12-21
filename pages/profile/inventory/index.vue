@@ -29,7 +29,7 @@
         </div>
         <div class="d-flex align-items-center justify-content-between col-xl-9 pr-0">
           <NavGroup
-            :class="`${isScreenXS && 'w-100'} my-2`"
+            :class="`${isScreenXS && 'w-100'} my-2 text-center`"
             :data="TYPES"
             :value="inventoryType"
             :btnGroupStyle="{
@@ -45,7 +45,7 @@
             variant="dark"
             @click="moveToCreateInventory"
           >
-            {{ $t('inventory.create_inventory') }}
+            {{ $t('inventory.add_inventory') }}
           </Button>
         </div>
       </div>
@@ -94,8 +94,8 @@
         <div class="mt-3 mt-xl-0 col-6 col-xl-2 d-flex justify-content-end">
           <FormDropdown
             id="inventory-actions"
-            :icon-arrow-down="require('~/assets/img/icons/arrow-down-blue.svg')"
-            :icon-arrow-up="require('~/assets/img/icons/arrow-up-blue.svg')"
+            :icon-arrow-down="require('~/assets/img/icons/arrow-up-blue.svg')"
+            :icon-arrow-up="require('~/assets/img/icons/arrow-down-blue.svg')"
             :items="ACTIONS"
             :value="action"
             :placeholder="$tc('common.action', 2)"
@@ -112,7 +112,7 @@
         <div class="d-flex align-items-center" @click="moveToCreateInventory">
           <add-svg class="add-svg mr-2" height="13" width="13"/>
           <span class="add-text">
-          {{ $t('createlisting.create_new_inventory') }}
+          {{ $t('inventory.add_inventory') }}
         </span>
         </div>
       </div>
@@ -326,16 +326,12 @@ export default {
       ],
       ACTIONS: [
         {
-          label: this.$t('common.list'),
-          value: 'list',
-        },
-        {
-          label: this.$t('sell.inventory.bulk_delete'),
-          value: 'delete',
-        },
-        {
           label: this.$t('inventory.export_to_csv'),
           value: 'export',
+        },
+        {
+          label: this.$t('sell.inventory.bulk_delist'),
+          value: 'delete',
         },
       ],
       FILTERS: [
@@ -832,5 +828,8 @@ export default {
 
 .mt-8px
   margin-top: 8px
+
+.filter-button
+  font-family: $font-family-sf-pro-display
 
 </style>

@@ -11,7 +11,7 @@
           class="d-flex justify-content-between align-items-center"
         >
           <div class="select-size">
-            {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
+            {{ $t('products.select_size') }}*<span class="d-sm-none">:</span>
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
           </div>
 

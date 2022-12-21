@@ -5,8 +5,10 @@
       class="position-relative mx-auto carousel-wrapper w-100"
     >
       <b-row class="carousel-wrapper-title">
-        <b-col md="12">
-          <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}*</span>
+        <b-col md="12 px-0">
+          <span class="text-uppercase" :class="isScreenXS ? 'body-10-regular font-monserrat' : 'body-8-normal'">
+            {{ $t('products.select_size') }}*
+          </span>
 
           <Button
             v-if="!singleMode"
@@ -114,11 +116,14 @@
 <script>
 import { Button } from '~/components/common'
 import {API_PROD_URL} from '~/static/constants/environments'
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'SizeCarouselResponsive',
 
   components: { Button },
+
+  mixins: [screenSize],
 
   props: {
     sizes: {
@@ -247,6 +252,8 @@ export default {
         &.active
           .card
             border-color: $color-black-4
+            width: 52px
+            height: 52px
 
 
           .price
@@ -255,7 +262,7 @@ export default {
           &::after
             content: " "
             border-bottom: 3px solid $color-blue-5
-            margin-top: 11px
+            margin-top: -3px
             display: block
             margin-left: auto
             margin-right: auto
@@ -283,8 +290,8 @@ export default {
         width: auto
 
     .card
-      width: 52px
-      height: 52px
+      width: 49px
+      height: 49px
       border: 1px solid $color-gray-3
       border-radius: 4px
 
@@ -296,6 +303,7 @@ export default {
       letter-spacing: 0.005em
       text-transform: uppercase
       color: $color-gray-20
+      margin-top: -5px
 
   .view-all-btn
     right: 0
@@ -361,4 +369,7 @@ export default {
     .close-btn
       right: 0
       top: 0
+
+.font-monserrat
+  font-family: $font-montserrat
 </style>
