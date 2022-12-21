@@ -44,7 +44,7 @@
             >
               <span class="dollar-sign">$</span>
               {{ $t('common.they_added') }}
-              <span class="dollar-count mx-1">${{ offer.cash_added/100 }}</span> {{ $t('common.on_top') }}
+              <span class="dollar-count mx-1">${{ offer.cash_added/100 }}</span> {{ $t('common.on_top') }}  <img class="ml-1" src="~/assets/img/info-offer.svg" />
             </div>
           </div>
           <div
@@ -447,6 +447,7 @@ export default {
 .dollar-sign
   @include body-2-bold
   margin-right: 20px
+  font-weight: $normal !important
 
 .desktop-offer
   background: $color-white-1
