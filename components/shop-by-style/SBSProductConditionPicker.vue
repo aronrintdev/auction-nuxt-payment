@@ -4,10 +4,9 @@
         {{ $t('products.box_condition') }}
   
         <b-img
-          v-b-tooltip.hover="{ customClass: 'custom-tooltip' }"
           :src="require('~/assets/img/icons/info-dark-blue.svg')"
-          :title="$t('products.message.box_condition_info')"
           class="ml-1"
+          @click="openConditionInfo"
         />
       </div>
   
@@ -57,7 +56,23 @@
           @change="handleConditionSelect"
         />
       </div>
-  
+      <!-- bottom sheet for all sizes  -->
+        <vue-bottom-sheet
+        ref="conditionInfo"
+        max-width="auto"
+        max-height="35vh"
+        :rounded="true"
+        :is-full-screen="true"
+        class="mobile-sizes-scroll"
+        >
+        <div class="all-sizes-bottom-sheet">
+            <div class="border-bottom mb-3 pb-2 bottom_sheet_header">
+            <h3 class="font-secondary fs-16 fw-7 text-black text-center mb-1">
+                {{ $t('products.box_condition') }}
+            </h3>
+            </div>       
+        </div>
+        </vue-bottom-sheet>
     </div>
   </template>
   <script>
@@ -102,6 +117,10 @@
       getUnderscoreCased(value) {
         return convertToUnderscoreCase(value)
       },
+
+        openConditionInfo() {
+            this.$refs.conditionInfo.open()
+        }
     },
   }
   </script>
