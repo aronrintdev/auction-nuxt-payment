@@ -2,7 +2,7 @@
   <b-row
     v-if="settings"
     :class="{ mobile: isScreenXS }"
-    class="mb-3 align-items-center"
+    class="mb-3"
   >
     <b-col md="5" sm="12">
       <div
@@ -14,12 +14,12 @@
       </div>
       <div :class="{ 'w-75': isScreenXS }" class="sub-title mt-2 mr-2">
         {{ settings.desc }}
-        <div v-if="settings.desc_next" class="mt-4">
+        <div v-if="settings.desc_next && !isScreenXS" class="mt-4">
           {{ settings.desc_next }}
         </div>
       </div>
     </b-col>
-    <b-col v-if="!isScreenXS" class="title-labels w-50" md="4">
+    <b-col v-if="!isScreenXS" class="title-labels w-50 pt-19" md="4">
       <div
         v-if="
           fieldExist(settings.data, 'when') ||
@@ -38,9 +38,9 @@
           :dropdown-class="'outlined'"
           :label="settingsLabel"
           :toggle-class="'h-32'"
-          class="mr-4"
+          class="mr-4 dropdown-actions"
         >
-          <div class="px-3">
+          <div class="pl-3 pr-4 text-truncate overflow-hidden">
             <div class="type-checkboxes">
               <b-form-checkbox
                 v-if="isWhenOptionsActive(settings)"
@@ -93,7 +93,10 @@
       </div>
       <div
         v-if="fieldExist(settings.data, 'until') && !isScreenXS"
-        class="mt-3"
+        class="mt-36"
+        :class="{
+          'mt-50': (!fieldExist(settings.data, 'when') && !fieldExist(settings.data, 'every'))
+        }"
       >
         <vue-slider
           v-if="settings.data.until.type === 'slider'"
@@ -112,7 +115,9 @@
       </div>
     </b-col>
     <b-col v-if="!isScreenXS" md="3">
-      <b-row class="title-labels text-center">
+      <b-row class="title-labels text-center " :class="{
+        'pt-19' : preference
+      }">
         <b-col>
           <NotificationSwitch
             :value="channelSettings[NOTIFICATION_CHANNEL_APP]"
@@ -162,6 +167,10 @@ export default {
     path: {
       type: String,
       default: '',
+    },
+    preference: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -394,10 +403,29 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+.dropdown-actions::v-deep
+  button.btn
+    font-family: $font-family-sf-pro-display
+    @include body-5-medium
+    width: 213px
+    min-width: 213px
+    &.h-32
+      height: 32px
 
 .mobile
   .sub-title
     @include body-10
+.mt-36
+  margin-top: 36px
+
+.mt-50
+  margin-top: 50px
+
+.mt-26
+  margin-top: 36px
+
+.pt-19
+  padding-top: 19px
 
 .h-26px
   @include body-8
@@ -474,6 +502,7 @@ export default {
       background-color: $color-green-16
 
     label
+      text-overflow: ellipsis
       @include body-13
       font-family: $font-family-sf-pro-display
       font-style: normal

@@ -44,7 +44,7 @@
         </template>
       </NotificationSettingsSection>
 
-      <div class="d-flex justify-content-center my-4">
+      <div class="d-flex justify-content-center">
         <NavGroup
           v-if="isVendor"
           :data="tabs"
@@ -62,7 +62,7 @@
       <div v-if="!isScreenXS" class="mt-5 buttons-sec">
         <Button
           :disabled="loading || changedSettings.length === 0"
-          class="mr-2"
+          class="mr-2 action-buttons"
           pill
           variant="dark-blue"
           @click="saveChanges"
@@ -72,6 +72,7 @@
           :disabled="loading"
           pill
           variant="outline-dark"
+          class="action-buttons"
           @click="updateSettings"
           >{{ $t('common.discard_changes') }}
         </Button>
@@ -174,12 +175,19 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+
 .notification-setting-main::v-deep
   .notification-setting-nav
     margin: 26px 0 18px 0
+    .btn-group
+      width: 236px
+      height: 32px
+      button.btn
+        @include body-6
   .buttons-sec
     button
-      width: 217px
+      font-family: $font-family-sf-pro-display
+      @include body-8-medium
 
 .push-title
   @include body-8-medium

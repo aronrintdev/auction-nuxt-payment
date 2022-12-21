@@ -59,6 +59,7 @@ export const ALL_SETTINGS = {
                 key: 'buying_new_offer',
                 label: 'New Trade Offers',
                 desc: 'Get a notification each time a new offer has been received',
+                desc_next: 'Will not be notified until ___ percent of fair trade meter is met',
                 data: {
                     until: {
                         value: 65,

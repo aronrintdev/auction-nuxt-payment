@@ -1,53 +1,61 @@
 <template>
   <div>
     <div class="my-4 d-flex searchbox">
-      <div class="form-group rounded-search-input d-flex align-items-center ma-0 border-0">
-        <img :src="searchIcon" alt="search" class="icon-search"/>
-        <input id="product-search-input" v-model="filters.search" :placeholder="$t('notifications.search')" class="text-capitalize border-0 w-100"
-               type="text" @input="emitFilter">
+      <div
+        class="form-group rounded-search-input d-flex align-items-center ma-0 border-0"
+      >
+        <img :src="searchIcon" alt="search" class="icon-search" />
+        <input
+          id="product-search-input"
+          v-model="filters.search"
+          :placeholder="$t('notifications.search')"
+          class="text-capitalize border-0 w-100"
+          type="text"
+          @input="emitFilter"
+        />
       </div>
     </div>
     <div class="my-4">
       <WhiteDropDown
-          :id="'multiSelect'"
-          :label="$t('notifications.type')"
-          class="mr-4"
+        :id="'multiSelect'"
+        :label="$t('notifications.type')"
+        class="mr-4"
       >
         <div class="px-4">
           <div class="type-checkboxes">
             <b-form-checkbox
-                :checked="isAllSelected"
-                class="d-flex flex-column"
-                @change="selectAllWhenOptions"
+              :checked="isAllSelected"
+              class="d-flex flex-column"
+              @change="selectAllWhenOptions"
             >
               {{ $t('notifications.all') }}
             </b-form-checkbox>
           </div>
           <b-form-checkbox-group
-              v-model="filters.types"
-              :options="types"
-              class="type-checkboxes d-flex flex-column"
-              @change="typeChange"
+            v-model="filters.types"
+            :options="types"
+            class="type-checkboxes d-flex flex-column"
+            @change="typeChange"
           ></b-form-checkbox-group>
         </div>
       </WhiteDropDown>
 
       <WhiteDropDown
-          :id="'dateRange'"
-          :label="$t('notifications.date_range')"
-          class="mr-4"
+        :id="'dateRange'"
+        :label="$t('notifications.date_range')"
+        class="mr-4"
       >
         <div class="px-4 d-flex">
           <SliderInput
-              v-model="filters.years"
-              :fromLabel="$t('filter_sidebar.year_items.from')"
-              :maxLabel="$t('filter_sidebar.year_items.end')"
-              :maxValue="NOTIFICATION_MAX_YEAR"
-              :minLabel="$t('filter_sidebar.year_items.start')"
-              :minRange="NOTIFICATION_MIN_YEAR_RANGE_WINDOW"
-              :minValue="NOTIFICATION_MIN_YEAR"
-              :toLabel="$t('filter_sidebar.year_items.to')"
-              @input="emitFilter"
+            v-model="filters.years"
+            :fromLabel="$t('filter_sidebar.year_items.from')"
+            :maxLabel="$t('filter_sidebar.year_items.end')"
+            :maxValue="NOTIFICATION_MAX_YEAR"
+            :minLabel="$t('filter_sidebar.year_items.start')"
+            :minRange="NOTIFICATION_MIN_YEAR_RANGE_WINDOW"
+            :minValue="NOTIFICATION_MIN_YEAR"
+            :toLabel="$t('filter_sidebar.year_items.to')"
+            @input="emitFilter"
           >
           </SliderInput>
         </div>
@@ -58,18 +66,18 @@
 
 <script>
 import _ from 'lodash'
-import WhiteDropDown from '~/components/profile/notifications/WhiteDropDown';
-import searchIcon from '~/assets/img/icons/search.svg';
-import SliderInput from '~/components/common/SliderInput';
+import WhiteDropDown from '~/components/profile/notifications/WhiteDropDown'
+import searchIcon from '~/assets/img/icons/search.svg'
+import SliderInput from '~/components/common/SliderInput'
 import {
   NOTIFICATION_MAX_YEAR,
   NOTIFICATION_MIN_YEAR,
-  NOTIFICATION_MIN_YEAR_RANGE_WINDOW
-} from '~/static/constants/notifications';
+  NOTIFICATION_MIN_YEAR_RANGE_WINDOW,
+} from '~/static/constants/notifications'
 
 export default {
   name: 'NotificationFilters',
-  components: {SliderInput, WhiteDropDown},
+  components: { SliderInput, WhiteDropDown },
   data() {
     return {
       isAllSelected: false,
@@ -79,20 +87,20 @@ export default {
       filters: {
         types: [],
         years: null,
-        search: null
+        search: null,
       },
       searchIcon,
-      types: Object.keys(this.$t('notifications.types')).map(key => {
+      types: Object.keys(this.$t('notifications.types')).map((key) => {
         return {
           text: this.$t(`notifications.types.${key}`),
           value: key,
         }
-      })
+      }),
     }
   },
   methods: {
     selectAllWhenOptions(e) {
-      this.filters.types = e ? this.types.map(a => a.value) : []
+      this.filters.types = e ? this.types.map((a) => a.value) : []
       this.emitFilter()
     },
     typeChange(e) {
@@ -101,8 +109,8 @@ export default {
     },
     emitFilter: _.debounce(function () {
       this.$emit('filter', this.filters)
-    }, 500)
-  }
+    }, 500),
+  },
 }
 </script>
 
@@ -135,7 +143,7 @@ export default {
   .rounded-search-input
     width: 961px
     border-radius: 8px
-    background: $color-white-1
+    background: $color-white-5
     padding: 13px 21px
 
 

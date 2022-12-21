@@ -32,6 +32,7 @@
         <NotificationSettingsItem
           :path="path"
           :settings="item"
+          :preference="preference"
         ></NotificationSettingsItem>
       </div>
     </div>

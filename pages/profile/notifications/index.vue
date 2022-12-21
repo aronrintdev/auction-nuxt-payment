@@ -187,4 +187,9 @@ export default {
     font-weight: $medium
   .notification-nav
     margin: 20px 0 18px 0
+    .btn-group
+      width: 236px
+      height: 32px
+      button.btn
+        @include body-6
 </style>
