@@ -1,5 +1,5 @@
 <template>
-  <b-row class="my-2 mx-3">
+  <b-row class="my-2 mx-3 sku-wrapper">
     <b-col md="6" class="text-center w-50 line-bar">
       <p class="fw-6 fs-13 lh-16 mb-1">
         {{ $t('shop_by_style.style_id') }}
@@ -156,10 +156,12 @@
       <AlertModal id="message-modal" :message="message" icon="tick" />
       <div class="d-flex align-items-center justify-content-between mt-22">
         <p class="fw-6 fs-16">{{ $t('shop_by_style.more_look') }}</p>
-        <p class="fw-5 fs-14 view-all">{{ $t('shop_by_style.view_all') }}</p>
+        <NuxtLink :to="`/shop-by-style/${style.styleID}`" tag="div">
+          <p class="fw-5 fs-14 view-all">{{ $t('shop_by_style.view_all') }}</p>
+        </NuxtLink>
       </div>
       <ProductCarousel
-        :products="style.products"
+        :products="filteredProducts"
         :pageName="pageName"
         itemWidth="164px"
         autoWidth
@@ -271,6 +273,14 @@
         </div>
       </div>
     </vue-bottom-sheet>
+    <Portal to="back-icon-slot">
+      <img
+        :src="require('~/assets/img/icons/back.svg')"
+        alt="back-arrow"
+        class="float-left"
+        @click="backTo"
+      />
+    </Portal>
   </b-row>
 </template>
 
@@ -398,7 +408,7 @@ export default {
     }),
 
     filteredProducts() {
-      return this.style.products.filter(
+      return this.style.products?.filter(
         (item) => item.sku !== this.$route.params.sku
       )
     },
@@ -483,6 +493,9 @@ export default {
     },
     closeSizePicker() {
       this.$refs.sizePicker.close()
+    },
+    backTo() {
+      this.$router.push(`/shop-by-style/${this.style.styleID}`)
     },
     handleShippingOptionSelected(shippingOption) {
       this.shippingOption = shippingOption
@@ -788,7 +801,8 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
+.sku-wrapper
+  padding-bottom: 70px
 .view-all
   color: $color-gray-30
 .line-bar
