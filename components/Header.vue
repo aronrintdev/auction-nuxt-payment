@@ -7,8 +7,7 @@
       <b-navbar-toggle target="top-menu-sidebar">
         <template #default>
           <img
-            width="25px"
-            :src="require('~/assets/img/icons/menu.svg')"
+            :src="require('~/assets/img/icons/menu_v2.svg')"
             alt="..."
           />
         </template>
@@ -62,7 +61,7 @@
         <PortalTarget name="cart-icon-slot">
           <img
             height="22px"
-            :src="require('~/assets/img/icons/bag.png')"
+            :src="require('~/assets/img/icons/basket.svg')"
             alt="..."
           />
         </PortalTarget>
