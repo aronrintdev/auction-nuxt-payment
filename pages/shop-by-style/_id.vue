@@ -334,4 +334,6 @@ export default {
   margin: 0 auto
 ::v-deep .Magic360-container
   max-width: 305px !important
+  @media (max-width: 576px)
+    max-width: 174px !important
 </style>
