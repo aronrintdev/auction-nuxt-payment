@@ -237,7 +237,9 @@
           <h3 class="font-secondary fs-16 fw-7 text-black text-center mb-1">
             {{ $t('shop_by_style.general.all_sizes') }}
           </h3>
-          <p class="text-center mb-1 fs-15 fw-4">{{ product ? product.name : '' }}</p>
+          <p class="text-center mb-1 fs-15 fw-4">
+            {{ product ? product.name : '' }}
+          </p>
         </div>
         <div class="bottom_sheet_body">
           <div class="radio_wrapper">
@@ -281,7 +283,7 @@ import { NavGroup, Loader } from '~/components/common'
 import ProductTitle from '~/components/shop-by-style/ProductTitle'
 import ProductImageViewer from '~/components/product/ImageViewerV2'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
-import ProductSizePicker from '~/components/product/SizePicker'
+import ProductSizePicker from '~/components/shop-by-style/SizePicker'
 import ProductBoxConditionPicker from '~/components/product/BoxConditionPicker'
 import ProductDetailsTab from '~/components/shop-by-style/DetailsTab'
 import AlertModal from '~/components/modal/Alert'
@@ -824,13 +826,11 @@ export default {
     color: $black
 
 .size-picker::v-deep
-  padding: 0
-  margin: 0 -16px
-  max-width: 100vw
-  width: 100vw
+  padding: 0 !important
+  margin: 0
   .carousel-wrapper
     .owl-item
-      margin-right: 17px
+      margin-right: 17px !important
     .row
       margin: 0 16px
 ::v-deep .box-conditions
@@ -870,10 +870,11 @@ export default {
   color: $color-white-1
 
 .product-image-wrapper
+  margin: 0 auto
   margin-top: 13px
-  width: 286px
-  height: 286px
-  margin-left: 45px
+  padding: 0
+  width: 268px
+  height: 268px
 
 .buy-now-section, .out-of-stock-section
   position: fixed

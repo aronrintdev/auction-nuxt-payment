@@ -336,6 +336,7 @@ export default {
 .owl-carousel
   .owl-item
     width: 70px
+    marging-right: 38px !important
 
 .container
   .carousel-wrapper
@@ -350,7 +351,8 @@ export default {
       display: block
 
     .owl-carousel
-
+      .owl-item
+        // margin-right: 38px !important
       .item
         cursor: pointer
         margin: 0
