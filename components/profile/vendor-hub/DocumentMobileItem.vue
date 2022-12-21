@@ -1,7 +1,7 @@
 <template>
   <div>
     <hr class="my-3" />
-    <b-row class="d-flex align-items-center body-9-medium">
+    <b-row class="d-flex align-items-center body-9-medium px-3">
       <b-col cols="5">{{document.name}}</b-col>
       <b-col :cols="documentStatusText ? 5 : 7" :class="{'text-right': !documentStatusText.length}">
         <span v-if=documentStatusText class="status-text" :class="documentStatusText.toLowerCase()">{{ documentStatusText }}</span>
@@ -11,7 +11,7 @@
       </b-col>
       <b-col v-if="documentStatusText" cols="2" class="text-right">
         <a role="button" class="d-inline-block w-full p-1 text-black" @click="$emit('selected', document)">
-          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          <img :src="require('~/assets/img/vendorhub/arrow-mobile.svg')" />
         </a>
       </b-col>
     </b-row>
