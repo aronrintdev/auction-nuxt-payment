@@ -24,6 +24,12 @@
     </div>
     <client-only v-if="mobileClass">
       <Portal to="page-title">{{ $t('vendor_hub.vendor_hub') }}</Portal>
+      <Portal to="back-icon-slot">
+        <a @click.stop="$router.go(-1)">
+          <img src="~/assets/img/icons/back.svg" />
+        </a>
+      </Portal
+      >
     </client-only>
   </div>
 </template>
