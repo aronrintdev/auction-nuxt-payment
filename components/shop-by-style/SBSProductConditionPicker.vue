@@ -4,10 +4,9 @@
       {{ $t('products.box_condition') }}
 
       <b-img
-        v-b-tooltip.hover="{ customClass: 'custom-tooltip' }"
         :src="require('~/assets/img/icons/info-dark-blue.svg')"
-        :title="$t('products.message.box_condition_info')"
         class="ml-1"
+        @click="openConditionInfo"
       />
     </div>
 
@@ -61,17 +60,41 @@
         @change="handleConditionSelect"
       />
     </div>
+    <!-- bottom sheet for all sizes  -->
+    <MobileBottomSheet
+      :height="'35%'"
+      :open="isOpen"
+      :headerStyle="{ display: 'none !important' }"
+      @closed="closed"
+    >
+      <div class="font-sf-pro">
+        <div class="header">
+          <div>{{ $t('products.box_condition') }}</div>
+        </div>
+        <div class="mt-4 d-flex bx-condition">
+          <b-img
+            :src="require('~/assets/img/icons/info-dark-blue.svg')"
+            class="info-img"
+          />
+          <p class="w-100 fw-4 fs-13">
+            {{ $t('shop_by_style.box_condition_detail') }}
+          </p>
+        </div>
+      </div>
+    </MobileBottomSheet>
   </div>
 </template>
 <script>
 import { convertToUnderscoreCase } from '~/utils/string'
 import CustomDropdown from '~/components/common/CustomDropdown'
+import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
 
 export default {
   name: 'ProductBoxConditionPicker',
 
   components: {
     CustomDropdown,
+    MobileBottomSheet,
   },
 
   props: {
@@ -87,6 +110,7 @@ export default {
 
   data() {
     return {
+      isOpen: false,
       condition: this.conditions.find((c) => c.id === this.value),
       conditionsOptions: this.conditions.map((item) => ({
         text: item.name,
@@ -107,60 +131,93 @@ export default {
     getUnderscoreCased(value) {
       return convertToUnderscoreCase(value)
     },
+
+    openConditionInfo() {
+      this.isOpen = true
+    },
+    closed() {
+      this.isOpen = false
+      this.$emit('closed')
+    },
   },
 }
 </script>
 <style lang="sass" scoped>
-@import '~/assets/css/_variables'
+  @import '~/assets/css/_variables'
 
-::v-deep.custom-tooltip
-  .tooltip-inner
-    background: $white
-    color: $black
-    border-radius: 16px
-    border: 1px solid $color-gray-23
-    border-bottom: none
-    box-shadow: 0 4px 14px $color-gray-23
+.info-img
+    width: 12px
+    margin-left: 35px
+.font-sf-pro
+  font-family: $font-family-sf-pro-display
 
-  .arrow::before
-    border-top-color: $white
+.label
+  @include body-5-medium
+  color: $color-gray-5
 
-.container
-  width: auto
-  margin-left: -7.5px
-  margin-right: -7.5px
+.value
+  @include body-5-regular
+  color: $color-black-1
 
-  .box-condition-text
-    @include body-5-medium
-    @media (min-width: 576px)
-      @include body-8-normal
-      color: $color-black-1
-      text-transform: uppercase
-      padding: 0
-      margin: 2px 0 0
-      position: relative
+.header
+  @include body-17-medium
+  color: $color-black-1
+  text-align: center
+  border-bottom: 0.5px solid $color-gray-47
+  padding-bottom: 22px
+  ::v-deep.custom-tooltip
+    .tooltip-inner
+      background: $white
+      color: $black
+      border-radius: 16px
+      border: 1px solid $color-gray-23
+      border-bottom: none
+      box-shadow: 0 4px 14px $color-gray-23
 
-    img
-      width: 13px
-      height: 13px
-      margin-top: -5px
-      cursor: help
+    .arrow::before
+      border-top-color: $white
 
-  .box-condition-btns
-    margin-top: 12px
+  .container
+    width: auto
+    margin-left: -7.5px
+    margin-right: -7.5px
 
-    .btn
-      @include body-8-normal
-      color: $color-gray-23
-      margin-right: 6px
-
-      &:first-child
-        padding-left: 0
-        margin-left: 0
-
-      &.active
+    .box-condition-text
+      @include body-5-medium
+      @media (min-width: 576px)
+        @include body-8-normal
         color: $color-black-1
+        text-transform: uppercase
+        padding: 0
+        margin: 2px 0 0
+        position: relative
 
-.dropdown-wrapper
-  padding: 15px 30px 0 30px
+      img
+        width: 13px
+        height: 13px
+        margin-top: -5px
+        cursor: help
+
+    .box-condition-btns
+      margin-top: 12px
+
+      .btn
+        @include body-8-normal
+        color: $color-gray-23
+        margin-right: 6px
+
+        &:first-child
+          padding-left: 0
+          margin-left: 0
+
+        &.active
+          color: $color-black-1
+
+  .dropdown-wrapper
+    padding: 15px 30px 0 30px
+.bx-condition
+  align-items: baseline
+  gap: .6875rem
+  p
+      color: $color-black-18
 </style>
