@@ -84,7 +84,7 @@
           </div>
           <div class="w-10 text-break d-flex flex-column align-items-center justify-content-center">
             <div class="trade-icon-text mb-2 px-1">{{ $t(`common.${offer.condition}`) }}</div>
-            <img width="45" height="45" :src="require('~/assets/img/icons/trade-icon.svg')" />
+            <img width="45" height="45" :src="require('~/assets/img/trade-center.svg')" />
           </div>
           <div class="w-45 items-section">
             <div class="text-center owner-name-desktop">
@@ -97,7 +97,11 @@
                 :key="'offer-item-'+ yoursItems.id"
                 class="col-4 text-left mx-auto"
               >
-                <img :src="yoursItems.inventory.product | getProductImageUrl" class="img-fluid">
+                <div class="image-wrapper">
+                  <img class="pro-image" :src="yoursItems.inventory.product | getProductImageUrl"/>
+                  <div class="overlay-offer"></div>
+                </div>
+
                 <div class="product-name">
                   {{ yoursItems.inventory.product.name }}
                 </div>
@@ -670,4 +674,18 @@ export default {
   font-style: normal
   @include body-12-normal
   color: $color-gray-5
+.image-wrapper
+  width: 140px
+  height: 160px
+  background: $color-white-4
+  position: relative
+.image-wrapper
+  .overlay-offer
+    position: absolute
+    top: 0
+    left: 0
+    width: 150px
+    background: $color-grey-70
+.pro-image
+  width: 110px
 </style>
