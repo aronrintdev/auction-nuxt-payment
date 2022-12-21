@@ -57,34 +57,40 @@
         />
       </div>
       <!-- bottom sheet for all sizes  -->
-        <vue-bottom-sheet
-        ref="conditionInfo"
-        max-width="auto"
-        max-height="35vh"
-        :rounded="true"
-        :is-full-screen="true"
-        class="mobile-sizes-scroll"
+        <MobileBottomSheet
+            :height="'35%'"
+            :open="isOpen"
+            :headerStyle="{ display: 'none !important' }"
+            @closed="$emit('closed')"
         >
-        <div class="all-sizes-bottom-sheet">
-            <div class="border-bottom mb-3 pb-2 bottom_sheet_header">
-            <h3 class="font-secondary fs-16 fw-7 text-black text-center mb-1">
-                {{ $t('products.box_condition') }}
-            </h3>
-            </div>       
-        </div>
-        </vue-bottom-sheet>
+            <div class="font-sf-pro">
+                <div class="header">
+                    <div>{{ $t('products.box_condition') }}</div>
+                </div>
+                <div class="mt-4 d-flex bx-condition">
+                    <b-img
+                        :src="require('~/assets/img/icons/info-dark-blue.svg')"
+                        class="info-img"
+                        @click="openConditionInfo"
+                    />
+                    <p class="w-100 fw-4 fs-13">{{ $t('shop_by_style.box_condition_detail') }}</p>
+                </div>
+            </div>
+        </MobileBottomSheet>
     </div>
   </template>
   <script>
   import { convertToUnderscoreCase } from '~/utils/string'
   import CustomDropdown from '~/components/common/CustomDropdown'
+  import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
   
   
   export default {
     name: 'ProductBoxConditionPicker',
   
     components: {
-      CustomDropdown
+      CustomDropdown,
+      MobileBottomSheet
     },
   
     props: {
@@ -100,6 +106,7 @@
   
     data() {
       return {
+        isOpen: false,
         condition: this.conditions.find(c => c.id === this.value),
         conditionsOptions: this.conditions.map((item) => ({ text: item.name, value: item.id })),
       }
@@ -119,14 +126,34 @@
       },
 
         openConditionInfo() {
-            this.$refs.conditionInfo.open()
+            this.isOpen = true
         }
     },
   }
   </script>
   <style lang="sass" scoped>
   @import '~/assets/css/_variables'
-  
+
+.info-img
+    width: 12px
+    margin-left: 35px
+.font-sf-pro
+  font-family: $font-family-sf-pro-display
+
+.label
+  @include body-5-medium
+  color: $color-gray-5
+
+.value
+  @include body-5-regular
+  color: $color-black-1
+
+.header
+  @include body-17-medium
+  color: $color-black-1
+  text-align: center
+  border-bottom: 0.5px solid $color-gray-47
+  padding-bottom: 22px
   ::v-deep.custom-tooltip
     .tooltip-inner
       background: $white
@@ -177,6 +204,10 @@
   
   .dropdown-wrapper
     padding: 15px 30px 0 30px
-  
+.bx-condition 
+    align-items: baseline
+    gap: .6875rem
+    p
+        color: $color-black-18
   </style>
   

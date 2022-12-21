@@ -5306,7 +5306,8 @@
     "view_all": "View All",
     "style_id": "Style ID",
     "package_condition": "Package Condition",
-    "4_installments": "or 4 Installments"
+    "4_installments": "or 4 Installments",
+    "box_condition_detail": "Box condition refers to the current condition of the shoebox."
   },
   "coupons": {
     "errors": {
