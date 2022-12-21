@@ -1,28 +1,25 @@
 <template>
-  <b-row class="w-100">
-    <b-col md="12">
-      <b-row>
-        <b-col md="12">
-          <b-table
-            responsive
-            :items="items"
-            striped
-            :fields="fields"
-            thead-class="d-none"
-            borderless
-          >
-            <template #cell(type)="data">
-              <span class="body-4-medium">{{ data.item.type }}</span>
-            </template>
-            <template #cell()="data">
-              <span v-if="isSizeSelected(data.field.key)" class="body-4-medium">{{ data.value }}</span>
-              <span v-else class="body-4-regular">{{ data.value }}</span>
-            </template>
-          </b-table>
-        </b-col>
-      </b-row>
-    </b-col>
-  </b-row>
+  <div class="w-100">
+    <b-table
+      responsive
+      :items="items"
+      striped
+      :fields="fields"
+      thead-class="d-none"
+      borderless
+      class="sbs-size-guide-table"
+    >
+      <template #cell(type)="data">
+        <span class="body-4-medium no-wrap">{{ data.item.type }}</span>
+      </template>
+      <template #cell()="data">
+        <span v-if="isSizeSelected(data.field.key)" class="body-4-medium">{{
+          data.value
+        }}</span>
+        <span v-else class="body-4-regular">{{ data.value }}</span>
+      </template>
+    </b-table>
+  </div>
 </template>
 <script>
 import { SIZE_GUIDE_ITEMS } from '~/static/constants/sizes'
@@ -35,7 +32,7 @@ export default {
       required: false,
       default() {
         return {}
-      }
+      },
     },
   },
   data() {
@@ -68,11 +65,11 @@ export default {
   },
   methods: {
     isSizeSelected(sizeKey) {
-      return this.items.find(item => {
+      return this.items.find((item) => {
         if (item.label_key === this.selectedSize.type) {
           const sizes = Object.keys(item).length - 1
 
-          for (let i = 1; i < sizes ; i++) {
+          for (let i = 1; i < sizes; i++) {
             if (item[`s${i}`] === this.selectedSize.size) {
               return `s${i}` === sizeKey
             }
@@ -81,7 +78,7 @@ export default {
 
         return false
       })
-    }
+    },
   },
 }
 </script>

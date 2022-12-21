@@ -63,7 +63,7 @@
         <div class="accordion-filter-item bg-transparent w-100 border-0 mt-4">
           <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header">
             <button
-              v-b-toggle.collapse-product-detail
+              v-b-toggle="`collapse-product-detail${product.id}`"
               aria-controls="panelsStayOpen-collapseOne"
               aria-expanded="false"
               class="p-0 accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
@@ -77,8 +77,8 @@
             </button>
           </h2>
           <b-collapse
-            id="collapse-product-detail"
-            accordion="product-detail"
+            :id="`collapse-product-detail${product.id}`"
+            :accordion="`product-detail${product.id}`"
             role="tabpanel"
             class="accordion-filter-collapse"
             aria-labelledby="panelsStayOpen-headingOne"
@@ -112,7 +112,7 @@
             class="mt-4 accordion-filter-header"
           >
             <button
-              v-b-toggle.size-guide-collapse
+              v-b-toggle="`size-guide-collapse${product.id}`"
               aria-controls="panelsStayOpen-collapseOne"
               aria-expanded="false"
               class="p-0 accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
@@ -126,8 +126,8 @@
             </button>
           </h2>
           <b-collapse
-            id="size-guide-collapse"
-            accordion="size-guide-collapse"
+            :id="`size-guide-collapse${product.id}`"
+            :accordion="`size-guide-collapse${product.id}`"
             role="tabpanel"
             class="accordion-filter-collapse"
             aria-labelledby="panelsStayOpen-headingOne"
