@@ -10,7 +10,7 @@
         {{ title }}
       </span>
 
-      <div class="col-5 px-0 d-flex justify-content-between align-items-center">
+      <div v-if="collapsable" class="col-5 px-0 d-flex justify-content-between align-items-center">
         <span class="value text-truncate">{{ data }}</span>
         <arrow-down-black :class="{'reverse': shown}" />
       </div>
@@ -44,6 +44,10 @@ export default {
     data: {
       type: String,
       default: ''
+    },
+    collapsable: {
+      type: Boolean,
+      default: true
     },
     titleSectionClass: {
       type: String,

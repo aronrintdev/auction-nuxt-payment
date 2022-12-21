@@ -60,7 +60,6 @@ export default {
    width: 94px
 
   &:hover
-    transform: scale(1.1)
     cursor: pointer
 
   .feature-title

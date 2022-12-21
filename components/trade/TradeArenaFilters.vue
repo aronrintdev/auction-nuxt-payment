@@ -14,7 +14,7 @@
         </div>
         <FilterGroup
           :title="$t('home_page.categories')"
-          :options="categoryOptions"
+          :options="categoryOption"
           :selectedValues="selectedFilters.categories"
           name="category"
           @change="(value) => filterGroupChanged(value, 'categories')"
@@ -35,8 +35,8 @@
           @change="(value) => filterGroupChanged(value, 'sizes')"
         />
       </div>
-      <div class="d-flex align-items-center justify-content-between filters-sheet-footer mb-4 pb-4">
-        <button class="btn btn-pills" @click="resetFilters">{{ $t('auctions.frontpage.filterbar.reset') }}</button>
+      <div class="d-flex align-items-center justify-content-between filters-sheet-footer">
+        <button class="btn btn-pills rest-btn" @click="resetFilters">{{ $t('auctions.frontpage.filterbar.reset') }}</button>
         <button class="btn btn-pills apply-btn" @click="applyFilters">{{ $t('auctions.frontpage.filterbar.apply_filters') }}</button>
       </div>
     </div>
@@ -59,7 +59,11 @@ export default {
   },
   data(){
     return {
-      categoryOptions: [],
+      categoryOption: [
+        { text: this.$t('common.categories.footwear'), value: 'footwear' },
+        { text: this.$t('common.categories.apparel'), value: 'Apparel' },
+        { text: this.$t('common.categories.accessories'), value: 'Accessories' }
+      ],
       selectedFilters: {
         sizeTypes: [],
         category: '',
@@ -69,6 +73,8 @@ export default {
       SORT_OPTIONS: [
         { text: this.$t('trades.create_listing.vendor.wants.price_low_to_high'), value: 'price_low_to_high' },
         { text: this.$t('trades.create_listing.vendor.wants.price_high_to_low'), value: 'price_high_to_low' },
+        { text: this.$t('trades.create_listing.vendor.wants.size_small_to_large'), value: 'size_small_to_large' },
+        { text: this.$t('trades.create_listing.vendor.wants.size_large_to_small'), value: 'size_large_to_small' },
       ],
     }
   },
@@ -99,6 +105,10 @@ export default {
     },
   },
   mounted() {
+    this.categoryOption = this.categoryOption.map(cat => ({
+      label: cat.text,
+      value: cat.value,
+    }))
     // Get categories list
     this.$axios.get('/categories', {
       params: {
@@ -179,6 +189,9 @@ export default {
       color: $white
       background: $color-blue-20
       border-color: $color-blue-20
+      margin-left: 3rem
+    .rest-btn
+      background: $color-white-1
 .filter-group
   border-bottom: 1px solid $color-gray-62
   &-title
@@ -273,4 +286,7 @@ export default {
       z-index: 1000
   @media (min-width: 576px)
     display: none
+.filters-sheet-footer
+  position: absolute
+  bottom: 0
 </style>

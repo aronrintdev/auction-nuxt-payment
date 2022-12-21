@@ -88,6 +88,7 @@
                       border-radius="4px"
                       dropDownHeight="38px"
                       variant="white"
+                      :showFilterBtn="false"
                       @change="changeCategory"
                     />
                   </div>
@@ -113,6 +114,7 @@
                       borderRadiusClose="4px 4px 0 0"
                       padding-x="10px"
                       border-radius="4px"
+                      :showFilterBtn="false"
                       @change="changeSizeTypeFilter"
                     />
                   </div>
@@ -138,6 +140,7 @@
                       }"
                       padding-x="10px"
                       border-radius="4px"
+                      :showFilterBtn="false"
                       @change="changeSizeFilter"
                     />
                   </div>
@@ -170,6 +173,7 @@
                     marginTop: '0 !important',
                     color: '#000'
                   }"
+                  :showFilterBtn="false"
                   @change="changeOrderFilter"
                 />
               </client-only>
@@ -223,7 +227,7 @@
               </b-row>
             </div>
             <div class="overlay-container position-fixed">
-              <div  v-if="showOffer" class="d-flex create-trade-drag-drop-item-float mx-0 justify-content-center text-center py-4"
+              <div  class="d-flex create-trade-drag-drop-item-float mx-0 justify-content-center text-center py-4"
                   @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
                 <div v-if="getTradeItems.length < 1">
                   <div class="create-trade-drag-drop-heading">
@@ -241,8 +245,9 @@
                       :key="'selected-'+index+prod.id" class="create-trade-item-web mr-4">
                     <div class="position-relative d-flex justify-content-center align-items-center sm-img-cont">
                       <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm position-absolute">x{{ prod.quantity || 1 }}</div>
-                      <div class="create-trade-minus-icon-web position-absolute" @click="decrementOrRemoveItem(prod.id)">
-                      <div class="create-trade-minus-line-sm"></div>
+
+                      <div class="create-trade-remove-icon-web position-absolute" @click="decrementOrRemoveItem(prod.id)">
+                        <img :src="require('~/assets/img/minusSign.svg')" />
                       </div>
                     <div class="create-trade-item-image-div-sm position-relative">
                       <object
@@ -278,20 +283,14 @@
                     </div>
                   </div>
                 </b-row>
-                <img :src="require('~/assets/img/trades/updown.svg')" role="button" class="position-absolute up-down-arrow-empty" @click="showOffer = !showOffer">
               </div>
 
               <b-row  class="justify-content-end my-2">
               <b-col class="position-relative">
-                <b-btn :disabled="getTradeItems.length < 1" class="create-trade-next-web"
+                <b-btn v-if="getTradeItems.length" class="create-trade-next-web"
                        @click="$router.push('/profile/create-listing/trades/wants')">
                   {{ $t('create_listing.trade.offer_items.next') }}
                 </b-btn>
-                <div v-if="!showOffer" class="offers-items d-flex align-items-center" role="button" @click="showOffer = !showOffer">
-                  <img :src="require('~/assets/img/trades/updown.svg')">
-                  <span class="offer-text">{{$t('trades.offer')}}</span>
-                  <div v-if="getTradeItems.length" class="counter-icon position-absolute d-flex justify-content-center align-items-center">{{getTradeItems.length}}</div>
-                </div>
               </b-col>
               </b-row>
             </div>
@@ -858,7 +857,6 @@ export default {
 .create-trade-next-web
   padding: 0 25px 0 14px
   right: 15px
-  bottom: 120px
   position: fixed
   z-index: 80
   width: 151px
@@ -867,7 +865,7 @@ export default {
   border-radius: 4px
   border: 1px solid $color-blue-20
   margin-top: 10px
-  margin-right: 120px
+  margin-right: 25px
   color: $color-white-1
   @include body-13
   font-family: $font-sp-pro
@@ -897,12 +895,13 @@ export default {
 .create-trade-quantity-car-sm
   left: 10px
   top: 10px
-.create-trade-minus-icon-web
+.create-trade-remove-icon-web
   right: 10px
   top: 10px
   z-index: 102
 .sm-img-cont
-  height: 180px
+  height: 185px
+  width: 164px
   background: $color-white-1
   padding: 25px
 .create-trade-item-web
@@ -910,7 +909,7 @@ export default {
 
 .overlay-container
   z-index: 1000
-  bottom:  150px
+  bottom:  76px
   width: 75%
 
   @media (min-width: 1500px) and (max-width: 1600px)

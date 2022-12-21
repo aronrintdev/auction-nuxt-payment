@@ -310,7 +310,8 @@
       "invalid_token": "Password reset token is invalid or expired",
       "invalid_verification_code": "Invalid verification code.",
       "code_generation_failed": "Verification code generation failed."
-    }
+    },
+    "forgot_password_placeholder": "joesmith@gmail.com"
   },
   "signup": {
     "or": "OR",
@@ -701,6 +702,7 @@
     },
     "inventory": {
       "bulk_delete": "Bulk Delete",
+      "bulk_delist": "Bulk Delist",
       "sku": "SKU",
       "package": "Package",
       "box": "Box",
@@ -3360,6 +3362,7 @@
     "product": "Product",
     "date_listed": "Date Listed",
     "qty": "Qty",
+    "quantity": "Quantity",
     "price": "Price",
     "offers": "Offers",
     "actions": "Actions",
@@ -3551,7 +3554,7 @@
       "city": "City",
       "state": "State",
       "zip": "Zip/ Postal Code",
-      "please_provide_billing_first"  : "Please provide billing address.",
+      "please_provide_billing_first": "Please provide billing address.",
       "country": "Country",
       "billing_address": "Billing Address",
       "social_media_links": "Social Media Links",
@@ -3760,14 +3763,14 @@
       },
       "add_gift_card": "Add Gift Card",
       "add_card_payments": "Add Card Payment",
-      "ds_wallet" : "DS Wallet",
-      "enter_card_info" : "Enter your card information",
-      "card_expiration_date" : "Expiration Date",
+      "ds_wallet": "DS Wallet",
+      "enter_card_info": "Enter your card information",
+      "card_expiration_date": "Expiration Date",
       "add_new_default": "Add New Default",
       "add_new_default_alert": "You must have one default card payment saved in your profile",
       "change_default_card_alert": "Are you sure you want to make this card your default method of payment?",
       "card_scan_alert": "Move your card inside the frame and we’ll scan it for you.",
-      "card_save_success_alert":"Card has been added successfully",
+      "card_save_success_alert": "Card has been added successfully",
       "update_exp_cvv": "*Please update expiration date and CVV",
       "form_not_valid_message": "*Please enter valid payment information",
       "scan_card": "Scan Card",
@@ -3777,7 +3780,7 @@
       "purchase_a_gift_card": "Purchase a Gift Card",
       "purchase_gift_card_caption": "Gift a digital gift card for your friends, family or yourself!",
       "gift_card_success_alert": "Gift card has been added successfully",
-      "gift_card_remaining" : "Remaining Amount",
+      "gift_card_remaining": "Remaining Amount",
       "pin": "PIN",
       "view_gift_card_detail": "View Gift Card Details",
       "reload_gift_card": "Reload Gift Card",
@@ -3790,7 +3793,7 @@
       "recipients": "Recipients",
       "terms_and_services_agreement": "By ordering, I agree to the",
       "add_billing_address": "Adding Billing Address",
-      "gift_card_checkout_form":{
+      "gift_card_checkout_form": {
         "first_name": "First Name",
         "last_name": "Last Name",
         "address_line_1": "Address Line 1",
@@ -3800,7 +3803,7 @@
         "state": "State",
         "phone": "Phone #"
       },
-      "new_balance" : "New Balance"
+      "new_balance": "New Balance"
     }
   },
   "monthNames": {
@@ -3898,7 +3901,13 @@
     },
     "list_product": "List Product",
     "edit_details": "Edit Details",
-    "mobile_search_info": "Begin by searching for your product"
+    "mobile_search_info": "Begin by searching for your product",
+    "delist_mobile_message" : {
+      "title": "Are you sure you would like to delist these listings?",
+      "part_1": "All the",
+      "part_2": "active offers",
+      "part_3": "associated with these listing will be lost."
+    }
   },
   "vendor_purchase": {
     "their_value": "THEIR VALUE",
@@ -4004,14 +4013,17 @@
       "on_hold": "On Hold",
       "processing": "Processing",
       "send_to_ds": "Send to Deadstock",
+      "sent_to_deadstock": "Sent to Deadstock",
       "shipped_to_ds": "Shipped to DS",
       "arrived_at_ds": "Arrived at DS",
       "awaiting_auth": "Awaiting Authentication",
       "auth_issued": "Authentication Issued",
       "auth_failed": "Authentication Failed",
+      "authentication_failed": "Authentication Failed",
       "auth_completed": "Authentication Completed",
       "awaiting_shipment": "Awaiting Shipment to Buyer",
       "shipped_to_buyer": "Shipped to Buyer",
+      "ship_to_deadstock_status": "Ship to Deadstock",
       "delivered": "Delivered",
       "ordered": "Ordered",
       "multiple": "Multiple",
@@ -4034,11 +4046,12 @@
       "complete": "Complete",
       "voided": "Voided",
       "refunded": "Refunded",
-      "ship_to_deadstock": "Send to Deadstock",
+      "ship_to_deadstock": "Sent to Deadstock",
       "awaiting_drop_off_with_shipping_carrier": "Awaiting drop off with Shipping Carrier",
       "authentication_complete": "Authentication Complete",
+      "authenticated": "Authenticated",
       "awaiting_shipment_to_buyer": "Awaiting Shipment to Buyer",
-      "shipped_to_deadstock": "Send to Deadstock",
+      "shipped_to_deadstock": "Sent to Deadstock",
       "arrived_at_deadstock": "Arrived at Deadstock",
       "awaiting_shipment_to_ds": "Awaiting Shipment to DS",
       "completed": "Completed",
@@ -4063,6 +4076,7 @@
     "purchase_oldest_to_recent": "Purchase: Oldest to Recent",
     "sort_by": "Sort By",
     "buy": "Buy",
+    "shop": "Shop",
     "giftcard": "GiftCard",
     "heatcheck": "Heat Check",
     "trade": "Trade",
@@ -4768,7 +4782,7 @@
           "optional": "Optional",
           "search_information": "Search for what you're looking for with a minimum of 1 item, maximum {0} items or add your items or combinations from the Trade Wants List",
           "search_by_options": "Search by SKU, Keyword, or Brand",
-          "view_offer_items": "View Offer Items",
+          "view_offer_items": "Offer Items",
           "trade_wants_list": "Trade Wants List",
           "filter_by": "Filter By",
           "clear_all_filters": "Clear All Filters",
@@ -5187,7 +5201,7 @@
     "estimated_value": "Estimated Value",
     "estimated_value_trade": "Estimated Trade Value",
     "trader_wants": "Trader’s Wants",
-    "by_pressing_post_listing": "*By pressing on Post Listing(s),I accept the seller fee of 9.5% + a 2.9% transaction fee. No authentication fees will be charged to sellers.",
+    "by_pressing_post_listing": "If you choose to accept an offer from another trader, at that point you will be charged a flat \nTrade Fee of $25.00,  a processing fee of 2.9%, and a Shipping fee which depends on the quantity of items traded.",
     "balance_the_deal": "Balance this deal by adding cash",
     "balance_the_deal_request": "Balance this deal by requesting cash",
     "insert_amount": "Insert Amount",
@@ -5272,8 +5286,8 @@
     "redeemed": "Redeemed",
     "giftcard_error": "*Unfortunately, this gift card code and PIN is invalid. Please check your code for typos and enter it again.",
     "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number.",
-    "invalid_data"  : "*Unfortunately, this gift card code and PIN is invalid.",
-    "redeem_success"  : "Once you receive a gift card, an email confirmation will be delivered with details including your gift code and pin number."
+    "invalid_data": "*Unfortunately, this gift card code and PIN is invalid.",
+    "redeem_success": "Once you receive a gift card, an email confirmation will be delivered with details including your gift code and pin number."
   },
   "thresholds": {
     "success_message": "Commission Threshold Saved Successfully",
@@ -5772,6 +5786,14 @@
       "paid": "Fulfilled",
       "due": "Due",
       "failed_auth": "Failed Auth."
+    },
+    "tab_groups": {
+      "day": "24H",
+      "week": "7D",
+      "month": "30D",
+      "6m": "6M",
+      "year": "1Y",
+      "all": "ALL"
     },
     "faq_title": "Vendor Hub Frequently Asked Questions",
     "faq_body": "Have a question? See our FAQ with link below",

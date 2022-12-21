@@ -383,7 +383,7 @@ export default {
 .press-content
   @include body-9
   width: 340px
-  height: 63px
+  height: 70px
   font-weight: $normal
   font-family: $font-montserrat
   color: $color-black-1

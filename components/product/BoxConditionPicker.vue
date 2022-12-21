@@ -53,7 +53,7 @@
           borderBottom: '1px solid #000',
         }"
         labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 14px; color: #667799;"
-        arrowStyle='color: #667799; width: 14px; height: 16px; position: absolute; right: 70px; margin-bottom: 13.5px !important;'
+        :svg-arrow="true"
         @change="handleConditionSelect"
       />
     </div>
@@ -157,6 +157,8 @@ export default {
         color: $color-black-1
 
 .dropdown-wrapper
-  padding: 15px 30px 0 30px
+  padding: 15px 0 0 0
+  max-width: 315px
+  margin: auto
 
 </style>

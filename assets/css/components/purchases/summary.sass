@@ -19,10 +19,27 @@
   font-size: 14px !important
 .custom-selectbox .items div:hover
   background-color: transparent !important
+.custom-checkbox .custom-control-label::before
+  width: 9px
+  height: 9px
+  left: 0
+  border-radius: unset
+.custom-control-label::after
+  width: 9px
+  height: 9px
+  left: 0
+.custom-radio .custom-control-label::after
+  top: 4px
+  left: -24px
+  width: 16px
+  height: 16px
 .custom-control-input:checked ~ .custom-control-label::before
   color: $color-blue-20
   border-color: $color-blue-20
   background-color: $color-blue-20
+  width: 9px
+  height: 9px
+  border-radius: unset
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::after
   background-image: none
 .filter-select-count.p-3.text-center,
@@ -33,3 +50,6 @@
   padding-left: 10px !important
 .custom-selectbox.border-bottom
   border-bottom: none !important
+.custom-control-input
+  width: 9px
+  height: 9px

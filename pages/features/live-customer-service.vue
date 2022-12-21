@@ -41,6 +41,7 @@
               require('~/assets/img/features/newest-feature/live-customer-service/nfc.png')
             "
             :title="$t('features.live_customer_service.cards.title2')"
+            class="phone-img"
           />
           <span class="after d-md-none d-block mx-auto"></span>
           <FeatureFourCards
@@ -126,7 +127,19 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-@media screen and (max-width: 577px)
+.cards-wrapper-in-app::v-deep
+  .in-app-cards
+    .feature-four-cards
+      box-shadow: 10px 10px 50px rgba(183, 183, 183, 0.25)
+    .phone-img
+      img
+        margin-left: 40px
+@media (max-width: 577px)
+  .cards-wrapper-in-app::v-deep
+    .in-app-cards
+      .phone-img
+        img
+          margin-left: 20px
   .feature-title-my
     margin-top: 48px !important
     margin-bottom: 24px !important
