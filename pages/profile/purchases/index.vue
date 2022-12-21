@@ -40,7 +40,7 @@
                   />
                 </div>
               </div>
-              <div class="col-4 pr-0 col-xl-3">
+              <div class="col-5 pr-0 col-xl-3">
                 <VendorPurchaseCustomSelect
                     :options="{
                     '': $t('vendor_purchase.sort_by'),
@@ -63,31 +63,34 @@
           <!-- ./Row -->
           <!-- ./Row -->
           <div v-if="!isScreenXS" class="mt-3 d-xl-flex">
-            <div class="col-xl-4 px-0 pr-xl-3">
+            <div class="col-xl-5 px-0 pr-xl-3">
               <span class="filter-title">
                 {{ $t('common.filter_by') }}
               </span>
               <div class="d-flex mb-3 mb-xl-0">
-                <div class="col-6 pl-0">
+                <div class="col pr-20 pl-0 w-140">
                   <VendorPurchaseSelectWithCheckbox
                       :options="typeOptions"
                       :title="typeTitle"
                       :updateFilters="activeTypeFilters"
                       bordered
-                      class="vp-custom-select purchase border-0 bg-white-5"
+                      class="vp-custom-select purchase border-0 bg-white-5 w-120"
                       inputClass="purchase-input"
+                      :showFilterBtn="false"
+                      itemsWidth="w-120"
                       @filters="typeFilters"
                   />
                 </div>
 
-                <div class="col-6 pr-0">
+                <div class="col pl-0 pr-20 w-265">
                   <VendorPurchaseSelectWithCheckbox
                       :options="productsOptions"
                       :title="statusTitle"
                       :updateFilters="activeStatusFilters"
                       bordered
-                      class="vp-custom-select purchase border-0 bg-white-5"
+                      class="vp-custom-select purchase border-0 bg-white-5 w-245"
                       inputClass="purchase-input"
+                      itemsWidth="w-245"
                       @filters="statusFilters"
                   />
                 </div>
@@ -115,7 +118,7 @@
                       inputClass="letter-spacing-initial"
                       @context="(context) => (enddate = context.selectedYMD)"
                   ></CalendarInput>
-                </div>                            
+                </div>
               </div>
             </div>
             <Button
@@ -218,16 +221,22 @@
 
           <template v-if="purchaseDatas.data && !loading">
             <div
-                v-if="purchaseDatas.data.length === 0 && !isScreenXS"
+                v-if="purchaseDatas.data.length === 0"
                 class="row vd-purchase-empty mb-5 mt-38"
             >
               <div class="col-12 text-center">
-                <p class="vd-purchase-browse-now">
+                <p :class="{
+                    'vd-purchase-browse-now-mobile': isScreenXS,
+                    'vd-purchase-browse-now': !isScreenXS,
+                  }">
                   {{ $t('vendor_purchase.no_data_text') }}
                   <br/>
                   {{ $t('vendor_purchase.no_data_text_browsenow') }}
                 </p>
-                <nuxt-link class="btn vd-purchase-browse-btn" to="/shop"
+                <nuxt-link class="btn" :class="{
+                    'vd-purchase-browse-btn-mobile': isScreenXS,
+                    'vd-purchase-browse-btn': !isScreenXS,
+                  }" to="/shop"
                 >{{ $t('vendor_purchase.browse') }}
                 </nuxt-link>
               </div>
@@ -237,8 +246,8 @@
             <template
                 v-if="purchaseDatas.data.length !== 0 && !isScreenXS && !loading"
             >
-              <VendorPurchaseHistory 
-                class="justify-content-center justify-content-md-start" 
+              <VendorPurchaseHistory
+                class="justify-content-center justify-content-md-start"
                 :purchaseDatas="purchaseDatas.data"
               />
             </template>
@@ -252,10 +261,11 @@
               </div>
             </div>
             <div
-                v-if="!isScreenXS"
+                v-if="(!isScreenXS)"
                 class="row justify-content-center purchase-paginator"
             >
               <Pagination
+                  v-if="(purchaseDatas.data.length !== 0)"
                   v-model="currentPage"
                   :per-page="perPage"
                   :per-page-options="perPageOption"
@@ -265,7 +275,7 @@
                   @per-page-change="handlePerPageChange"
               />
             </div>
-            <div v-else>
+            <div v-if="isScreenXS && purchaseDatas.data.length !== 0 ">
               <infinite-loading
                   ref="loader"
                   :identifier="infiniteId"
@@ -290,9 +300,15 @@
               class="d-flex flex-column align-items-center justify-content-between h-88 w-100 filters"
           >
             <div class="d-flex flex-column w-100">
-              <FilterAccordion
-                  :open="true"
-                  :title="$t('orders.sort').toString()"
+              <div
+                class="d-flex align-items-center justify-content-between"
+              >
+                <span class="title">
+                  {{ $t('orders.sort').toString() }}
+                </span>
+              </div>
+              <div
+                class="d-flex align-items-center justify-content-between"
               >
                 <b-form-radio-group
                     v-model="sortbySelected"
@@ -300,7 +316,8 @@
                     class="d-flex flex-column mt-2 sort-filters"
                 >
                 </b-form-radio-group>
-              </FilterAccordion>
+              </div>
+
               <ItemDivider/>
 
               <FilterAccordion
@@ -390,6 +407,7 @@
           </div>
         </template>
       </MobileBottomSheet>
+      <Portal to="page-title"> {{ $t('vendor_purchase.purchases') }}</Portal>
     </div>
   </client-only>
 </template>
@@ -466,14 +484,8 @@ export default {
       typeOptions: [
         {
           id: 1,
-          text: this.$t('vendor_purchase.buy'),
+          text: this.$t('vendor_purchase.shop'),
           value: 1,
-          type: this.$t('vendor_purchase.type'),
-        },
-        {
-          id: 2,
-          text: this.$t('vendor_purchase.sell'),
-          value: 2,
           type: this.$t('vendor_purchase.type'),
         },
         {
@@ -486,12 +498,6 @@ export default {
           id: 4,
           text: this.$t('vendor_purchase.trade'),
           value: 4,
-          type: this.$t('vendor_purchase.type'),
-        },
-        {
-          id: 5,
-          text: this.$t('vendor_purchase.heatcheck'),
-          value: 6,
           type: this.$t('vendor_purchase.type'),
         },
         {
@@ -545,42 +551,6 @@ export default {
           text: this.$t('vendor_purchase.orderstatus.cancelled'),
           value: 'cancelled_products',
           type: 'products',
-        },
-        {
-          id: 8,
-          text: this.$t('vendor_purchase.heatcheck'),
-          value: '',
-          type: 'heatcheck',
-        },
-        {
-          id: 9,
-          text: this.$t('vendor_purchase.orderstatus.pending'),
-          value: 'pending_heatcheck',
-          type: 'heatcheck',
-        },
-        {
-          id: 10,
-          text: this.$t('vendor_purchase.orderstatus.passed'),
-          value: 'passed_heatcheck',
-          type: 'heatcheck',
-        },
-        {
-          id: 11,
-          text: this.$t('vendor_purchase.orderstatus.inconclusive'),
-          value: 'inconclusive_heatcheck',
-          type: 'heatcheck',
-        },
-        {
-          id: 12,
-          text: this.$t('vendor_purchase.orderstatus.cannot_verify'),
-          value: 'cannotVerify_heatcheck',
-          type: 'heatcheck',
-        },
-        {
-          id: 13,
-          text: this.$t('vendor_purchase.orderstatus.failed'),
-          value: 'failed_heatcheck',
-          type: 'heatcheck',
         },
         {
           id: 14,
@@ -822,15 +792,39 @@ export default {
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
 
-.filter-title
-  @include body-8-normal
-  color: $color-black-1
+
+.title
+  @include body-13
   font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+  color: $color-blue-20
+.w-140
+  width: 140px
+  max-width: 140px
+.w-265
+  width: 265px
+  max-width: 265px
+.w-120
+  width: 120px
+  max-width: 120px
+.w-245
+  width: 245px
+  max-width: 245px
+
+.pr-20
+  padding-right: 20px
+
+.filter-title
+  @include body-8b-regular
+  color: $color-black-1
+  font-family: $font-abel
 
 ::v-deep.vp-custom-select
   .selected
     &:after
       top: 3px
+      right: 35px
 
 ::v-deep.date-calendar
   .date-input
@@ -939,6 +933,9 @@ input.date-input
         border-color: $color-black-1
         background-color: $color-white-1
         box-shadow: none
+        border-radius: 50%
+        width: 16px
+        height: 16px
 
 ::v-deep.sort-filters
   .custom-control-input

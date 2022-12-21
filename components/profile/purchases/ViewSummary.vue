@@ -73,7 +73,7 @@
                   <div v-if="item.inventory.product.colorway" class="text-nowrap text-truncate">
                     <span class="color-gray">{{
                         $tc('common.size', 2)
-                      }}: </span>{{ item.inventory.size.size }}
+                      }}: </span>{{ item.inventory.size.size }} | <span class="color-gray">{{ $t('selling_page.quantity') }}: </span>1
                   </div>
                   <div v-if="item.inventory.product.sku" class="text-nowrap text-truncate">
                     <span class="color-gray">{{ $t('common.box_condition') }}: </span>
@@ -84,12 +84,8 @@
             </div>
           </template>
         </Carousel>
-        <div class="d-flex align-items-center justify-content-end body-5-medium">
-          <span class="text-uppercase color-gray">{{ $t('selling_page.qty') }}</span>:
-          &nbsp;<span>{{ orderDetails.items.length }}</span>
-        </div>
         <div class="total-sec">
-          <b-row class="align-items-center h-100">
+          <b-row class="align-items-center h-100 mt-1">
             <b-col class="col-xs-offset-4 d-flex align-items-center justify-content-between body-5-medium" cols="8">
               <span class="ml-2">
                 {{ $t('common.total') }}
@@ -199,6 +195,7 @@
         <MobileTimeLine :order-status="selectedItem.status"/>
       </div>
     </MobileBottomSheet>
+    <Portal to="page-title"> {{ $t('vendor_purchase.purchase_summary') }}</Portal>
   </div>
 </template>`
 

@@ -8,7 +8,7 @@
         <template #default>
           <img
             width="25px"
-            :src="require('~/assets/img/icons/menu.svg')"
+            :src="require('~/assets/img/icons/menu-new.svg')"
             alt="..."
           />
         </template>
