@@ -3,6 +3,7 @@
     <div class="my-4 d-flex searchbox">
       <div
         class="form-group rounded-search-input d-flex align-items-center ma-0 border-0"
+        :class="mobileClass"
       >
         <img :src="searchIcon" alt="search" class="icon-search" />
         <input
@@ -74,10 +75,12 @@ import {
   NOTIFICATION_MIN_YEAR,
   NOTIFICATION_MIN_YEAR_RANGE_WINDOW,
 } from '~/static/constants/notifications'
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'NotificationFilters',
   components: { SliderInput, WhiteDropDown },
+  mixins: [screenSize],
   data() {
     return {
       isAllSelected: false,
@@ -143,8 +146,10 @@ export default {
   .rounded-search-input
     width: 961px
     border-radius: 8px
-    background: $color-white-5
+    background: $color-white-1
     padding: 13px 21px
+    &.mobile
+      background-color: $color-white-5
 
 
     .icon-search
