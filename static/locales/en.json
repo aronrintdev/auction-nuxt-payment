@@ -5787,6 +5787,14 @@
       "due": "Due",
       "failed_auth": "Failed Auth."
     },
+    "tab_groups": {
+      "day": "24H",
+      "week": "7D",
+      "month": "30D",
+      "6m": "6M",
+      "year": "1Y",
+      "all": "ALL"
+    },
     "faq_title": "Vendor Hub Frequently Asked Questions",
     "faq_body": "Have a question? See our FAQ with link below",
     "view_details": "View Details",
