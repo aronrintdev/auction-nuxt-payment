@@ -1,6 +1,6 @@
 <template>
   <div class="container-trade-dashboard">
-    <b-row class="heading-dashboard pt-sm-4 mt-lg-5 mx-0 d-none d-sm-flex">
+    <b-row class="heading-dashboard  mx-0 d-none d-sm-flex">
       {{$t('trades.my_trade_offer')}}
     </b-row>
     <b-row class="m-0 mt-sm-3 justify-content-lg-between pt-3">
@@ -195,7 +195,7 @@
             />
           </b-col>
           <b-col class="mt-2 mt-sm-0 d-flex justify-content-sm-end" sm="4" md="2" lg="3">
-            <Button variant="dark-blue" @click="applyFilters">
+            <Button variant="dark-blue" @click="applyFilters" class="btn-apply">
               {{$t('trades.apply')}}
             </Button>
           </b-col>
@@ -290,12 +290,12 @@
         :action-label="$t('product_page.delete_multiple')"
         class="mt-3"
         @close="selected = []"
-        @selectAll="selectAll()"       
+        @selectAll="selectAll()"
         @deselectAll="selected = []"
         @submit="deleteSelected()"
       />
     </div>
-    
+
     <div class="my-trade-listing-section">
       <div class="row justify-content-center">
         <div class="text-center w-100 px-2">
@@ -533,7 +533,7 @@ export default {
   beforeMount() {
     window.addEventListener('resize', this.setBackgroundColor)
   },
-  
+
   beforeDestroy() {
     window.removeEventListener('resize', this.setBackgroundColor)
   },
@@ -802,6 +802,7 @@ export default {
   @include heading-13
   text-transform: capitalize
   color: $color-black-1
+  padding-top: 49px
 
 .container-trade-dashboard
   padding-left: 12px
@@ -832,14 +833,17 @@ export default {
   border-radius: 5px
 
 .listings
-  @include body-17-normal
+  font-size: 24px
   color: $color-black-1
   padding-top: 25px
   margin-bottom: 24px
+  font-family: $font-sp-pro
+  font-weight: $bold
   @media (min-width: 576px)
-    font-family: $font-family-sf-pro-display
+    font-family: $font-sp-pro
     font-style: normal
-    @include body-7-bold
+    font-size: 24px
+    font-weight: $bold
     margin-bottom: 0
     padding-top: 57px
 
@@ -874,9 +878,15 @@ export default {
   text-align: center
 
 .filter-label
-  @include body-8-normal
-  font-family: $font-family-sf-pro-display
+  font-size: 15px
+  font-family: $font-sp-pro
+  font-weight: $normal !important
+  font-style: normal
   color: $color-black-1
-
+.btn-apply
+  font-size: 15px
+  font-weight: $normal
+  font-style: normal
+  font-family: $font-sp-pro
 </style>
 

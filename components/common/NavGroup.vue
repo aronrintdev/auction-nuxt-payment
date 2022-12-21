@@ -71,7 +71,7 @@ export default {
     margin-left: 19px
     margin-right: 19px
   .btn-group
-    background-color: $color-white-19
+    background-color: $color-white-30
     border-radius: 20px
     padding: 4px 6px
     height: 40px
@@ -79,7 +79,7 @@ export default {
       height: 35px
     .btn, .btn-lg
       @include body-6-regular
-      background-color: $color-white-19
+      background-color: $color-white-30
       border: 0 !important
       border-radius: 20px !important
       color: $color-black-1 !important
