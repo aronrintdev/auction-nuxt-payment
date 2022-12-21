@@ -91,7 +91,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .trade-listing-item-single
-  background: $color-white-0
+  background: $color-white-1
   border-radius: 10px
   padding: 20px 28px 7px 28px
 
