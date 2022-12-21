@@ -506,6 +506,7 @@ input.searchbar-input
 ::v-deep .bottom-sheet__content
   margin-right: -8px
 
-@media (min-width: 576px)
+@media (max-width: 576px)
+  .flex-1
     flex: 1
 </style>
