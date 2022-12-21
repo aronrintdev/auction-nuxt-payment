@@ -5,39 +5,34 @@
       class="position-relative mx-auto carousel-wrapper"
       :style="wrapperStyle"
     >
-      <b-row>
-        <b-col
-          md="12"
-          class="d-flex justify-content-between align-items-center pl-0"
-        >
-          <span class="select-size">
-            {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
-            <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
-          </span>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="select-size">
+          {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
+          <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
+        </span>
 
-          <div
-            v-if="!singleMode"
-            class="position-absolute view-all-btn mr-2"
-            @click="handleViewAllClick"
-          >
-            <img
-              width="18"
-              height="18"
-              :src="require('~/assets/img/icons/eye2.svg')"
-              class="d-sm-none"
-              :class="iconClass"
-            />
-            <span class="all-sizes mr-2" :class="iconTextClass" role="button">
-              {{ $t('shop_by_style.general.all_sizes') }}
-            </span>
-          </div>
-        </b-col>
-      </b-row>
+        <div
+          v-if="!singleMode"
+          class="position-absolute view-all-btn"
+          @click="handleViewAllClick"
+        >
+          <img
+            width="18"
+            height="18"
+            :src="require('~/assets/img/icons/eye2.svg')"
+            class="d-sm-none"
+            :class="iconClass"
+          />
+          <span class="all-sizes" :class="iconTextClass" role="button">
+            {{ $t('shop_by_style.general.all_sizes') }}
+          </span>
+        </div>
+      </div>
 
       <Carousel
         ref="sizeCarousel"
         :loop="true"
-        :nav="true"
+        :nav="false"
         :center="true"
         :margin="30"
         :responsive="{
@@ -47,7 +42,6 @@
         }"
         :mouse-drag="mouseDrag"
         :show-arrows="arrowsVisible"
-        :nav-text="['', '']"
         :dots="false"
         :autoWidth="true"
         class="carousel slide-fade text-center position-relative size-carousel"
@@ -390,7 +384,7 @@ export default {
       &.owl-next
         float: right
         width: auto
-        margin-right: -30px
+        // margin-right: -30px
         margin-top: -71px
         @media (min-width: 576px)
           margin-right: -30px
@@ -400,7 +394,7 @@ export default {
         float: left
         width: auto
         margin-top: 13px
-        margin-left: -30px
+        // margin-left: -30px
         @media (min-width: 576px)
           margin-top: 18px
           margin-left: -30px

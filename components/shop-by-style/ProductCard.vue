@@ -11,23 +11,26 @@
         class="flex-shrink-0 product-image"
       />
       <div class="info-section position-relative flex-grow-1">
-        <div class="title fw-6 fs-20 font-secondary text-capitalize">
-          {{ product.name }}
+        <div class="position-relative">
+          <div class="title fw-6 fs-20 font-secondary text-capitalize">
+            {{ product.name }}
+          </div>
+          <div
+            class="position-absolute addBtn cursor-pointer"
+            @click="showProductDetail(product.id)"
+          >
+            <PlusIcon :active="show === product.id" />
+          </div>
         </div>
         <div class="color mt-2 fw-5 font-secondary fs-15">
           {{ `${$t('shopping_cart.color_way')}: ${product.colorway}` }}
         </div>
         <div
           v-if="pricesBySize ? pricesBySize.length > 0 : false"
+          v-show="show !== product.id"
           class="color mt-2 fw-5 font-secondary fs-15"
         >
           {{ $t('products.lowest_price') }}: {{ lowestPrice | toCurrency }}
-        </div>
-        <div
-          class="position-absolute btn-add cursor-pointer"
-          @click="showProductDetail(product.id)"
-        >
-          <PlusIcon :active="show === product.id" />
         </div>
       </div>
     </div>
@@ -45,7 +48,7 @@
             :value="currentSize"
             :viewMode="sizeViewMode"
             :arrowsVisible="true"
-            class="size-picker ml-2"
+            class="size-picker"
             @update="handleSizeChange"
             @changeViewMode="handleSizeViewModeChange"
           />
@@ -58,10 +61,7 @@
           @change="handleConditionChange"
         />
         <div class="accordion-filter-item bg-transparent w-100 border-0 mt-4">
-          <h2
-            id="panelsStayO pen-headingOne"
-            class="accordion-filter-header"
-          >
+          <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header">
             <button
               v-b-toggle.collapse-product-detail
               aria-controls="panelsStayOpen-collapseOne"
@@ -107,7 +107,10 @@
               </div>
             </div>
           </b-collapse>
-          <h2 id="panelsStayO pen-headingOne" class="mt-4 accordion-filter-header">
+          <h2
+            id="panelsStayO pen-headingOne"
+            class="mt-4 accordion-filter-header"
+          >
             <button
               v-b-toggle.size-guide-collapse
               aria-controls="panelsStayOpen-collapseOne"
@@ -175,8 +178,7 @@
                 <span class="partial-price"
                   >of
                   {{
-                    (currentListingItem.inventory.sale_price / 4)
-                      | toCurrency
+                    (currentListingItem.inventory.sale_price / 4) | toCurrency
                   }}</span
                 >
               </p>
@@ -187,27 +189,34 @@
                   >{{ $t('common.of') }} {{ $t('common.$0') }}</span
                 >
               </p>
-              <Button
-                variant="dark"
-                border="thick"
-                :disabled="addingToCart"
-                class="mx-auto add-to-cart-button"
-                @click="handleAddToCartClick('web', product.id)"
-              >
-                <div class="d-flex justify-content-center">
-                  <div>
-                    {{ $t('product_page.add_to_cart') }}
+              <div class="d-flex align-items-center justify-content-center">
+                <Button
+                  variant="dark"
+                  border="thick"
+                  :disabled="addingToCart"
+                  class="mx-auto add-to-cart-button"
+                  @click="handleAddToCartClick('web', product.id)"
+                >
+                  <div class="d-flex justify-content-center">
+                    <div>
+                      {{ $t('product_page.add_to_cart') }}
+                    </div>
+                    <div
+                      class="ml-1"
+                      :class="
+                        addingToCart ? 'add-to-cart-animation' : 'invisible'
+                      "
+                    >
+                      +1
+                    </div>
                   </div>
-                  <div
-                    class="ml-1"
-                    :class="
-                      addingToCart ? 'add-to-cart-animation' : 'invisible'
-                    "
-                  >
-                    +1
-                  </div>
+                </Button>
+                <div
+                  class="addToWishlistBtn d-flex align-items-center justify-content-center"
+                >
+                  <HeartIcon class="heart-icon" />
                 </div>
-              </Button>
+              </div>
               <div class="error-text">
                 {{ error.addToCart }}
               </div>
@@ -233,13 +242,11 @@ import ProductBoxConditionPicker from '~/components/shop-by-style/BoxConditionPi
 import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
 import AlertModal from '~/components/modal/Alert'
 import PlusIcon from '~/assets/icons/Plus'
-
+import HeartIcon from '~/assets/icons/HeartIcon'
 export default {
   name: 'ShopByStyleProductCard',
-
   components: {
     ProductThumb,
-
     ShopByStyleImageCarousel,
     ProductSizePicker,
     ProductBoxConditionPicker,
@@ -247,6 +254,7 @@ export default {
     Button,
     AlertModal,
     PlusIcon,
+    HeartIcon,
   },
 
   props: {
@@ -488,7 +496,12 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
+.info-section
+  .title
+    max-width: calc(100% - 20px)
+.addBtn
+  right: 0
+  bottom: 0
 .sf-pro-text
   font-family: $font-family-sf-pro-text
 .mt-40
@@ -516,7 +529,21 @@ export default {
     font-weight: $regular
 .mb-13
   margin-bottom: 13px
-.add-to-cart-button, .warn-button
+.add-to-cart-button
+  height: 46px
+  width: 100%
+  border-radius: 4px 0 0 4px
+.warn-button
   height: 46px
   width: 473px
+.addToWishlistBtn
+  min-width: 49px
+  height: 46px
+  background: $color-gray-75
+  border-radius: 0 4px 4px 0
+  .heart-icon
+    width: 21px
+    height: 21px
+    rect
+      fill: none
 </style>
