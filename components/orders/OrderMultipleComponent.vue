@@ -47,7 +47,7 @@
                     <div class="text-center">
                       <div class="pr-2"><Thumb :product="product(single)" width="74px" /></div>
                       <NuxtLink :to="`/orders/${order.order_id}-${index + 1}`" class="d-none d-md-block">
-                        <span>#{{ order.order_id }}-{{ index + 1 }}</span>
+                        <span class="order-id">#{{ order.order_id }}-{{ index + 1 }}</span>
                       </NuxtLink>
                     </div>
                   </div>
@@ -364,18 +364,6 @@ export default {
 
 <style scoped lang="sass">
 @import '/assets/css/variables'
-
-.title
-  @include body-5-bold
-
-.sku, .attribute
-  @include body-10
-  color: $color-gray-6
-
-.status
-  width: 141px
-  padding: 10px 15px
-  border-radius: 4px
 
 .fix-margin
   margin-left: -25px
