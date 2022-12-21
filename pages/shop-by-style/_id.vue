@@ -295,7 +295,6 @@ export default {
   color: $color-gray-6
   font-family: $font-family-sf-pro-display
 .container-style-detail
-  min-height: 925px
   padding-bottom: 60px
   @media (min-width: 576px)
     margin-top: 30px
@@ -315,6 +314,7 @@ export default {
 @media (max-width: 460px)
   .container-style-detail
     padding: 0 20px
+    padding-bottom: 6px
     .product-list
       padding: 26px 0 64px 0
 .share-icon::v-deep
