@@ -126,14 +126,14 @@
         >
           <Button
             variant="dark-blue"
-            class="mr-3"
+            class="mr-3 buttons-for-offers p-0"
             @click="$router.push(`/profile/trades/dashboard/${offer.id}`)"
           >
             {{ $t('common.accept_trade') }}
           </Button>
 
           <div
-            class="decline-button d-flex justify-content-center align-items-center mr-3"
+            class="decline-button d-flex justify-content-center align-items-center mr-3 buttons-for-offers"
             role="button"
             @click="$bvModal.show('declineOffer')"
           >
@@ -141,7 +141,7 @@
           </div>
 
           <Button
-            variant="outline-dark-blue"
+            variant="outline-dark-blue buttons-for-offers p-0"
             @click="$router.push(`/profile/trades/dashboard/counter-offer/${offer.id}`)"
           >
             {{ $t('trades.counter_offer') }}
@@ -693,4 +693,7 @@ export default {
     background: $color-grey-70
 .pro-image
   width: 130px
+.buttons-for-offers
+  width: 139px
+  height: 39px
 </style>
