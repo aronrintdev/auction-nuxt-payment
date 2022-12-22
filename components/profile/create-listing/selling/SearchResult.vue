@@ -25,7 +25,7 @@
       </span>
       <Button
         variant="add"
-        class="my-auto d-flex align-items-center text-center text-white text-decoration-none"
+        class="my-auto d-flex align-items-center text-center text-white text-decoration-none add-btn"
         @click="onAddItemClick(result)"
       >
         {{ $t('common.add') }}
@@ -105,4 +105,13 @@ export default {
     background: $color-blue-20
     border: 1px solid $color-blue-20
     border-radius: 5px
+.product-name
+  width: 150px
+  font-size: 12px
+  color: $color-black-15
+  font-family: $font-montserrat-serif
+.add-btn
+  font-family: $font-sp-pro !important
+  font-weight: $medium !important
+  font-size: 12px !important
 </style>
