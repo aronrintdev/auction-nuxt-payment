@@ -1,29 +1,36 @@
 <template>
   <div>
-    <div :class="{
-      'mt-3': !isScreenXS,
-      '': isScreenXS,
-    }">
+    <div
+      :class="{
+        'mt-3': !isScreenXS,
+        '': isScreenXS,
+      }"
+    >
       <NotificationSettingsSection
         :items="settings('shop')"
         :path="titlePath('shop')"
         :title="$t('notifications.settings.shop')"
       />
     </div>
-    <div v-if="isVendor" :class="{
-      'mt-3': !isScreenXS,
-      'mt-20': isScreenXS,
-    }">
+    <div
+      v-if="isVendor"
+      :class="{
+        'mt-3': !isScreenXS,
+        'mt-20': isScreenXS,
+      }"
+    >
       <NotificationSettingsSection
         :items="settings('trade')"
         :path="titlePath('trade')"
         :title="$t('notifications.settings.trade')"
       />
     </div>
-    <div :class="{
-      'mt-3': !isScreenXS,
-      'mt-20': isScreenXS,
-    }">
+    <div
+      :class="{
+        'mt-3': !isScreenXS,
+        'mt-20': isScreenXS,
+      }"
+    >
       <NotificationSettingsSection
         :items="settings('auction')"
         :path="titlePath('auction')"
@@ -37,7 +44,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import NotificationSettingsSection from '~/components/profile/notifications/NotificationSettingsSection'
 import { ALL_SETTINGS } from '~/static/constants/notifications'
-import screenSize from '~/plugins/mixins/screenSize';
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'NotificationSettingsTab',

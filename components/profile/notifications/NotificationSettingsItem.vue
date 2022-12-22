@@ -1,9 +1,5 @@
 <template>
-  <b-row
-    v-if="settings"
-    :class="{ mobile: isScreenXS }"
-    class="mb-3"
-  >
+  <b-row v-if="settings" :class="{ mobile: isScreenXS }" class="mb-3">
     <b-col md="5" sm="12">
       <div
         :class="{ 'justify-content-between': isScreenXS }"
@@ -95,7 +91,9 @@
         v-if="fieldExist(settings.data, 'until') && !isScreenXS"
         class="mt-36"
         :class="{
-          'mt-50': (!fieldExist(settings.data, 'when') && !fieldExist(settings.data, 'every'))
+          'mt-50':
+            !fieldExist(settings.data, 'when') &&
+            !fieldExist(settings.data, 'every'),
         }"
       >
         <vue-slider
@@ -115,9 +113,12 @@
       </div>
     </b-col>
     <b-col v-if="!isScreenXS" md="3">
-      <b-row class="title-labels text-center " :class="{
-        'pt-19' : preference
-      }">
+      <b-row
+        class="title-labels text-center"
+        :class="{
+          'pt-19': preference,
+        }"
+      >
         <b-col>
           <NotificationSwitch
             :value="channelSettings[NOTIFICATION_CHANNEL_APP]"

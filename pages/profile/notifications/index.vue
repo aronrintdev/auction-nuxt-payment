@@ -14,8 +14,8 @@
         :header-classes="'mb-6p'"
       >
         <template #expanded-content>
-          <div v-if="onNotifications" class="d-flex flex-column ">
-            <MobileSearchInput :value="searchedVal"  @input="searchChanged"/>
+          <div v-if="onNotifications" class="d-flex flex-column">
+            <MobileSearchInput :value="searchedVal" @input="searchChanged" />
             <div class="d-flex align-items-center justify-content-end">
               <NotificationMarkAllAsRead />
             </div>
@@ -50,10 +50,7 @@
       <MobileNotificationSettingsTab v-if="onSettingsItemTab" />
       <Portal to="page-title"> {{ tabTitle }} </Portal>
       <Portal to="back-icon-slot">
-        <back-svg
-          class="ml-3"
-          @click="handleBackChange"
-        />
+        <back-svg class="ml-3" @click="handleBackChange" />
       </Portal>
 
       <Portal to="notification-icon-slot">
@@ -69,14 +66,14 @@
       <Portal to="cart-icon-slot">
         <div class="ml-1">
           <setting-svg
-              v-if="onNotifications"
-              role="button"
-              @click.stop.prevent="handlePageChange('Settings')"
+            v-if="onNotifications"
+            role="button"
+            @click.stop.prevent="handlePageChange('Settings')"
           ></setting-svg>
           <close-svg
-              v-if="onSettings"
-              role="button"
-              @click.stop.prevent="handlePageChange('Notifications')"
+            v-if="onSettings"
+            role="button"
+            @click.stop.prevent="handlePageChange('Notifications')"
           ></close-svg>
         </div>
       </Portal>
@@ -136,7 +133,7 @@ export default {
       ],
       NotificationTab: null,
       perPage: NOTIFICATION_PER_PAGE,
-      searchedVal: ''
+      searchedVal: '',
     }
   },
   computed: {
@@ -170,11 +167,11 @@ export default {
     },
   },
   methods: {
-    handleBackChange(){
-      if (this.onSettings){
+    handleBackChange() {
+      if (this.onSettings) {
         this.$store.commit('notifications/setTab', 'Notifications')
       }
-      if (this.onSettingsItemTab){
+      if (this.onSettingsItemTab) {
         this.$store.commit('notifications/setSelectedSetting', null)
       }
     },
