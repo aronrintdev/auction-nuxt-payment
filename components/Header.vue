@@ -1,7 +1,8 @@
 <template>
   <b-navbar
     toggleable="lg"
-    :class="`navbar-wrapper ${!mobileClass && ''}`"
+    class="navbar-wrapper"
+    :class="mobileClass ? 'border-bottom' : ''"
   >
     <PortalTarget name="back-icon-slot" class="d-block d-sm-none">
       <b-navbar-toggle target="top-menu-sidebar">
@@ -332,7 +333,7 @@ export default {
   font-family: $font-family-base
   padding: 19px 10px 10px 10px
   background-color: $color-white-1
-  border-bottom: solid 1px $color-gray-47
+  border-bottom: 1px $color-gray-47
 
   svg text
     font-family: $font-family-sf-pro-display
