@@ -13,7 +13,7 @@
     </div>
     <div :class="{ selectHide: !open, border: bordered }" class="items bg-white">
       <div class="item-wrapper">
-        <div v-for="(option, key) in options" :key="key" class="p-0" @click="checked(option)">
+        <div v-for="(option, key) in options" :key="key" class="p-0 checkbox-wrapper" @click="checked(option)">
           <div class="p-3 d-flex">
             <b-form-checkbox
                 v-if="option.value"
@@ -22,11 +22,11 @@
                 :checked="getVal(option)"
                 @change="checked(option)"
             />
-            {{ option.text }}
+              {{ option.text }}
           </div>
         </div>
       </div>
-      <div class="filter-select-count p-3 text-center">
+      <div v-if="showFilterBtn" class="filter-select-count p-3 text-center">
         <span class="text-white"
           >{{ $tc('common.filter', 1) }} ({{ updateFilters.length }})
         </span>
@@ -68,6 +68,10 @@ export default {
     inputClass: {
       type: String,
       default: ''
+    },
+    showFilterBtn: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -183,11 +187,18 @@ export default {
     div
       @include body-4-normal
       color: $color-black-1
+    .checkbox-wrapper
       border: 1px solid transparent
       border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent
+
+
+    .custom-checkbox
+      @include body-4-normal
+      color: $color-black-1
       cursor: pointer
       user-select: none
       font-style: normal
+      padding: 10px 10px
 
       &:hover
         background-color: rgba(0, 0, 0, 0.1)
@@ -213,7 +224,7 @@ export default {
     height: 38px !important
 
 .purchase
-  .items 
+  .items
     border-color: $color-gray-60 !important
     border-top-width: 0 !important
 
