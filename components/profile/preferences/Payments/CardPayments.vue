@@ -4,7 +4,7 @@
       <!-- Card payment div -->
       <div class="col-12 mt-3 d-flex justify-content-center">
         <div class="card-container">
-          <div class="card-container-heading border-bottom d-flex align-items-center">
+          <div class="card-container-heading border-bottom align-items-center">
             {{ $t('shopping_cart.card_payment') }}
           </div>
           <div class="card-details-container">
@@ -340,13 +340,17 @@ export default {
     padding: 20px 219px 17px 12px
   .card-details-container
     .ds-wallet-title
-      font-family: $font-sp-pro
+    font-family: $font-family-sf-pro-display
       font-style: normal
+      font-weight: $bold
+      font-size: 17px
       @include body-34-medium
       letter-spacing: -0.02em
       color: $color-black-1
       margin-top: 16px
       margin-bottom: 19px
+      text-transform: uppercase
+
     .dynamic-card-wrappper
       #dynamic-card::v-deep
         padding-top: 40px
