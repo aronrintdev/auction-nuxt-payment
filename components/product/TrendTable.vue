@@ -18,8 +18,8 @@
         :key="`product-${product.id}-trend`"
       >
         <td></td>
-        <td class="font-primary">
-          <NuxtLink class="col-no" :to="'/stock/' + product.id"> {{ index + 1 }}</NuxtLink>
+        <td class="col-no font-primary">
+          <NuxtLink :to="'/stock/' + product.id"> {{ index + 1 }}</NuxtLink>
         </td>
         <td class="col-thumb">
           <div><ProductThumb :product="product" /></div>
