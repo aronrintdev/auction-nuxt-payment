@@ -94,7 +94,7 @@
         <span class="offer-details-key my-auto">
           {{ $t('selling_page.offer_amount') }}&colon;
         </span>
-        <span class="offer-details-value text-right my-auto">{{
+        <span class="offer-details-value text-right my-auto mx-2">{{
           offerAmount | toCurrency('USD', 'N/A')
         }}</span>
       </div>
@@ -107,7 +107,7 @@
           list-item-details
         "
       >
-        <span class="offer-details-key my-auto mx-2">
+        <span class="offer-details-key my-auto">
           {{ $t('selling_page.offer_date') }}&colon;
         </span>
         <span class="offer-details-value text-right my-auto mx-2">{{
@@ -381,7 +381,7 @@ export default {
       background: $color-white-5
 
     .offer-details-key
-      width: 97px
+      width: 120px
       height: 15px
       left: 36px
       top: 511px
