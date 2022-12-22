@@ -34,6 +34,7 @@
                           dropDownHeight="38px"
                           variant="white"
                           borderRadius="4px"
+                          :showFilterBtn="false"
                           padding-x="10px"
                           @getResults="getInventory"
                           @change="changeCategory"/>
@@ -45,6 +46,7 @@
                           :label="sizeTypesFilterLabel"
                           class="mr-3 width-156"
                           optionsWidth="custom"
+                         :showFilterBtn="false"
                           dropDownHeight="38px"
                           variant="white"
                           padding-x="10px"
@@ -58,6 +60,7 @@
                           type="multi-select-checkbox"
                           :label="sizeFilterLabel"
                           class="mr-3 width-156"
+                          :showFilterBtn="false"
                           optionsWidth="custom"
                           dropDownHeight="38px"
                           variant="white"
