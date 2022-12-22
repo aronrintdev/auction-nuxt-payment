@@ -7,36 +7,22 @@
       }"
       class="profile-notification mb-2"
     >
-      <MobileHeader v-if="isScreenXS && !onSettingsItemTab" :title="tabTitle">
-        <template #actions>
-          <div class="d-flex align-items-center">
-            <filter-svg
-              v-if="onNotifications"
-              class="mr-3"
-              role="button"
-              @click="mobileFiltersOpen = !mobileFiltersOpen"
-            ></filter-svg>
-            <setting-svg
-              v-if="onNotifications"
-              role="button"
-              @click="handlePageChange('Settings')"
-            ></setting-svg>
-            <close-svg
-              v-if="onSettings"
-              role="button"
-              @click="handlePageChange('Notifications')"
-            ></close-svg>
-          </div>
-        </template>
+      <MobileHeader
+        v-if="isScreenXS && !onSettingsItemTab"
+        :has-header="false"
+        :title="tabTitle"
+        :header-classes="'mb-6p'"
+      >
         <template #expanded-content>
-          <div v-if="onNotifications" class="d-flex flex-column">
-            <MobileSearchInput @input="searchChanged" />
+          <div v-if="onNotifications" class="d-flex flex-column ">
+            <MobileSearchInput :value="searchedVal"  @input="searchChanged"/>
             <div class="d-flex align-items-center justify-content-end">
               <NotificationMarkAllAsRead />
             </div>
           </div>
         </template>
       </MobileHeader>
+
       <div v-if="onSettings && !isScreenXS" class="title">
         {{ tabTitle }}
       </div>
@@ -63,6 +49,37 @@
       <NotificationSettings v-if="onSettings" />
       <MobileNotificationSettingsTab v-if="onSettingsItemTab" />
       <Portal to="page-title"> {{ tabTitle }} </Portal>
+      <Portal to="back-icon-slot">
+        <back-svg
+          class="ml-3"
+          @click="handleBackChange"
+        />
+      </Portal>
+
+      <Portal to="notification-icon-slot">
+        <filter-svg
+          v-if="onNotifications"
+          class="mr-3"
+          role="button"
+          @click.stop.prevent="mobileFiltersOpen = !mobileFiltersOpen"
+        ></filter-svg>
+        <div v-else></div>
+      </Portal>
+
+      <Portal to="cart-icon-slot">
+        <div class="ml-1">
+          <setting-svg
+              v-if="onNotifications"
+              role="button"
+              @click.stop.prevent="handlePageChange('Settings')"
+          ></setting-svg>
+          <close-svg
+              v-if="onSettings"
+              role="button"
+              @click.stop.prevent="handlePageChange('Notifications')"
+          ></close-svg>
+        </div>
+      </Portal>
     </div>
   </client-only>
 </template>
@@ -83,10 +100,12 @@ import MobileSearchInput from '~/components/mobile/MobileSearchInput'
 import NotificationMobileFilters from '~/components/profile/notifications/NotificationMobileFilters'
 import MobileNotificationSettingsTab from '~/components/profile/notifications/MobileNotificationSettingsTab'
 import { NOTIFICATION_PER_PAGE } from '~/static/constants'
+import backSvg from '~/assets/img/icons/back.svg?inline'
 
 export default {
   name: 'Notifications',
   components: {
+    backSvg,
     MobileNotificationSettingsTab,
     NotificationMobileFilters,
     MobileSearchInput,
@@ -117,6 +136,7 @@ export default {
       ],
       NotificationTab: null,
       perPage: NOTIFICATION_PER_PAGE,
+      searchedVal: ''
     }
   },
   computed: {
@@ -126,13 +146,17 @@ export default {
       selectedSetting: 'notifications/getSelectedSetting',
     }),
     tabTitleSelected() {
-      return this.$t('notifications.settings_titles.' + this.selectedSetting.path)
+      return this.$t(
+        'notifications.settings_titles.' + this.selectedSetting.path
+      )
     },
     tabTitle() {
       return this.onNotifications
         ? this.$t('notifications.title')
         : this.isScreenXS
-        ? (this.selectedSetting? this.tabTitleSelected: this.$t('notifications.push_notifications'))
+        ? this.selectedSetting
+          ? this.tabTitleSelected
+          : this.$t('notifications.push_notifications')
         : this.$t('notifications.notification_settings')
     },
     onSettings() {
@@ -146,10 +170,19 @@ export default {
     },
   },
   methods: {
+    handleBackChange(){
+      if (this.onSettings){
+        this.$store.commit('notifications/setTab', 'Notifications')
+      }
+      if (this.onSettingsItemTab){
+        this.$store.commit('notifications/setSelectedSetting', null)
+      }
+    },
     handlePageChange(page) {
       this.$store.commit('notifications/setTab', page)
     },
     searchChanged(e) {
+      this.searchedVal = e
       this.filtersChanged({ search: e })
     },
     infiniteScroll(perPage) {
@@ -177,6 +210,9 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+.mb-6p
+  margin-bottom: 6px
+
 .profile-notification::v-deep
   &.mobile
     background-color: $color-white-1

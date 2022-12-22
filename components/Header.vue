@@ -47,7 +47,7 @@
     <b-navbar-nav class="nav-menu-wrapper flex-row d-flex d-lg-none">
       <b-nav-item
         class="nav-item-icons"
-        :to="`${authenticated ? '/profile/notification' : '/login'}`"
+        :to="`${authenticated ? '/profile/notifications' : '/login'}`"
       >
         <!-- to append custom elements based on different pages in responsive mode  -->
         <PortalTarget name="notification-icon-slot">
@@ -281,7 +281,7 @@ export default {
     notificationPage() {
       if (this.authenticated) {
         this.$router.push({
-          path: '/profile/notification',
+          path: '/profile/notifications',
         })
       }
     },

@@ -1,6 +1,6 @@
 <template>
   <div v-if="selectedSetting">
-    <MobileHeader :title="tabTitle" @back="handlePageChange">
+    <MobileHeader :has-header="false" :title="tabTitle" @back="handlePageChange">
       <template #actions>
         <div class="d-flex align-items-center">
           <close-svg role="button" @click="handlePageChange"></close-svg>
@@ -310,7 +310,7 @@ export default {
   font-weight: $normal
   color: $color-black-1
   &:not(.input)
-    margin-top: 15px
+    margin-top: 5px
   &.switch
     margin-top: 14px
 
