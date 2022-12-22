@@ -330,7 +330,7 @@ export default {
   font-family: $font-family-base
   padding: 19px 10px 10px 10px
   background-color: $color-white-1
-  border-bottom: 1px $color-gray-47
+  border-bottom: solid 1px $color-gray-47
 
   svg text
     font-family: $font-family-sf-pro-display
