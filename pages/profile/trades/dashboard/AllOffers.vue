@@ -282,6 +282,9 @@
         @change="changeAction"
       />
 
+
+    </div>
+    <div class="bulkbar mb-4">
       <BulkSelectToolbar
         ref="bulkSelectToolbar"
         :active="action.length > 0 ? true : false"
@@ -295,7 +298,6 @@
         @submit="deleteSelected()"
       />
     </div>
-
     <div class="my-trade-listing-section">
       <div class="row justify-content-center">
         <div class="text-center w-100 px-2">
@@ -888,5 +890,10 @@ export default {
   font-weight: $normal
   font-style: normal
   font-family: $font-sp-pro
+.bulkbar
+  width: 930px
+  height: 38px
+  margin-bottom: 5px
+  margin-left: 4rem
 </style>
 
