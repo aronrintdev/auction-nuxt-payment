@@ -1,7 +1,7 @@
 <template>
   <b-modal id="address-type-modal" hide-footer>
     <template #modal-title class="text-capitalize modal-title m-0">
-      <span class="text-capitalize text-bold">
+      <span class="text-capitalize heading">
         {{
           $t('preferences.profile.address_modal_header', { type: addressType })
         }}
@@ -40,3 +40,11 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.heading
+  font-family: $font-montserrat-serif
+  font-weight: $medium
+  font-style: $normal
+  font-size: 20px
+</style>
