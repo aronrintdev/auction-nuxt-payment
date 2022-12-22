@@ -20,7 +20,7 @@
             :key="`product-carousel-${index}`"
             :class="{ item: true, 'photo-item': variant === 'photo' }"
           >
-            <ProductCard v-if="variant === 'detail'" :product="product" :showShareBtns="true"/>
+            <ProductCard v-if="variant === 'detail'" :product="product" :showShareBtns="showShareBtns"/>
             <nuxt-link v-if="variant === 'photo'" :to="`/shop/${product.sku}`">
               <ProductThumb
                 :src="product.image"
@@ -72,6 +72,10 @@ export default {
     loop: {
       type: Boolean,
       default: false,
+    },
+    showShareBtns: {
+      type: Boolean,
+      default: true,
     },
   },
 

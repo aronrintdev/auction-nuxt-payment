@@ -457,4 +457,10 @@ export default {
   .create-listing-wrapper
     margin-bottom: 20px
     border-radius: 0.5rem
+
+    .btn
+      &.btn-outline-dark-blue
+        &:hover
+          svg
+            filter: brightness(100)
 </style>

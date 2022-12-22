@@ -61,7 +61,7 @@
             class="img-fluid"
           />
           <p class="mb-0 fs-24 fw-6 font-primary">
-            {{ $t('newest_features.crypto_payments.binance') }}
+            {{ $t('newest_features.crypto_payments.vechain') }}
           </p>
         </div>
         <div
@@ -73,7 +73,7 @@
             class="img-fluid"
           />
           <p class="mb-0 fs-24 fw-6 font-primary">
-            {{ $t('newest_features.crypto_payments.vechain') }}
+            {{ $t('newest_features.crypto_payments.binance') }}
           </p>
         </div>
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-2 mb-sm-5">
+  <div class="bottom-banner-main">
     <div
       v-if="
         $route.path != '/features/social-signin' &&
@@ -33,7 +33,7 @@
       class="bottom-mobile-text-section mx-auto mt-1"
     >
       <p
-        class="font-primary fs-12 fw-7 text-black"
+        class="font-primary fs-12 fw-6 text-black"
         v-html="$t(bottomBannerDescriptionXS)"
       ></p>
       <div class="d-flex justify-content-end align-items-center">
@@ -44,7 +44,7 @@
         >
       </div>
     </div>
-    <div class="previous-and-next-links mt-5 mb-4 mb-sm-0">
+    <div class="previous-and-next-links mt-5">
       <div class="d-flex align-items-center justify-content-between">
         <NuxtLink
           v-if="previousPage && previousPageLink"
@@ -223,6 +223,10 @@ export default {
 @media screen and (max-width: 770px)
   .main-image-section
     height: 300px
+  .bottom-banner-main
+    .previous-link, .next-link
+      line-height: 14px
+      width: 70px
 @media screen and (max-width: 577px)
   .main-image-section
     width: 343px

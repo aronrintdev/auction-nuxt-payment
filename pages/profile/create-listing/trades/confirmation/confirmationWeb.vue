@@ -351,4 +351,18 @@ export default {
   letter-spacing: -0.02em
   color: $color-black-1
   width: 660px
+.confirm-trade-item-name
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+  font-size: 15px
+  line-height: 17px
+  color: $color-black-1
+.confirm-trade-item-detail
+  font-family: $font-sf-pro-text
+  font-style: normal
+  font-weight: $normal
+  font-size: 13px
+  line-height: 17px
+  color: $color-gray-6
 </style>

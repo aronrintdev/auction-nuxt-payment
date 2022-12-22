@@ -80,7 +80,7 @@ export default {
     color: $color-gray-5
 
   .carousel::v-deep
-    padding: 0 79px
+    padding: 0 111px
 
     .owl-nav
       width: auto

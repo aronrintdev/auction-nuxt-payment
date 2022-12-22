@@ -310,7 +310,8 @@
       "invalid_token": "Password reset token is invalid or expired",
       "invalid_verification_code": "Invalid verification code.",
       "code_generation_failed": "Verification code generation failed."
-    }
+    },
+    "forgot_password_placeholder": "joesmith@gmail.com"
   },
   "signup": {
     "or": "OR",
@@ -701,6 +702,7 @@
     },
     "inventory": {
       "bulk_delete": "Bulk Delete",
+      "bulk_delist": "Bulk Delist",
       "sku": "SKU",
       "package": "Package",
       "box": "Box",
@@ -1602,7 +1604,7 @@
     "box_condition": "Box Condition",
     "box_conditions": {
       "excellent": "Excellent",
-      "good_condition": "Good Condition",
+      "good_condition": "Excellent Condition",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
       "no_original_box": "No Original Box",
@@ -1650,6 +1652,7 @@
       "select_size_to_offer": "Please select a size above to make an offer",
       "out_of_stock": "Unfortunately, this item and size is currently out of stock!",
       "out_of_stock_place_offer": "Item out of stock, place offer or get notified",
+      "out_of_stock_item_price": "This item and size is currently out of stock! ",
       "enter_valid_amount": "Please enter valid offer amount",
       "not_found": "Product is not found",
       "select_shipping_type": "Please select a shipping type above"
@@ -2174,7 +2177,14 @@
     "move": "Move",
     "remove_items": "Remove Items",
     "edit_list": "Edit List",
-    "buying_lists": "Buying Wishlists",
+    "rename_list": "Rename List",
+    "delete_list": "Delete List",
+    "confirm_delete": "Kindly confirm",
+    "confirm_delete_message": "You are about to delete {list}",
+    "delete_success": "Wishlist deleted successfully",
+    "rename_success": "Wishlist renamed successfully",
+    "buying_lists": "Single items wishlist",
+    "shop_by_style_lists": "Shop By Style wishlist",
     "auction_watchlists": "Auction Watchlists",
     "trade_lists": "Trade Lists",
     "no_items_info": "You have no items in your wishlist!",
@@ -2792,6 +2802,7 @@
     "get_notified": "Get Notified",
     "stock_from_different_vendors": "The item you're looking to checkout has insufficient quantity. The following items from different vendors can be added to your bag in order to match the requested quantity.",
     "add_to_bag": "Add to Bag",
+    "add_to_cart": "Add to Cart",
     "cash_added": "Cash Added",
     "trade_fee": "Trade Fee",
     "send_offer": "Send Offer"
@@ -3351,6 +3362,7 @@
     "product": "Product",
     "date_listed": "Date Listed",
     "qty": "Qty",
+    "quantity": "Quantity",
     "price": "Price",
     "offers": "Offers",
     "actions": "Actions",
@@ -3542,7 +3554,7 @@
       "city": "City",
       "state": "State",
       "zip": "Zip/ Postal Code",
-      "please_provide_billing_first"  : "Please provide billing address.",
+      "please_provide_billing_first": "Please provide billing address.",
       "country": "Country",
       "billing_address": "Billing Address",
       "social_media_links": "Social Media Links",
@@ -3751,14 +3763,14 @@
       },
       "add_gift_card": "Add Gift Card",
       "add_card_payments": "Add Card Payment",
-      "ds_wallet" : "DS Wallet",
-      "enter_card_info" : "Enter your card information",
-      "card_expiration_date" : "Expiration Date",
+      "ds_wallet": "DS Wallet",
+      "enter_card_info": "Enter your card information",
+      "card_expiration_date": "Expiration Date",
       "add_new_default": "Add New Default",
       "add_new_default_alert": "You must have one default card payment saved in your profile",
       "change_default_card_alert": "Are you sure you want to make this card your default method of payment?",
       "card_scan_alert": "Move your card inside the frame and we’ll scan it for you.",
-      "card_save_success_alert":"Card has been added successfully",
+      "card_save_success_alert": "Card has been added successfully",
       "update_exp_cvv": "*Please update expiration date and CVV",
       "form_not_valid_message": "*Please enter valid payment information",
       "scan_card": "Scan Card",
@@ -3768,7 +3780,7 @@
       "purchase_a_gift_card": "Purchase a Gift Card",
       "purchase_gift_card_caption": "Gift a digital gift card for your friends, family or yourself!",
       "gift_card_success_alert": "Gift card has been added successfully",
-      "gift_card_remaining" : "Remaining Amount",
+      "gift_card_remaining": "Remaining Amount",
       "pin": "PIN",
       "view_gift_card_detail": "View Gift Card Details",
       "reload_gift_card": "Reload Gift Card",
@@ -3781,7 +3793,7 @@
       "recipients": "Recipients",
       "terms_and_services_agreement": "By ordering, I agree to the",
       "add_billing_address": "Adding Billing Address",
-      "gift_card_checkout_form":{
+      "gift_card_checkout_form": {
         "first_name": "First Name",
         "last_name": "Last Name",
         "address_line_1": "Address Line 1",
@@ -3791,7 +3803,7 @@
         "state": "State",
         "phone": "Phone #"
       },
-      "new_balance" : "New Balance"
+      "new_balance": "New Balance"
     }
   },
   "monthNames": {
@@ -3889,7 +3901,13 @@
     },
     "list_product": "List Product",
     "edit_details": "Edit Details",
-    "mobile_search_info": "Begin by searching for your product"
+    "mobile_search_info": "Begin by searching for your product",
+    "delist_mobile_message" : {
+      "title": "Are you sure you would like to delist these listings?",
+      "part_1": "All the",
+      "part_2": "active offers",
+      "part_3": "associated with these listing will be lost."
+    }
   },
   "vendor_purchase": {
     "their_value": "THEIR VALUE",
@@ -3995,14 +4013,17 @@
       "on_hold": "On Hold",
       "processing": "Processing",
       "send_to_ds": "Send to Deadstock",
+      "sent_to_deadstock": "Sent to Deadstock",
       "shipped_to_ds": "Shipped to DS",
       "arrived_at_ds": "Arrived at DS",
       "awaiting_auth": "Awaiting Authentication",
       "auth_issued": "Authentication Issued",
       "auth_failed": "Authentication Failed",
+      "authentication_failed": "Authentication Failed",
       "auth_completed": "Authentication Completed",
       "awaiting_shipment": "Awaiting Shipment to Buyer",
       "shipped_to_buyer": "Shipped to Buyer",
+      "ship_to_deadstock_status": "Ship to Deadstock",
       "delivered": "Delivered",
       "ordered": "Ordered",
       "multiple": "Multiple",
@@ -4025,11 +4046,12 @@
       "complete": "Complete",
       "voided": "Voided",
       "refunded": "Refunded",
-      "ship_to_deadstock": "Send to Deadstock",
+      "ship_to_deadstock": "Sent to Deadstock",
       "awaiting_drop_off_with_shipping_carrier": "Awaiting drop off with Shipping Carrier",
       "authentication_complete": "Authentication Complete",
+      "authenticated": "Authenticated",
       "awaiting_shipment_to_buyer": "Awaiting Shipment to Buyer",
-      "shipped_to_deadstock": "Send to Deadstock",
+      "shipped_to_deadstock": "Sent to Deadstock",
       "arrived_at_deadstock": "Arrived at Deadstock",
       "awaiting_shipment_to_ds": "Awaiting Shipment to DS",
       "completed": "Completed",
@@ -4054,6 +4076,7 @@
     "purchase_oldest_to_recent": "Purchase: Oldest to Recent",
     "sort_by": "Sort By",
     "buy": "Buy",
+    "shop": "Shop",
     "giftcard": "GiftCard",
     "heatcheck": "Heat Check",
     "trade": "Trade",
@@ -4759,7 +4782,7 @@
           "optional": "Optional",
           "search_information": "Search for what you're looking for with a minimum of 1 item, maximum {0} items or add your items or combinations from the Trade Wants List",
           "search_by_options": "Search by SKU, Keyword, or Brand",
-          "view_offer_items": "View Offer Items",
+          "view_offer_items": "Offer Items",
           "trade_wants_list": "Trade Wants List",
           "filter_by": "Filter By",
           "clear_all_filters": "Clear All Filters",
@@ -5178,7 +5201,7 @@
     "estimated_value": "Estimated Value",
     "estimated_value_trade": "Estimated Trade Value",
     "trader_wants": "Trader’s Wants",
-    "by_pressing_post_listing": "*By pressing on Post Listing(s),I accept the seller fee of 9.5% + a 2.9% transaction fee. No authentication fees will be charged to sellers.",
+    "by_pressing_post_listing": "If you choose to accept an offer from another trader, at that point you will be charged a flat \nTrade Fee of $25.00,  a processing fee of 2.9%, and a Shipping fee which depends on the quantity of items traded.",
     "balance_the_deal": "Balance this deal by adding cash",
     "balance_the_deal_request": "Balance this deal by requesting cash",
     "insert_amount": "Insert Amount",
@@ -5199,7 +5222,9 @@
     "their_value": "THEIR VALUE",
     "your_value": "YOUR VALUE",
     "view_details": "View Details",
-    "all_trade_listing_expire": "All trade listings expire in 14 days"
+    "all_trade_listing_expire": "All trade listings expire in 14 days",
+    "if_trader_accepts" : "*If the trader accepts this offer, the charges will be placed on your card. You will have 3 days to send your items.",
+    "trade_offer_confirmation": "Trade Offer Confirmation"
   },
   "change_password": {
     "password": "Password",
@@ -5261,8 +5286,8 @@
     "redeemed": "Redeemed",
     "giftcard_error": "*Unfortunately, this gift card code and PIN is invalid. Please check your code for typos and enter it again.",
     "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number.",
-    "invalid_data"  : "*Unfortunately, this gift card code and PIN is invalid.",
-    "redeem_success"  : "Once you receive a gift card, an email confirmation will be delivered with details including your gift code and pin number."
+    "invalid_data": "*Unfortunately, this gift card code and PIN is invalid.",
+    "redeem_success": "Once you receive a gift card, an email confirmation will be delivered with details including your gift code and pin number."
   },
   "thresholds": {
     "success_message": "Commission Threshold Saved Successfully",
@@ -5273,7 +5298,8 @@
     "general": {
       "add_to_bag": "Add {type} to Bag",
       "add_style_to_bag": "Add Style to Cart",
-      "back_to_style": "< Back to All Styles"
+      "back_to_style": "< Back to All Styles",
+      "view_cart": "View Cart"
     },
     "title": "Shop by Style",
     "title_archive": "Shop by Style (Archive)",
@@ -5761,6 +5787,14 @@
       "due": "Due",
       "failed_auth": "Failed Auth."
     },
+    "tab_groups": {
+      "day": "24H",
+      "week": "7D",
+      "month": "30D",
+      "6m": "6M",
+      "year": "1Y",
+      "all": "ALL"
+    },
     "faq_title": "Vendor Hub Frequently Asked Questions",
     "faq_body": "Have a question? See our FAQ with link below",
     "view_details": "View Details",
@@ -6183,11 +6217,11 @@
       "feature_banner_desc": "Start trading your items today",
       "benefits": {
         "first_benefit_title": "First of its Kind",
-        "first_benefit_desc": "The first platform that enables you to trade sneakers, apparel, streetwear and accessories.",
+        "first_benefit_desc": "The first platform that allows you to trade multiple items at once and add cash to complete a trade of sneakers, apparel, and accessories.",
         "second_benefit_title": "Value Meter",
         "second_benefit_desc": "Our fair trade meter uses live analytics to help create the most compatible trades and assure equal transactions.",
         "third_benefit_title": "Authenticity Guaranteed Products",
-        "third_benefit_desc": "Trade with confidence as all of our traded items are placed in our authentication process and authenticated by our experts."
+        "third_benefit_desc": "Trade with confidence as all of our items are verified through our authentication process using AI and in-person verification."
       },
       "new-features": "NEW FEATURES",
       "bottom_banner": {
@@ -6207,7 +6241,7 @@
       "feature_banner_desc": "A new enhanced buying experience",
       "benefits": {
         "first_benefit_title": "Certified Authentic Products",
-        "first_benefit_desc": "All of our products are placed in our authentication process and authenticated by our experts. Feel safe with your purchases as we guarantee 100% authentication and satisfaction.",
+        "first_benefit_desc": "Our experts verify each item through our authentication process using A.I. and in-person verification. We aim to ensure all items are authentic and as described.",
         "second_benefit_title": "24 hour live Customer Service",
         "second_benefit_desc": "We offer 24 hour live customer service where you can speak with an actual person to help you resolve any issues, questions or concerns.",
         "third_benefit_title": "NFC blockchain backed photo ledger",
@@ -6251,8 +6285,8 @@
       "benefits": {
         "first_benefit_title": "Flexibility",
         "first_benefit_desc": "Deadstock offers bidding on single item auctions or entire collections, paired with a variety of bidding methods.",
-        "second_benefit_title": "Higher Revenues",
-        "second_benefit_desc": "Auctions tend to allow Sellers to sell more items in a quicker time frame.",
+        "second_benefit_title": "Higher Revenue Options:",
+        "second_benefit_desc": "1. Maximize revenue by auctioning single items or an entire collection and set a minimum bidding amount, paired with our low seller fees to reach your revenue goal. \n 2. Maximize revenue by setting a starting bidding amount and set an auction duration to entice buyers to place the highest bid. \n 3. Maximixe revenue faster by auctioning single items or an entire collection, setting a starting bidding amount, promoting auction on socials, and placing a duration on your auction.",
         "third_benefit_title": "Certified Authentic Products   ",
         "third_benefit_desc": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed."
       },
@@ -6299,7 +6333,7 @@
       "benefits": {
         "first_benefit_title": "Safe and secure transactions",
         "first_benefit_desc": "100% safety and satisfaction guranteed with all Crypto transactions.",
-        "second_benefit_title": "Privacy",
+        "second_benefit_title": "Enables International Buying",
         "second_benefit_desc": "Crypto eliminates the traceability of specific accounts, cards and data.",
         "third_benefit_title": "Transactional Freedom",
         "third_benefit_desc": "Cryptocurrency is not tied to any bank or centralized agency, so you can experience true transactional freedom."
@@ -6338,7 +6372,7 @@
         "second_benefit_title": "Talk to a real person",
         "second_benefit_desc": "Talk to a real person via phone or email anytime to resolve your issue.",
         "third_benefit_title": "Immediate Problem Solving",
-        "third_benefit_desc": "Our customer service representives will help solve your issue immediately."
+        "third_benefit_desc": "Our customer service representatives will help solve your issue immediately."
       },
       "options": "Options",
       "bottom_banner": {
@@ -6584,7 +6618,7 @@
       }
     },
     "selling_on_deadstock": {
-      "title": "Sell",
+      "title": "Selling",
       "desc": "Sell your items quicker with our increased marketing visiblity. New analytics help you determine pricing, also receieve immediate payouts and low fees.",
       "feature_banner_title": "Selling on Deadstock",
       "feature_banner_desc": "Start selling your items today",
@@ -6618,7 +6652,7 @@
         "first_benefit_desc": "Receive your payout immediately after the transaction is completed.",
         "second_benefit_title": "Easily editable & user-friendly",
         "second_benefit_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
-        "third_benefit_title": "Time Saving & Efficient",
+        "third_benefit_title": "Time Saving and Efficient",
         "third_benefit_desc": "Detailed instructions on how to quickly and efficiently ship your items."
       },
       "process": "THE PROCESS",

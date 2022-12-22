@@ -30,7 +30,10 @@
         <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
         {{label}}
       </label>
-      <i
+      <div v-if="svgArrow" class="svg-arrow-container" :class="{'rotate' : isOpen }">
+        <img :src="require('~/assets/img/arrow-custom-dropdown.svg')" />
+      </div>
+      <i v-else
         class="pull-right mt-1 pr-1 fa fa-2x"
         :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"
         :style="arrowStyle"
@@ -157,6 +160,10 @@ export default {
     optionStyle: {
       type: Object,
       default: () => {}
+    },
+    svgArrow: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -264,6 +271,7 @@ ul.custom-dropdown-options li.fixed button
   display: flex
   justify-content: space-between
   align-items: center
+  position: relative
 div.label-wrapper label
   padding-left: 5px
   padding-right: 5px
@@ -273,4 +281,11 @@ div.label-wrapper label
   background: $color-white-1
 .bordered
   border: 1px solid $color-gray-17b
+.svg-arrow-container
+  position: absolute
+  right: 14px
+  transition: transform .2s ease-in-out
+  &.rotate
+    transform: rotate(180deg)
+    transition: transform .2s ease-in-out
 </style>

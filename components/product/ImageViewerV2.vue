@@ -15,6 +15,7 @@
     </PinchScrollZoom>
 
     <b-form-input
+      v-if="showSlider"
       v-model="scale"
       type="range"
       :min="MIN_SCALE"
@@ -42,6 +43,10 @@ export default {
     product: {
       type: Object,
       default: null,
+    },
+    showSlider: {
+      type: Boolean,
+      default: true,
     },
   },
 
