@@ -68,7 +68,6 @@ export default {
     padding: 0
 
   &:hover
-    transform: scale(1.2)
     cursor: pointer
   .feature-title
     @include heading-1
@@ -89,8 +88,7 @@ export default {
     background: transparent !important
     box-shadow: none !important
     max-width: 240px
-    &:hover
-        transform: scale(1)
+
     img
       width: 56px
       height: 47px
