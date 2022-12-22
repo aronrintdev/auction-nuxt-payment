@@ -211,17 +211,18 @@
                     </div>
                   </div>
                 </Button>
-                <div
-                  class="addToWishlistBtn d-flex align-items-center justify-content-center"
+                <button
+                  :id="`popover-wishlist-${product.id}`"
+                  class="addToWishlistBtn d-flex align-items-center justify-content-center border-0"
+                  :alt-text="wishList ? wishList.name : ''"
+                  :active="wishListShow || !!wishList"
+                  @click="removeFromWishList"
                 >
-                  <HeartIcon 
-                    class="heart-icon cursor-pointer" 
-                    :id="`popover-wishlist-${product.id}`"
-                    :alt-text="wishList ? wishList.name : ''"
-                    :active="wishListShow || !!wishList"
-                    @click="removeFromWishList"
+                  <HeartIcon
+                    class="heart-icon cursor-pointer"
+                    aria-hidden="true"
                   />
-                </div>
+                </button>
               </div>
               <div class="error-text">
                 {{ error.addToCart }}
@@ -271,7 +272,7 @@ export default {
     AlertModal,
     PlusIcon,
     HeartIcon,
-    WishListPopover
+    WishListPopover,
   },
 
   props: {
@@ -314,7 +315,7 @@ export default {
       ],
       message: null,
       MODAL_FADE_TIMEOUT: 2000,
-      show: null
+      show: null,
     }
   },
   async fetch() {
@@ -579,6 +580,4 @@ export default {
   .heart-icon
     width: 21px
     height: 21px
-    rect
-      fill: none
 </style>
