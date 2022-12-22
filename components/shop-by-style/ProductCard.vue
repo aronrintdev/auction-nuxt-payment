@@ -214,7 +214,13 @@
                 <div
                   class="addToWishlistBtn d-flex align-items-center justify-content-center"
                 >
-                  <HeartIcon class="heart-icon" />
+                  <HeartIcon 
+                    class="heart-icon cursor-pointer" 
+                    :id="`popover-wishlist-${product.id}`"
+                    :alt-text="wishList ? wishList.name : ''"
+                    :active="wishListShow || !!wishList"
+                    @click="removeFromWishList"
+                  />
                 </div>
               </div>
               <div class="error-text">
@@ -230,6 +236,15 @@
       :message="message"
       icon="tick"
     />
+    <WishListPopover
+      v-if="!wishList"
+      :product="product"
+      :wish-list="wishList"
+      :target="`popover-wishlist-${product.id}`"
+      @show="wishListShow = true"
+      @hidden="wishListShow = false"
+      @wishlisted="onWishListed"
+    />
   </div>
 </template>
 <script>
@@ -243,6 +258,7 @@ import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
 import AlertModal from '~/components/modal/Alert'
 import PlusIcon from '~/assets/icons/Plus'
 import HeartIcon from '~/assets/icons/HeartIcon'
+import WishListPopover from '~/components/wish-list/Popover.vue'
 export default {
   name: 'ShopByStyleProductCard',
   components: {
@@ -255,6 +271,7 @@ export default {
     AlertModal,
     PlusIcon,
     HeartIcon,
+    WishListPopover
   },
 
   props: {
@@ -270,6 +287,7 @@ export default {
 
   data() {
     return {
+      wishListShow: true,
       productImages: [this.product.image],
       products: {},
       method: 'buy',
@@ -296,7 +314,7 @@ export default {
       ],
       message: null,
       MODAL_FADE_TIMEOUT: 2000,
-      show: null,
+      show: null
     }
   },
   async fetch() {
@@ -372,6 +390,23 @@ export default {
   },
 
   methods: {
+    removeFromWishList() {
+      if (this.wishList) {
+        this.removeProductsFromWishList({
+          wishList: this.wishList,
+          ids: [this.product.id],
+        })
+        this.wishList = null
+        this.$emit('unwishlisted', this.product)
+      }
+    },
+    onWishListed(wishList) {
+      if (wishList) {
+        this.$set(this, 'wishList', wishList)
+        this.wishListShow = false
+        this.$emit('wishlisted', this.product, wishList)
+      }
+    },
     open() {
       this.$refs.openProductDetail.open()
     },
