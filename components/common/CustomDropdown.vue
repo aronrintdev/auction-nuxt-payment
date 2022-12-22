@@ -14,6 +14,8 @@
       :style="{
         'padding-left': paddingX,
         'padding-right': paddingX,
+        'padding-top': paddingT,
+        'padding-bottom': paddingB,
         'min-width': width,
         'height': dropDownHeight,
         'width': maxWidth,
@@ -30,15 +32,7 @@
         <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
         {{label}}
       </label>
-      <div v-if="svgArrow" class="svg-arrow-container" :class="{'rotate' : isOpen }">
-        <img :src="require('~/assets/img/arrow-custom-dropdown.svg')" />
-      </div>
-      <i v-else
-        class="pull-right mt-1 pr-1 fa fa-2x"
-        :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"
-        :style="arrowStyle"
-      >
-      </i>
+      <img alt="No Image" class="pull-right" :src="require(isOpen ? '~/assets/img/dashicons1.svg' : '~/assets/img/dashicons.svg' )" />
     </div>
     <ul
       v-if="isOpen"
@@ -138,6 +132,14 @@ export default {
       default: ''
     },
     paddingX: {
+      type: String,
+      default: ''
+    },
+    paddingT: {
+      type: String,
+      default: ''
+    },
+    paddingB: {
       type: String,
       default: ''
     },

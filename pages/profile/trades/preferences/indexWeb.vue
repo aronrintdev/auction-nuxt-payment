@@ -27,6 +27,8 @@
             variant="white"
             borderRadius="4px"
             padding-x="10px"
+            padding-t="5px"
+            padding-b="5px"
             @change="changeStatus"
             class="inventory-status-dropdown"
           />
@@ -62,7 +64,7 @@
             {{$t('trades.preferences.starting_at')}}
           </div>
           <b-col class="d-flex justify-content-center" sm="12" md="12">
-            0<single-slider :value="fairTrade" :minValue="0" :maxValue="DEFAULT_INTERESTS" :textToShow="$t('trades.preferences.of_fair_offer')" :meterText="true" @slide="changeFairTrade" />
+            <single-slider :value="fairTrade" :minValue="0" :maxValue="DEFAULT_INTERESTS" :textToShow="$t('trades.preferences.of_fair_offer')" :meterText="true" @slide="changeFairTrade" />
           </b-col>
         </div>
       </b-col>
