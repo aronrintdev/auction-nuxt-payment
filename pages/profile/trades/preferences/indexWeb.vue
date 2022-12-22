@@ -62,7 +62,7 @@
             {{$t('trades.preferences.starting_at')}}
           </div>
           <b-col class="d-flex justify-content-center" sm="12" md="12">
-            <single-slider :value="fairTrade" :minValue="0" :maxValue="DEFAULT_INTERESTS" :textToShow="$t('trades.preferences.of_fair_offer')" :meterText="true" @slide="changeFairTrade" />
+            0<single-slider :value="fairTrade" :minValue="0" :maxValue="DEFAULT_INTERESTS" :textToShow="$t('trades.preferences.of_fair_offer')" :meterText="true" @slide="changeFairTrade" />
           </b-col>
         </div>
       </b-col>
@@ -81,7 +81,7 @@
               {{$t('trades.preferences.sneaker')}}
             </b-col>
             <b-col md="10" sm="12">
-              <single-slider :value="sneakerInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeSneakerInterest" />
+              <single-slider :value="sneakerInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" :meterTextSneaker="true" @slide="changeSneakerInterest" />
             </b-col>
           </div>
         </div>
@@ -91,7 +91,7 @@
               {{$t('trades.preferences.apparel')}}
             </b-col>
             <b-col md="10" sm="12">
-              <single-slider :value="apparelInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeApparelInterest" />
+              <single-slider :value="apparelInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true"  :meterTextSneaker="true" @slide="changeApparelInterest" />
             </b-col>
           </div>
         </div>
@@ -101,7 +101,7 @@
               {{$t('trades.preferences.accessories')}}
             </b-col>
             <b-col md="10" sm="12">
-              <single-slider :value="accessoriesInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeAccessoriesInterest" />
+              <single-slider :value="accessoriesInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true"  :meterTextSneaker="true" @slide="changeAccessoriesInterest" />
             </b-col>
           </div>
         </div>
@@ -483,7 +483,7 @@ export default {
   font-style: normal
   @include heading-11
   color: $color-black-1
-  padding: 50px
+  padding: 50px 50px 65px 50px
 
 .main-pref-container
   background: $color-white-5

@@ -15,11 +15,14 @@
           tooltip="none"
           v-bind="options"
           class="vue-slider-ltr-shop"
-          :class="{'meter': meterText }"
+          :class="{'meter': meterText ,'meterSneaker' : meterTextSneaker }"
           @change="captureSliderValue"
         >
           <template v-if="meterText" #dot>
             <img :src="require('~/assets/img/trades/dot.svg')" class="custom-dot"/>
+          </template>
+          <template v-else-if="meterTextSneaker" #dot>
+            <img height="24px" width="24px" :src="require('~/assets/img/grey-circle.svg')" class="custom-dot"/>
           </template>
           <template v-else #dot>
             <img :src="require('~/assets/img/trades/dot-blue.svg')" class="custom-dot"/>
@@ -60,6 +63,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    meterTextSneaker: {
+      type: Boolean,
+      default: false,
+    },
     belowText: {
       type: Boolean,
       default: false,
@@ -96,6 +103,9 @@ export default {
 
 ::v-deep.meter.vue-slider-ltr-shop .vue-slider-process
   background: linear-gradient(180deg, $red-rgba 0%, $yellow-rgba 293.51%, $yellow-rgba 293.54%)
+
+::v-deep.meterSneaker.vue-slider-ltr-shop .vue-slider-process
+  background: #667799
 
 .percentage-value
   border: 1.5px solid $color-gray-60
