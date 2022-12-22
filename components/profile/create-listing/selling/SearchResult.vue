@@ -111,7 +111,7 @@ export default {
   color: $color-black-15
   font-family: $font-montserrat-serif
 .add-btn
-  font-family: $font-sp-pro !important
-  font-weight: $medium !important
-  font-size: 12px !important
+  font-family: $font-sp-pro
+  font-weight: $medium
+  font-size: 12px
 </style>
