@@ -113,6 +113,8 @@ export default {
 
 .reverse
   transform: rotate(180deg)
-
-
+.justify-content-between
+  font-family: $font-family-sf-pro-display
+  font-weight: $medium
+  font-size: 14px
 </style>
