@@ -187,7 +187,7 @@
                 </div>
               </div>
               <div
-                class="center-container d-flex"
+                class="default-margin d-flex"
                 :class="{'cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length > ONE_ITEM)}"
               >
                 <div class="left-item" :class="{'one-item-margin-top': lastSubmittedOffer.theirs_items.length === ONE_ITEM,
@@ -202,13 +202,13 @@
                     </div>
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
-                      <div class="mt-1 item-caption-description d-flex">
+                      <div class="item-caption-description d-flex">
                         <div class="item-color text-truncate">
                           {{ item.inventory.product.colorway }}
                         </div>
                         <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
                       </div>
-                      <span class="mt-1 item-caption-description">
+                      <span class="item-caption-description">
                         {{ $t('trades.trade_arena.box') }}:
                         {{ item.inventory.packaging_condition.name }}
                       </span>
@@ -507,9 +507,9 @@ export default {
   @media (min-width: 1200px)
     padding-left: 30px
     padding-right: 30px
-  @media (min-width: 1400px)
-    padding-left: 127px
-    padding-right: 127px
+.default-margin
+    margin-left: 127px
+    margin-right: 127px
 
 .item-head-trade-hub
   font-family: $font-family-sf-pro-display
@@ -915,7 +915,7 @@ export default {
   width: 797px
   background: $color-white-4
   min-height: 62px
-  margin-left: 123px
+  margin-left: 127px
   padding: 0 63px
 .mt-35px
   margin-top: 35px
@@ -949,4 +949,10 @@ export default {
   margin-top: 22px
 .cont-height
   min-height: 541px
+.item-name
+  @include body-21-medium
+.item-caption-description
+  font-size: $font-size-12
+  line-height: 14px
+  font-weight: $normal
 </style>
