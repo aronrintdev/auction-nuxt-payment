@@ -29,12 +29,12 @@
     <div v-else>
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
-        <div class="row justify-content-center align-content-center" >
+        <div class="row align-content-center" :class="{'justify-content-center' : !isOfferSummary}" >
           <div
-            v-for="(item) in offerItems"
+            v-for="(item,index) in offerItems"
             :key="'offer-item-list-' + item.id"
             class="d-flex justify-content-center align-content-center"
-            :class="{'offer-summary-item': isOfferSummary,'col-4':!isOfferSummary}"
+            :class="{'offer-summary-item': isOfferSummary,'col-4':!isOfferSummary,'mr-76':isOfferSummary && index !==2 }"
           >
             <div class="d-inline body-section-box w-100 m-1">
               <div class="d-flex align-items-center justify-content-center position-relative" :class="{'image-container': isOfferSummary}">
@@ -251,4 +251,6 @@ export default {
   width: 100%
   height: 100%
   background: $color-grey-70
+.mr-76
+  margin-right: 76px
 </style>

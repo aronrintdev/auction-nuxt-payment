@@ -253,7 +253,9 @@
               </div>
             </div>
             <div v-if="!isAcceptedOffer()" class="d-flex flex-column align-items-center"
-           :class="{'mt-35px':(lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM) }"
+           :class="{'mt-35px':(lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM),
+            'mt-minus': (lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length > ONE_ITEM)
+            }"
             >
               <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
                 <Meter :highest="getTheirTotal(false)"
@@ -539,12 +541,12 @@ export default {
   @media (min-width: 1200px)
     position: absolute
     margin-left: 115%
-    margin-top: 110px
+    margin-top: 105px
 
 #your-trade-item-0
   @media (min-width: 1200px)
     position: absolute
-    margin-top: 110px
+    margin-top: 105px
     margin-left: -115%
 
 #your-trade-item-1,#your-trade-item-2
@@ -948,11 +950,13 @@ export default {
 .two-item-margin-top
   margin-top: 22px
 .cont-height
-  min-height: 541px
+  min-height: 460px
 .item-name
   @include body-21-medium
 .item-caption-description
   font-size: $font-size-12
   line-height: 14px
   font-weight: $normal
+.mt-minus
+  margin-top: -84px
 </style>

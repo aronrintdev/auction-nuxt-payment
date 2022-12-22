@@ -78,7 +78,7 @@
         </b-row>
         <div v-if="!isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</div>
         <div v-else-if="isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.you_asking_for')}}</div>
-        <b-col class="row justify-content-start px-54 pt-2 m-0">
+        <b-col class="row justify-content-start pt-2 m-0">
           <offer-items
             v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0"
             :offerItems="offer.yours_items"
@@ -127,7 +127,7 @@
         <div v-else-if="isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-2">
           {{ $t('trades.you_asking_for') }}
         </div>
-        <b-col class="row justify-content-center px-54 pt-2 pb-4 m-0">
+        <b-col class="row justify-content-center pt-2 pb-4 m-0">
           <offer-items
             v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0"
             :offerItems="offerHistory.yours_items"
@@ -248,6 +248,7 @@ export default {
     border-radius: 10px
 
   @media (min-width: 576px)
+    min-width: 685px
     border-radius: 10px
     padding: 30px 49px 0 49px
 
