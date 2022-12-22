@@ -226,7 +226,6 @@ import debounce from 'lodash.debounce';
 import {mapActions, mapGetters} from 'vuex';
 import CustomDropdown from '~/components/common/CustomDropdown';
 import SingleSlider from '~/components/common/SingleSlider';
-import Button from '~/components/common/Button';
 import YourInventory from '~/pages/profile/trades/preferences/YourInventory';
 import ResetModal from '~/pages/profile/trades/preferences/ResetModal';
 import {
@@ -240,7 +239,7 @@ import {
 
 export default {
   name: 'Index',
-  components: {ResetModal, YourInventory, Button, SingleSlider, CustomDropdown},
+  components: {ResetModal, YourInventory, SingleSlider, CustomDropdown},
   layout: 'Profile',
   data(){
     return {
@@ -487,6 +486,7 @@ export default {
   background: $color-white-1
   border-radius: 4px
   box-shadow: 0 1px 4px $drop-shadow1
+  padding-bottom: 20px
 .inventory-offer-settings
   background: $color-white-1
   border-radius: 4px
