@@ -41,14 +41,6 @@
           {{$t('trades.your_inventory', {0: totalInventory})}}
         </div>
         <your-inventory @updateTotal="setTotalInventory" @change="changePublicInventories" />
-        <b-row class="justify-content-center pt-3">
-          <Button variant="primary" class="mr-4" pill @click="savePreference()">
-            {{$t('trades.preferences.save_changes')}}
-          </Button>
-          <Button variant="grey-light" pill @click="getTradePreferences()">
-            {{$t('trades.preferences.discard_changes')}}
-          </Button>
-        </b-row>
       </b-col>
 
       <!-- Offers Settings -->
@@ -347,6 +339,7 @@ export default {
     },
     setTotalInventory(totalInventory){
       this.totalInventory = totalInventory
+      this.savePreference()
     },
     changeFairTrade: debounce( function (val) {
       this.fairTrade = val
@@ -459,6 +452,7 @@ export default {
 
     changePublicInventories(selectedInventories){
       this.publicInventories = selectedInventories
+      this.savePreference()
     },
 
     changeSelectedBrands(brandId){
@@ -525,6 +519,8 @@ export default {
   font-style: normal
   @include body-16-medium
   color: $color-black-1
+  padding-top: 32px
+  padding-left: 30px
 .offer-setting
   font-family: $font-family-montserrat
   font-style: normal

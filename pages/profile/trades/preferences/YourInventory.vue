@@ -7,7 +7,7 @@
       class="section-nav text-center mt-5"
       @change="handleCategoryChange"
     />
-    <b-row class="mt-4">
+    <b-row class="mt-4 search-space">
       <b-col md="9">
         <SearchInput
           :value="searchText"
@@ -20,7 +20,7 @@
         />
       </b-col>
     </b-row>
-    <b-col class="mt-4 p-0" md="12" sm="12">
+    <b-col class="mt-4 p-0 dropdowns-space" md="12" sm="12">
       <span class="filter-by">{{ $t('create_listing.trade.offer_items.filter_by') }}</span>
       <div class="row d-flex">
         <b-col md="2" ms="12">
@@ -34,6 +34,7 @@
                           dropDownHeight="38px"
                           variant="white"
                           borderRadius="4px"
+                          padding-x="10px"
                           @getResults="getInventory"
                           @change="changeCategory"/>
           </b-col>
@@ -46,6 +47,7 @@
                           optionsWidth="custom"
                           dropDownHeight="38px"
                           variant="white"
+                          padding-x="10px"
                           borderRadius="4px"
                           @getResults="getInventory"
                           @change="changeSizeTypeFilter"/>
@@ -60,11 +62,12 @@
                           dropDownHeight="38px"
                           variant="white"
                           borderRadius="4px"
+                          padding-x="10px"
                           @getResults="getInventory"
                           @change="changeSizeFilter"/>
         </b-col>
         <b-col md="2" sm="12">
-        <Button class="mr-3" variant="primary" @click="getInventory">
+        <Button class="mr-3" variant="dark-blue" @click="getInventory">
           {{ $t('create_listing.trade.offer_items.filter_btn') }}
         </Button>
         </b-col>
@@ -281,4 +284,8 @@ export default {
   font-style: normal
   @include body-13-light
   color: $color-black-1
+.search-space
+  margin-left: 25px
+.dropdowns-space
+  margin-left: 30px
 </style>
