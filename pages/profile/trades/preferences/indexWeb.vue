@@ -198,14 +198,6 @@
             </div>
           </b-col>
         </b-col>
-        <b-row class="justify-content-center pt-3">
-          <Button variant="dark-blue" class="mr-4" pill @click="savePreference()">
-            {{$t('trades.preferences.save_changes')}}
-          </Button>
-          <Button variant="grey-light" pill @click="getTradePreferences()">
-            {{$t('trades.preferences.discard_changes')}}
-          </Button>
-        </b-row>
       </b-col>
 
       <!-- Brands Section -->
@@ -219,7 +211,7 @@
         <b-row class="mt-4">
           <b-row>
             <b-col md="3" v-for="(brand,index) in filters.brands" :key="index" class="brand-section-left">
-              <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"> <span class="brnad-name">{{brand.name}}</span>  </b-form-checkbox>
+              <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"> <span class="brnad-name pl-3">{{brand.name}}</span>  </b-form-checkbox>
             </b-col>
           </b-row>
         </b-row>
@@ -384,6 +376,7 @@ export default {
         this.sizeType = this.sizeType.filter(item => item !== selectedSizeType)
       }
       this.sizeTypeLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeType, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
+      this.savePreference()
     },
 
     /**
@@ -400,6 +393,7 @@ export default {
 
       this.apparelSizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.apparelSize, 5)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
+      this.savePreference()
     },
 
     /**
@@ -416,6 +410,7 @@ export default {
 
       this.sizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizes, 5)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
+      this.savePreference()
     },
 
     /****
@@ -432,18 +427,21 @@ export default {
     removeSizeType(index){
       this.sizeType.splice(index, 1)
       this.sizeTypeLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeType, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
+      this.savePreference()
     },
 
     removeSize(index){
       this.sizes.splice(index, 1)
       this.sizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizes, 5)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
+      this.savePreference()
     },
 
     removeApparelSize(index){
       this.apparelSize.splice(index, 1)
       this.apparelSizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.apparelSize, 5)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
+      this.savePreference()
     },
 
     resetToDefaultPreferences(){
