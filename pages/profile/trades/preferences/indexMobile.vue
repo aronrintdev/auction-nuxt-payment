@@ -640,7 +640,7 @@ export default {
   border-radius: 20px
   height: 40px
   width: 270px
-  bottom: 150px
+  bottom: 100px
   position: absolute
 .save-btn-size
   background: $color-blue-20
