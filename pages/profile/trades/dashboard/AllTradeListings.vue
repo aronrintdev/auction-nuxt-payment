@@ -671,7 +671,6 @@ export default {
   padding-left: 15px
   padding-right: 15px
   @media (min-width: 576px)
-    //margin-top: -50px
     padding-top: 50px
     background: $color-white-5
     padding-left: 25px
