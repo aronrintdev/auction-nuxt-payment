@@ -11,22 +11,17 @@
     <b-row class="mt-2">
       <b-col sm="12" md="9">
         <div class="d-flex flex-column card-summary-header">
-          <b-row>
-            <b-col cols="8" sm="5" class="body-4-bold text-color-blue-1 card-summary-header-title">
+          <b-row class="align-items-center">
+            <b-col cols="8" sm="5" class="card-summary-header-title">
               {{ $t('bids.auction_id') }} #{{ auction.id }}
             </b-col>
             <b-col cols="4" sm="2" class="text-right text-md-left card-summary-header-status">
-              <span v-if="auction.status === 'live'" class="text-success body-4-medium">&bull; &nbsp; {{
-                  $t('bids.live')
-                }}</span>
-              <span v-if="isAuctionLZ"
-                    class="text-gray-24 body-4-medium">&bull; &nbsp;{{ $t('bids.expired') }}</span>
+              <span v-if="auctionIsLive">&bull;&nbsp;{{ $t('bids.live') }}</span>
+              <span v-if="auction.remaining_time !== EXPIRED_STATUS" class="text-gray-24">&bull; &nbsp;{{ $t(`auction.status_array.${auction.status}`) }}</span>
+              <span v-else class="text-danger">&bull; &nbsp;{{ $t('bids.expired') }}</span>
             </b-col>
-            <b-col cols="12" sm="5" class="text-danger body-4-medium">
-              {{ $t('bids.headers.time_remaining') }}&colon;
-              {{
-                auction.remaining_time
-              }}
+            <b-col v-if="auction.remaining_time !== EXPIRED_STATUS" cols="12" sm="5" class="text-danger">
+              {{ $t('bids.headers.time_remaining') }}&colon;&nbsp;{{ auction.remaining_time }}
             </b-col>
           </b-row>
         </div>
@@ -96,7 +91,7 @@
 
       <b-col sm="12" md="3" class="d-flex flex-column justify-content-between">
         <div class="d-flex flex-column">
-          <div class="d-flex editable-bid">
+          <div class="d-flex align-items-center editable-bid">
             <div class="d-flex" :class="hasReserveError? 'error-border': ''">
                 <span v-if="auctionIsLive" class="mt-1 mr-2">
                  {{ $t('bids.increase_bid') }}
@@ -225,7 +220,8 @@ export default {
       hasReserveError: false,
       modalActionLoading: false,
       BID_AUCTION_TYPE_COLLECTION,
-      BID_AUCTION_TYPE_SINGLE
+      BID_AUCTION_TYPE_SINGLE,
+      EXPIRED_STATUS,
     }
   },
   /**
@@ -258,6 +254,7 @@ export default {
       return this.auction.highest_bid === this.selectedBid.price
     },
     auctionIsLive() {
+      console.log('----- this.auction.remaining_time', this.auction.remaining_time)
       return this.auction.status === 'live' && this.auction.remaining_time !== EXPIRED_STATUS
     },
     /**
@@ -419,6 +416,7 @@ export default {
   @include body-4
   font-weight: $normal
   font-family: 'SF Pro Display'
+  height: 24px
 
 .remove-button
   text-decoration: underline
@@ -507,6 +505,17 @@ export default {
   border-radius: 10px
   border: 1px solid $color-gray-60
   padding: 15px 10px
+  &-header
+    &-title
+      font-family: $font-sp-pro
+      font-weight: $bold
+      @include body-2
+      color: $color-blue-1
+    &-status
+      font-family: $font-montserrat
+      font-weight: $normal
+      @include body-4
+      color: $color-green-2
 
 @media (max-width: 576px)
   .tag-bid

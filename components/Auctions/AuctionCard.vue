@@ -57,7 +57,7 @@
           <h5 class="auct-card-title mb-03 text-capitalize">{{ auction.name }}</h5>
           <div class="auct-card-text mb-md-1 mb-0" :class="{'small-card': small }">
             <span v-for="(cat, idx) in auction.categories" :key="cat" class="auct-card-text-colorway">
-              <span v-if="idx !== 0">&nbsp;&amp;&nbsp;</span>
+              <span v-if="idx">&nbsp;&amp;&nbsp;</span>
               {{ $t(`common.categories.${cat}`) }}
             </span>
           </div>
