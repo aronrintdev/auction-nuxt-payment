@@ -11,7 +11,7 @@ export default {
         const ctx = chart.chart.ctx
         const width = chart.chart.width
         const height = chart.chart.height
-        ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.6)
+        ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height / 2 - 30)
         ctx.fillStyle = '#626262'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'

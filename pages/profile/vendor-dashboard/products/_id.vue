@@ -409,6 +409,7 @@
 </template>
 
 <script>
+import {Chart} from 'chart.js'
 import Loader from '~/components/common/Loader'
 import screenSize from '~/plugins/mixins/screenSize'
 import { AWAITING_SHIPMENT_TO_DEADSTOCK, PROCESSING } from '~/static/constants'
@@ -416,10 +417,11 @@ import ProductThumb from '~/components/product/Thumb'
 import orderStatus from '~/plugins/mixins/order-status'
 import CustomSelect from '~/components/common/CustomSelect'
 import BreakdownProductStatCard from '~/components/profile/vendor-dashboard/BreakdownProductStatCard'
+import chartPlugin from '~/plugins/mixins/chart-plugin';
 export default {
   name: 'DashboardSingleProduct',
   components: { BreakdownProductStatCard, CustomSelect, ProductThumb, Loader },
-  mixins: [screenSize, orderStatus],
+  mixins: [screenSize, orderStatus, chartPlugin],
   layout: 'Profile',
   data() {
     return {
@@ -591,23 +593,15 @@ export default {
     },
   },
   created() {
-    // eslint-disable-next-line no-undef
     Chart.plugins.register({
-      afterDraw(chart) {
-        if (chart.data.datasets[0].data.every((item) => item === 0)) {
-          const ctx = chart.chart.ctx
-          const width = chart.chart.width
-          const height = chart.chart.height
-          ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.6)
-          ctx.fillStyle = '#626262'
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.font = '500 18px Montserrat'
-
-          ctx.fillText('No Data Found', width / 2, height / 2 - 30)
-          ctx.restore()
-        }
-      },
+      afterDraw: (chart) =>
+          this.chartAfterDrawPlugin(chart, 'No Data Found'),
+    })
+  },
+  destroyed() {
+    Chart.plugins.unregister({
+      afterDraw: (chart) =>
+          this.chartAfterDrawPlugin(chart, 'No Data Found'),
     })
   },
   mounted() {

@@ -158,7 +158,7 @@
   </section>
 </template>
 <script>
-import {Chart} from 'chart.js'
+import { Chart } from 'chart.js'
 import { CustomSelect } from '~/components/common'
 import {
   DEFAULT,
@@ -167,7 +167,7 @@ import {
   GRAPH_COLORS,
 } from '~/static/constants'
 import screenSize from '~/plugins/mixins/screenSize'
-import chartPlugin from '~/plugins/mixins/chart-plugin';
+import chartPlugin from '~/plugins/mixins/chart-plugin'
 
 export default {
   name: 'VendorDashboardCharts',
@@ -180,12 +180,14 @@ export default {
       filterBy: 'month',
       activeTab: 'month',
       activeTabDoughnut: 'week',
-      tabsOptions: Object.keys(this.$t('vendor_dashboard.tab_groups')).map(key => {
-        return {
-          title: this.$t(`vendor_dashboard.tab_groups.${key}`),
-          value: key
+      tabsOptions: Object.keys(this.$t('vendor_dashboard.tab_groups')).map(
+        (key) => {
+          return {
+            title: this.$t(`vendor_dashboard.tab_groups.${key}`),
+            value: key,
+          }
         }
-      }),
+      ),
       searchFilters: {
         startDate: '',
         endDate: '',
@@ -357,12 +359,14 @@ export default {
   },
   created() {
     Chart.plugins.register({
-      afterDraw: (chart) => this.chartAfterDrawPlugin(chart, this.emptyOrLoadingText),
+      afterDraw: (chart) =>
+        this.chartAfterDrawPlugin(chart, this.emptyOrLoadingText),
     })
   },
   destroyed() {
     Chart.plugins.unregister({
-      afterDraw: (chart) => this.chartAfterDrawPlugin(chart, this.emptyOrLoadingText),
+      afterDraw: (chart) =>
+        this.chartAfterDrawPlugin(chart, this.emptyOrLoadingText),
     })
   },
   mounted() {
