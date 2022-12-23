@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="auction.auction_items"
-      :class="isMobileSize ? 'border shadow-sm' : ''"
+      :class="{'border shadow-sm': isMobileSize, 'incoming': bidType !== BID_TYPE_OUTGOING }"
       class="text-center w-100 mx-0 bg-white collection-item position-relative"
     >
       <div v-if="isMobileSize && bidType === BID_TYPE_OUTGOING" :class="`${bid.place}_mobile`"
@@ -55,7 +55,7 @@
           <div class="d-flex justify-content-around flex-column column-auction-type">
             <span class="body-4-normal sf-pro-text">{{ $t('bids.auction_types.' + auction.type) }}</span>
           </div>
-          <div class="d-flex justify-content-around flex-column column-auto-bid">
+          <div v-if="bidType === BID_TYPE_OUTGOING" class="d-flex justify-content-around flex-column column-auto-bid">
             <span class="body-4-normal sf-pro-text text-capitalize">{{ autoBidDisabled ? $t('common.off') : $t('common.on') }}</span>
           </div>
           <div class="d-flex justify-content-center flex-column column-bid-amt">
@@ -106,6 +106,9 @@
                 </b-col>
                 <b-col class="d-flex align-items-center pl-0">
                   <div>
+                    <div class="text-gray-6 body-6-normal sf-pro-font text-left mb-02 mb-md-1 text-truncate">
+                      {{ item.inventory.product.name }}
+                    </div>
                     <div class="text-gray-6 body-6-normal sf-pro-font text-uppercase text-left mb-02 mb-md-1">
                       {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ item.inventory.product.sku }}
                     </div>
@@ -117,7 +120,7 @@
                     }}
                     </div>
                     <div class="text-gray-6 body-6-normal sf-pro-font text-left mb-02 mb-md-1">
-                      {{ $t('products.box_condition') }}&colon;&nbsp;{{ item.inventory.packaging_condition.name }}
+                      {{ $t('products.box_condition') }}&colon;&nbsp;{{ $t(`common.box_conditions.${item.inventory.packaging_condition.category_id}.${item.inventory.packaging_condition.display_order}`) }}
                     </div>
                   </div>
                </b-col>
@@ -448,6 +451,12 @@ export default {
     width: 10%
   &-auction-type
     width: 10.6%
+.collection-item.incoming
+  .column
+    &-product
+      width: 42.8%
+      @media (max-width: 576px)
+        width: 100%
 
 .thumb-wrapper::v-deep
   background-color: $white

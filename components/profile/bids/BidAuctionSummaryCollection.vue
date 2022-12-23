@@ -5,7 +5,7 @@
         <b-col md="4">
           <ProductThumb :product="item.inventory.product" width="130" />
         </b-col>
-        <b-col md="8" class="pt-0 pl-2 pl-md-4 pt-md-5 d-flex flex-column justify-content-between body-5-normal">
+        <b-col md="8" class="pt-0 pl-2 pl-md-4 pt-md-0 d-flex flex-column justify-content-between body-5-normal">
           <div  class="product-name">{{ item.inventory.product.name }}</div>
           {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ item.inventory.product.colorway }}
           <div class="product-value">

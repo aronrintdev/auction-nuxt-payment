@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="inventory.product"
-      :class="isMobileSize ? 'border' : ''"
+      :class="{'border': isMobileSize, 'incoming': bidType !== BID_TYPE_OUTGOING }"
       class="position-relative text-center w-100 mx-0 bg-white d-flex flex-column flex-md-row align-items-center single-item"
     >
       <div v-if="isMobileSize && bidType === BID_TYPE_OUTGOING" :class="`${bid.place}_mobile`"
@@ -81,7 +81,7 @@
         </span>
         </div>
       </div>
-      <div class="d-flex justify-content-around flex-column px-0 column-auto-bid">
+      <div v-if="bidType === BID_TYPE_OUTGOING" class="d-flex justify-content-around flex-column px-0 column-auto-bid">
         <div class="d-flex justify-content-between d-md-block  align-items-center short-row-section">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.auto_bid') }}:</span>
           <span class="text-capitalize" :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal sf-pro-text'">
@@ -298,6 +298,11 @@ export default {
   margin-bottom: 11px
   color: $black
 
+  &.incoming
+    .column
+      &-product
+        width: 42.8%
+
   .column
     &-product
       width: 32.8%
@@ -322,6 +327,10 @@ export default {
   @media (max-width: 576px)
     padding: 14px 0 6px
     margin-bottom: 15px
+    &.incoming
+      .column
+        &-product
+          width: 100%
     .column
       &-product,
       &-action,
