@@ -153,7 +153,7 @@
             <!-- ./Min Offer Amount -->
 
             <!-- Price -->
-            <b-td class="p-3 text-center">
+            <b-td class="p-3 text-center price-text">
               {{
                 listingItem.price
                   ? listingItem.price
@@ -635,21 +635,39 @@ export default {
   h2.title
     @include heading-1
     color: $color-black-1
+    font-family: $font-family-sf-pro-display
+    font-size: 24px
 
   .table-inventory
+    thead
+      tr
+        th
+          font-family: $font-family-sf-pro-display
+          font-weight: $medium
+          font-size: 18px
     .inventory-row
       @include body-4-regular
       color: $color-black-1
       background-color: $color-white-1
       border-bottom: 10px solid $color-white-5
+      .price-text
+        font-family: $font-family-sf-pro-display
+        font-weight: $regular
+        font-size: 16px
 
       .title
         @include body-5-bold
         color: $color-black-1
+        font-family: $font-family-sf-pro-display
+        font-weight: $medium
+        font-size: 15px
 
       .info
         @include body-5-normal
         color: $color-gray-6
+        font-family: $font-family-sf-pro-display
+        font-weight: $medium
+        font-size: 13px
 
       td
         .btn-copy
@@ -689,7 +707,10 @@ export default {
   .input-error
     :deep(.form-input)
       border: 1px solid $color-red-3
-
+.confirm-text
+  font-family: $font-family-sf-pro-display
+  font-weight: $regular
+  font-size: 16px
 @media (min-width: 576px)
   .container-profile-inventory-confirm
     padding: 47px 54px
