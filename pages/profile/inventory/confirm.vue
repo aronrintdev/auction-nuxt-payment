@@ -192,6 +192,8 @@ export default {
     color: $color-black-1
 
   .table-inventory
+    th
+      font-family: $font-family-sf-pro-display
     .inventory-row
       @include body-4-regular
       color: $color-black-1
@@ -201,12 +203,16 @@ export default {
       .title
         @include body-8-medium
         color: $color-black-1
-        font-family: $font-sp-pro
+        font-family: $font-family-sf-pro-display
+        font-weight: $medium
+        font-size: 15px
 
       .info
         @include body-10-normal
         color: $color-gray-6
-        font-family: $font-sp-pro
+        font-family: $font-family-sf-pro-display
+        font-weight: $medium
+        font-size: 13px
 
       .btn-copy
         width: 30px
