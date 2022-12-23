@@ -60,7 +60,6 @@ export default {
     cursor: help
     background-color: $color-white-1
     &:hover
-      transform: scale(1.1)
       cursor: pointer
 
     .feature-title
@@ -91,8 +90,6 @@ export default {
     img
       width: 56px
       height: 47px
-    &:hover
-      transform: scale(1)
     .feature-title
       font-size: 12px
       margin-top: 9px

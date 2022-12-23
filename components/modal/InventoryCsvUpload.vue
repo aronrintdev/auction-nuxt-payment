@@ -275,7 +275,7 @@ export default {
   .btn-upload
     @include body-3-normal
     width: 220px
-
+    background-color: $color-grey-101
   .btn-download
     @include body-3-normal
     color: $color-blue-20
