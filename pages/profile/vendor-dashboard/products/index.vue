@@ -22,7 +22,6 @@
     <section :class="mobileClass" class="row">
       <div class="col-3 col-md-3">
         <StatsCard
-          :show-icon="!isScreenXS"
           :coloredText="isScreenXS"
           :icon="require('~/assets/img/icons/profile/total-sales.svg')"
           :title="$tc('vendor_dashboard.total_sales', 1).toString()"
@@ -32,7 +31,6 @@
       </div>
       <div class="col-3 col-md-3">
         <StatsCard
-          :show-icon="!isScreenXS"
           :coloredText="isScreenXS"
           :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
           :title="
@@ -48,7 +46,6 @@
       </div>
       <div class="col-3 col-md-3">
         <StatsCard
-          :show-icon="!isScreenXS"
           :coloredText="isScreenXS"
           :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
           :title="$t('vendor_dashboard.inventory')"
@@ -58,7 +55,6 @@
       </div>
       <div class="col-3 col-md-3">
         <StatsCard
-          :show-icon="!isScreenXS"
           :coloredText="isScreenXS"
           :icon="require('~/assets/img/icons/profile/item-sold.svg')"
           :title="$t('vendor_dashboard.items_sold')"

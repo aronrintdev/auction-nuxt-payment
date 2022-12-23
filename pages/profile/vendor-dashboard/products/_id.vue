@@ -83,7 +83,7 @@
       <div
         v-if="!isScreenXS"
         :class="{
-          'mt-20 flex-grow-1': !isScreenXS,
+          'mt-18 flex-grow-1': !isScreenXS,
         }"
       >
         <div
@@ -181,8 +181,13 @@
         :show-empty="!loading && result.orders.length === 0"
       >
         <template #table-busy>
-          <div class="d-flex align-items-center justify-content-center w-100">
+          <div class="d-flex align-items-center justify-content-center w-100 h-100 ">
             <Loader :loading="loading" />
+          </div>
+        </template>
+        <template #empty>
+          <div class="d-flex align-items-center justify-content-center w-100 h-100 ">
+            {{$t('vendor_dashboard.empty_table')}}
           </div>
         </template>
         <template #head()="scope">
@@ -719,8 +724,8 @@ export default {
   margin-bottom: 12px
 .mb-14
   margin-bottom: 14px
-.mt-20
-  margin-top: 20px
+.mt-18
+  margin-top: 18px
 .mr-31
   margin-right: 31px
 
@@ -746,26 +751,38 @@ export default {
     height: max-content
 
 .dropdown-filter::v-deep
-  background-color: $color-white-4
-  border-radius: 8px
-  border: none
-  width: 200px
-  &.custom-selectbox
+    background-color: $color-white-4
+    border-radius: 8px
+    border: none !important
+    width: 200px
+
+    &.open
+      .selected
+        border-bottom: 1px solid $color-black-14 !important
+
     .selected
-      @include body-13-medium
       color: $color-black-1
-      background-color: $color-white-4
+      background-color: $color-white-4 !important
       font-family: $font-family-sf-pro-display
-      border: none
+      border: none !important
       padding-inline: 18px
+      span
+        font-weight: $medium !important
+        font-size: 16px !important
 
       label
         display: none
 
-    .items
-      @include body-13-regular
-      color: $color-black-1
-      font-family: $font-family-sf-pro-display
+    div.items
+      div
+        font-weight: $regular !important
+        font-size: 16px !important
+        color: $color-black-1
+        background-color: $color-white-4 !important
+        font-family: $font-family-sf-pro-display
+
+        &:last-child
+          border: none
 
 .web-padding
   padding: 30px 25px
@@ -849,6 +866,10 @@ export default {
 
 
 ::v-deep.ordersTable
+  .b-table-empty-row
+    td
+      div
+        height: 100%
   &.table.b-table.b-table-no-border-collapse
     border-spacing: 0 10px
 

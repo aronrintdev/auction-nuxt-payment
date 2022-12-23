@@ -5797,6 +5797,7 @@
     },
     "faq_title": "Vendor Hub Frequently Asked Questions",
     "faq_body": "Have a question? See our FAQ with link below",
+    "empty_table": "There are no records to show",
     "view_details": "View Details",
     "view_all": "View All",
     "total_sales": "Total Sales | Sales Activity",

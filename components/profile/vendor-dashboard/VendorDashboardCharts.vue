@@ -462,29 +462,38 @@ export default {
   color: $color-blue-30
 
 .dropdown-filter::v-deep
-  background-color: $color-white-1
-  border-radius: 8px
-  border: none !important
-  width: 200px
-  &.open
-    .items
-      border-top: 0.5px solid $color-black-14
-
-  .selected
-    @include body-13-medium
-    color: $color-black-1
-    background-color: $color-white-1
-    font-family: $font-family-sf-pro-display
+    background-color: $color-white-4
+    border-radius: 8px
     border: none !important
-    padding-inline: 18px
+    width: 200px
 
-    label
-      display: none
+    &.open
+      .selected
+        border-bottom: 1px solid $color-black-14 !important
 
-  .items
-    @include body-13-regular
-    color: $color-black-1
-    font-family: $font-family-sf-pro-display
+    .selected
+      color: $color-black-1
+      background-color: $color-white-4 !important
+      font-family: $font-family-sf-pro-display
+      border: none !important
+      padding-inline: 18px
+      span
+        font-weight: $medium !important
+        font-size: 16px !important
+
+      label
+        display: none
+
+    div.items
+      div
+        font-weight: $regular !important
+        font-size: 16px !important
+        color: $color-black-1
+        background-color: $color-white-4 !important
+        font-family: $font-family-sf-pro-display
+
+        &:last-child
+          border: none
 
 
 .text-grey-69
