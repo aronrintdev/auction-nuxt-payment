@@ -262,7 +262,7 @@
               !isScreenXS,
           }"
         >
-          ({{ chartFilterOptions[activeTab] }})
+          ({{ chartFilterOptions[isScreenXS ? activeTab : filterBy] }})
         </div>
       </div>
 
@@ -593,7 +593,6 @@ export default {
       filterByTitle: this.$t('selling_page.status'),
       filterBy: 'month',
       activeTab: 'month',
-      activeTabDoughnut: 'week',
       filterTabs: [
         { title: 'Week', value: 'week' },
         { title: 'Month', value: 'month' },
@@ -1060,26 +1059,38 @@ export default {
     padding: 10px 15px 38px 17px
 
 .dropdown-filter::v-deep
-  background-color: $color-white-4
-  border-radius: 8px
-  border: none
-  width: 200px
-  &.custom-selectbox
+    background-color: $color-white-4
+    border-radius: 8px
+    border: none !important
+    width: 200px
+
+    &.open
+      .selected
+        border-bottom: 1px solid $color-black-14 !important
+
     .selected
-      @include body-13-medium
       color: $color-black-1
-      background-color: $color-white-4
+      background-color: $color-white-4 !important
       font-family: $font-family-sf-pro-display
-      border: none
+      border: none !important
       padding-inline: 18px
+      span
+        font-weight: $medium !important
+        font-size: 16px !important
 
       label
         display: none
 
-    .items
-      @include body-13-regular
-      color: $color-black-1
-      font-family: $font-family-sf-pro-display
+    div.items
+      div
+        font-weight: $regular !important
+        font-size: 16px !important
+        color: $color-black-1
+        background-color: $color-white-4 !important
+        font-family: $font-family-sf-pro-display
+
+        &:last-child
+          border: none
 
 ::v-deep.stat-table
   &.table.b-table.b-table-no-border-collapse
