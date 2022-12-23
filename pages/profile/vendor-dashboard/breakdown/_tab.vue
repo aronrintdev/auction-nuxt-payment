@@ -496,7 +496,7 @@ import MobileSearchInput from '~/components/mobile/MobileSearchInput'
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
 import Button from '~/components/common/Button'
 import MobileFilterItem from '~/components/profile/vendor-dashboard/MobileFilterItem'
-import chartPlugin from '~/plugins/mixins/chart-plugin';
+import chartPlugin from '~/plugins/mixins/chart-plugin'
 
 export default {
   name: 'BreakDownPage',
@@ -702,14 +702,12 @@ export default {
   },
   created() {
     Chart.plugins.register({
-      afterDraw: (chart) =>
-          this.chartAfterDrawPlugin(chart, 'No Data Found'),
+      afterDraw: (chart) => this.chartAfterDrawPlugin(chart, 'No Data Found'),
     })
   },
   destroyed() {
     Chart.plugins.unregister({
-      afterDraw: (chart) =>
-          this.chartAfterDrawPlugin(chart, 'No Data Found'),
+      afterDraw: (chart) => this.chartAfterDrawPlugin(chart, 'No Data Found'),
     })
   },
   mounted() {
