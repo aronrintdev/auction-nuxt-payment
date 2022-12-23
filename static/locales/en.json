@@ -545,7 +545,7 @@
     "trade_desc": "Use footwear, apparel, \n accessories, and cash to \n trade items.",
     "trade_areana": "Trade Arena",
     "newest_features": "Newest \n Features",
-    "newestfeatures_description": "View the latest features found on Deadstock V2 app",
+    "newestfeatures_description": "View the latest \n features found on \n Deadstock V2 app",
     "shareable_wishlist": "SHARABLE WISHLISTS & WATCHLISTS",
     "shareable_wishlist_sm": "WISHLISTS & WATCHLISTS",
     "intl_shipping": "INTL’ SHIPPING",
@@ -577,7 +577,7 @@
     "bestsellers": "Best Sellers",
     "current_promotions": "Current \n Promotions",
     "current_promos": "Current \n Promos",
-    "current_promotions_description": "Check out our latest promotions and giveaways",
+    "current_promotions_description": "Check out our \n latest promotions \n and giveaways",
     "view_more_promotions": "View More Promotions",
     "auctions": "Auctions",
     "ending_soon": "Ending Soon",
@@ -5930,19 +5930,19 @@
     "settings": {
       "texts": {
         "buying_new_offer": {
-          "until_desc": "Will not be notified until {n} % of fair trade meter is met",
+          "until_desc": "You will not be notified until {n} % of fair trade meter is met",
           "until_title": "Percentage Trade Offer Value"
         },
         "selling_trade_offer": {
-          "until_desc": "Will not be sent a notification unless {n} % of your Offer has been reached.",
+          "until_desc": "You will not be sent a notification unless {n} % of your Offer has been reached.",
           "until_title": "Percentage Reserve"
         },
         "selling_new_bids": {
-          "until_desc": "Will not be sent a notification unless {n} % of your Reserve Price has been reached.",
+          "until_desc": "You will not be sent a notification unless {n} % of your Reserve Price has been reached.",
           "until_title": "Percentage Reserve"
         },
         "selling_new_offer": {
-          "until_desc": "Will not be sent a notifications until {n} % of your asking price is reached",
+          "until_desc": "You will not be sent a notifications until {n} % of your asking price is reached",
           "until_title": "Percentage Asking Price"
         }
       },
