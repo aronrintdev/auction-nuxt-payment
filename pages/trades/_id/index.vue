@@ -32,11 +32,22 @@
                 <div class="d-flex align-items-start flex-column justify-content-center h-90">
                   <span class="font-weight-bold ml-4 mb-3">{{$t('trades.trade_arena.share')}}</span>
                   <div class="social-icons">
-                    <div class="twitter">
-                      <b-icon icon="twitter" class="twt-icon" role="button"></b-icon></div>
-                    <b-icon icon="facebook" class="facebook" role="button"></b-icon>
-                    <img :src="require('~/assets/img/instagram.png')" class="instagram" role="button">
-                    <b-icon icon="link45deg" class="link-icon" role="button"></b-icon>
+                    <ShareNetwork
+                      v-for="n in networks"
+                      :network="n.network"
+                      :key="n.network"
+                      :title="'Deadstock Trade Arena'"
+                      :description="''"
+                      :url="shareUrl"
+                    >
+                      <b-img :src="n.icon" />
+                    </ShareNetwork>
+                    <b-img
+                      :title="'Deadstock Trade Arena'"
+                      class="link-share-btn"
+                      src="~/assets/img/icons/copy.svg"
+                      @click="shareLink"
+                    />
                   </div>
                 </div>
               </b-popover>
@@ -332,6 +343,8 @@ import {
   OFFER_SENT, CASH_TYPE_REQUESTED
 } from '~/static/constants/trades'
 import IndexMobile from '~/pages/trades/_id/IndexMobile';
+import twitterIcon from '~/assets/img/icons/twitter2.svg'
+import facebookIcon from '~/assets/img/icons/facebook-share.svg'
 
 export default {
   name: 'Index',
@@ -408,6 +421,16 @@ export default {
         trader_ranking: '100%',
         total_trades: '100+'
       },
+      networks: [
+        {
+          network: 'twitter',
+          icon: twitterIcon,
+        },
+        {
+          network: 'facebook',
+          icon: facebookIcon,
+        },
+      ],
     }
   },
   head() {
@@ -430,7 +453,10 @@ export default {
       // add expiry days to date
       const expiryDate = date.setDate(date.getDate() + TRADE_EXPIRY_DAYS)
       return new Date(expiryDate) < new Date()
-    }
+    },
+    shareUrl() {
+      return `${process.env.APP_URL}/trades/${this.$route.params.id}`
+    },
   },
   created() {
     this.getTrade()
@@ -903,7 +929,27 @@ export default {
     addInventory(){
       this.addReferrer(`/trades/${this.$route.params.id}`)
       this.$router.push('/profile/inventory/search')
-    }
+    },
+    shareLink() {
+      this.copyStringToClipboard(this.shareUrl)
+      this.$toasted.success(this.$t('share.copied'))
+    },
+    copyStringToClipboard(str) {
+      // Create new element
+      const el = document.createElement('textarea')
+      // Set value (string to be copied)
+      el.value = str
+      // Set non-editable to avoid focus and move outside of view
+      el.setAttribute('readonly', '')
+      el.style = { position: 'absolute', left: '-9999px' }
+      document.body.appendChild(el)
+      // Select text inside element
+      el.select()
+      // Copy text to clipboard
+      document.execCommand('copy')
+      // Remove temporary element
+      document.body.removeChild(el)
+    },
   }
 }
 </script>
