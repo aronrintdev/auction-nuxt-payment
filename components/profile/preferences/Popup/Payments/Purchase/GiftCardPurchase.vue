@@ -58,7 +58,7 @@
 
           <!-- Input Amount -->
           <b-col md="4" class="mt-2">
-            <b-form-group id="customAmount" class="text-center">
+            <b-form-group id="customAmount" class="text-left">
               <b-form-input
                 id="custom-amount"
                 v-model="form.giftCardAmount"
@@ -98,7 +98,7 @@
             ></b-form-datepicker>
           </b-col>
 
-          <b-col md="8 text-left m-auto">
+          <b-col md="8 text-left m-auto pt-4">
             <span class="text-muted">{{
               $t('preferences.payments.can_be_placed_upto_an_year')
             }}</span>
@@ -180,7 +180,7 @@
               pill
               @click="updateSubmitType('addToBag')"
             >
-              {{ $t('preferences.payments.add_to_bag') }}
+              {{ $t('preferences.payments.add_to_cart') }}
             </b-button>
             <!-- ./Add to Bag Button -->
           </b-col>
