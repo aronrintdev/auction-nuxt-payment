@@ -485,6 +485,7 @@
 </template>
 
 <script>
+import Chart from 'chart.js'
 import _ from 'lodash'
 import screenSize from '~/plugins/mixins/screenSize'
 import { CustomSelect } from '~/components/common'
@@ -495,6 +496,7 @@ import MobileSearchInput from '~/components/mobile/MobileSearchInput'
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
 import Button from '~/components/common/Button'
 import MobileFilterItem from '~/components/profile/vendor-dashboard/MobileFilterItem'
+import chartPlugin from '~/plugins/mixins/chart-plugin';
 
 export default {
   name: 'BreakDownPage',
@@ -508,7 +510,7 @@ export default {
     NavGroup,
     CustomSelect,
   },
-  mixins: [screenSize],
+  mixins: [screenSize, chartPlugin],
   layout: 'Profile',
   data() {
     return {
@@ -699,29 +701,15 @@ export default {
     },
   },
   created() {
-    // eslint-disable-next-line no-undef
     Chart.plugins.register({
-      afterDraw(chart) {
-        let sum = 0
-        sum = chart.data.datasets.reduce(
-          (accumulator, item) =>
-            accumulator + item.data.reduce((acc, val) => acc + val, 0),
-          sum
-        )
-        if (sum === 0) {
-          const ctx = chart.chart.ctx
-          const width = chart.chart.width
-          const height = chart.chart.height
-          ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.5)
-          ctx.fillStyle = '#626262'
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.font = '500 18px Montserrat'
-
-          ctx.fillText('No Data Found', width / 2, height / 2 - 30)
-          ctx.restore()
-        }
-      },
+      afterDraw: (chart) =>
+          this.chartAfterDrawPlugin(chart, 'No Data Found'),
+    })
+  },
+  destroyed() {
+    Chart.plugins.unregister({
+      afterDraw: (chart) =>
+          this.chartAfterDrawPlugin(chart, 'No Data Found'),
     })
   },
   mounted() {
