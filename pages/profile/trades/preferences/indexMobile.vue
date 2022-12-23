@@ -152,12 +152,6 @@
           <div v-b-toggle="'collapse-3'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$t('common.apparel')}}</b-col>
-<!--              <b-col class="col-sm-6">-->
-<!--                <div class="d-flex justify-content-end mr-3">-->
-<!--                  <img  v-if="isVisibleApp" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>-->
-<!--                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>-->
-<!--                </div>-->
-<!--              </b-col>-->
             </b-row>
           </div>
           <b-collapse id="collapse-3" v-model="isVisibleApp">
@@ -177,7 +171,6 @@
       <div  class="brand-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.brand_preferences')}}</div>
         <div class="offer-start mt-1 ml-3 mb-3"> {{$t('trades.preferences.looking_for')}}</div>
-        <hr />
         <div class="form-group rounded-search-input ml-2">
           <img :src="searchIcon" class="icon-search" alt="" />
           <input type="text" v-model="search" placeholder="Search Brands" />
