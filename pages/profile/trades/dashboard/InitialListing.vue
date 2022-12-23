@@ -15,7 +15,7 @@
     </div>
   </div>
   <div v-else>
-    <div class="initial-listing mx-auto col-12 col-lg-10 col-xl-7">
+    <div class="initial-listing wd-685px mx-auto col-12 col-lg-10 col-xl-7">
       <div class="d-flex justify-content-between">
         <div class="listing-heading">{{ $t('trades.initial_listing') }}</div>
         <div class="created-at">
@@ -86,5 +86,6 @@ export default {
   padding: 0 25px 15px 25px
   @media (min-width: 576px)
     padding: 30px 49px
-
+.wd-685px
+  min-width: 685px
 </style>

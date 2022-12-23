@@ -29,7 +29,7 @@
     <div v-else>
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
-        <div class="row align-content-center" :class="{'justify-content-center' : !isOfferSummary}" >
+        <div class="row align-content-center justify-content-center">
           <div
             v-for="(item,index) in offerItems"
             :key="'offer-item-list-' + item.id"

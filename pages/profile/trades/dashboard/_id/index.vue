@@ -959,4 +959,6 @@ export default {
   font-weight: $normal
 .mt-minus
   margin-top: -84px
+.long-line
+  width: 18px
 </style>
