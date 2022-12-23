@@ -215,7 +215,7 @@
           </div>
           <div class="d-flex align-items-center justify-content-between mb-3">
             <Button
-                class="filter-button"
+                class="filter-button reset-btn"
                 pill
                 variant="outline-dark"
                 @click="resetFilter"
@@ -831,5 +831,6 @@ export default {
 
 .filter-button
   font-family: $font-family-sf-pro-display
-
+.reset-btn
+  font-family: $font-family-sf-pro-display
 </style>
