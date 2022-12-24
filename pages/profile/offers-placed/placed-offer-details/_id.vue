@@ -475,8 +475,6 @@ export default {
   @include body-4-medium
   color: $color-black-1
 .single-live-reserve-section-box-collections
-  //min-height: 220px
-  //height: auto
   position: relative
   background: $color-white-1
   box-shadow: 0px 1px 4px $color-black-rgb1
