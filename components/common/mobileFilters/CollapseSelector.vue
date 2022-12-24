@@ -213,9 +213,8 @@ export default {
     // border: 1px solid $color-black-1
     .add-amount-item
       font-style: normal
-      @include body-11-medium
+      @include body-1118-medium
       color: $color-black-1
-      line-height: 18px
 @media (min-width: 320px) and (max-width:330px)
   .add-amount-item
     width: 82px
