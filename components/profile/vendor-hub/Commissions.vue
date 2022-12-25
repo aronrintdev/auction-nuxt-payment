@@ -57,17 +57,17 @@
           <div class="d-flex align-items-center mt-1">
             <CalendarInput
               class="date-picker"
-                :date-reset-button="true"
-                :placeholder="$t('vendor_hub.commission.start_date')"
-                :value="filterForm.startDate"
-                @context="(ctx) => calendarContextChange(ctx, true)"
+              :date-reset-button="true"
+              :placeholder="$t('vendor_hub.commission.start_date')"
+              :value="filterForm.startDate"
+              @context="(ctx) => calendarContextChange(ctx, true)"
             />
             <CalendarInput
-                class="date-picker"
-                :date-reset-button="true"
-                :placeholder="$t('vendor_hub.commission.end_date')"
-                :value="filterForm.endDate"
-                @context="(ctx) => calendarContextChange(ctx, false)"
+              class="date-picker"
+              :date-reset-button="true"
+              :placeholder="$t('vendor_hub.commission.end_date')"
+              :value="filterForm.endDate"
+              @context="(ctx) => calendarContextChange(ctx, false)"
             />
             <Button class="apply-button" variant="primary" @click="applyFilter">
               {{ $t('vendor_hub.form.apply') }}
@@ -79,7 +79,6 @@
           <span class="label-text thin">{{ $t('vendor_hub.commission.filter_by') }}</span>
           <div class="mt-1">
             <CustomSelectwithCheckbox
-              style="max-width: 122px"
                 :options="STATUSES"
                 :title="$t('bids.status')"
                 :updateFilters="filterForm.activeStatusFilters"
@@ -185,7 +184,7 @@
                 @change="allSelected"
               />
               <div class="text-nowrap" role="button" @click="orderBy(scope)">
-                <span class="mr-1">{{ scope.label }}</span>
+                <span class="mr-1 header">{{ scope.label }}</span>
                 <img v-if="isSortActive(scope.field)"
                      :src="require('~/assets/img/icons/down-arrow-solid.svg')"
                      :alt="scope.label"
@@ -245,12 +244,12 @@
             </span>
           </template>
           <template #cell(shipped_to_ds)="data">
-            <span>
+            <span class="mr-4">
               {{ data.item.status === 'paid' ? 'Yes' : 'No' }}
             </span>
           </template>
           <template #cell(date_ordered)="data">
-            <span>
+            <span class="mr-4">
               {{ data.item.order.created_at | formatDate }}
             </span>
           </template>
@@ -618,7 +617,7 @@ export default {
     font-weight: $normal
 
 .dropdown-filters
-  min-width: 127px
+  min-width: 141px
 
 .label-text.thin
   font-weight: $normal
@@ -692,12 +691,12 @@ export default {
   color: $color-blue-30
 
 .export-button
-  width: 141px
+  min-width: 141px
   font-family: $font-sp-pro
   @include body-8-medium
 
 .header
-  font-family: $font-sp-pro
+  font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-8-bold
 
@@ -719,6 +718,9 @@ export default {
   &.asc
     transform: rotate(180deg)
 
-.date-picker
+::v-deep.date-picker
   width: 170px
+  .date-input,
+  .date-dp .btn-secondary
+    background-color: $white
 </style>
