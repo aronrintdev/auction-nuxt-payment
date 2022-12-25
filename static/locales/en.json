@@ -5535,7 +5535,8 @@
         "due": "Due"
       },
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "csv_mail_success": "Email CSV has been sent to the email associated with this account"
     },
     "faqs": {
       "title": "Vendor Hub FAQ",

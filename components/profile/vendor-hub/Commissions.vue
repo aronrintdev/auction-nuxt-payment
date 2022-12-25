@@ -92,7 +92,7 @@
       <div v-else class="d-flex justify-content-between">
         <span class="text-color-gray-5 body-10-medium">{{ itemsTotal  }} {{ $t('vendor_hub.commission.entries') }}</span>
         <!-- Hide it right now there aren't API yet -->
-        <a role="button" class="d-flex align-items-center" @click="toggleExport">
+        <a role="button" class="d-flex align-items-center" @click="sendCSV">
           <img :src="require('~/assets/img/vendorhub/upload-icon.svg')" class="px-1">
           <span class="color-gray-5 body-5-normal">{{ $t("vendor_hub.commission.email_csv") }}</span>
         </a>
@@ -283,6 +283,7 @@
     >
       <CommissionMobileFilter @filter="applyMobileFilter" />
     </vue-bottom-sheet>
+    <CSVMailSuccessModal :show-modal="csv_is_sent" />
   </div>
 </template>
 
@@ -298,13 +299,13 @@ import Loader from '~/components/common/Loader';
 import {COMMISSIONS_PAGE_OPTIONS, COMMISSIONS_PER_PAGE} from '~/static/constants';
 import screenSize from '~/plugins/mixins/screenSize'
 import CommissionMobileFilter from '~/components/profile/vendor-hub/CommissionMobileFilter';
-
+import CSVMailSuccessModal from '~/components/profile/vendor-hub/CSVMailSuccessModal';
 
 Vue.component('DownloadCsv', JsonCSV)
 export default {
   name: 'Commissions',
   components: {
-    Loader, CommissionItem,
+    Loader, CommissionItem, CSVMailSuccessModal,
     Button, CalendarInput, CustomSelectwithCheckbox, Pagination, BulkSelectToolbar, CommissionMobileFilter},
   mixins: [screenSize],
   data() {
@@ -386,6 +387,7 @@ export default {
       dataLoading: false,
       orderByField: 'id',
       orderByDirection: 'asc',
+      csv_is_sent: false,
     }
   },
   computed: {
@@ -598,6 +600,15 @@ export default {
     reverseDirection(column){
       return column === this.orderByField ? (this.orderByDirection === 'asc'? 'desc' : 'asc'): 'desc'
     },
+    sendCSV() {
+      // TODO: Mail send api integration
+      if (!this.csv_is_sent) {
+        this.csv_is_sent = true
+        setTimeout(() => {
+          this.csv_is_sent = false
+        }, 3000)
+      }
+    }
   }
 }
 </script>
