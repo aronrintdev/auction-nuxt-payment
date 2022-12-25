@@ -68,13 +68,27 @@ export default {
       user: 'auth/user'
     }),
     NAV_ITEMS() {
-      return Object.keys(this.$t('vendor_hub.tabs')).map((key) => {
-        const k = key !== 'documents' ? key : this.isScreenXS ? 'docs' : key
+      const response = Object.keys(this.$t('vendor_hub.tabs')).map((key) => {
         return {
-          label: k === 'docs' ? 'Docs.' : this.$t('vendor_hub.tabs.' + k),
+          label: this.$t('vendor_hub.tabs.' + key),
           value: key
         }
       })
+
+      if (this.isScreenXS) {
+        Object.keys(this.$t('vendor_hub.tabs_mobile')).forEach((key) => {
+          const mobileItem = {
+            label: this.$t('vendor_hub.tabs_mobile.' + key),
+            value: key
+          }
+          const index = response.findIndex((i) => i.value === mobileItem.value)
+          if (index > -1) {
+            response[index] = mobileItem
+          }
+        })
+      }
+
+      return response
     }
   },
   mounted() {
