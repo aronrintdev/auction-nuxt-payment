@@ -94,7 +94,7 @@
         <!-- Hide it right now there aren't API yet -->
         <a role="button" class="d-flex align-items-center" @click="toggleExport">
           <img :src="require('~/assets/img/vendorhub/upload-icon.svg')" class="px-1">
-          <span class="color-gray-5 body-5-normal">{{ $t("vendor_hub.commission.email_cvs") }}</span>
+          <span class="color-gray-5 body-5-normal">{{ $t("vendor_hub.commission.email_csv") }}</span>
         </a>
       </div>
 
