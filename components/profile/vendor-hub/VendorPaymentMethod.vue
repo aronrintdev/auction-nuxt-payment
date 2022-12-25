@@ -209,9 +209,8 @@ export default {
   bottom: 110px
 
 .button-portal
+  position: sticky
   bottom: 89px
-  position: fixed
-  padding-right: 30px
-  padding-top: 30px
-  padding-bottom: 10px
+
+
 </style>
