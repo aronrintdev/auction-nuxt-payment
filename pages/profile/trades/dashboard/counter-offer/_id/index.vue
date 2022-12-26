@@ -3,7 +3,7 @@
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
-          <div class="center-container-xs mt-5 mb-5">
+          <div class="center-container-xs mb-5">
             <div class="left-item-xs" :class="{'right-item-margin-top-sm':getTheirItems.length === TWO_ITEMS,'left-item-one-xs':getTheirItems.length === ONE_ITEM}">
               <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'card-'+index : ''" :key="index" class="item mb-4">
                 <div class="image-wrapper-sm">
@@ -35,8 +35,8 @@
               <div  v-if="getYourItems.length" class="">
                 <div  v-for="(item,index) in getYourItems" :id="getYourItems.length > ONE_ITEM ?'your-card-'+index : 'your-item'" :key="index" class="preview mb-4">
                   <div class="position-relative">
-                  <div class="remove-item position-absolute mt-2"  @click="removeItem(item.inventory.product.id)">
-                    <div class="minus"></div>
+                  <div class="remove-item-xs position-absolute mt-2"  @click="removeItem(item.inventory.product.id)">
+                    <img :src="require('~/assets/img/minusSign.svg')" />
                   </div>
                   </div>
                   <div class="image-wrapper-sm">
@@ -55,9 +55,6 @@
               </div>
             </div>
           </div>
-
-
-
 
           <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center m-2">
             <Meter :highest="getTheirTotal(false)"
@@ -136,8 +133,8 @@
                 <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="d-flex justify-content-center">
                   <div  v-for="(item,index) in getYourTradeItems" :id="'your-card-'+index" :key="index" class="item-inventory mt-2 mb-4 ml-3">
                     <div class="position-relative">
-                      <div class="remove-item mt-2" @click="decrementOrRemoveItem(item)">
-                        <div class="minus"></div>
+                      <div class="remove-item-xs mt-2" @click="decrementOrRemoveItem(item)">
+                        <img :src="require('~/assets/img/minusSign.svg')" />
                       </div>
                     </div>
                     <div class="image-wrapper-sm position-relative d-flex justify-content-center align-items-center">
@@ -153,12 +150,6 @@
                 </div>
                 <div v-else class="d-flex justify-content-center mb-3">
                   <div class="add-item-invent text-center">
-                    <div class="select-invent">
-                      {{$t('trades.trade_arena.select_from_inventory')}}
-                    </div>
-                    <div class="upto-three">
-                      {{$t('trades.trade_arena.up_to_three_items')}}
-                    </div>
                   </div>
                 </div>
               </div>
@@ -199,8 +190,8 @@
                       </div>
                       <div class="item-caption-inventory">
                         <div class="invent-name pt-2">{{item.product && item.product.name}}</div>
-                        <div class="invent-box">{{$t('common.box_condition')}}: {{item.packaging_condition && item.packaging_condition.name}}</div>
-                        <div class="invent-color">{{item.product && item.product.colorway}}</div>
+                        <div class="invent-color">{{item.product && item.product.colorway}} ,Size:{{item.product.size}} </div>
+                        <div class="invent-box"> Box : {{item.packaging_condition && item.packaging_condition.name}}</div>
                       </div>
                     </div>
                   </div>
@@ -248,7 +239,7 @@
           </div>
           <div class="offer-card my-3">
             <div class="d-flex flex-column px-3 px-lg-0">
-              <div class="mt-55 d-flex mb-2 justify-content-between col-md-8 mx-auto">
+              <div class="mt-55 d-flex mb-2 justify-content-between col-md-8 mx-auto price-value-box">
                 <div class="value">
                   {{ $t('common.their_value') }}
                   <span class="ml-1 price">{{ getTheirTotal() }}</span>
@@ -266,14 +257,15 @@
                   <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'trade-item-'+index : ''"
                       :key="'their-trade-item-key-'+index" class="item mb-4"
                       :class="[((getTheirItems.length > ONE_ITEM )|| (getYourItems.length)) ? 'item-length' : 'item-normal']">
-
-                    <div v-if="!editYours" class="position-relative">
-                      <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
+                    <div v-if="!editYours" >
+                      <div class="remove-item-icon-up" role="button" @click.stop="removeItem(item.inventory.product.id)">
                         <img :src="require('~/assets/img/trades/minus-icon.svg')">
                       </div>
                     </div>
-                    <div class="position-relative d-flex align-items-center justify-content-center">
-                      <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
+
+                    <div class="position-relative  d-flex justify-content-center align-items-center image-wrapper">
+                      <img class="pro-image-up"  :src="item.inventory.product | getProductImageUrl"/>
+                      <div class="overlay-up"></div>
                     </div>
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
@@ -303,12 +295,16 @@
                     <div v-for="(item, index) in getYourItems"
                         :id="getYourItems.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="'your-trade-item-key-'+index"
                         class="item-length mb-4">
-                      <div v-if="editYours" class="position-relative">
-                        <div class="position-absolute remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
+
+                      <div v-if="editYours" >
+                        <div class="remove-item-icon-up" role="button" @click.stop="removeItem(item.inventory.product.id)">
                           <img :src="require('~/assets/img/trades/minus-icon.svg')">
                         </div>
                       </div>
-                      <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
+                      <div class="position-relative  d-flex justify-content-center align-items-center image-wrapper">
+                        <img class="pro-image-up"  :src="item.inventory.product | getProductImageUrl"/>
+                        <div class="overlay-up"></div>
+                      </div>
                       <div class="item-caption">
                         <span class="item-name">{{ item.inventory.product.name }}</span>
                         <div class="mt-1 item-caption-description d-flex">
@@ -341,7 +337,7 @@
               </div>
               <div class="trade-hub-buttons mt-4 mb-4">
                 <div v-if="!cashAdded" class="mb-1">
-                  <span 
+                  <span
                     class="add-cash mr-3"
                     role="button"
                     :class="{
@@ -351,7 +347,7 @@
                   >
                     {{ $t('trades.add_cash') }}
                   </span>
-                  <span 
+                  <span
                     class="request-cash"
                     role="button"
                     :class="{
@@ -538,24 +534,25 @@
                 </b-col>
               </div>
             </div>
-            <div 
-              v-if="inventoryItems.length" 
+            <div
+              v-if="inventoryItems.length"
               class="carousel d-flex flex-column flex-sm-row flex-wrap justify-content-between inventory-items-trade"
             >
               <div
                 v-for="(item) in inventoryItems"
                 :key="item.id"
-                class="item invent-item d-flex flex-column justify-content-center col-6 col-md-3"
+                class="item invent-item-bg d-flex flex-column justify-content-center align-items-center col-6 col-md-3"
               >
-                <b-row class="justify-content-between">
-                  <b-col class="d-flex justify-content-end pr-3 pt-3">
-                    <img v-if="!editYours" class="plus-icon-add-trade" role="button"
-                          :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
-                    <img v-else class="plus-icon-add-trade" role="button"
-                          :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
-                  </b-col>
-                </b-row>
-                <img class="img-fluid mx-auto max-h-200" :src="item.product | getProductImageUrl" />
+                <div>
+                  <img v-if="!editYours" class="plus-icon-add-trade-bg" role="button"
+                       :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
+                  <img v-else class="plus-icon-add-trade-bg" role="button"
+                       :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
+                </div>
+                <div class="position-relative  d-flex justify-content-center align-items-center image-wrapper-bg">
+                  <img class="pro-image"  :src="item.product | getProductImageUrl"/>
+                  <div class="overlay-bg"></div>
+                </div>
                 <div class="item-caption">
                   <span class="item-name-invent">{{ item.product.name }}</span>
                   <div class="mt-1 item-caption-description-invent d-flex">
@@ -607,7 +604,7 @@
   import TradeArenaFilters from '~/components/trade/TradeArenaFilters'
   import {
     ITEM_COUNT_0,
-  
+
     PAGE,
     PER_PAGE,
     PER_PAGE_OPTIONS,
@@ -1428,7 +1425,11 @@ export default {
 .remove-item-icon
   right: 5px
   top: 5px
-
+.remove-item-icon-up
+  position: absolute
+  right: 17%
+  top: 10px
+  z-index: 1000
 .order-summary
   padding: 0
 .btn-accept
@@ -1655,13 +1656,21 @@ export default {
   color: $color-gray-25
 
 .pro-image
-  width: 81px
-  z-index: 10
+  width: 171px
+.pro-image-up
+  width: 130px
+.overlay-up
+  position: absolute
+  top: 0
+  left: 0
+  width: 140px
+  height: 100%
+  background: $color-grey-70
 .remove-item
   height: 13px
   width: 13px
   z-index: 100
-  background: $color-red-24
+  //background: $color-red-24
 .minus
   width: 7px
   height: 2px
@@ -1689,7 +1698,7 @@ export default {
     @include body-9-normal
     font-family: $font-family-sf-pro-display
     width: auto
-  
+
 .item-name-invent
   color: $color-black-1
   font-size: 15px
@@ -1699,8 +1708,7 @@ export default {
   overflow: hidden
   width: 200px
   display: block
-  @media (min-width: 576px)
-    width: auto
+
 
 .item-caption-description-invent
   font-size: 14px
@@ -1717,12 +1725,26 @@ export default {
 .invent-item
   width: 164px
   height: 265px
+.invent-item-bg
+  width: 213px
+  height: 323px
 .item-image-trade
   width: 134px
   border-radius: 0
 .image-wrapper-inventory
   height: 185px
   width: 164px
+.image-wrapper-bg
+  width: 213px
+.image-wrapper-bg
+  .overlay-bg
+    position: absolute
+    top: 0
+    left: 0
+    width: 213px
+    height: 100%
+    background: $color-grey-70
+
 .plus-icon-add-trade
   right: 5px
   top: 7px
@@ -1771,7 +1793,7 @@ export default {
   height: 100%
   background: $color-white-1
 .image-wrapper
-  width: 120px
+  width: 130px
   height: 112.4px
 .item-caption
   padding-left: unset
@@ -1795,7 +1817,7 @@ export default {
 .input-search
   width: 306px
 .add-item-invent
-  background: url('~/assets/img/trades/select-inventory.svg')
+  background: url('~/assets/img/your-invent-bottomsheet.svg')
   width: 100px
   height: 143px
 .select-invent
@@ -1853,6 +1875,11 @@ export default {
   right: 5%
   top: 15px
   z-index: 1000
+.plus-icon-add-trade-bg
+  position: absolute
+  right: 17%
+  top: 50px
+  z-index: 1000
 
 .input-mt
   margin-top: 7px
@@ -1880,9 +1907,12 @@ export default {
 .image-wrapper
   height: 134px
   background: $color-white-4
-  position: relative
-
-
+  //position: relative
+.remove-item-xs
+  height: 13px
+  width: 13px
+  z-index: 100
+  left: 82%
 
 .remove-item
   height: 13px
@@ -1921,10 +1951,6 @@ export default {
     width: 100%
     height: 100%
     background: $color-grey-70
-
-.pro-image
-  width: 117px
-  height: 100%
 
 
 
@@ -2151,4 +2177,17 @@ export default {
 .left-item-one-sm
   margin-top: 183px
   margin-right: 15px
+.price-value-box
+  background-color: $color-white-4
+  width: 797px
+  height: 61px
+  padding: 25px
+.center-container
+  min-height: 450px
+  margin: 0 15px
+  display: flex
+  justify-content: center
+  margin-bottom: 140px
+
+
 </style>
