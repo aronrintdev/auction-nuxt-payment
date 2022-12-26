@@ -835,7 +835,7 @@ export default {
   border-radius: 5px
 
 .listings
-  font-size: 24px
+  font-size: $font-size-24
   color: $color-black-1
   padding-top: 25px
   margin-bottom: 24px
@@ -844,7 +844,7 @@ export default {
   @media (min-width: 576px)
     font-family: $font-sp-pro
     font-style: normal
-    font-size: 24px
+    font-size: $font-size-24
     font-weight: $bold
     margin-bottom: 0
     padding-top: 57px
@@ -882,7 +882,7 @@ export default {
 .filter-label
   font-size: 15px
   font-family: $font-sp-pro
-  font-weight: $normal !important
+  font-weight: $normal
   font-style: normal
   color: $color-black-1
 .btn-apply

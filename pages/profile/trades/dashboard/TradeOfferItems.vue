@@ -494,7 +494,7 @@ export default {
 .dollar-sign
   @include body-2-bold
   margin-right: 20px
-  font-weight: $normal !important
+  font-weight: $normal
 
 .desktop-offer
   background: $color-white-1
