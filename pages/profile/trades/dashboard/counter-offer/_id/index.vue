@@ -6,7 +6,12 @@
           <div :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM
                 ? 'center-container-xs-one':getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM  ? 'center-container-two-one': 'center-container-xs mb-5'">
             <div class="left-item-xs"
-                 :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM ? 'left-item-one-one': getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM ? 'left-item-two-one-l': getTheirItems.length === THREE_ITEMS && getYourItems.length === THREE_ITEMS ? 'left-item-three-threel':'right-item-margin-top-sm'">
+                 :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM ?
+                 'left-item-one-one': getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM ?
+                 'left-item-two-one': getTheirItems.length === THREE_ITEMS && getYourItems.length === THREE_ITEMS
+                  ? 'left-item-three-threel':getTheirItems.length === THREE_ITEMS && getYourItems.length === TWO_ITEMS ?
+                   'left-item-three-two':getTheirItems.length === THREE_ITEMS && getYourItems.length === ONE_ITEM ?
+                   'left-item-three-one' :'right-item-margin-top-sm'">
               <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'card-'+index : ''" :key="index" class="item mb-4">
                 <div class="image-wrapper-sm">
                   <img class="pro-image-sm"  :src="item.inventory.product | getProductImageUrl"/>
@@ -34,7 +39,12 @@
               <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right-sm" :class="{'pointer-right-two-items-sm':getYourItems.length === TWO_ITEMS}"></div>
             </div>
             <div class="right-item-sm position-relative"
-                 :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM ? 'left-item-one-one': getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM ? 'left-item-two-one-l': getTheirItems.length === THREE_ITEMS && getYourItems.length === THREE_ITEMS ? 'left-item-three-threel':'right-item-margin-top-sm'"
+                 :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM ?
+                 'left-item-one-one': getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM ?
+                 'right-item-two-one': getTheirItems.length === THREE_ITEMS && getYourItems.length === THREE_ITEMS
+                  ? 'left-item-three-threel':getTheirItems.length === THREE_ITEMS && getYourItems.length === TWO_ITEMS ?
+                   'right-item-three-two':getTheirItems.length === THREE_ITEMS && getYourItems.length === ONE_ITEM ?
+                   'right-item-three-one' :'right-item-margin-top-sm'"
 
                  >
               <div  v-if="getYourItems.length" class="">
@@ -2200,10 +2210,22 @@ export default {
   margin-right: 15px
 .left-item-two-one
   margin-top: 148px
-.left-item-two-one-l
+.left-item-two-one
   margin-top: 60px
+.right-item-two-one
+  margin-top: 148px
 .left-item-three-threel
   margin-top: 60px
+.left-item-three-two
+  margin-top: 60px
+.right-item-three-one
+  margin-top: 60px
+.right-item-three-two
+  margin-top: 148px
+.right-item-two-three
+  margin-top: 148px
+.right-item-three-one
+  margin-top: 148px
 .price-value-box
   background-color: $color-white-4
   width: 797px
