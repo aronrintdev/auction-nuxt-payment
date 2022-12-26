@@ -514,7 +514,7 @@
           <b-button class="mx-3 cancel-btn" variant="outline-dark" pill @click="$bvModal.hide('quick-bid-modal')">{{ $t('common.cancel') }}</b-button>
         </div>
         <div class="text-center"><small>{{ $t('auctions.frontpage.placed_bid_desc') }}</small></div>
-        <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary text-decoration-underline">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
+        <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/privacy-policy" class="text-primary text-decoration-underline">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
       </div>
     </b-modal>
     <!-- Bid Confirm Modal -->
@@ -532,7 +532,7 @@
           <b-button class="mx-3 cancel-btn" variant="outline-dark" pill @click="$bvModal.hide('auto-bid-enable-modal')">{{ $t('common.cancel') }}</b-button>
         </div>
         <div class="text-center"><small>{{ $t('auctions.frontpage.placed_bid_desc') }}</small></div>
-        <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary text-decoration-underline">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
+        <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/privacy-policy" class="text-primary text-decoration-underline">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
       </div>
     </b-modal>
     <b-modal id="auto-bid-success-modal" hide-footer hide-header size="md">
@@ -584,7 +584,7 @@
             <b-button class="ml-2 px-4 border-0 text-white bg-dark-blue d-flex align-items-center" pill @click="onPlaceBidConfirmed">{{ modalData.auto_bid ? $t('auctions.frontpage.bid_up_to') : $t('auctions.frontpage.bid') }} ${{ modalData.price | formatPrice }}<small> {{ $t('auctions.frontpage.fees') }}</small></b-button>
           </div>
           <div class="pt-2 text-center placed-bid-desc mb-2">{{ $t('auctions.frontpage.placed_bid_desc') }}</div>
-          <div class="text-center placed-bid-desc">{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></div>
+          <div class="text-center placed-bid-desc">{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/privacy-policy" class="text-primary">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></div>
         </div>
       </div>
     </vue-bottom-sheet>
@@ -601,7 +601,7 @@
             <b-button class="ml-2 px-4 border-0 text-white bg-dark-blue d-flex align-items-center" pill @click="onPlaceBidConfirmed">{{ $t('auctions.frontpage.bid') }} ${{ modalData.price | formatPrice }}&nbsp;<small>{{ $t('auctions.frontpage.fees') }}</small></b-button>
           </div>
           <div class="pt-2 text-center placed-bid-desc mb-2">{{ $t('auctions.frontpage.placed_bid_desc') }}</div>
-          <div class="text-center placed-bid-desc">{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></div>
+          <div class="text-center placed-bid-desc">{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/privacy-policy" class="text-primary">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></div>
         </div>
       </div>
     </vue-bottom-sheet>
@@ -626,7 +626,7 @@
             </b-button>
           </div>
           <div class="text-center"><small>{{ $t('auctions.frontpage.placed_bid_desc') }}</small></div>
-          <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
+          <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/privacy-policy" class="text-primary">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
         </div>
       </div>
     </vue-bottom-sheet>
