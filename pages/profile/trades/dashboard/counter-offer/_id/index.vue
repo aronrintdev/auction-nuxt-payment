@@ -2226,6 +2226,8 @@ export default {
   margin-top: 148px
 .right-item-three-one
   margin-top: 148px
+.left-item-three-one
+  margin-top: 60px
 .price-value-box
   background-color: $color-white-4
   width: 797px
