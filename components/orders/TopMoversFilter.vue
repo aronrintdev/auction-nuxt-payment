@@ -174,6 +174,7 @@
 </template>
 
 <script>
+import {VENDOR_ORDER_STATUSES} from '~/static/constants'
 import {Button, CustomSelectwithCheckbox, SearchInput} from '~/components/common';
 import DownArrow from '~/assets/img/icons/down-arrow.svg';
 import CalendarImg from '~/assets/img/icons/calendar-gray.svg';
@@ -201,10 +202,12 @@ export default {
           value: rectify[a]
         }
       }),
-      orderStatuses: Object.keys(this.$t('orders.order_statuses')).map(a => {
+      orderStatuses: VENDOR_ORDER_STATUSES.map(status => {
         return {
-          text: this.$t('orders.order_statuses.' + a),
-          value: a
+          id: status.id,
+          text: this.$t(status.text),
+          value: status.value,
+          type: status.type,
         }
       }),
       filters: {

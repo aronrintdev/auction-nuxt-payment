@@ -341,7 +341,7 @@
               </div>
               <div class="trade-hub-buttons mt-4 mb-4">
                 <div v-if="!cashAdded" class="mb-1">
-                  <span 
+                  <span
                     class="add-cash mr-3"
                     role="button"
                     :class="{
@@ -351,7 +351,7 @@
                   >
                     {{ $t('trades.add_cash') }}
                   </span>
-                  <span 
+                  <span
                     class="request-cash"
                     role="button"
                     :class="{
@@ -538,8 +538,8 @@
                 </b-col>
               </div>
             </div>
-            <div 
-              v-if="inventoryItems.length" 
+            <div
+              v-if="inventoryItems.length"
               class="carousel d-flex flex-column flex-sm-row flex-wrap justify-content-between inventory-items-trade"
             >
               <div
@@ -607,7 +607,7 @@
   import TradeArenaFilters from '~/components/trade/TradeArenaFilters'
   import {
     ITEM_COUNT_0,
-  
+
     PAGE,
     PER_PAGE,
     PER_PAGE_OPTIONS,
@@ -788,6 +788,17 @@ export default {
         this.addOrIncrementYourItem(item)
       }
     },
+    /**
+     * Update inventory stock
+     */
+    updateInventoryStock(inventoryId, increment){
+      const index = this.inventoryItems.findIndex((inventoryItem) => inventoryItem.id === inventoryId)
+      if(index !== false && increment){
+        // this.inventoryItems[index].stock += 1
+      }else if(index !== false){
+        // this.inventoryItems[index].stock -= 1
+      }
+    },
     decrementOrRemoveItem(item) {
       const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
       if (existingItem.quantity > 1) {
@@ -795,6 +806,7 @@ export default {
       } else {
         this.$store.commit('trade/removeYourTradeItem', item.id)
       }
+      this.updateInventoryStock(item.id, true)
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
     },
@@ -817,8 +829,18 @@ export default {
             $state.complete()
           }else {
             this.page += 1;
-            this.inventoryItems.push(...res.data);
             $state.loaded()
+          }
+          this.inventoryItems.push(...res.data);
+
+          if(this.getYourTradeItems.length >= 1){
+            const inventoryIds = this.getYourTradeItems.map((yourItem) => {
+              return yourItem.id
+            });
+
+            inventoryIds.forEach((inventoryId) => {
+              this.updateInventoryStock(inventoryId, false)
+            })
           }
         })
         .catch((error) => { // return error
@@ -862,6 +884,7 @@ export default {
     },
     addOrIncrementYourItem(item) {
       this.$store.commit('trade/setYourTradeItems', item)
+      this.updateInventoryStock(item.id, false)
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
     },
@@ -1689,7 +1712,7 @@ export default {
     @include body-9-normal
     font-family: $font-family-sf-pro-display
     width: auto
-  
+
 .item-name-invent
   color: $color-black-1
   font-size: 15px

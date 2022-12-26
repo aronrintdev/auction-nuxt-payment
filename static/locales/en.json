@@ -235,6 +235,7 @@
     "enter_valid_amount": "Kindly input a valid amount."
   },
   "error": {
+    "unauthorized": "Unauthorized",
     "something_went_wrong": "Something went wrong. Please try again later!",
     "incorrect_size": "Incorrect Size",
     "incorrect_quantity": "Incorrect quantity",

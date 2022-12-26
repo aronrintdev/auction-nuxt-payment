@@ -167,8 +167,18 @@ export default {
             $state.complete()
           }else {
             this.page += 1;
-            this.inventoryItems.push(...res.data);
             $state.loaded()
+          }
+          this.inventoryItems.push(...res.data);
+
+          if(this.getYourTradeItems.length >= 1){
+            const inventoryIds = this.getYourTradeItems.map((yourItem) => {
+              return yourItem.id
+            });
+
+            inventoryIds.forEach((inventoryId) => {
+              this.updateInventoryStock(inventoryId, false)
+            })
           }
         })
         .catch((error) => { // return error
@@ -197,6 +207,7 @@ export default {
       } else {
         this.$store.commit('trade/removeYourTradeItem', item.id)
       }
+      this.updateInventoryStock(item.id, true)
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
     },
@@ -267,11 +278,23 @@ export default {
         })
     },
     /**
+     * Update inventory stock
+     */
+    updateInventoryStock(inventoryId, increment){
+      const index = this.inventoryItems.findIndex((inventoryItem) => inventoryItem.id === inventoryId)
+      if(index !== false && increment){
+        // this.inventoryItems[index].stock += 1
+      }else if(index !== false){
+        // this.inventoryItems[index].stock -= 1
+      }
+    },
+    /**
      * This function is used to add or increment your trade item in store
      * @param item
      */
     addOrIncrementYourItem(item) {
       this.$store.commit('trade/setYourTradeItems', item)
+      this.updateInventoryStock(item.id, false)
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
     },

@@ -447,6 +447,7 @@ export default {
      */
     addOrIncrementYourItem: debounce(function (item) {
       this.$store.commit('trade/setYourTradeItems', item)
+      this.updateInventoryStock(item.id, false)
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
     }, 100),
@@ -630,6 +631,17 @@ export default {
         })
     },
     /**
+     * Update inventory stock
+     */
+    updateInventoryStock(inventoryId, increment){
+      const index = this.inventoryItems.findIndex((inventoryItem) => inventoryItem.id === inventoryId)
+      if(index !== false && increment){
+        // this.inventoryItems[index].stock += 1
+      }else if(index !== false){
+        // this.inventoryItems[index].stock -= 1
+      }
+    },
+    /**
      * This function is used to remove or decrement your trade item
      * quantity from listing
      * @param id
@@ -641,6 +653,7 @@ export default {
       } else {
         this.$store.commit('trade/removeYourTradeItem', item.id)
       }
+      this.updateInventoryStock(item.id, true)
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
     },
@@ -728,6 +741,16 @@ export default {
         })
         .then((response) => { // response will get us listing of
           this.inventoryItems = response.data.data
+
+          if(this.getYourTradeItems.length >= 1){
+            const inventoryIds = this.getYourTradeItems.map((yourItem) => {
+              return yourItem.id
+            });
+
+            inventoryIds.forEach((inventoryId) => {
+              this.updateInventoryStock(inventoryId, false)
+            })
+          }
           this.totalCount = parseInt(response.data.total)
           this.perPage = parseInt(response.data.per_page)
         })
