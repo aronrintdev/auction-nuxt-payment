@@ -4,9 +4,11 @@
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
         <div class="mt-2 row justify-content-center align-content-center">
-          <div v-for="(item,index) in offerItems" :key="'offer-item-list-' + item.id" class="" :class="{'mobile-offer-item': mobileItem === OFFER_SUMMARY, 'col-4' : mobileItem === '','mr-11px' :mobileItem === OFFER_SUMMARY && index !== 2}">
+          <div v-for="(item,index) in offerItems" :key="'offer-item-list-' + item.id" class="" :class="{'mobile-offer-item': mobileItem === OFFER_SUMMARY,
+           'col-4' : mobileItem === '','mr-11px' :mobileItem === OFFER_SUMMARY && index !== 2,
+          }">
             <div class="" :class="{'bg-white' : mobileItem === ''}">
-              <div class="offer-item-small">
+              <div class="offer-item-small" :class="{'mobile-initial-listing':mobileItem === OFFER_SUMMARY_INITIAL_LISTING}">
                 <img
                   v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
                   class="img-fluid"
@@ -60,7 +62,7 @@
 
 <script>
 import ScreenSize from '~/plugins/mixins/screenSize'
-import { OFFER_SUMMARY } from '~/static/constants/trades'
+import { OFFER_SUMMARY ,OFFER_SUMMARY_INITIAL_LISTING} from '~/static/constants/trades'
 
 export default {
   name: 'OfferItems',
@@ -91,6 +93,7 @@ export default {
     return {
       width:'',
       OFFER_SUMMARY,
+      OFFER_SUMMARY_INITIAL_LISTING
     }
   },
   mounted() {
@@ -105,6 +108,8 @@ export default {
 .offer-item-small
   background: $color-white-1
   border-radius: 8px
+.mobile-initial-listing
+  background: $color-white-4
 .offer-item
     width: 247px
     height: 230px
