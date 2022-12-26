@@ -4,8 +4,8 @@
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
         <div class="mt-2 row justify-content-center align-content-center">
-          <div v-for="(item,index) in offerItems" :key="'offer-item-list-' + item.id" class="" :class="{'mobile-offer-item': mobileItem === OFFER_SUMMARY,
-           'col-4' : mobileItem === '','mr-11px' :mobileItem === OFFER_SUMMARY && index !== 2,
+          <div v-for="(item,index) in offerItems" :key="'offer-item-list-' + item.id" class="" :class="{'mobile-offer-item': (mobileItem === OFFER_SUMMARY || mobileItem === OFFER_SUMMARY_INITIAL_LISTING ),
+           'col-4' : mobileItem === '','mr-11px' :(mobileItem === OFFER_SUMMARY || mobileItem === OFFER_SUMMARY_INITIAL_LISTING ) && index !== 2,
           }">
             <div class="" :class="{'bg-white' : mobileItem === ''}">
               <div class="offer-item-small" :class="{'mobile-initial-listing':mobileItem === OFFER_SUMMARY_INITIAL_LISTING}">
