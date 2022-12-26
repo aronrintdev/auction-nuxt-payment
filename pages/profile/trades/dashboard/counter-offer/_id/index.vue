@@ -250,8 +250,8 @@
                 </div>
               </div>
               <div
-                class="center-container d-flex mx-0 mx-md-auto justify-content-between align-items-center col-md-8 col-xl-12"
-                :class="{'center-cont-height':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"
+                class="center-container d-flex mx-0 mx-md-auto justify-content-between align-items-center"
+                :class = "getTheirItems.length > ONE_ITEM || getYourItems.length > ONE_ITEM ? 'col-md-8 col-xl-12' : ''"
               >
                 <div class="left-item">
                   <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'trade-item-'+index : ''"
