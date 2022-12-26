@@ -125,7 +125,7 @@
             :class="`section-lists ${action !== 'none' ? 'mt' : ''}`"
           >
             <h5 class="d-none d-sm-block px-2">
-              {{ $t('wish_lists.buying_lists') }} <span v-b-modal.create-list-modal class="plus-sign">+</span>
+              {{ $t('profile_menu.wishlist') }} <span v-b-modal.create-list-modal class="plus-sign">+</span>
             </h5>
             <div class="d-none d-sm-block wishlist-wrapper">
               <div v-for="list in wishLists" :key="list.id" class="px-2">
@@ -773,7 +773,6 @@ export default {
       color: $color-black-1
       &:hover
         border-bottom: 1px solid $color-black-1
-.tablist
 ::v-deep .btn-group
     height: 32px
 ::v-deep .nav-group
