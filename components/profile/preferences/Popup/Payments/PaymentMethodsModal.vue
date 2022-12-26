@@ -7,7 +7,7 @@
     @hidden="clearDetails"
   >
     <template #modal-title class="text-capitalize p-3">
-      <h4 class="text-capitalize text-bold">{{ modalHeader.title }}</h4>
+    <h4 class="text-capitalize text-bold gift-card-title">{{ modalHeader.title }}</h4>
     </template>
     <div v-if="type === 'addCards'" class="modal-body">
       <b-card title="Card Title" no-body>
@@ -111,4 +111,9 @@ export default {
   font-style: normal
   @include body-5-medium
   color: $color-gray-47
+.gift-card-title
+  font-family: $font-montserrat-serif
+  font-size: 20px
+  font-style: $normal
+  font-weight: $medium
 </style>

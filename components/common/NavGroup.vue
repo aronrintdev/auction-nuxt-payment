@@ -113,6 +113,7 @@ export default {
   @media (max-width: 576px)
     .btn-group
       width: 100%
+      max-width: 343px
       .btn
         padding: 6px 10px
         white-space: nowrap

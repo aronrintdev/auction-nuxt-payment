@@ -702,6 +702,7 @@
     },
     "inventory": {
       "bulk_delete": "Bulk Delete",
+      "bulk_delist": "Bulk Delist",
       "sku": "SKU",
       "package": "Package",
       "box": "Box",
@@ -3900,7 +3901,13 @@
     },
     "list_product": "List Product",
     "edit_details": "Edit Details",
-    "mobile_search_info": "Begin by searching for your product"
+    "mobile_search_info": "Begin by searching for your product",
+    "delist_mobile_message" : {
+      "title": "Are you sure you would like to delist these listings?",
+      "part_1": "All the",
+      "part_2": "active offers",
+      "part_3": "associated with these listing will be lost."
+    }
   },
   "vendor_purchase": {
     "their_value": "THEIR VALUE",
@@ -4006,14 +4013,17 @@
       "on_hold": "On Hold",
       "processing": "Processing",
       "send_to_ds": "Send to Deadstock",
+      "sent_to_deadstock": "Sent to Deadstock",
       "shipped_to_ds": "Shipped to DS",
       "arrived_at_ds": "Arrived at DS",
       "awaiting_auth": "Awaiting Authentication",
       "auth_issued": "Authentication Issued",
       "auth_failed": "Authentication Failed",
+      "authentication_failed": "Authentication Failed",
       "auth_completed": "Authentication Completed",
       "awaiting_shipment": "Awaiting Shipment to Buyer",
       "shipped_to_buyer": "Shipped to Buyer",
+      "ship_to_deadstock_status": "Ship to Deadstock",
       "delivered": "Delivered",
       "ordered": "Ordered",
       "multiple": "Multiple",
@@ -4039,6 +4049,7 @@
       "ship_to_deadstock": "Sent to Deadstock",
       "awaiting_drop_off_with_shipping_carrier": "Awaiting drop off with Shipping Carrier",
       "authentication_complete": "Authentication Complete",
+      "authenticated": "Authenticated",
       "awaiting_shipment_to_buyer": "Awaiting Shipment to Buyer",
       "shipped_to_deadstock": "Sent to Deadstock",
       "arrived_at_deadstock": "Arrived at Deadstock",
@@ -5775,6 +5786,14 @@
       "paid": "Fulfilled",
       "due": "Due",
       "failed_auth": "Failed Auth."
+    },
+    "tab_groups": {
+      "day": "24H",
+      "week": "7D",
+      "month": "30D",
+      "6m": "6M",
+      "year": "1Y",
+      "all": "ALL"
     },
     "faq_title": "Vendor Hub Frequently Asked Questions",
     "faq_body": "Have a question? See our FAQ with link below",
