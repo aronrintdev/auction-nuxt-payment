@@ -545,9 +545,9 @@
               <div
                 v-for="(item) in inventoryItems"
                 :key="item.id"
-                class="item invent-item d-flex flex-column justify-content-center col-6 col-md-3"
+                class="item invent-item d-flex flex-column justify-content-center col-6 col-md-3" :class="{'d-none': item.stock <= 0}"
               >
-                <b-row class="justify-content-between">
+                <b-row v-if="item.stock >= 1" class="justify-content-between">
                   <b-col class="d-flex justify-content-end pr-3 pt-3">
                     <img v-if="!editYours" class="plus-icon-add-trade" role="button"
                           :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
@@ -555,8 +555,8 @@
                           :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
                   </b-col>
                 </b-row>
-                <img class="img-fluid mx-auto max-h-200" :src="item.product | getProductImageUrl" />
-                <div class="item-caption">
+                <img v-if="item.stock >= 1" class="img-fluid mx-auto max-h-200" :src="item.product | getProductImageUrl" />
+                <div v-if="item.stock >= 1" class="item-caption">
                   <span class="item-name-invent">{{ item.product.name }}</span>
                   <div class="mt-1 item-caption-description-invent d-flex">
                     <div class="item-color text-truncate">{{ item.product.colorway }}</div>

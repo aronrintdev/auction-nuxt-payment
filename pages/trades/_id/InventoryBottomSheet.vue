@@ -66,8 +66,8 @@
     </div>
     </div>
     <div class="inventory-items d-flex flex-wrap pt-3 pl-4">
-      <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item">
-        <div>
+      <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item" :class="{'d-none': item.stock <= 0}">
+        <div v-if="item.stock >= 1">
           <div class="position-relative">
             <img alt="No Image" class="plus-icon-add-trade position-absolute" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
                  @click="addYourItem(item)"/>
