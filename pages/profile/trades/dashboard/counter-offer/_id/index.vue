@@ -3,8 +3,10 @@
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
-          <div class="center-container-xs mb-5">
-            <div class="left-item-xs" :class="{'right-item-margin-top-sm':getTheirItems.length === TWO_ITEMS,'left-item-one-xs':getTheirItems.length === ONE_ITEM}">
+          <div :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM
+                ? 'center-container-xs-one':getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM  ? 'center-container-two-one': 'center-container-xs mb-5'">
+            <div class="left-item-xs"
+                 :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM ? 'left-item-one-one': getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM ? 'left-item-two-one-l': getTheirItems.length === THREE_ITEMS && getYourItems.length === THREE_ITEMS ? 'left-item-three-threel':'right-item-margin-top-sm'">
               <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'card-'+index : ''" :key="index" class="item mb-4">
                 <div class="image-wrapper-sm">
                   <img class="pro-image-sm"  :src="item.inventory.product | getProductImageUrl"/>
@@ -31,7 +33,10 @@
               </div>
               <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right-sm" :class="{'pointer-right-two-items-sm':getYourItems.length === TWO_ITEMS}"></div>
             </div>
-            <div class="right-item-sm position-relative" :class="{'right-item-margin-top-sm':getYourItems.length === TWO_ITEMS,'right-item-one-sm':getYourItems.length === ONE_ITEM}">
+            <div class="right-item-sm position-relative"
+                 :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM ? 'left-item-one-one': getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM ? 'left-item-two-one-l': getTheirItems.length === THREE_ITEMS && getYourItems.length === THREE_ITEMS ? 'left-item-three-threel':'right-item-margin-top-sm'"
+
+                 >
               <div  v-if="getYourItems.length" class="">
                 <div  v-for="(item,index) in getYourItems" :id="getYourItems.length > ONE_ITEM ?'your-card-'+index : 'your-item'" :key="index" class="preview mb-4">
                   <div class="position-relative">
@@ -1844,7 +1849,17 @@ export default {
     font-size: 14px
     line-height: 19px
 .center-container-xs
-    min-height: 650px
+    min-height: 680px
+    margin: 0 15px
+    display: flex
+    justify-content: center
+.center-container-xs-one
+    min-height: 350px
+    margin: 0 15px
+    display: flex
+    justify-content: center
+.center-container-two-one
+    min-height: 500px
     margin: 0 15px
     display: flex
     justify-content: center
@@ -2177,6 +2192,18 @@ export default {
 .left-item-one-sm
   margin-top: 183px
   margin-right: 15px
+.right-item-one-one
+  margin-top: 50px
+  margin-left: 15px
+.left-item-one-one
+  margin-top: 50px
+  margin-right: 15px
+.left-item-two-one
+  margin-top: 148px
+.left-item-two-one-l
+  margin-top: 60px
+.left-item-three-threel
+  margin-top: 60px
 .price-value-box
   background-color: $color-white-4
   width: 797px
