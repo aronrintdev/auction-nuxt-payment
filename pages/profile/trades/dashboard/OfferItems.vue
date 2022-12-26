@@ -4,8 +4,8 @@
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
         <div class="mt-2 row justify-content-center align-content-center">
-          <div v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="col-4">
-            <div class="bg-white">
+          <div v-for="(item,index) in offerItems" :key="'offer-item-list-' + item.id" class="" :class="{'mobile-offer-item': mobileItem === OFFER_SUMMARY, 'col-4' : mobileItem === '','mr-11px' :mobileItem === OFFER_SUMMARY && index !== 2}">
+            <div class="" :class="{'bg-white' : mobileItem === ''}">
               <div class="offer-item-small">
                 <img
                   v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
@@ -18,8 +18,7 @@
                   {{item.inventory ? item.inventory.product.name : item.product.name}}
                 </div>
                 <div class="offer-item-text-small">{{$t('common.box')}}: {{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
-                <div class="offer-item-text-small">{{item.inventory ? item.inventory.product.colorway : item.product.colorway}}</div>
-                <div class="offer-item-text-small">{{$tc('common.size')}} {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
+                <div class="offer-item-text-small">{{item.inventory ? item.inventory.product.colorway : item.product.colorway}},{{$tc('common.size')}} {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
               </div>
             </div>
           </div>
@@ -61,6 +60,7 @@
 
 <script>
 import ScreenSize from '~/plugins/mixins/screenSize'
+import { OFFER_SUMMARY } from '~/static/constants/trades'
 
 export default {
   name: 'OfferItems',
@@ -81,11 +81,16 @@ export default {
     isOfferSummary:{
       type: Boolean,
       default: false
-    }
+    },
+    mobileItem:{
+      type: String,
+      default: ''
+    },
   },
   data(){
     return {
       width:'',
+      OFFER_SUMMARY,
     }
   },
   mounted() {
@@ -265,4 +270,9 @@ export default {
   width: 140px
 .box-pad
   padding-right: 40px
+.mobile-offer-item
+  height: 161px
+  width: 99px
+.mr-11px
+  margin-right: 11px
 </style>
