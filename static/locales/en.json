@@ -5019,6 +5019,7 @@
     "apply": "Apply",
     "listings": "Listing ({0})",
     "delete_expired_listings": "Delete Expired Listings",
+    "delete_expired_listings-sm": "Delete Expired",
     "select_all_expired_trades": "Select All Expired Trades",
     "trade_id": "Trade ID",
     "listed_on": "Listed on",
