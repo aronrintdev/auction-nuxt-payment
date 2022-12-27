@@ -40,7 +40,7 @@
         class="flex-grow-1 mr-4 text-nowrap mobile-btns save-as-draft"
         @click="saveAsDraft"
       >
-        {{ $t('create_listing.confirm.save_as_draft') }}
+        {{ $t('create_listing.confirm.save_draft') }}
       </Button>
       <Button
         variant="dark"
@@ -65,7 +65,7 @@
         class="desktop-btns save-as-draft"
         :disabled="processing"
         @click="saveAsDraft"
-      >{{ $t('create_listing.confirm.save_draft') }}</Button
+      >{{ $t('create_listing.confirm.save_as_draft') }}</Button
       >
       <Button
         variant="dark"

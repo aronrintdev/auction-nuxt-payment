@@ -838,10 +838,10 @@ export default {
     color: $black
 
 .size-picker::v-deep
-  padding: 0 !important
+  padding: 0
   margin: 0
   .carousel-wrapper
-    margin: 0 -16px !important
+    margin: 0 -16px
     max-width: 100vw
     width: 100vw
     .sizePickerHeader

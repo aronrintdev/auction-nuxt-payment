@@ -117,12 +117,15 @@
         margin-bottom: 6px
         color: $dark-gray
         display: flex
+        width: calc(100% - 106px)
         &-colorway
           text-overflow: ellipsis
           overflow: hidden
           white-space: nowrap
         &-size
           white-space: nowrap
+        &.small-card
+          width: calc(100% - 70px)
       &-price
         @include body-2-bold
         color: $black
@@ -153,9 +156,19 @@
       height: 40px
       width: 94px
       transition: all 0.3s ease
+      margin-top: -20px
       &:hover
         background: $color-white-1
         color: $black
+      &-link
+        line-height: 1em
+        margin-top: 3px
+      &.small
+        width: 61px
+        height: 26px
+        @include body-21
+        padding: 0
+        margin-top: -12px
     .collection-product-imgs
       margin: 0 -10px
       .collection-product-img
@@ -207,13 +220,29 @@
         width: 62px
         border-radius: 0
         padding: 1px 0 2px
+        margin-top: 0
+        &.small
+          width: 60px
+          @include body-18
+          padding: 2px
+          height: 19px
+          font-weight: $medium
+          font-family: $font-montserrat
+          margin-top: 0
       .auct-card
-        padding: 10px
+        padding: 10px 10px 0
+        &-text
+          width: 100%
         &-title,
         &-text-colorway,
         &-text-size
           font-size: 13px
           line-height: 130%
+        &-text-size
+          font-size: $font-size-12
+          color: $dark-gray
+          font-weight: $regular
+          font-family: $font-montserrat
         &-price
           font-size: 12px
           line-height: 14px
