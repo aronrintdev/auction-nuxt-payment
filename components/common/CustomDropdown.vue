@@ -29,7 +29,7 @@
         class="font-weight-light m-0 p-0 my-label"
         :style="labelStyle"
       >
-        <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
+        <img v-if="labelLeftImage" :src="labelLeftImage" class="mr-2">
         {{label}}
       </label>
       <img alt="No Image" class="pull-right" :src="require(isOpen ? '~/assets/img/dashicons1.svg' : '~/assets/img/dashicons.svg' )" />
