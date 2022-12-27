@@ -282,7 +282,10 @@
       <PoorTradeConfirmationModal :poorTrade="checkForPoorTrade()"></PoorTradeConfirmationModal>
       <AlreadyListedModal :listingId="itemListingId" :item="alreadyListedItemDetails" @confirm="addOrIncrementYourItem" />
     </b-col>
-    <CheckoutSidebar  v-if="isPayment" class="order-summary" />
+    <b-col md="3" class="summary-box">
+      <CheckoutSidebar  v-if="isPayment" class="order-summary" />
+    </b-col>
+
     </b-row>
     </div>
     </div>
@@ -1347,4 +1350,6 @@ export default {
 .payment-center-image
   height: 45px
   width: 45px
+.summary-box
+  margin-left: -4rem
 </style>
