@@ -777,7 +777,7 @@ export default {
 // ------------------Responsive--------------------
 @media only screen and (max-width: 768px)
   .input-signup
-    font-size: 14px
+    font-size: $font-size-14
     line-height: 18px
 
   .form-area::v-deep
