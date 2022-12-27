@@ -49,7 +49,15 @@
       <div class="row">
         <div class="col-12 col-sm-3 section-lists-wrapper">
           <section class="d-none d-sm-block section-lists">
-            <h5>{{ watchlistsType !== WATCHLIST_TYPE_AUCTION ? $t('watchlists.buying_lists') : $t('watchlists.auction_watchlists') }}</h5>
+            <h5>
+              {{ 
+                watchlistsType !== WATCHLIST_TYPE_AUCTION ? $t('watchlists.trade_watchlists'): $t('watchlists.auction_watchlists') 
+              }} 
+              <span v-b-modal.create-watchlist-modal class="plus-sign">
+                +
+              </span>
+            </h5>
+            
             <div v-for="list in watchlists" :key="list.id">
               <Button
                 :pressed="list.id === currentWatchlist.id"
@@ -315,7 +323,8 @@ export default {
       padding-left: 10px
       font-family: $font-montserrat
       font-weight: $bold
-      @include body-4
+      font-style: $normal
+      @include body-4b
       letter-spacing: -0.02em
       text-transform: capitalize
       color: $black
@@ -369,5 +378,4 @@ export default {
 
     .custom-control-input:checked ~ .custom-control-label::after
       transform: translateX(1.27rem)
-
 </style>
