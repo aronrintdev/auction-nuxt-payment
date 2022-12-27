@@ -205,7 +205,7 @@ export default {
         color: $color-black-1
         font-family: $font-family-sf-pro-display
         font-weight: $medium
-        font-size: 15px
+        @include body-8
 
       .info
         @include body-10-normal
