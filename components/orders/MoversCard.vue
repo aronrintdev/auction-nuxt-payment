@@ -33,7 +33,7 @@
     </div>
     <div class="d-block d-md-none product-info">
       <div class="product-name">{{ product.name | wordLimit }}</div>
-      <div class="product-color">{{ product.colorway }}</div>
+      <div class="product-color">{{ product.colorway.slice(0, 20) }}...</div>
       <div class="product-sku">{{ $t('orders.sku') }}: {{ product.sku }}</div>
     </div>
   </div>

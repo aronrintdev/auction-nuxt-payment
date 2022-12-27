@@ -46,6 +46,9 @@ export default {
 .box-title
   font-family: $font-family-sf-pro-display
   font-weight: $regular
+  white-space: nowrap
+  letter-spacing: 0px
+  word-spacing: 0px
   @include body-8
 
 .box-value

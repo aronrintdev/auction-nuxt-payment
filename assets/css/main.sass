@@ -910,28 +910,32 @@ $radii: 3, 5, 8, 10, 15, 20, 25
 
 .wishlist-popover.popover.b-popover
   height: 45px
-  display: flex 
+  display: flex
   align-items: center
   border: 0
+
+body .custom-wrapper .bottom-sheet
+  z-index: 2000000009
+
 @media screen and (max-width: 577px)
   .login-form-section
-      margin-top: 50px
-      fieldset
+    margin-top: 50px
+    fieldset
+      width: 343px
+      padding: 0 !important
+      margin-left: auto
+      margin-right: auto
+      margin-bottom: 26px !important
+      .input-group
         width: 343px
         padding: 0 !important
-        margin-left: auto
-        margin-right: auto
-        margin-bottom: 26px !important
-        .input-group
-          width: 343px
-          padding: 0 !important
-          input
-            padding: 0px 15px !important
-            height: 40px
-            &::placeholder
-              color: $color-gray-47
-              font-size: 14px
-              font-weight: 500
+        input
+          padding: 0px 15px !important
+          height: 40px
+          &::placeholder
+            color: $color-gray-47
+            font-size: 14px
+            font-weight: 500
             &::-webkit-input-placeholder
               color: $color-gray-47
             &:-ms-input-placeholder
