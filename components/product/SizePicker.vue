@@ -306,7 +306,7 @@ export default {
     font-family: $font-montserrat-serif
     font-weight: $regular
     font-style: $normal
-    font-size: 13px
+    @include body-10
     @include body-8-normal
     text-transform: uppercase
 
