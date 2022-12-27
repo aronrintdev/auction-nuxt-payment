@@ -148,6 +148,16 @@ export default {
   .bottom-sheet__card
     max-height: 36% !important
 
+#popup-filter::v-deep
+  .header-title
+    padding-bottom: 0px
+  .title-underline
+    margin-top: 20px
+    margin-bottom: 0px
+    height: .5px
+    border-width: 0
+    color: $color-gray-47
+    background-color: $color-gray-47
 
 ::v-deep.filter-button
   height: 40px

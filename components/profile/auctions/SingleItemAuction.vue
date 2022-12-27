@@ -33,7 +33,7 @@
         </b-row>
       </b-col>
       <b-col v-if="isMobileSize" class="d-flex justify-content-around flex-column py-1 py-md-0">
-        <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
+        <div class="px-1 d-flex justify-content-between d-md-flex justify-content-md-center" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.auction_id') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-decoration-underline text-blue-30' : 'body-4-normal'">
             {{auction.id}}
@@ -42,13 +42,13 @@
       </b-col>
       <b-col sm="12" md="1" class="d-flex justify-content-around flex-column py-02 py-md-0"
              :class="{'bg-lightgrey': isMobileSize}">
-        <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
+        <div class="px-1 d-flex justify-content-between d-md-flex justify-content-md-center" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.type') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal text-nowrap'">{{$t('auction.auction_types.'+auction.type)}}</span>
         </div>
       </b-col>
       <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-normal py-1 py-md-0">
-        <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
+        <div class="px-1 d-flex justify-content-between d-md-flex justify-content-md-center" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.highest_bid') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal'">
             <span v-if="auction.bids.length">&dollar;{{ auction.highest_bid | formatPrice }}</span>
@@ -58,7 +58,7 @@
       </b-col>
       <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-normal py-02 py-md-0"
              :class="{'bg-lightgrey': isMobileSize}">
-        <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
+        <div class="px-1 d-flex justify-content-between d-md-flex justify-content-md-center" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.bids') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal'">
            {{auction.bids.length|| '-'}}
@@ -66,7 +66,7 @@
         </div>
       </b-col>
       <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-normal py-1 py-md-0">
-        <div class="px-1 d-flex justify-content-between d-md-block text-capitalize" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
+        <div class="px-1 d-flex justify-content-between d-md-flex justify-content-md-center text-capitalize" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.time_remaining') }}:</span>
           <span class="text-capitalize" :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal'">
             {{ isExpired || auction.status !== LIVE_STATUS ? '-' : auction.remaining_time }}
@@ -76,12 +76,12 @@
       <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-normal py-02 py-md-0"
              :class="{'bg-lightgrey': isMobileSize}">
 
-        <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
+        <div class="px-1 d-flex justify-content-between d-md-flex justify-content-md-center" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.status') }}:</span>
           <span :class="[isMobileSize ? 'body-9-regular' : 'body-4-normal', {'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired && auction.status === LIVE_STATUS }]">
             {{ (isExpired && auction.status === LIVE_STATUS) ? $t('bids.expired') : $t('auction.status_array.' + auction.status)}}
           </span>
-          <div v-if="auction.status === SCHEDULED_STATUS" class="d-none d-md-block text-center mt-2">
+          <div v-if="auction.status === SCHEDULED_STATUS" class="d-none d-md-flex justify-content-md-center text-center mt-2">
             <span class="body-4-normal">{{ auction.scheduled_date | formatDate('DD/MM/YYYY') }}</span>
           </div>
         </div>

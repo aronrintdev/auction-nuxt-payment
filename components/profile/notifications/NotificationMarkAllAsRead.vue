@@ -1,6 +1,6 @@
 <template>
   <Button
-      class="mark-as-read btn-link"
+      class="mark-as-read btn-link color-blue"
       size="sm"
       variant="link"
       :disabled="readAllLoading"
@@ -42,8 +42,9 @@ export default {
 
 ::v-deep.mark-as-read.btn-link
   @include body-9
-  color: $color-blue-1
   font-family: $font-montserrat
   font-style: normal
   font-weight: $normal
+.color-blue
+  color: $color-blue-20
 </style>

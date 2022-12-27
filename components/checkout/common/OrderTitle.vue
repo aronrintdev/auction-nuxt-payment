@@ -42,4 +42,6 @@ export default {
 
 .order-title-wrapper
   font-family: $font-sf-pro-text
+  @media (max-width: 576px)
+    display: none
 </style>
