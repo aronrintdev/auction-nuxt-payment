@@ -285,7 +285,7 @@ export default {
     @include heading-1
     color: $color-black-1
     font-family: $font-family-sf-pro-display
-    font-size: 24px
+    @include text-24
     font-weight: $bold
 
   .btn-back
