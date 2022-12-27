@@ -3,7 +3,7 @@
       :id="id"
       class="multi-select-dropdown"
       :class="dropdownClass"
-      :menu-class="`${dropdownClass} ${menuClass} w-100`"a
+      :menu-class="`${dropdownClass} ${menuClass} w-100`"
       :toggle-class="`${dropdownClass} ${toggleClass}`"
       @hidden="shown = false"
       @shown="shown = true"
