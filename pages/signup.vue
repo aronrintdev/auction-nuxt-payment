@@ -873,7 +873,7 @@ export default {
   background-color: $color-white-1
   border-radius: 20px
   font-weight: 600
-  font-size: 11px
+  @include body-6
 .login-btn
   padding: 4px 0px
   border: none
@@ -881,5 +881,5 @@ export default {
   background-color: $color-gray-75
   border-radius: 20px
   font-weight: 500
-  font-size: 11px
+  @include body-6
 </style>
