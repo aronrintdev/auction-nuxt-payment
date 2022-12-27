@@ -105,7 +105,7 @@ export default {
   background: linear-gradient(180deg, $red-rgba 0%, $yellow-rgba 293.51%, $yellow-rgba 293.54%)
 
 ::v-deep.meterSneaker.vue-slider-ltr-shop .vue-slider-process
-  background: #667799
+  background: $color-blue-20
 
 .percentage-value
   border: 1.5px solid $color-gray-60
