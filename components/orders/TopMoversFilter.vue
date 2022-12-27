@@ -409,7 +409,7 @@ export default {
   background: $color-blue-20
   border: 1px solid $color-blue-20
   color: $color-white-1
-
+  font-family: $font-sp-pro
 ::v-deep .col-form-label
   font-weight: bold
   color: $color-blue-20

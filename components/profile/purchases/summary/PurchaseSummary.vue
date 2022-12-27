@@ -290,7 +290,7 @@ export default {
 
     timelineStatus: (vm) => {
       if (vm.orderDetails.items[0].status_history && vm.orderDetails.quantity === 1) {
-        return vm.orderDetails.items[0].status_history.map((status, index) => {
+        const timelineWithDuplicateLables = vm.orderDetails.items[0].status_history.map((status, index) => {
           return {
             id: status.id,
             status: status.status_label,
@@ -299,6 +299,7 @@ export default {
             class: (index + 1) === vm.orderDetails.items[0].status_history.length ? 'tracking-end' : ''
           }
         })
+        return Object.values(timelineWithDuplicateLables.reduce((acc,cur)=> Object.assign(acc,{[cur.status]:cur}),{}))
       }else{
         return []
       }

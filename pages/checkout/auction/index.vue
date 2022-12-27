@@ -1,10 +1,10 @@
 <template>
-  <b-container fluid>
-    <b-row v-if="activeAuction" >
+  <b-container fluid class="px-0">
+    <div v-if="activeAuction" class="d-flex flex-column flex-md-row flex-md-nowrap">
       <AuctionCart :auction="activeAuction" />
 
       <CheckoutSidebar class="order-summary auction-checkout" />
-
+      
       <!-- Quick Bid Modal -->
       <b-modal id="quick-bid-modal" hide-footer hide-header size="md">
         <div class="text-right">
@@ -17,7 +17,7 @@
           </div>
         </div>
       </b-modal>
-    </b-row>
+    </div>
   </b-container>
 </template>
 
@@ -108,7 +108,11 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
 .auction-checkout
   min-height: calc(100vh - 224px)
-
+  @media (max-width: 576px)
+    background: $white
+    padding: 18px 0
 </style>

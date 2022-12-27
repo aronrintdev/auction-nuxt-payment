@@ -12,11 +12,11 @@
             borderless
           >
             <template #cell(type)="data">
-              <span class="body-4-medium">{{ data.item.type }}</span>
+              <span class="body-4-medium item-type">{{ data.item.type }}</span>
             </template>
             <template #cell()="data">
               <span v-if="isSizeSelected(data.field.key)" class="body-4-medium">{{ data.value }}</span>
-              <span v-else class="body-4-regular">{{ data.value }}</span>
+              <span v-else class="body-4-regular item-value">{{ data.value }}</span>
             </template>
           </b-table>
         </b-col>
@@ -85,3 +85,10 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.item-type
+ font-family: $font-sf-pro-text
+.item-value
+ font-family: $font-sf-pro-text
+</style>

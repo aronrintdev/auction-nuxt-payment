@@ -553,12 +553,14 @@ export default {
      * Update inventory stock
      */
     updateInventoryStock(inventoryId, increment){
+      const allInventories = JSON.parse(JSON.stringify(this.inventoryItems))
       const index = this.inventoryItems.findIndex((inventoryItem) => inventoryItem.id === inventoryId)
       if(index !== false && increment){
-        // this.inventoryItems[index].stock += 1
+        allInventories[index].stock += 1
       }else if(index !== false){
-        // this.inventoryItems[index].stock -= 1
+        allInventories[index].stock -= 1
       }
+      this.inventoryItems = JSON.parse(JSON.stringify(allInventories))
     },
     /**
      * This function is used to add or increment your trade item in store

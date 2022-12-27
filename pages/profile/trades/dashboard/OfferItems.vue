@@ -44,11 +44,11 @@
                   <div  :class="{'overlay-image': isOfferSummary}"></div>
                 </div>
               </div>
-
               <div class="bottom-section" :class="{'mt-4': !isOfferSummary}">
                 <div class="product-name pt-1">  {{item.inventory ? item.inventory.product.name : item.product.name}}</div>
-                <div class="product-box "><span>{{$t('common.box')}}: </span>{{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
                 <div class="product-size "><span>{{ $tc('common.size') }} </span> {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
+                <div class="product-box "><span>{{$t('common.box')}}: </span>{{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
+
               </div>
             </div>
 
@@ -177,15 +177,15 @@ export default {
   color: $color-gray-5
 .view-detail-text
   font-family: $font-family-sf-pro-display
-  font-style: $normal
-  font-weight: 500
+  font-style: normal
+  font-weight: $normal
   @include body-13
   line-height: 19px
   text-decoration-line: underline
-  color: #667799
+  color: $color-blue-20
 
 .product-name
-  width: 90px
+  width: 150px
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-6-medium
@@ -194,7 +194,7 @@ export default {
   text-overflow: ellipsis
   @media (min-width: 576px)
     @include body-10-medium
-    width: auto
+    width: 150px
     color: $color-black-1
 
 .product-size, .product-box
@@ -233,7 +233,21 @@ export default {
 
 .inner-section
   padding: 5px
-
+.image-wrapper
+  position: relative
+  width: 150px
+.image-wrapper
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: $color-grey-70
+.pro-image
+  width: 140px
+.box-pad
+  padding-right: 40px
 .offer-summary-item
   height: 215px
   width: 140px
