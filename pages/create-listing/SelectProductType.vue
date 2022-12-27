@@ -142,6 +142,7 @@ export default {
       font-family: $font-family-sf-pro-text
       font-weight: $regular
       margin-right: 50px
+      max-width: 385px
     &-img
       width: 100%
       height: 0

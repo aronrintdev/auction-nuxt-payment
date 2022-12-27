@@ -142,8 +142,10 @@ export default {
   color: $color-blue-20
 
 .personal-details-sub-heading
-  font-family: $font-montserrat
-  font-style: normal
+  font-family: $font-family-sf-pro-display
+  font-style: $normal
+  font-size: 13px
+  font-weight: $regular
   @include body-21-regular
   color: $color-black-17
 

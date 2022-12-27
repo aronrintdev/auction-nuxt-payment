@@ -204,6 +204,8 @@ export default {
   &.active
     border-color: $color-black-1
     background-color: $color-gray-2
+    @include body-11-medium
+    line-height: 18px
 
 .denomination
   &.active
@@ -211,7 +213,7 @@ export default {
     // border: 1px solid $color-black-1
     .add-amount-item
       font-style: normal
-      @include body-9-normal
+      @include body-1118-medium
       color: $color-black-1
 @media (min-width: 320px) and (max-width:330px)
   .add-amount-item

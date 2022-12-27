@@ -2,7 +2,7 @@
   <client-only>
     <b-container :class="mobileClass" class="container-profile-inventory h-100" fluid>
       <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-end">
-        <h2 class="title">{{ $tc('common.inventory', 1) }}</h2>
+        <h2 class="title mb-0">{{ $tc('common.inventory', 1) }}</h2>
         <Button
             :disabled="!csvDrafts.length"
             class="btn-draft"
@@ -45,7 +45,7 @@
             variant="dark"
             @click="moveToCreateInventory"
           >
-            {{ $t('inventory.add_inventory') }}
+            {{ $t('inventory.create_inventory') }}
           </Button>
         </div>
       </div>
@@ -215,7 +215,7 @@
           </div>
           <div class="d-flex align-items-center justify-content-between mb-3">
             <Button
-                class="filter-button"
+                class="filter-button reset-btn"
                 pill
                 variant="outline-dark"
                 @click="resetFilter"
@@ -658,7 +658,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .container-profile-inventory
-  padding: 47px 54px
+  padding: 47px 55px 16px 30px
   background-color: $color-white-5
 
   &.mobile
@@ -678,6 +678,7 @@ export default {
 
   h2.title
     @include heading-3
+    font-weight: $bold
     color: $color-black-1
 
   .btn-draft::v-deep
@@ -690,17 +691,36 @@ export default {
       justify-content: center
 
   .products-count
-    @include body-3-medium
-    color: $color-black-1
+    font-family: $font-sp-pro
+    font-weight: $bold
+    @include body-12
+    color: $black
 
   .btn-add::v-deep
     @include body-4-medium
-    width: 168px
+    width: 157px
     height: 40px
     padding: 0
     display: flex
     align-items: center
     justify-content: center
+    font-family: $font-sp-pro
+    font-weight: $medium
+    @include body-13
+    color: $white
+
+  .nav-group::v-deep
+    .btn-group
+      height: 32px
+      background: $color-gray-3
+      border-radius: 20px
+      .btn
+        font-weight: $regular
+        @include body-6
+        background: transparent
+        &.active
+          background: $white
+          font-weight: $medium
 
   .dropdown-actions::v-deep
     .dropdown_wrapper
@@ -793,13 +813,9 @@ export default {
       flex: 0 0 33.33%
       max-width: 33.33%
 
-    @media (min-width: 1525px)
+    @media (min-width: 1400px)
       flex: 0 0 25%
       max-width: 25%
-
-    @media (min-width: 1800px)
-      flex: 0 0 20%
-      max-width: 20%
 
 ::v-deep.mobile-bottom-sheet
   .bottom-sheet__card.stripe
@@ -831,5 +847,6 @@ export default {
 
 .filter-button
   font-family: $font-family-sf-pro-display
-
+.reset-btn
+  font-family: $font-family-sf-pro-display
 </style>

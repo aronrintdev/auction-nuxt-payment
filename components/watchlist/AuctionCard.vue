@@ -24,7 +24,7 @@
       </div>
       <div
         v-else-if="auction.remaining_hours < 24"
-        class="d-inline-flex align-items-center remaining-time bg-danger text-white"
+        class="d-inline-flex align-items-center remaining-time danger-bg text-white"
       >
         <ClockBackSvg v-if="auction.remaining_hours"/>
         <div class="text-capitalize">{{ auction.remaining_hours ? auction.remaining_time : $t('filter_sidebar.status_options.expired') }}</div>
@@ -70,7 +70,7 @@
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-end">
-        <div class="auct-card-price">${{ auction.highest_bid || auction.start_bid_price | formatPrice }}</div>
+        <div class="auct-card-price">${{ auction.highest_bid / 100 || auction.start_bid_price / 100 }}</div>
         <nuxt-link :to="`/auction/${auction.id}`">
           <button class="w-100 btn bid-now-btn text-nowrap">{{ isScheduled || isSold || isExpired ? $t('common.view') : $tc('common.bid', 1) }}</button>
         </nuxt-link>
@@ -142,6 +142,7 @@ export default {
   @media (min-width: 1600px)
     flex: 0 0 25%
     max-width: 25%
+
 .auct-card
   .remaining-time
     background: $dark-gray-8
@@ -159,6 +160,10 @@ export default {
     div
       @include body-10
       font-weight: $medium
+  .danger-bg
+    background: #DD5E5E
+  &-text
+    font-weight: $normal
 ::v-deep
   .thumb-wrapper
     .overlay

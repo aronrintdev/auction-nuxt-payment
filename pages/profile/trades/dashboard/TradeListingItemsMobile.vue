@@ -9,7 +9,7 @@
       <b-row class="justify-content-end">
         <b-checkbox
           v-if="selectable"
-          class="pr-2 pt-2"
+          class="pr-2"
           :checked="selected"
           :value="trade.id"
           @change="toggleSelect(trade.id)"
@@ -35,7 +35,10 @@
             :key="'trade-offer-' + offer.id"
             class="d-flex flex-column justify-content-center col-4"
           >
-            <img class="img-fluid" :src="offer.inventory.product | getProductImageUrl">
+            <div class="image-wrapper">
+              <img class="pro-image" :src="offer.inventory.product | getProductImageUrl"  alt="image" />
+              <div class="overlay"></div>
+            </div>
             <div class="mt-3 product-name">{{ offer.inventory.product.name }}</div>
             <div class="mt-1 product-info d-flex">
               <div class="w-50 text-truncate">{{ offer.inventory.product.colorway }}</div>
@@ -87,8 +90,12 @@ export default {
   filter: drop-shadow(0px 1px 4px $drop-shadow1)
   background: $color-white-1
   border-radius: 5px
-  padding: 13px
+  padding-left: 13px
+  padding-top: 13px
+  padding-right: 14px
   padding-bottom: 16px
+  height: 239px
+  width: 343px
 
 .trade-id
   font-family: $font-family-sf-pro-display
@@ -169,5 +176,16 @@ export default {
 
 .w-50
   width: 50%
-
+.image-wrapper
+  position: relative
+.image-wrapper
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: $color-grey-70
+.pro-image
+  width: 99px
 </style>

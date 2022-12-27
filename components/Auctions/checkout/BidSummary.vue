@@ -1,6 +1,6 @@
 <template>
   <!-- Bid Summary -->
-  <b-col md="3">
+  <div>
     <div class="heading-1-medium d-block">{{ $t('auction_cart.bid_summary') }}</div>
 
     <!-- Quantity of Items Purchased Indication -->
@@ -368,7 +368,7 @@
         </div>
       </div>
     </b-modal>
-  </b-col><!-- End of Bid Summary -->
+  </div><!-- End of Bid Summary -->
 </template>
 
 <script>

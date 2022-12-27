@@ -19,7 +19,7 @@
         </b-tab>
         <div class="d-flex mx-3 p-3 flex-column d-sm-none mobile-section">
           <div class="d-flex justify-content-between align-items-center">
-            <div class="body-5-medium text-black">{{ $t('products.latest_sales') }}</div>
+            <div class="body-5-medium text-black latest-sales-text">{{ $t('products.latest_sales') }}</div>
             <Icon
               v-show="currentDataTab"
               src="close.svg"
@@ -285,5 +285,6 @@ export default {
         border-bottom-right-radius: 0
         &:hover
           border-bottom: none
-
+.latest-sales-text
+  font-family: $font-sf-pro-text
 </style>
