@@ -107,11 +107,11 @@ export default {
     border-radius: 5px
 .product-name
   width: 150px
-  font-size: 12px
+  @include body-9
   color: $color-black-15
   font-family: $font-montserrat-serif
 .add-btn
   font-family: $font-sp-pro
   font-weight: $medium
-  font-size: 12px
+  @include body-9
 </style>
