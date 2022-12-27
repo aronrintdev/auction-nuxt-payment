@@ -3,14 +3,14 @@
       :id="id"
       class="multi-select-dropdown"
       :class="dropdownClass"
-      :menu-class="`${dropdownClass} ${menuClass} w-100`"
+      :menu-class="`${dropdownClass} ${menuClass} w-100`"a
       :toggle-class="`${dropdownClass} ${toggleClass}`"
       @hidden="shown = false"
       @shown="shown = true"
   >
     <template #button-content>
       <slot name="button-content">
-        <div class="d-flex align-items-center justify-content-between mx-2">
+        <div class="d-flex align-items-center justify-content-between font-styling mx-2">
           {{ label }}
           <img :class="{'reverse': shown}" :src="arrowDownBlack">
         </div>
@@ -113,8 +113,8 @@ export default {
 
 .reverse
   transform: rotate(180deg)
-.justify-content-between
+.font-styling
   font-family: $font-family-sf-pro-display
   font-weight: $medium
-  font-size: 14px
+  @include body-5
 </style>
