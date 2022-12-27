@@ -182,7 +182,7 @@ export default {
     margin-bottom: 26px
 
   .title
-    @include body-8
+    @include body-4b
     font-family: $font-family-sf-pro-display
     font-style: normal
     font-weight: $medium
