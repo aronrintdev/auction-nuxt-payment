@@ -518,7 +518,7 @@
           <b-button class="mx-3 cancel-btn" variant="outline-dark" pill @click="$bvModal.hide('quick-bid-modal')">{{ $t('common.cancel') }}</b-button>
         </div>
         <div class="text-center"><small>{{ $t('auctions.frontpage.placed_bid_desc') }}</small></div>
-        <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary text-decoration-underline">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
+        <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/privacy-policy" class="text-primary text-decoration-underline">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
       </div>
     </b-modal>
     <!-- Bid Confirm Modal -->
@@ -536,7 +536,7 @@
           <b-button class="mx-3 cancel-btn" variant="outline-dark" pill @click="$bvModal.hide('auto-bid-enable-modal')">{{ $t('common.cancel') }}</b-button>
         </div>
         <div class="text-center"><small>{{ $t('auctions.frontpage.placed_bid_desc') }}</small></div>
-        <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary text-decoration-underline">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
+        <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/privacy-policy" class="text-primary text-decoration-underline">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
       </div>
     </b-modal>
     <b-modal id="auto-bid-success-modal" hide-footer hide-header size="md">
