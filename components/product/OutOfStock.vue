@@ -36,7 +36,7 @@
          </Button>
 
          <Button
-           :id="`popover-wishlist-${product.id}`"
+           :id="`wishlist-popover-${product.id}`"
            :tooltip-text="wishList ? wishList.name : ''"
            tabindex="0"
            variant="light"
@@ -53,9 +53,9 @@
 
      <WishListPopover
        v-if="!wishList"
+       :target="`wishlist-popover-${product.id}`"
        :product="product"
        :wish-list="wishList"
-       :target="`popover-wishlist-${product.id}`"
        @wishlisted="onWishListed"
        @show="wishListShow = true"
        @hidden="wishListShow = false"
@@ -67,7 +67,7 @@
 <script>
 import { mapActions } from 'vuex'
 import Button from '~/components/common/Button'
-import WishListPopover from '~/components/wish-list/Popover'
+import WishListPopover from '~/components/wish-list/WishListPopover'
 
 export default {
   name: 'OutOfStock',
