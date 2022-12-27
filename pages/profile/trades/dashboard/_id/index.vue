@@ -102,9 +102,14 @@
                 v-for="(item,index) in lastSubmittedOffer.yours_items"
                 :id="lastSubmittedOffer.yours_items.length > ONE_ITEM ?'your-card-'+index : 'your-item'"
                 :key="index"
-                class="item mb-5"
+                class="item-small mb-5"
               >
-                <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
+                <div class="d-flex align-items-center justify-content-center position-relative image-container-small">
+                  <div class="thumb-wrapper">
+                  <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
+                  <div class="overlay-image"></div>
+                  </div>
+                </div>
                 <div class="item-name-small text-truncate">{{ item.inventory.product.name }}</div>
                 <div class="mt-1 item-caption-description-small d-flex">
                   <span class="w-50 text-truncate">{{ item.inventory.product.colorway }}</span>
