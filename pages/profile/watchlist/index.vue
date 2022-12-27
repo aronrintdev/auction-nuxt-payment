@@ -2,8 +2,8 @@
   <b-container fluid class="container-watchlists">
     <div class="d-none d-sm-flex justify-content-between align-items-start header">
       <div v-if="!!currentWatchlist" class="title">
-        <h2 class="text-truncate mw-800px">{{ currentWatchlist.name }}</h2>
-        <span>({{ totalCount }} {{ $t('common.items') }})</span>
+        <h2 class="text-truncate mw-800px watch-list-name">{{ currentWatchlist.name }}</h2>
+        <span class="watch-list-counter">({{ totalCount }} {{ $t('common.items') }})</span>
       </div>
       <div v-else>&nbsp;</div>
 
@@ -322,17 +322,31 @@ export default {
   .title
     flex: 3
     max-width: calc(50vw - 368px)
+    .watch-list-name
+      font-family: $font-montserrat
+      font-style: $normal
+      font-weight: $bold
+      @include text-24
+    .watch-list-counter
+      font-family: $font-montserrat
+      font-style: $normal
+      font-weight: $normal
+      @include body-5
   .checkbox-switch-wrapper
     margin-top: 2px
     flex: 3
     max-width: calc(50vw - 368px)
 
+
 ::v-deep .checkbox-switch
   line-height: 32px
   span[role='button']
     font-family: $font-montserrat
-    @include body-5-bold
+    @include body-5
     margin-top: 7px
+    font-weight: $bold
+    font-style: $normal
+
   .custom-switch
     height: 31px
     margin-right: 20px
@@ -355,4 +369,5 @@ export default {
 
     .custom-control-input:checked ~ .custom-control-label::after
       transform: translateX(1.27rem)
+
 </style>
