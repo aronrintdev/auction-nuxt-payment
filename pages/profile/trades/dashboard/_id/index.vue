@@ -33,9 +33,14 @@
                 v-for="(item,index) in lastSubmittedOffer.theirs_items"
                 :id="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ? 'card-'+index : ''"
                 :key="index"
-                class="item mb-5"
+                class="item-small mb-5"
               >
-                <img class="img-fluid" :src="item.inventory.product | getProductImageUrl"/>
+                <div class="d-flex align-items-center justify-content-center position-relative image-container-small">
+                  <div class="thumb-wrapper">
+                  <img class="img-fluid" :src="item.inventory.product | getProductImageUrl"/>
+                  <div class="overlay-image"></div>
+                  </div>
+                </div>
                 <div class="item-name-small text-truncate">{{ item.inventory.product.name }}</div>
                 <div class="mt-1 item-caption-description-small d-flex">
                   <span class="w-50 text-truncate">{{ item.inventory.product.colorway }}</span>
@@ -972,4 +977,11 @@ export default {
   margin-top: -84px
 .long-line
   width: 18px
+.image-container-small
+  padding: 10px
+  height: 112px
+  background: $color-white-4
+.item-small
+  width: 99px
+  height: 161px
 </style>
