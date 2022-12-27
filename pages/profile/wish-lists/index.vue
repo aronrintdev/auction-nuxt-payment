@@ -343,8 +343,8 @@
     <!-- On delete list -->
     <ConfirmModal
       id="confirm-wishlist-delete"
-      :confirmLabel="$t('wish_lists.confirm_delete')"
-      :message="$t('wish_lists.confirm_delete_message', { list: currentWishList && currentWishList.name })"
+      :confirmLabel="$t('preferences.common.delete')"
+      :message="$t('wish_lists.confirm_delete_list_message')"
       @cancel="onCancel"
       @confirm="onConfirm"
     />
