@@ -46,5 +46,5 @@ export default {
   font-family: $font-montserrat-serif
   font-weight: $medium
   font-style: $normal
-  font-size: 20px
+  @include body-2
 </style>
