@@ -1152,7 +1152,8 @@
       "no_items": "0 Items have been found in your inventory.",
       "continue_listing": "Continue to List",
       "not_role_vendor_error": "Only vendors can create trades.",
-      "vendor_not_owner_error": "Inventory does not belong to vendor"
+      "vendor_not_owner_error": "Inventory does not belong to vendor",
+      "items_uploaded": "have been uploaded successfully"
     },
     "sale_confirmed": {
       "title": "Sale Confirmed",
