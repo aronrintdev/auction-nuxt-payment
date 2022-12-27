@@ -93,37 +93,41 @@
     </div>
 
     <div v-if="bidsCount > 0" class="bids-listing">
-      <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex bids-listing-header">
-        <b-col sm="12" md="5">
-          <b-row>
-            <b-col cols="4" md="4" class="text-center">
-              {{ $t('bids.headers.auction_id') }}
-            </b-col>
-            <b-col cols="8" md="8" class="text-left pl-4">
-              {{ $t('bids.headers.product') }}
-            </b-col>
-          </b-row>
-        </b-col>
-        <b-col sm="12" md="1">
-          <span>{{ $t('bids.headers.auction_type') }}&nbsp;</span>
-          <span role="button" @click="FetchBids(bidSort)">
+      <div class=" d-none d-md-flex bids-listing-header">
+        <div class="d-flex align-items-center bids-listing-column product">
+          <div class="bids-listing-header-name">{{ $t('bids.headers.product') }}</div>
+          <div class="ml-1" role="button" @click="FetchBids(bidSort)">
             <img :src="FilterDown" alt="down">
-          </span>
-        </b-col>
-        <b-col sm="12" md="2">
-          <span>{{ $t('bids.headers.bid_amt') }}&nbsp;</span>
-          <span role="button" @click="FetchBids(bidSort)">
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center bids-listing-column auction-type">
+          <div class="bids-listing-header-name">{{ $t('bids.headers.auction_type') }}</div>
+          <div class="ml-1" role="button" @click="FetchBids(bidSort)">
             <img :src="FilterDown" alt="down">
-          </span>
-          </b-col>
-        <b-col sm="12" md="2">
-          <span>{{ $t('bids.headers.time_remaining') }}&nbsp;</span>
-          <span role="button" @click="FetchBids(bidSort)">
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center bids-listing-column auto-bid">
+          <div class="bids-listing-header-name">{{ $t('bids.headers.auto_bid') }}</div>
+          <div class="ml-1" role="button" @click="FetchBids(bidSort)">
             <img :src="FilterDown" alt="down">
-          </span>
-        </b-col>
-        <b-col sm="12" md="2">{{ $t('bids.headers.action') }}</b-col>
-      </b-row>
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center bids-listing-column bid-amt">
+          <div class="bids-listing-header-name">{{ $t('bids.headers.bid_amt') }}</div>
+          <div class="ml-1" role="button" @click="FetchBids(bidSort)">
+            <img :src="FilterDown" alt="down">
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center bids-listing-column time-remaining">
+          <div class="bids-listing-header-name">{{ $t('bids.headers.time_remaining') }}</div>
+          <div class="ml-1" role="button" @click="FetchBids(bidSort)">
+            <img :src="FilterDown" alt="down">
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center bids-listing-column action">
+          <div class="bids-listing-header-name">{{ $t('bids.headers.action') }}</div>
+        </div>
+      </div>
 
       <client-only>
         <div v-if="bidsCount > 0" class="w-100">
@@ -733,5 +737,36 @@ h4.title
   font-weight: $normal
   @include body-13
   margin-left: 41px
+
+.bids-listing
+  &-header
+    margin-top: 50px
+  &-header-name
+    font-family: $font-montserrat
+    font-weight: $bold
+    @include body-4
+    color: $black
+  &-column
+    padding: 0 12px
+    img
+      width: 8px
+      height: 8px
+      object-fit: contain
+    [role="button"]
+      line-height: 20px
+  .product
+    flex: 1
+    padding-left: 24px
+  .action
+    width: 18%
+  .time-remaining
+    width: 17%
+  .bid-amt
+    width: 11.6%
+  .auto-bid
+    width: 10%
+  .auction-type
+    width: 10.6%
+
 </style>
 

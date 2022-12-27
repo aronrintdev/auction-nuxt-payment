@@ -95,7 +95,7 @@
             class="btn-filter px-2"
             @click="getInventories"
           >
-            {{ $tc('common.filter', 1) }}
+            {{ $t('selling_page.apply') }}
           </Button>
         </div>
         <FormDropdown
@@ -956,7 +956,7 @@ export default {
 .search-input-wrapper::v-deep
   border-radius: 8px
   background: $white
-  max-width: 688px
+  width: 688px
   img.icon-search
     margin-left: 21px
     width: 18px
@@ -974,7 +974,7 @@ export default {
   white-space: nowrap
   border: 1px solid $black
   min-width: 179px
-  height: 40px
+  height: 46px
   font-family: $font-sp-pro
   font-weight: $medium
   @include body-13

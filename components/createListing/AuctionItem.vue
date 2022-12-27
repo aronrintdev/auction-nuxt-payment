@@ -106,12 +106,13 @@
             @select="handleDurationSelect"
           />
           <button
-            class="d-md-none text-left duration-box-btn position-relative d-flex align-items-center"
+            class="d-md-none text-left duration-box-btn position-relative d-flex align-items-center justify-content-between"
             :class="{'is-invalid': itemError.includes('time_limit')}"
             @click="openDurationSheet"
           >
             <span v-if="!item.time_limit" class="placeholder">{{ $t('create_listing.confirm.select_duration_placeholder') }}</span>
             <span v-else class="value">{{ item.time_limit }} {{ $tc('common.day', item.time_limit) }}</span>
+            <img :src="require('~/assets/img/icons/arrow-down-gray.svg')" />
           </button>
         </div>
         <div class="mt-4 reserve-section d-flex flex-column ml-3 ml-md-0">
@@ -123,7 +124,7 @@
               @change="handleReserveChange"
             />
             <FormInput
-              placeholder="$"
+              :placeholder="isMobileSize ? '$' : $t('create_listing.confirm.enter_reserve')"
               :class="{'is-invalid': itemError.includes('reserve_price')}"
               :disabled="!item.is_reserved"
               required
@@ -145,7 +146,7 @@
         <div class="col-12 col-md-12">
           <span class="auction-form-label">{{ $t('create_listing.confirm.starting_bid') }}</span>
           <FormInput
-            :placeholder="$t('create_listing.confirm.enter_starting_bid')"
+            :placeholder="isMobileSize ? $t('create_listing.confirm.enter_starting_bid_mobile') : $t('create_listing.confirm.enter_starting_bid')"
             class="mt-2 flex-grow-1"
             :class="{'is-invalid': itemError.includes('start_bid_price')}"
             required
@@ -611,6 +612,7 @@ export default {
       border: 2px solid $red-1
     .placeholder
       color: $color-gray-23
+      font-weight: $normal
     .value
       color: $black
   @media (max-width: 576px)
@@ -673,7 +675,7 @@ export default {
       border: 1px solid $color-gray-3
       border-radius: 10px
       background: transparent
-      padding: 17px 14px
+      padding: 16px 7px 16px 14px
       font-family: $font-montserrat
       font-weight: $medium
       white-space: nowrap
@@ -684,6 +686,8 @@ export default {
         color: $color-gray-23
       .value
         color: $black
+      img
+        width: 12px
     .auction-form-label
       font-size: 12px
       line-height: 15px
