@@ -762,10 +762,8 @@ export default {
     showPoorTradeConfirmationModal() {
       if(this.checkForPoorTrade()){
         this.$root.$emit('bv::show::modal', 'poor_trade_confirmation', '#btnShow')
-      }else{
-        if(this.getYourTradeItems.length){
-          this.isPayment = true
-        }
+      } else if(this.getYourTradeItems.length) {
+        this.isPayment = true
       }
     },
 
