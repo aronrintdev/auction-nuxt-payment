@@ -1187,9 +1187,11 @@ export default {
     overflow: hidden
     text-overflow: ellipsis
     font-family: $font-family-sf-pro-display
-    @include body-13-normal
+    @include body-10
     text-align: left
     color: $color-gray-5
     padding-left: 16px
     width: 100%
+    font-weight: $normal
+    margin-bottom: -3px
 </style>
