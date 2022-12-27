@@ -343,7 +343,7 @@ export default {
     font-family: $font-family-sf-pro-display
       font-style: normal
       font-weight: $bold
-      font-size: 17px
+      @include body-17
       @include body-34-medium
       letter-spacing: -0.02em
       color: $color-black-1
