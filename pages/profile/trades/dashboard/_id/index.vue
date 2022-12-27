@@ -113,10 +113,10 @@
           </div>
           <div v-if="!isAcceptedOffer()" class="d-flex flex-column align-items-center mb-4">
             <div v-if="!lastSubmittedOffer.is_blocked" class="d-flex mt-2 mb-2">
-              <b-btn v-if="!isOfferMine()" class="btn-decline mr-1"
+              <b-btn v-if="!isOfferMine()" class="btn-decline"
                      @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
               </b-btn>
-              <b-btn v-if="!isOfferMine()"  class="btn-accept mr-1" @click="acceptOffer()">
+              <b-btn v-if="!isOfferMine()"  class="btn-accept" @click="acceptOffer()">
                 {{ $t('trades.accept') }}</b-btn>
               <b-btn v-if="!isOfferMine()" class="btn-counter"   @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
                 {{ $t('trades.counter_offer') }}
@@ -650,6 +650,9 @@ export default {
   font-weight: $medium
   font-size: 11px
   color: $color-white-1
+  @media (max-width: 500px)
+    width: 105px
+    height: 39px
 .btn-decline
   border-radius: 8px
   background: $color-white-5
@@ -659,6 +662,10 @@ export default {
   font-size: 11px
   color: $color-blue-32
   border: 1px solid $color-white-5
+  @media (max-width: 500px)
+    width: 107px
+    height: 39px
+    margin-right: 12px
 .btn-counter
   border-radius: 8px
   border: 1px solid $color-blue-20
@@ -668,6 +675,10 @@ export default {
   font-size: 11px
   color: $color-blue-20
   background-color: $color-white-1
+  @media (max-width: 500px)
+    width: 107px
+    height: 39px
+    margin-left: 12px
 .fair-trade-division
   background-color: $color-white-4
   width: 247px

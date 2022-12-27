@@ -12,7 +12,7 @@
           <div v-if="!isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer">{{$t('trades.they_offered')}}</div>
           <div v-else-if="isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer">{{$t('trades.you_asking_for')}}</div>
           <div class="history-time-mobile">
-            {{ $t('common.on') }} {{ offer.created_at | formatDateTimeString }}
+            {{ offer.created_at | formatDateTimeString }}
           </div>
         </div>
 

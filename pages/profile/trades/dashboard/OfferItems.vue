@@ -7,12 +7,16 @@
         <div v-for="(item,index) in offerItems" :key="'offer-item-list-' + item.id" class="" :class="{'mobile-offer-item': (mobileItem === OFFER_SUMMARY || mobileItem === OFFER_SUMMARY_INITIAL_LISTING ),
         'col-4' : mobileItem === '','mr-11px' :(mobileItem === OFFER_SUMMARY || mobileItem === OFFER_SUMMARY_INITIAL_LISTING ) && index !== 2,}">
             <div class="" :class="{'bg-white' : mobileItem === ''}">
-              <div class="offer-item-small" :class="{'mobile-initial-listing':mobileItem === OFFER_SUMMARY_INITIAL_LISTING}">
-                <img
-                  v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
-                  class="img-fluid"
-                />
-                <img v-else :src="item.product | getProductImageUrl" class="img-fluid" />
+              <div class="offer-item-small d-flex position-relative justify-content-center align-items-center"
+                   :class="{'mobile-initial-listing':mobileItem === OFFER_SUMMARY_INITIAL_LISTING}">
+                <div class="thumb-wrapper">
+                  <img
+                    v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
+                    class="img-fluid"
+                  />
+                  <img v-else :src="item.product | getProductImageUrl" class="img-fluid" />
+                  <div class="" :class="{'overlay-image' : mobileItem === OFFER_SUMMARY_INITIAL_LISTING }"></div>
+                </div>
               </div>
               <div class="inner-section">
                 <div class="item-name align-items-center mt-2">
@@ -268,4 +272,6 @@ export default {
   margin-right: 11px
 .mobile-initial-listing
   background: $color-white-4
+  height: 112px
+  padding: 10px
 </style>
