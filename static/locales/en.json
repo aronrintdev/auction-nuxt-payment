@@ -2185,6 +2185,7 @@
     "delete_list": "Delete List",
     "confirm_delete": "Kindly confirm",
     "confirm_delete_message": "You are about to delete {list}",
+    "confirm_delete_list_message": "Are you sure you would like to delete this List?",
     "delete_success": "Wishlist deleted successfully",
     "rename_success": "Wishlist renamed successfully",
     "buying_lists": "Single items wishlist",
