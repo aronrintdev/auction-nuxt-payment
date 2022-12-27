@@ -81,6 +81,7 @@
             :options="brandOptions"
             :selectedValues="selectedFilters.brands"
             name="brands"
+            multiple
             @change="(value) => filterGroupChanged(value, 'brands')"
           />
           <MobileFilterGroup

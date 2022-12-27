@@ -1,16 +1,16 @@
 <template>
   <b-row class="mx-0 mx-md-5 summary-single">
     <b-col cols="4" md="3">
-      <div class="w-75 h-100 d-flex justify-content-center align-items-center">
+      <div class="d-flex justify-content-center align-items-center product-image">
         <ProductThumb :product="auctionItem.inventory.product" :variant="'small'" />
       </div>
     </b-col>
-    <b-col cols="8" md="9" class="pt-4 pt-md-5 d-flex flex-column justify-content-center">
-      <b-row class="mb-2 d-block body-4-normal">
-        <div class="d-none d-md-block body-4-bold mb-2 text-gray-24">{{ $t('bids.product_details') }}</div>
+    <b-col cols="8" md="9" class="d-flex flex-column justify-content-start product-details">
+      <b-row class="d-block body-4-normal">
+        <div class="d-none d-md-block product-details-title">{{ $t('bids.product_details') }}</div>
         <b-row>
           <b-col sm="9">
-            <div class="mb-2 product-name">{{ auctionItem.inventory.product.name }}</div>
+            <div class="product-name text-truncate pr-4">{{ auctionItem.inventory.product.name }}</div>
           </b-col>
           <b-col sm="3" class="product-value">{{
               $t('shopping_cart.size')
@@ -18,17 +18,17 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col sm="9" class="product-value">
+          <b-col sm="9" class="product-value text-truncate pr-4">
             {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ auctionItem.inventory.product.colorway }}
           </b-col>
           <b-col sm="3">
-            <div class="mb-0 mb-md-2 text-uppercase text-nowrap product-value">
+            <div class="text-uppercase text-nowrap product-value">
               {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ auctionItem.inventory.product.sku }}
             </div>
           </b-col>
         </b-row>
-        <div class="mb-2 product-value">
-          {{ $t('products.box_condition') }}&colon;&nbsp;{{ auctionItem.inventory.packaging_condition.name }}
+        <div class="product-value">
+          {{ $t('products.box_condition') }}&colon;&nbsp;{{ $t(`common.box_conditions.${auctionItem.inventory.packaging_condition.category_id}.${auctionItem.inventory.packaging_condition.display_order}`) }}
         </div>
       </b-row>
     </b-col>
@@ -61,6 +61,26 @@ export default {
 @import '~/assets/css/_variables'
 
 .summary-single
+  .product-details
+    padding-left: 105px
+  .product-details-title
+    font-family: $font-sp-pro
+    font-weight: $medium
+    @include body-12
+    color: $color-gray-5
+    margin-bottom: 8px
+  .product-name,
+  .product-value
+    font-family: $font-sp-pro
+    font-weight: $regular
+    @include body-4b
+    color: $black
+    margin-bottom: 4px
+  .product-image
+    height: 100px
+    .thumb-wrapper
+      transform: translateY(-15px)
+
   @media (max-width: 576px)
     .product-name
       @include body-10

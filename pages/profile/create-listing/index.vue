@@ -408,10 +408,19 @@ export default {
         font-family: $font-montserrat
         &.selling
           color: $black
+          font-family: $font-family-montserrat
+          font-weight: $medium
+          font-size: 15px
         &.auction
           color: $black
+          font-family: $font-family-montserrat
+          font-weight: $medium
+          font-size: 15px
         &.trade
           color: $black
+          font-family: $font-family-montserrat
+          font-weight: $medium
+          font-size: 15px
       &-desc
         font-family: $font-montserrat
         font-size: 12px

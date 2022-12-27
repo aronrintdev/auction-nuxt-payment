@@ -14,6 +14,7 @@
     "decline": "Decline",
     "or": "or",
     "on": "on",
+    "off": "off",
     "and": "and",
     "close": "Close",
     "revert": "Revert",
@@ -228,7 +229,8 @@
       }
     },
     "box": "Box",
-    "$0": "$0.00"
+    "$0": "$0.00",
+    "send": "Send"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -545,7 +547,7 @@
     "trade_desc": "Use footwear, apparel, \n accessories, and cash to \n trade items.",
     "trade_areana": "Trade Arena",
     "newest_features": "Newest \n Features",
-    "newestfeatures_description": "View the latest features found on Deadstock V2 app",
+    "newestfeatures_description": "View the latest \n features found on \n Deadstock V2 app",
     "shareable_wishlist": "SHARABLE WISHLISTS & WATCHLISTS",
     "shareable_wishlist_sm": "WISHLISTS & WATCHLISTS",
     "intl_shipping": "INTL’ SHIPPING",
@@ -577,7 +579,7 @@
     "bestsellers": "Best Sellers",
     "current_promotions": "Current \n Promotions",
     "current_promos": "Current \n Promos",
-    "current_promotions_description": "Check out our latest promotions and giveaways",
+    "current_promotions_description": "Check out our \n latest promotions \n and giveaways",
     "view_more_promotions": "View More Promotions",
     "auctions": "Auctions",
     "ending_soon": "Ending Soon",
@@ -1299,7 +1301,7 @@
         "enter_starting_bid": "Enter Starting Bid",
         "status_select": {
           "live": "Live",
-          "scheduled": "Schedule"
+          "scheduled": "Scheduled"
         },
         "status": "Status",
         "no_item_found": "No auction item found.",
@@ -1644,7 +1646,6 @@
     "4_payments": "4 payments of {price}",
     "or_4_installments": "or 4 installments",
     "of_price": "of {price}",
-    "authenticity_guaranteed": "Authenticity\nGuaranteed",
     "deadstock_guarantee": "Deadstock\nGuarantee",
     "select_size": "Select Size",
     "error": {
@@ -2022,6 +2023,7 @@
       },
       "size": "Size",
       "auction_number": "AUCTION NUMBER",
+      "item_details": "Item Details",
       "have_piece_to_sell": "Have a piece to sell?",
       "create_listing": "Create a listing!",
       "size_guide_text": "Scroll Horizontally to view more sizes",
@@ -2095,7 +2097,8 @@
       "scheduled_on": "Starting",
       "sold_on": "Sold on",
       "quick_bid_info": "A quick bid allows you bid quickly with a suggested value shown on the page based on the highest bid.",
-      "review": "Review"
+      "review": "Review",
+      "collection_description": "This collection features {count} products, consisting of {categories}. The items offered in this collection are {items}."
     },
     "errors": {
       "missing_box_images": "Missing box images",
@@ -2848,6 +2851,7 @@
     "search_placeholder": "Search for product SKU or by keyword",
     "browse_auction": "Browse Auction",
     "auction_type": "Auction Type",
+    "bid_history": "Bid History",
     "auction_types": {
       "single": "Single Item",
       "collection": "Collections"
@@ -2943,7 +2947,7 @@
     "date_time": "Date/Time",
     "time_remaining": "Time Remaining",
     "status": "Status",
-    "auctions_listings": "Auctions Listings",
+    "auctions_listings": "Auction Listings",
     "delete_expired": "Delete Expired Listings",
     "sort": {
       "listed_date_asc": "Auctions: Recent to Oldest",
@@ -3132,15 +3136,17 @@
       "starting_bid": "Starting Bid*",
       "date_text": "__/__/____",
       "schedule_date_required": "Schedule date is required.",
-      "enter_starting_bid": "Enter Starting Bid",
+      "enter_starting_bid": "Min $50.00",
+      "enter_starting_bid_mobile": "Enter Amount (Min. $100)",
       "status_select": {
         "live": "Live",
-        "scheduled": "Schedule"
+        "scheduled": "Scheduled"
       },
+      "enter_reserve": "Enter Reserve",
       "status": "Status",
       "no_item_found": "No auction item found.",
       "post_listings": "Post Listing(s)",
-      "save_as_draft": "Save as Draft",
+      "save_as_draft": "Save All as Draft(s)",
       "quantity": "Quantity",
       "can_not_add_more": "Collection Auctions can add up to 10 items.",
       "confirm_page_description": "*By pressing on Post Listing(s), I accept the seller fee of 9.5% + a 2.9% transaction fee. No authentication fees will be charged to sellers.",
@@ -4117,7 +4123,7 @@
     "all_bids": "All Bids",
     "auto_bid": "Auto Bid",
     "your_bids": "Your Bids",
-    "increase_bid": "Increase Bid:",
+    "increase_bid": "Increase Bid",
     "increased_bid_price_message": "Bid price has been updated successfully.",
     "auction_id": "Auction ID",
     "view_more": "View More",
@@ -4125,7 +4131,7 @@
     "cancel_bid": "Cancel Bid",
     "yours": "Yours",
     "status": "Status",
-    "listed_on": "Listed On",
+    "listed_on": "Listed on",
     "auto_bid_on_off": "Autobid (On/Off)",
     "end_date": "End Date",
     "scheduled": "Scheduled",
@@ -4158,6 +4164,8 @@
     "go_back": "Go Back",
     "view_similar": "View Similar Auctions",
     "edit_bid": "Edit Your Bid",
+    "remove_bid": "Remove Bid",
+    "remove_bid_content": "Are you sure you want to remove this bid?",
     "less_bid_amount_body": "You are unable to bid a lower amount, \nplease increase the amount of your bid to an amount over the highest bid.",
     "sort": {
       "auction_listed_date_asc": "Auctions: Recent to Oldest",
@@ -4171,7 +4179,7 @@
     },
     "bid_title": {
       "incoming": "Your Received Bids",
-      "outgoing": "Your Placed Bids"
+      "outgoing": "Your Bids Placed"
     },
     "bid_status": {
       "highest_bid": "Highest Bid",
@@ -4192,7 +4200,7 @@
     },
     "clear_filters": "Clear All Filters",
     "auction_types": {
-      "single": "Single",
+      "single": "Single Item",
       "collection": "Collection"
     },
     "delete_selected": "Delete Selected",
@@ -4892,7 +4900,7 @@
       "next": "Next",
       "go_back": "Go Back",
       "your_inventory": "Your Inventory ({0})",
-      "trade_upto_items": "Trade up to {0} Items for any trade",
+      "trade_upto_items": "Select up to 3 Items for any trade",
       "search_inventory": "Search your Inventory by SKU, Product Name or Brand",
       "filter_by": "Filter By",
       "category": "Category",
@@ -5012,6 +5020,7 @@
     "apply": "Apply",
     "listings": "Listing ({0})",
     "delete_expired_listings": "Delete Expired Listings",
+    "delete_expired_listings-sm": "Delete Expired",
     "select_all_expired_trades": "Select All Expired Trades",
     "trade_id": "Trade ID",
     "listed_on": "Listed on",
@@ -5074,7 +5083,7 @@
     "add_cash": "Add Cash",
     "your_inventory": "Your Inventory ({0})",
     "add_remove_items": "(Add and Remove Items to Trade)",
-    "discard_changes": "Discard changes",
+    "discard_changes": "Discard Changes",
     "search_trades": "Search Trades",
     "search_trades_offers": "Search Trades Offers",
     "are_you_sure_discard": "Are you sure you would like to discard your changes? The changes will be lost.",
@@ -5206,7 +5215,7 @@
     "balance_the_deal": "Balance this deal by adding cash",
     "balance_the_deal_request": "Balance this deal by requesting cash",
     "insert_amount": "Insert Amount",
-    "your_item_value": "Your items’ value",
+    "your_item_value": "Your Items’ Value",
     "total_value": "Total Value",
     "cash_added": "${0} Cash Added",
     "cash_requested": "${0} Cash Requested",
@@ -5931,19 +5940,19 @@
     "settings": {
       "texts": {
         "buying_new_offer": {
-          "until_desc": "Will not be notified until {n} % of fair trade meter is met",
+          "until_desc": "You will not be notified until {n} % of fair trade meter is met",
           "until_title": "Percentage Trade Offer Value"
         },
         "selling_trade_offer": {
-          "until_desc": "Will not be sent a notification unless {n} % of your Offer has been reached.",
+          "until_desc": "You will not be sent a notification unless {n} % of your Offer has been reached.",
           "until_title": "Percentage Reserve"
         },
         "selling_new_bids": {
-          "until_desc": "Will not be sent a notification unless {n} % of your Reserve Price has been reached.",
+          "until_desc": "You will not be sent a notification unless {n} % of your Reserve Price has been reached.",
           "until_title": "Percentage Reserve"
         },
         "selling_new_offer": {
-          "until_desc": "Will not be sent a notifications until {n} % of your asking price is reached",
+          "until_desc": "You will not be sent a notifications until {n} % of your asking price is reached",
           "until_title": "Percentage Asking Price"
         }
       },
@@ -6031,7 +6040,7 @@
   "offers_received": {
     "offers": "Offers",
     "heading": "Offers Received",
-    "your_placed_offers": "Offers Received ({count})",
+    "your_placed_offers": "Your Offers Received ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
     "start_date": "Start Date",
     "end_date": "End Date",

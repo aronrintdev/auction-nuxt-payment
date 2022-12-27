@@ -104,7 +104,7 @@
             >{{ row.item.bid_price | toCurrency('USD', 'N/A') }}
             <Button
               variant="edit-offer"
-              class="p-0 ml-3"
+              class="p-0 ml-2"
               :tooltip-text="$t('common.edit')"
             ></Button>
           </span>
@@ -560,6 +560,10 @@ export default {
   margin-left: 4px
 .offer-placed-table::v-deep
   .offer-table
+    .vd-selling-bt
+      border-top: 10px $color-white-4 solid
+    .table td, .table th
+      padding-bottom: 0px
     .table.b-table > thead > tr > [aria-sort=none]
       background-size: 0px
     .table.b-table > thead > tr > [aria-sort=ascending]
