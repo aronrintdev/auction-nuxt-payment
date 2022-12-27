@@ -16,6 +16,22 @@
         <h4 class="text-center">{{ scope.emptyText }}</h4>
       </template>
 
+
+      <!-- Table header col begin -->
+      <template #head()="scope">
+        <div class="text-nowrap" role="button" @click="orderBy(scope)">
+          <span class="mr-1">{{ scope.label }}</span>
+          <img
+            v-if="scope.field.sortable"
+            :src="require('~/assets/img/icons/down-arrow-solid.svg')"
+            :alt="scope.label"
+            class="sort-icon"
+            :class="reverseDirection(scope.column)"
+          />
+        </div>
+      </template>
+      <!-- Table header col end -->
+
       <!-- Table Busy -->
       <template #table-busy>
         <div class="text-center my-2">
@@ -82,12 +98,6 @@
       <!-- ./Product Details -->
 
       <!-- Offer Amount -->
-      <template #head(offer_amount)="data">
-        <div class="d-flex justify-content-end">
-          <span class="position-absolute pr-3">{{ $t(data.field.label) }}</span>
-          <img class="th-arrow" src="~/assets/img/icons/table-carot.svg" />
-        </div>
-      </template>
       <template #cell(offer_amount)="row">
         <div class="offer-amount text-center">
           <span v-if="!row.item.isEditing" @click="editAmount(row.item)"
@@ -138,12 +148,6 @@
       <!-- ./Offer Amount -->
 
       <!-- Expires -->
-      <template #head(expires)="data">
-        <div class="d-flex">
-          <span>{{ $t(data.field.label) }}</span>
-          <img class="th-arrow" src="~/assets/img/icons/table-carot.svg" />
-        </div>
-      </template>
       <template #cell(expires)="row">
         <div class="expire-date">
           <span>{{ row.item.created_at | formatDate('DD/MM/YYYY') }}</span>
@@ -152,12 +156,6 @@
       <!-- ./Expires -->
 
       <!-- Status -->
-      <template #head(status)="data">
-        <div class="d-flex">
-          <span>{{ $t(data.field.label) }}</span>
-          <img class="th-arrow" src="~/assets/img/icons/table-carot.svg" />
-        </div>
-      </template>
       <template #cell(status)="row">
         <div
           :class="`offer-status-${getStatus(row.item.status)}`"
@@ -173,7 +171,6 @@
       <template #head(actions)="data">
         <div class="d-flex">
           <span>{{ $t(data.field.label) }}</span>
-          <img class="th-arrow" src="~/assets/img/icons/table-carot.svg" />
         </div>
       </template>
 
@@ -284,18 +281,18 @@ export default {
           key: 'offer_amount',
           label: this.$t('placed_offers.table.offer_amount'),
           thClass: 'text-center active-row',
-          sortable: false,
+          sortable: true,
         },
         {
           key: 'expires',
           label: this.$t('placed_offers.table.expires'),
-          sortable: false,
+          sortable: true,
           thClass: 'active-row',
         },
         {
           key: 'status',
           label: this.$t('placed_offers.table.status'),
-          sortable: false,
+          sortable: true,
           thClass: 'active-row',
         },
         {
@@ -310,6 +307,8 @@ export default {
       selectedId: '',
       inputAmount: '',
       actionType: '',
+      orderByDirection: 'asc',
+      orderByField: 'id'
     }
   },
 
@@ -363,7 +362,10 @@ export default {
         .delete(`/offers/${this.selectedId}`)
         .then((res) => {
           this.$toasted.success(this.$t(res.data.message))
-          this.$emit('reloadOffers')
+          this.$emit('reloadOffers', {
+            order_by_column: this.orderByField,
+            order_by_direction: this.orderByDirection,
+          })
           this.$nuxt.refresh()
         })
         .catch((err) => {
@@ -411,7 +413,10 @@ export default {
         .then((res) => {
           this.inputAmount = ''
           this.$toasted.success(this.$t(res.data.message))
-          this.$emit('reloadOffers')
+          this.$emit('reloadOffers', {
+            order_by_column: this.orderByField,
+            order_by_direction: this.orderByDirection,
+          })
         })
         .catch((err) => {
           this.inputAmount = ''
@@ -443,6 +448,24 @@ export default {
         return '--'
       }
     },
+
+    orderBy(scope) {
+      if(scope.column !== 'actions') {
+        this.orderByDirection = this.reverseDirection(scope.column)
+        this.orderByField = scope.column
+        this.$emit('reloadOffers', {
+          order_by_column: this.orderByField,
+          order_by_direction: this.orderByDirection,
+        })
+      }
+    },
+    reverseDirection(column) {
+      return column === this.orderByField
+        ? this.orderByDirection === 'asc'
+          ? 'desc'
+          : 'asc'
+        : 'desc'
+    }
   },
 }
 </script>
@@ -538,14 +561,11 @@ export default {
 .offer-placed-table::v-deep
   .offer-table
     .table.b-table > thead > tr > [aria-sort=none]
-      background-image: url('~/assets/img/icons/table-carot.svg')
-      background-size: 9px
+      background-size: 0px
     .table.b-table > thead > tr > [aria-sort=ascending]
-      background-image: url('~/assets/img/icons/table-carot.svg')
-      background-size: 9px
+      background-size: 0px
     .table.b-table > thead > tr > [aria-sort=descending]
-      background-image: url('~/assets/img/icons/table-carot.svg')
-      background-size: 9px
+      background-size: 0px
     .expire-date
       font-family: $font-sp-pro
       font-style: normal
@@ -573,4 +593,8 @@ export default {
       @include body-13-normal
       width: 141px
       height: 34px
+
+.sort-icon
+  &.asc
+    transform: rotate(180deg)
 </style>

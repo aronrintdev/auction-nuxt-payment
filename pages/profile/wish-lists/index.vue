@@ -792,6 +792,7 @@ export default {
   margin-left: -10px
 ::v-deep .checkbox-switch
   line-height: 32px
+  margin-top: -4px
   span[role='button']
     font-family: $font-montserrat
     @include body-5-bold

@@ -2,7 +2,7 @@
   <div class="auction-bottom-sheet-opener">
     <div class="d-flex align-items-center justify-content-between auction-bottom-sheet-opener-btn" @click="openBottomFilter">
       {{ title }}
-      <img src="~/assets/img/icons/down-arrow.svg" />
+      <img src="~/assets/img/icons/down-arrow-dark-blue.svg" />
     </div>
     <vue-bottom-sheet ref="auctionFiltersSheet">
       <div class="d-flex flex-column h-100 filters-sheet">

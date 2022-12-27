@@ -31,12 +31,12 @@
         :pill="false"
         prefix="$"
         class="input"
-        :class="{'input-error': value.price !== null && value.price <= 50}"
+        :class="{'input-error': isFormTouched && value.price !== null && value.price <= 50}"
         required
         number
         @input="handlePriceChange"
       />
-      <div v-if="value.price !== null && value.price <= 50" class="error-text mt-1">
+      <div v-if="isFormTouched && value.price !== null && value.price <= 50" class="error-text mt-1">
         {{
           value.price > 50 ||
           $t('inventory.message.gt_than', {

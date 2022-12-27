@@ -19,7 +19,7 @@
         </div>
       </div>
     </b-col>
-    <b-col v-if="!isScreenXS" class="title-labels w-50" md="4">
+    <b-col v-if="!isScreenXS" class="title-labels w-50 mt-4" md="4">
       <div
         v-if="
           fieldExist(settings.data, 'when') ||
