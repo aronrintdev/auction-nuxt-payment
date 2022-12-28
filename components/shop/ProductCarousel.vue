@@ -126,13 +126,13 @@ export default {
     responsiveAttr() {
       if (this.variant === 'detail') {
         return {
-          0: { items: 2, nav: false, center: false,stagePadding:13,margin:10},
+          0: { items: 2, nav: false, center: false,stagePadding:16,margin:12},
           768: { items: 3, nav: false, center: false },
           950: { items: 4, nav: false, center: false },
         }
       } else {
         return {
-          0: { items: 2, nav: false, center: false,stagePadding:13,margin:10},
+          0: { items: 2, nav: false, center: false,stagePadding:16,margin:12},
           768: { items: 3, nav: false, center: false},
           950: { items: 4, nav: false, center: false},
         }
@@ -152,7 +152,9 @@ export default {
 @import '~/assets/css/_variables'
 .product-carousel-wrapper
   padding: 0
-  // margin: 0 -10px
+  @media (max-width: 475px)
+    .product-carousel-wrapper
+      margin-bottom: 44px
   .no-text
     @include body-4-medium
     text-align: center
@@ -175,7 +177,6 @@ export default {
     .owl-carousel
       .item
         text-align: left
-        // margin: 0 0 0 0
         &.photo-item
           img
             border-radius: 5px

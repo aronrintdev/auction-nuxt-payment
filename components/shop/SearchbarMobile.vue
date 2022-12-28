@@ -196,7 +196,7 @@ export default {
     height: 300px
   .searchbar-filter
     input[type="search"]
-      background: $color-white-5
+      background: $color-white-19
       padding-left: 39px
       padding-right: 10px
       height: 33px

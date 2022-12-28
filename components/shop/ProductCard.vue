@@ -327,7 +327,7 @@ export default {
   @media (max-width: 500px)
     .product-image
       height: 185px
-      width: 164px
+      width: 200px
     .action-btn-slot button
       font-size: 10px
       img.btnIcon

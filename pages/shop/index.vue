@@ -346,7 +346,10 @@ export default {
   .h-300
     height: 300px
   .section-nav
-    margin-bottom: 69px
+    margin-bottom: 69px 
+  @media (max-width: 425px)
+    .section-nav
+      margin-bottom: 18px
   @media (min-width: 1024px)
     .scroll-to-top
       display: flex !important
@@ -372,7 +375,7 @@ export default {
       color: $black
 ::v-deep .section-header
   @media (max-width: 576px)
-    margin: 30px 12.5px
+    margin: 25px 12.5px
 .container-shop
   @media (min-width: 576px)
     margin: 0px 60px

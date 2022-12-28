@@ -240,7 +240,7 @@ export default {
       margin: 0 16px
   .searchbar-filter
     input[type="search"]
-      background: $color-white-5
+      background: $color-white-19
       padding-left: 39px
       height: 35px
       border-radius: 8px
