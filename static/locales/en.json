@@ -5405,6 +5405,10 @@
       "commission": "Commission",
       "documents": "Documents"
     },
+    "tabs_mobile": {
+      "store_details": "Details",
+      "documents": "Docs"
+    },
     "submit": "Submit",
     "cancel": "Cancel",
     "camera": "Camera",
@@ -5529,7 +5533,7 @@
       "csv_exported": "CSV file has been exported to your downloads folder",
       "export_selected": "Export Selected",
       "orders_fulfilled": "Total Orders Fulfilled",
-      "email_cvs": "Email CVS",
+      "email_csv": "Email CSV",
       "table": {
         "order_id": "Order ID",
         "product": "Product",
@@ -5543,7 +5547,8 @@
         "due": "Due"
       },
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "csv_mail_success": "Email CSV has been sent to the email associated with this account"
     },
     "faqs": {
       "title": "Vendor Hub FAQ",
