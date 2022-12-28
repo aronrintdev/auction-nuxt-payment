@@ -4,9 +4,11 @@
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
         <div class="mt-2 row justify-content-center align-content-center">
-          <div v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="col-4">
-            <div class="bg-white">
-              <div class="offer-item-small">
+          <div v-for="(item,index) in offerItems" :key="'offer-item-list-' + item.id" class="" :class="{'mobile-offer-item': (mobileItem === OFFER_SUMMARY || mobileItem === OFFER_SUMMARY_INITIAL_LISTING ),
+           'col-4' : mobileItem === '','mr-11px' :(mobileItem === OFFER_SUMMARY || mobileItem === OFFER_SUMMARY_INITIAL_LISTING ) && index !== 2,
+          }">
+            <div class="" :class="{'bg-white' : mobileItem === ''}">
+              <div class="offer-item-small" :class="{'mobile-initial-listing':mobileItem === OFFER_SUMMARY_INITIAL_LISTING}">
                 <img
                   v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
                   class="img-fluid"
@@ -18,8 +20,7 @@
                   {{item.inventory ? item.inventory.product.name : item.product.name}}
                 </div>
                 <div class="offer-item-text-small">{{$t('common.box')}}: {{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
-                <div class="offer-item-text-small">{{item.inventory ? item.inventory.product.colorway : item.product.colorway}}</div>
-                <div class="offer-item-text-small">{{$tc('common.size')}} {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
+                <div class="offer-item-text-small">{{item.inventory ? item.inventory.product.colorway : item.product.colorway}},{{$tc('common.size')}} {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
               </div>
             </div>
           </div>
@@ -33,22 +34,21 @@
           <div
             v-for="(item) in offerItems"
             :key="'offer-item-list-' + item.id"
-            class="d-flex justify-content-center align-content-center"
-            :class="{'offer-summary-item': isOfferSummary,'col-4':!isOfferSummary}"
+            class="d-flex justify-content-center align-content-center box-pad"
           >
-            <div class="d-inline body-section-box w-100 m-1">
-              <div class="d-flex align-items-center justify-content-center position-relative" :class="{'image-container': isOfferSummary}">
-                <div class=""  :class="{'thumb-wrapper': isOfferSummary}">
-                  <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl" class="img-fluid" :class="{'pt-4': !isOfferSummary}"/>
-                  <img v-else :src="item.product | getProductImageUrl" class="img-fluid" :class="{'pt-4': !isOfferSummary}" />
-                  <div  :class="{'overlay-image': isOfferSummary}"></div>
-                </div>
+            <div class="d-inline body-section-box w-100">
+              <div class="image-wrapper">
+                <img
+                  v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
+                  class="pro-image pt-4"
+                />
+                <img v-else :src="item.product | getProductImageUrl" class="pro-image pt-4" />
+                <div class="overlay"></div>
               </div>
-              <div class="bottom-section" :class="{'mt-4': !isOfferSummary}">
+              <div class="bottom-section  mt-4">
                 <div class="product-name pt-1">  {{item.inventory ? item.inventory.product.name : item.product.name}}</div>
                 <div class="product-size "><span>{{ $tc('common.size') }} </span> {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
                 <div class="product-box "><span>{{$t('common.box')}}: </span>{{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
-
               </div>
             </div>
 
@@ -62,6 +62,7 @@
 
 <script>
 import ScreenSize from '~/plugins/mixins/screenSize'
+import { OFFER_SUMMARY ,OFFER_SUMMARY_INITIAL_LISTING} from '~/static/constants/trades'
 
 export default {
   name: 'OfferItems',
@@ -82,11 +83,17 @@ export default {
     isOfferSummary:{
       type: Boolean,
       default: false
-    }
+    },
+    mobileItem:{
+      type: String,
+      default: ''
+    },
   },
   data(){
     return {
       width:'',
+      OFFER_SUMMARY,
+      OFFER_SUMMARY_INITIAL_LISTING
     }
   },
   mounted() {
@@ -101,6 +108,8 @@ export default {
 .offer-item-small
   background: $color-white-1
   border-radius: 8px
+.mobile-initial-listing
+  background: $color-white-4
 .offer-item
     width: 247px
     height: 230px
@@ -265,4 +274,24 @@ export default {
   width: 100%
   height: 100%
   background: $color-grey-70
+.image-wrapper
+  position: relative
+  width: 150px
+.image-wrapper
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: $color-grey-70
+.pro-image
+  width: 140px
+.box-pad
+  padding-right: 40px
+.mobile-offer-item
+  height: 161px
+  width: 99px
+.mr-11px
+  margin-right: 11px
 </style>
