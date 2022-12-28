@@ -4,7 +4,7 @@
     class="navbar-wrapper"
     :class="mobileClass ? 'border-bottom' : ''"
   >
-    <PortalTarget name="back-icon-slot" class="d-block d-sm-none flex-1">
+    <PortalTarget name="back-icon-slot" class="d-block d-sm-none">
       <b-navbar-toggle target="top-menu-sidebar">
         <template #default>
           <img
@@ -14,14 +14,14 @@
         </template>
       </b-navbar-toggle>
     </PortalTarget>
-    <b-navbar-brand to="/" class="navbar-brand ml-auto m-lg-0 text-center pl-0 flex-1">
+    <b-navbar-brand to="/" class="navbar-brand ml-auto m-lg-0">
       <div class="d-none d-sm-inline-block">
         <Logo :width="171" />
       </div>
       <div class="d-inline-block d-sm-none">
         <h2 class="meta-info font-primary fs-18 fw-7 mb-0 text-black">
           <PortalTarget name="page-title">
-            <Logo :width="114" />
+            <Logo :width="171" />
           </PortalTarget>
         </h2>
       </div>
@@ -44,7 +44,7 @@
       :search="searchKeyword"
       @hide="handleSearchOverlayHide"
     />
-    <b-navbar-nav class="nav-menu-wrapper flex-row d-flex d-lg-none justify-content-end flex-1">
+    <b-navbar-nav class="nav-menu-wrapper flex-row d-flex d-lg-none">
       <PortalTarget name="notification-slot">
         <b-nav-item
           class="nav-item-icons"
@@ -283,7 +283,7 @@ export default {
     notificationPage() {
       if (this.authenticated) {
         this.$router.push({
-          path: '/profile/notification',
+          path: '/profile/notifications',
         })
       }
     },
@@ -334,9 +334,6 @@ export default {
   padding: 19px 10px 10px 10px
   background-color: $color-white-1
   border-bottom: 1px $color-gray-47
-  position: sticky
-  z-index: 999999
-  top: 0
 
   svg text
     font-family: $font-family-sf-pro-display
@@ -507,8 +504,4 @@ input.searchbar-input
   width: 100%
 ::v-deep .bottom-sheet__content
   margin-right: -8px
-
-@media (max-width: 576px)
-  .flex-1
-    flex: 1
 </style>
