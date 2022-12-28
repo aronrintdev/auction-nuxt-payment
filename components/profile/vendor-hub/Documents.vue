@@ -1,8 +1,8 @@
 <template>
-  <div :class="mobileClass ? 'mobile-form-box p-3' : 'documents-tab p-4'">
+  <div :class="mobileClass ? 'mobile-form-box px-1 py-3' : 'documents-tab p-4'">
     <div class="d-flex justify-content-between align-items-center">
       <div class="title"
-           :class="mobileClass.length ? 'body-10-bold font-weight-bold text-blue-20' : 'heading-3-normal'">
+           :class="mobileClass.length ? 'body-10-bold font-weight-bold text-blue-20 px-3' : 'heading-3-normal'">
         {{ $t('vendor_hub.documents') }}
       </div>
     </div>
@@ -13,7 +13,7 @@
 
     <!-- Mobile view begin -->
     <template v-if="mobileClass">
-      <div v-if="selectedDocument" class="d-flex">
+      <div v-if="selectedDocument" class="d-flex px-3">
         <DocumentMobileItemDetail :document="selectedDocument"
                                   @selected="(d) => selectedDocument = d"
                                   @download="downloadDocument"
@@ -22,6 +22,7 @@
       </div>
       <div  v-for="(document, index) in documents" v-else :key="index">
         <DocumentMobileItem :document="document"
+                            @click="() => selectedDocument = document"
                             @selected="(d) => selectedDocument = d"
                             @upload="upload"
                             @re-upload="upload"
@@ -137,7 +138,7 @@ export default {
 
 .documents-tab
   border: 1px solid $color-gray-29
-  border-radius: 4px
+  border-radius: 24px
   height: max-content
 
 .text-blue-20

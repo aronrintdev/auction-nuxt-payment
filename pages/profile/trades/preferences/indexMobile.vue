@@ -15,17 +15,17 @@
           <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{$t('trades.preferences.set_privacy_settting')}}</div>
           <img class="chev-img-offer d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
         </div>
-        <div class="inven-sub-set mb-1">{{'trades.preferences.customize_the_min_value'}}</div>
-        <div class="link-text">{{'trades.preferences.starting_at_25_of_fair_offers'}}</div>
+        <div class="inven-sub-set mb-1">{{$t('trades.preferences.customize_the_min_value')}}</div>
+        <div class="link-text">{{$t('trades.preferences.starting_at_25_of_fair_offers')}}</div>
       </div>
       <hr class="hr-border"/>
       <div class="p-2 mt-1" @click="refineMatch()">
         <div class="d-flex mb-1">
-          <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{'trades.preferences.refine_your_match'}}</div>
-          <img class="chev-img-offer d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
+          <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{$t('trades.preferences.refine_your_match')}}</div>
+          <img class="chev-img-refine d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
         </div>
-        <div class="inven-sub-set mb-1">{{'trades.preferences.update_your_interests'}}</div>
-        <div class="link-text">{{'trades.preferences.foot_apparel_accessFootwear'}}</div>
+        <div class="inven-sub-set mb-1">{{$t('trades.preferences.update_your_interests')}}</div>
+        <div class="link-text">{{$t('trades.preferences.foot_apparel_access')}}</div>
       </div>
       <hr class="hr-border"/>
       <div class="p-2 mt-1" @click="sizePrefer()">
@@ -116,12 +116,6 @@
           <div v-b-toggle="'collapse-1'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$tc('common.size_type')}}</b-col>
-              <b-col class="col-sm-6">
-                <div class="d-flex justify-content-end mr-3">
-                  <img  v-if="isVisible" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
-                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
-                </div>
-              </b-col>
             </b-row>
           </div>
           <b-collapse id="collapse-1" v-model="isVisible">
@@ -140,12 +134,6 @@
           <div v-b-toggle="'collapse-2'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$tc('common.size')}}</b-col>
-              <b-col class="col-sm-6">
-                <div class="d-flex justify-content-end mr-3">
-                  <img  v-if="isVisibleSize" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
-                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
-                </div>
-              </b-col>
             </b-row>
           </div>
           <b-collapse id="collapse-2" v-model="isVisibleSize">
@@ -164,12 +152,6 @@
           <div v-b-toggle="'collapse-3'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$t('common.apparel')}}</b-col>
-              <b-col class="col-sm-6">
-                <div class="d-flex justify-content-end mr-3">
-                  <img  v-if="isVisibleApp" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
-                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
-                </div>
-              </b-col>
             </b-row>
           </div>
           <b-collapse id="collapse-3" v-model="isVisibleApp">
@@ -189,7 +171,6 @@
       <div  class="brand-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.brand_preferences')}}</div>
         <div class="offer-start mt-1 ml-3 mb-3"> {{$t('trades.preferences.looking_for')}}</div>
-        <hr />
         <div class="form-group rounded-search-input ml-2">
           <img :src="searchIcon" class="icon-search" alt="" />
           <input type="text" v-model="search" placeholder="Search Brands" />
@@ -586,31 +567,38 @@ export default {
   font-style: normal
   @include body-13-medium
   color: $color-blue-20
+  margin-left: 16px
 .inven-sub-set
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-21-regular
   color: $color-gray-79c
+  margin-left: 16px
 .link-text
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-6
   text-decoration-line: underline
   color: $color-black-1
+  margin-left: 16px
 .chev-img
   height: 15px
   width: 7px
-  margin-left: 11rem
+  margin-left: 10rem
 .chev-img-offer
   height: 15px
   width: 7px
-  margin-left: 13rem
+  margin-left: 12rem
+.chev-img-refine
+  height: 15px
+  width: 7px
+  margin-left: 10rem
 .chev-img-size
   height: 15px
   width: 7px
-  margin-left: 12rem
+  margin-left: 10rem
 .hr-border
-  border: 1px solid $color-gray-96
+  border: 1px solid $color-gray-97
 .inven-cont
   width: 343px
   height: 300px
@@ -652,7 +640,7 @@ export default {
   border-radius: 20px
   height: 40px
   width: 270px
-  bottom: 150px
+  bottom: 100px
   position: absolute
 .save-btn-size
   background: $color-blue-20

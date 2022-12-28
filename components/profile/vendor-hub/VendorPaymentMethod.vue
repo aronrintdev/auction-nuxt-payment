@@ -1,10 +1,13 @@
 <template>
   <div>
-    <div :class="mobileClass ? 'mobile-form-box p-3' : 'payment-method mb-2'">
+    <div :class="mobileClass ? 'mobile-form-box px-1 py-3' : 'payment-method mb-2'">
       <div class="d-flex flex-row justify-content-between align-items-center">
-        <div class="title" :class="mobileClass ? 'body-13-medium text-blue-20 font-sf-pro' : 'heading-3-normal'">
+        <div class="title" :class="mobileClass ? 'body-13-medium text-blue-20 font-sf-pro px-3' : 'heading-3-normal'">
           {{ $t('vendor_hub.payout_method.title') }}
         </div>
+        <client-only>
+          <PortalTarget name="vendor-mobile-button-area"></PortalTarget>
+        </client-only>
 
         <Button
           v-if="!mobileClass"
@@ -185,7 +188,7 @@ export default {
 
 .mobile-form-box
   box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
-  border-radius: 10px
+  border-radius: 24px
   padding-bottom: 3px
 
 .text-blue-20
@@ -206,9 +209,8 @@ export default {
   bottom: 110px
 
 .button-portal
+  position: sticky
   bottom: 89px
-  position: fixed
-  padding-right: 30px
-  padding-top: 30px
-  padding-bottom: 10px
+
+
 </style>

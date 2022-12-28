@@ -10,6 +10,7 @@
           :offerItems="initialWantsItems"
           :heading="$t('trades.your_listed_items')"
           class="w-100"
+          :mobileItem="OFFER_SUMMARY_INITIAL_LISTING"
         />
       </div>
     </div>
@@ -40,6 +41,7 @@
 <script>
 import OfferItems from '~/pages/profile/trades/dashboard/OfferItems';
 import ScreenSize from '~/plugins/mixins/screenSize'
+import { OFFER_SUMMARY_INITIAL_LISTING } from '~/static/constants/trades'
 export default {
   name: 'InitialListing',
   components: {
@@ -55,6 +57,7 @@ export default {
   data() {
     return {
       width: '',
+      OFFER_SUMMARY_INITIAL_LISTING,
     }
   },
   mounted() {

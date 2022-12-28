@@ -5138,7 +5138,7 @@
       "size": "Size",
       "preferences_updated_successfully": "Preferences updated successfully",
       "no_inventory_found": "No Inventory found",
-      "set_privacy_settting": "Set privacy settings for your inventory",
+      "set_privacy_settting": "Offer Settings",
       "customize_the_min_value": "Customize the min. value (%) of incoming offers",
       "starting_at_25_of_fair_offers": "Starting at: 25% of Fair Offers",
       "refine_your_match": "Refine Your Match",
@@ -5407,6 +5407,10 @@
       "commission": "Commission",
       "documents": "Documents"
     },
+    "tabs_mobile": {
+      "store_details": "Details",
+      "documents": "Docs"
+    },
     "submit": "Submit",
     "cancel": "Cancel",
     "camera": "Camera",
@@ -5531,7 +5535,7 @@
       "csv_exported": "CSV file has been exported to your downloads folder",
       "export_selected": "Export Selected",
       "orders_fulfilled": "Total Orders Fulfilled",
-      "email_cvs": "Email CVS",
+      "email_csv": "Email CSV",
       "table": {
         "order_id": "Order ID",
         "product": "Product",
@@ -5545,7 +5549,8 @@
         "due": "Due"
       },
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "csv_mail_success": "Email CSV has been sent to the email associated with this account"
     },
     "faqs": {
       "title": "Vendor Hub FAQ",
@@ -5931,7 +5936,7 @@
     "settings_titles": {
       "all": "All Communications",
       "buying": {
-        "shop": "Buying",
+        "shop": "Shop",
         "trade": "Trade (Offerer)",
         "auction": "Auction (Bidder)"
       },
@@ -5944,19 +5949,19 @@
     "settings": {
       "texts": {
         "buying_new_offer": {
-          "until_desc": "You will not be notified until {n} % of fair trade meter is met",
+          "until_desc": "You will not be notified until {0} % of fair trade meter is met",
           "until_title": "Percentage Trade Offer Value"
         },
         "selling_trade_offer": {
-          "until_desc": "You will not be sent a notification unless {n} % of your Offer has been reached.",
+          "until_desc": "You will not be sent a notification unless {0} % of your Offer has been reached.",
           "until_title": "Percentage Reserve"
         },
         "selling_new_bids": {
-          "until_desc": "You will not be sent a notification unless {n} % of your Reserve Price has been reached.",
+          "until_desc": "You will not be sent a notification unless {0} % of your Reserve Price has been reached.",
           "until_title": "Percentage Reserve"
         },
         "selling_new_offer": {
-          "until_desc": "You will not be sent a notifications until {n} % of your asking price is reached",
+          "until_desc": "You will not be sent a notifications until {0} % of your asking price is reached",
           "until_title": "Percentage Asking Price"
         }
       },
@@ -6044,7 +6049,8 @@
   "offers_received": {
     "offers": "Offers",
     "heading": "Offers Received",
-    "your_placed_offers": "Your Offers Received ({count})",
+    "your_placed_offers": "Offers Received ({count})",
+    "your_received_offers": "Your Offers Received ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
     "start_date": "Start Date",
     "end_date": "End Date",
