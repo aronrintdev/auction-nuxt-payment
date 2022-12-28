@@ -5934,7 +5934,7 @@
     "settings_titles": {
       "all": "All Communications",
       "buying": {
-        "shop": "Buying",
+        "shop": "Shop",
         "trade": "Trade (Offerer)",
         "auction": "Auction (Bidder)"
       },
@@ -5947,19 +5947,19 @@
     "settings": {
       "texts": {
         "buying_new_offer": {
-          "until_desc": "You will not be notified until {n} % of fair trade meter is met",
+          "until_desc": "You will not be notified until {0} % of fair trade meter is met",
           "until_title": "Percentage Trade Offer Value"
         },
         "selling_trade_offer": {
-          "until_desc": "You will not be sent a notification unless {n} % of your Offer has been reached.",
+          "until_desc": "You will not be sent a notification unless {0} % of your Offer has been reached.",
           "until_title": "Percentage Reserve"
         },
         "selling_new_bids": {
-          "until_desc": "You will not be sent a notification unless {n} % of your Reserve Price has been reached.",
+          "until_desc": "You will not be sent a notification unless {0} % of your Reserve Price has been reached.",
           "until_title": "Percentage Reserve"
         },
         "selling_new_offer": {
-          "until_desc": "You will not be sent a notifications until {n} % of your asking price is reached",
+          "until_desc": "You will not be sent a notifications until {0} % of your asking price is reached",
           "until_title": "Percentage Asking Price"
         }
       },

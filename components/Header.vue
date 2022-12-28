@@ -283,7 +283,7 @@ export default {
     notificationPage() {
       if (this.authenticated) {
         this.$router.push({
-          path: '/profile/notification',
+          path: '/profile/notifications',
         })
       }
     },
