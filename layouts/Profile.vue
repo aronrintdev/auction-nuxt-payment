@@ -1,6 +1,6 @@
 <template>
   <div id="profile-layout" class="wrapper min-vh-100 d-flex flex-column">
-    <Header />
+    <NewHeader />
 
     <div class="custom-wrapper flex-grow-1">
       <b-row>
@@ -28,7 +28,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import Header from '~/components/Header.vue'
+import NewHeader from '~/components/NewHeader.vue'
 import Footer from '~/components/Footer.vue'
 import SideMenu from '~/components/profile/SideMenu'
 import ScrollToTop from '~/components/common/ScrollToTop.vue'
@@ -41,7 +41,7 @@ export default {
   name: 'Default',
   components: {
     SideMenu,
-    Header,
+    NewHeader,
     Footer,
     ScrollToTop,
     BottomNavigation,
