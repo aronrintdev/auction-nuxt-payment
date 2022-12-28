@@ -3,7 +3,6 @@
     class="product-summary-details responsive-offer-placed-mobile p-3"
     :class="mobileClass"
   >
-
     <!-- Product summary heading -->
     <div v-if="isScreenXS" class="row vd-product-summary-listing my-4">
       <div
@@ -23,99 +22,91 @@
     <!-- Product summary details -->
     <div v-if="isScreenXS"
       id="product-summary"
-      class="
-        single-live-reserve-section-box-collections
-        d-md-none d-lg-none
-        w-100
-      "
+      class="single-live-reserve-section-box-collections d-md-none d-lg-none w-100"
     >
-      <div class="row">
-        <div class="col-md-12">
-          <div class="carousel-auctions-collections">
-            <div class="carousel slide">
-              <div
-                class="
+      <div class="carousel-auctions-collections">
+        <div class="carousel slide">
+          <div
+            class="
                   carousel-inner
                   auction-inner-carousels-box
                   position-relative
                   w-100
                   overflow-hidden
                 "
-              >
-                <div class="carousel-item active d-block">
-                  <div class="row product-details-row d-flex flex-1 px-3">
-                    <div class="col-xs-4">
-                      <div
-                        class="float-left single-img-prodct-reserve-jordon-mbl"
-                      >
-                        <img
-                          :src="productImg || fallBackImg"
-                          alt="product-image"
-                          @error="imageLoadError"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-xs-7 product-details">
-                      <div
-                        class="info-single-reserve-info-prodct-mbl float-left"
-                      >
-                        <div
-                          class="
+          >
+            <div class="carousel-item active d-block">
+              <div class="d-flex flex-1 px-3">
+                <div class="col-xs-4">
+                  <div
+                    class="float-left single-img-prodct-reserve-jordon-mbl"
+                  >
+                    <img
+                      :src="productImg || fallBackImg"
+                      alt="product-image"
+                      @error="imageLoadError"
+                    />
+                  </div>
+                </div>
+                <div class="col-xs-7 product-details pt-21 mb-26">
+                  <div
+                    class="info-single-reserve-info-prodct-mbl float-left"
+                  >
+                    <div
+                      class="
                             name-prodct-single-live-reserve-jordon
                             mb-1
                             d-flex
                           "
-                        >
+                    >
                           <span
                             id="product-name"
                             class="product-name float-left mr-2"
-                            >{{ productName }}</span
+                          >{{ productName }}</span
                           >
 
-                          <span
-                            v-if="productStatus"
-                            class="detailed-product-status text-capitalize"
-                          >
+                      <span
+                        v-if="productStatus"
+                        class="detailed-product-status text-capitalize"
+                      >
                             {{ productStatus }}
                           </span>
-                        </div>
-                        <div class="product-sku mb-1 mt-2">
+                    </div>
+                    <div class="product-sku mb-1 mt-12">
                           <span class="font-secondary"
-                            >{{ $t('common.sku') }}&colon;
+                          >{{ $t('common.sku') }}&colon;
                             <span v-if="productSku">{{ productSku }}</span>
                             <span v-else>&minus;</span>
                           </span>
-                        </div>
-                        <div
-                          class="
+                    </div>
+                    <div
+                      class="
                             name-prodct-single-live-reserve-jordon-info-desc
                             mb-1
                           "
-                        >
-                          {{ $t('common.colorway') }}&colon;
-                          <span v-if="productColorWay">{{
-                            productColorWay
-                          }}</span>
-                          <span v-else>&minus;</span>
+                    >
+                      {{ $t('common.colorway') }}&colon;
+                      <span v-if="productColorWay">{{
+                          productColorWay
+                        }}</span>
+                      <span v-else>&minus;</span>
 
-                          &comma;
-                          {{ $t('placed_offers.size') }}&colon;
-                          <span v-if="productSize">{{ productSize }}</span>
-                          <span v-else>&minus;</span>
-                        </div>
-                        <div
-                          class="
+                      &comma;
+                      {{ $t('placed_offers.size') }}&colon;
+                      <span v-if="productSize">{{ productSize }}</span>
+                      <span v-else>&minus;</span>
+                    </div>
+                    <div
+                      class="
                             name-prodct-single-live-reserve-jordon-info-desc
                             mb-1
                           "
-                        >
-                          {{ $t('common.box_condition') }}&colon;
-                          <span v-if="productBoxCondition">{{
-                            productBoxCondition
-                          }}</span>
-                          <span v-else>&minus;</span>
-                        </div>
-                      </div>
+                    >
+                      {{ $t('common.box_condition') }}&colon;
+                      <span v-if="productBoxCondition">{{
+                          productBoxCondition
+                        }}</span>
+                      <span v-else>&minus;</span>
                     </div>
                   </div>
                 </div>
@@ -124,9 +115,7 @@
           </div>
         </div>
       </div>
-      <div
-        class="single-live-auction-summary-reserve-mbls mt-2 w-100 float-left"
-      >
+      <div class="single-live-auction-summary-reserve-mbls w-100">
         <div class="single-live-auctions-id-informtion">
           {{ $t('placed_offers.list_id') }}:
           <nuxt-link
@@ -207,57 +196,52 @@
           mt-3
           d-md-none d-lg-none
           w-100
-          px-2
           bottom-offer-detail
         "
       >
-        <div class="row">
-          <div class="col-md-12">
-            <div class="carousel-auctions-collections">
-              <div class="slide">
-                <div
-                  class="
+        <div class="carousel-auctions-collections">
+          <div class="slide">
+            <div
+              class="
                     carousel-inner
                     auction-inner-carousels-box
                     position-relative
                     w-100
                     overflow-hidden
                   "
-                >
-                  <div class="carousel-item active d-block">
-                    <div class="row product-details-row d-flex flex-1">
-                      <div class="col-xs-2">
-                        <div class="float-left offer-image-tag ml-2px">
-                          <img
-                            :src="require('~/assets/img/icons/offer-price.svg')"
-                            alt="back-arrow"
-                            class="offer-price-icon"
-                          />
-                        </div>
+            >
+              <div class="carousel-item active d-block">
+                <div class="d-flex flex-1 justify-content-between offer-box-content">
+                  <div>
+                    <div class="float-left offer-image-tag ml-2px">
+                      <img
+                        :src="require('~/assets/img/icons/offer-price.svg')"
+                        alt="back-arrow"
+                        class="offer-price-icon"
+                      />
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="highest-offer-tag">
+                      <div v-if="highestOffer && highestOffer.id === placedOffer.id" class="offer-text-tag d-flex justify-content-center">
+                        {{ $t('placed_offers.highest_offer') }}
                       </div>
-                      <div class="col-xs-4 highest-offer-tag mt-12">
-                        <div v-if="highestOffer && highestOffer.id === placedOffer.id" class="offer-text-tag d-flex justify-content-center">
-                          {{ $t('placed_offers.highest_offer') }}
-                        </div>
-                      </div>
-                      <div class="col-xs-2 mt-12">
-                        <div class="offer-value-tag d-flex justify-content-center">
-                          {{ placedOffer.bid_price | toCurrency('USD', 'N/A') }}
-                        </div>
-                      </div>
-                      <div class="col-xs-3 mt-12">
-                        <div
-                        class="offer-date-tag d-flex justify-content-center"
-                      >{{ placedOffer.created_at | formatDate('MM-DD-YYYY') }}</div>
-                      </div>
-                      <div class="col-xs-1 m-auto">
-                        <div
-                          class="
+                    </div>
+                    <div class="offer-value-tag d-flex justify-content-center">
+                      {{ placedOffer.bid_price | toCurrency('USD', 'N/A') }}
+                    </div>
+                    <div
+                      class="offer-date-tag d-flex justify-content-center"
+                    >
+                      {{ placedOffer.created_at | formatDate('MM-DD-YYYY') }}
+                    </div>
+                    <div
+                      class="
                             three-dots-icon-single-reserve-mbl
                             text-center
                             justify-content-end
                           "
-                        >
+                    >
                           <span
                             class="view-more-option d-flex justify-content-center"
                             role="button"
@@ -268,8 +252,6 @@
                               alt="view more"
                             />
                           </span>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -493,7 +475,7 @@ export default {
   @include body-4-medium
   color: $color-black-1
 .single-live-reserve-section-box-collections
-  height: 256px
+  position: relative
   background: $color-white-1
   box-shadow: 0px 1px 4px $color-black-rgb1
   border-radius: 8px
@@ -512,8 +494,6 @@ export default {
   font-style: normal
   @include body-9-normal
   color: $color-gray-6
-.carousel
-  height: 145px
 
 .single-img-prodct-reserve-jordon-mbl
   img
@@ -553,7 +533,7 @@ export default {
   padding-left: 15px
   padding-right: 15px
   padding-top: 2px
-  padding-bottom: 4px
+  padding-bottom: 3px
 
 .single-live-auctions-listed-on-heading-mbl
   font-family: $font-montserrat
@@ -563,7 +543,7 @@ export default {
   background: $color-white-5
   padding-left: 15px
   padding-right: 15px
-  padding-bottom: 4px
+  padding-bottom: 3px
   padding-top: 2px
 .product-details-row
   padding: 3%
@@ -650,4 +630,22 @@ export default {
   margin-top: 40px
 .mb-30
   margin-bottom: 30px
+.pt-21
+  padding-top: 21px
+.mb-26
+  margin-bottom: 26px
+
+.offer-box-content
+  height: 63px
+  & >:first-child
+    margin-left: 16px
+    margin-top: 12px
+  & >:last-child
+    & >:last-child
+      padding-right: 13px
+      padding-left: 17px
+    .offer-value-tag
+      margin-right: 32px
+      margin-left: 12px
+
 </style>

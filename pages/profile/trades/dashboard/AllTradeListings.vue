@@ -65,8 +65,8 @@
                 <b-collapse id="collapse-1" v-model="isVisible">
                   <b-row class="row mt-1">
                     <b-col v-for="(status, key) in getStatusFilterItems" :key="'cat-' + key">
-                      <div 
-                        :value="status" 
+                      <div
+                        :value="status"
                         class="unselected-item m-1 d-flex justify-content-center align-items-center"
                         :class="{
                           'active-item': statusFilter.includes(status)
@@ -137,6 +137,10 @@
             <img :src="require('~/assets/img/icons/arrow-up-dark-gray.svg')" />
           </b-row>
         </div>
+
+      </div>
+      <div class="float-right del-bx" @click="removeExpired()">
+        <img  v-if="totalCount" :src="require('~/assets/img/Delete.svg')"  @click="removeExpired()"/> <span class="del-text">{{$t('trades.delete_expired_listings-sm')}}</span>
       </div>
     </div>
 
@@ -175,8 +179,8 @@
               color: '#000',
               marginTop: '0 !important'
             }"
-            :dropdownStyle="{ 
-              border: '1px solid #cbcbcb', 
+            :dropdownStyle="{
+              border: '1px solid #cbcbcb',
               borderTop: 0,
               borderRadius: '0 0 5px 5px'
             }"
@@ -207,8 +211,8 @@
             borderRadiusClose="5px 5px 0 0"
             borderRadiusOptions="0 0 5px 5px"
             paddingX="10px"
-            :dropdownStyle="{ 
-              border: '1px solid #cbcbcb', 
+            :dropdownStyle="{
+              border: '1px solid #cbcbcb',
               borderTop: 0,
               borderRadius: '0 0 5px 5px'
             }"
@@ -243,7 +247,7 @@
           <Button variant="dark-blue" @click="applyFilters">
             {{ $t('trades.apply') }}
           </Button>
-          <div class="text-center">
+          <div class="text-center" v-if="start_date !== '' || end_date !== '' || statusFilter.length  ">
             <span
               class="clear-all"
               role="button"
@@ -261,9 +265,13 @@
       </div>
     </div>
 
-    <div class="mt-4 listings">
+    <div class="mt-4 listings"  v-if="!isScreenXS">
       {{ $t('trades.listings', { '0': totalCount }) }}
     </div>
+    <div class="mt-4 listings-sm" v-else>
+      {{ $t('trades.listings', { '0': totalCount }) }}
+    </div>
+
     <div v-if="delete_expired">
       <BulkSelectToolbar
         ref="bulkSelectToolbar"
@@ -663,7 +671,6 @@ export default {
   padding-left: 15px
   padding-right: 15px
   @media (min-width: 576px)
-    margin-top: -50px
     padding-top: 50px
     background: $color-white-5
     padding-left: 25px
@@ -689,7 +696,7 @@ export default {
     border: none
 
     &:hover
-      background-color: $white-2
+      background-color: $white
 
 ::v-deep .label-wrapper
   border-radius: 5px
@@ -710,7 +717,7 @@ export default {
   ::v-deep.custom-control-label
     display: flex
     align-items: center
-  
+
 .filtersHeading
   @include body-13-bold
   font-family: $font-sp-pro
@@ -799,7 +806,7 @@ export default {
   button
     width: 44%
     padding-left: 15px
-    padding-right: 15px 
+    padding-right: 15px
 
 .filtersSection
   padding-left: 20px
@@ -832,5 +839,19 @@ export default {
   text-decoration: underline
   @media (min-width: 1200px)
     margin-right: 8px
-
+.listings-sm
+  font-family: $font-montserrat
+  font-style: normal
+  @include body-13
+  color: $color-black-1
+  font-weight: $medium
+.del-text
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  @include body-9
+  line-height: 14px
+  color: $color-gray-47
+.del-bx
+  padding-top: 18px
 </style>
