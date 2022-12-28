@@ -105,7 +105,7 @@
           </div>
           <div class="stat-divider mx-3"></div> 
           <div>
-            <div class="stat-value text-primary" role="button" @click="$bvModal.show('bids-history-modal')">
+            <div class="stat-value text-dark-blue" role="button" @click="$bvModal.show('bids-history-modal')">
               {{ activeAuction.bids.length }} {{ $tc('common.bid', activeAuction.bids.length) }}
             </div>
           </div>
@@ -128,11 +128,14 @@
             <div class="text-left text-uppercase quick-bid-title">
               {{ $t('auctions.frontpage.quick_bid') }}
               <img
-                v-b-tooltip.hover
+                id="quick-bid-info"
                 :title="$t('auctions.frontpage.quick_bid_info')"
                 class="mt-n1 ml-1"
                 src="~/assets/img/icons/info-dark-blue.svg"
               />
+              <b-tooltip custom-class="auction-details-tooltip" target="quick-bid-info" placement="right" triggers="hover">
+                {{ $t('auctions.frontpage.quick_bid_info') }}
+              </b-tooltip>
             </div>
             <div class="d-flex align-items-center justify-content-between quick-bid-content">
               <div
@@ -215,7 +218,7 @@
         <div class="mx-4 d-flex align-items-center justify-content-between auth-guaranteed">
           <div class="p-2 text-center">
             <img src="~/assets/img/icons/auth-guaranteed.png" />
-            <div class="mt-2 auth-guaranteed-label">{{ $t('products.authenticity_guaranteed') }}</div>
+            <div class="mt-2 auth-guaranteed-label">{{ $t('products.deadstock_guarantee') }}</div>
           </div>
           <div class="mx-4 auth-guaranteed-divider"></div>
           <div class="auth-guaranteed-text py-2">{{ $t('auctions.frontpage.verification_guaranteed') }}</div>
@@ -244,8 +247,8 @@
         <div v-if="isMobileSize && !isExpired" class="round-btn ml-3" role="button">
           <Icon
             :key="`watchlist-${watchlist && watchlist.id}`"
-            src="eye.svg"
-            hover-src="red-eye.svg"
+            src="gray-eye-icon.svg"
+            hover-src="thin-red-eye-icon.svg"
             :active="!!watchlist"
             width="20"
             height="20"
@@ -312,7 +315,7 @@
             <span>${{ estimatedLowPrice | formatPrice }} - ${{ estimatedHighPrice | formatPrice }}</span>
           </div>
           <div class="mt-2 d-flex align-items-center justify-content-between">
-            <span>{{ $t('auctions.frontpage.number_of_bids') }}</span>
+            <span>{{ $tc('common.bid',2) }}</span>
             <span>{{ activeAuction.bids.length }}</span>
           </div>
           <div class="mt-2 d-flex align-items-center justify-content-between">
@@ -402,7 +405,7 @@
               </div>
               <div class="size-table-content d-flex">
                 <div v-for="(size, idx) in sizes" :key="idx" class="flex-column size-table-row">
-                  <div v-for="(item, index) in size.items" :key="`cell-${idx}-${index}`" class="text-center size-table-cell">{{ item }}</div>
+                  <div v-for="index in 17" :key="`cell-${idx}-${index}`" class="text-center size-table-cell">{{ size[`s${index}`] }}</div>
                 </div>
               </div>
             </div>
@@ -413,7 +416,7 @@
       <div class="d-flex align-items-center justify-content-between auth-guaranteed">
         <div class="pl-3 pr-1 py-2 text-center">
           <img src="~/assets/img/icons/auth-guaranteed.png" />
-          <div class="mt-2 auth-guaranteed-label">{{ $t('products.authenticity_guaranteed') }}</div>
+          <div class="mt-2 auth-guaranteed-label">{{ $t('products.deadstock_guarantee') }}</div>
         </div>
         <div class="auth-guaranteed-divider"></div>
         <div class="auth-guaranteed-text py-2">{{ $t('auctions.frontpage.verification_guaranteed') }}</div>
@@ -426,6 +429,7 @@
         :showAllText="isMobileSize"
         :itemsCount="5"
         :margin="33"
+        small-size-card
         :showArrows="true"
         @showAll="showAllAuctions"
       ></product-slider>
@@ -461,7 +465,7 @@
                 </div>
                 <div class="size-table-content">
                   <div v-for="(size, idx) in sizes" :key="idx" class="size-table-row">
-                    <div v-for="(item, index) in size.items" :key="`cell-${idx}-${index}`" class="size-table-cell">{{ item }}</div>
+                    <div v-for="index in 17" :key="`cell-${idx}-${index}`" class="size-table-cell">{{ size[`s${index}`] }}</div>
                   </div>
                 </div>
               </div>
@@ -514,7 +518,7 @@
           <b-button class="mx-3 cancel-btn" variant="outline-dark" pill @click="$bvModal.hide('quick-bid-modal')">{{ $t('common.cancel') }}</b-button>
         </div>
         <div class="text-center"><small>{{ $t('auctions.frontpage.placed_bid_desc') }}</small></div>
-        <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary text-decoration-underline">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
+        <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/privacy-policy" class="text-primary text-decoration-underline">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
       </div>
     </b-modal>
     <!-- Bid Confirm Modal -->
@@ -532,7 +536,7 @@
           <b-button class="mx-3 cancel-btn" variant="outline-dark" pill @click="$bvModal.hide('auto-bid-enable-modal')">{{ $t('common.cancel') }}</b-button>
         </div>
         <div class="text-center"><small>{{ $t('auctions.frontpage.placed_bid_desc') }}</small></div>
-        <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary text-decoration-underline">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
+        <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/privacy-policy" class="text-primary text-decoration-underline">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
       </div>
     </b-modal>
     <b-modal id="auto-bid-success-modal" hide-footer hide-header size="md">
@@ -583,8 +587,14 @@
             <b-button class="mr-2 px-5" variant="outline-dark" pill @click="closeQuickBidSheet">{{ $t('common.cancel') }}</b-button>
             <b-button class="ml-2 px-4 border-0 text-white bg-dark-blue d-flex align-items-center" pill @click="onPlaceBidConfirmed">{{ modalData.auto_bid ? $t('auctions.frontpage.bid_up_to') : $t('auctions.frontpage.bid') }} ${{ modalData.price | formatPrice }}<small> {{ $t('auctions.frontpage.fees') }}</small></b-button>
           </div>
-          <div class="pt-2 text-center placed-bid-desc mb-2">{{ $t('auctions.frontpage.placed_bid_desc') }}</div>
-          <div class="text-center placed-bid-desc">{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></div>
+          <i18n
+            path="shopping_cart.terms_and_conditions_paragraph_mobile"
+            tag="div"
+            class="body-10-normal text-center text-gray-25 place-bid-desc1"
+          >
+            <span class="text-blue-30 text-decoration-underline" role="button" @click="$router.push('/terms-and-conditions')">{{ $t('shopping_cart.terms_and_conditions') }}</span>
+          </i18n>
+          <div class="text-center place-bid-desc2">{{ $t('auctions.frontpage.auction_cart_desc') }}</div>
         </div>
       </div>
     </vue-bottom-sheet>
@@ -600,8 +610,14 @@
             <b-button class="mr-2 px-5" variant="outline-dark" pill @click="$refs.placeBidModalSheet.close()">{{ $t('common.cancel') }}</b-button>
             <b-button class="ml-2 px-4 border-0 text-white bg-dark-blue d-flex align-items-center" pill @click="onPlaceBidConfirmed">{{ $t('auctions.frontpage.bid') }} ${{ modalData.price | formatPrice }}&nbsp;<small>{{ $t('auctions.frontpage.fees') }}</small></b-button>
           </div>
-          <div class="pt-2 text-center placed-bid-desc mb-2">{{ $t('auctions.frontpage.placed_bid_desc') }}</div>
-          <div class="text-center placed-bid-desc">{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></div>
+          <i18n
+            path="shopping_cart.terms_and_conditions_paragraph_mobile"
+            tag="div"
+            class="body-10-normal text-center text-gray-25 place-bid-desc1"
+          >
+            <span class="text-blue-30 text-decoration-underline" role="button" @click="$router.push('/terms-and-conditions')">{{ $t('shopping_cart.terms_and_conditions') }}</span>
+          </i18n>
+          <div class="text-center place-bid-desc2">{{ $t('auctions.frontpage.auction_cart_desc') }}</div>
         </div>
       </div>
     </vue-bottom-sheet>
@@ -625,8 +641,14 @@
               {{ $t('auctions.frontpage.bid_up_to') }} ${{ autoBidPrice }}<small>&nbsp;{{ $t('auctions.frontpage.fees') }}</small>
             </b-button>
           </div>
-          <div class="text-center"><small>{{ $t('auctions.frontpage.placed_bid_desc') }}</small></div>
-          <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
+          <i18n
+            path="shopping_cart.terms_and_conditions_paragraph_mobile"
+            tag="div"
+            class="body-10-normal text-center text-gray-25 place-bid-desc1"
+          >
+            <span class="text-blue-30 text-decoration-underline" role="button" @click="$router.push('/terms-and-conditions')">{{ $t('shopping_cart.terms_and_conditions') }}</span>
+          </i18n>
+          <div class="text-center place-bid-desc2">{{ $t('auctions.frontpage.auction_cart_desc') }}</div>
         </div>
       </div>
     </vue-bottom-sheet>
@@ -763,7 +785,7 @@ import dayjs from 'dayjs'
 import ProductSlider from '~/components/Auctions/ProductSlider'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
 import CloseIcon from '~/assets/img/icons/close.svg?inline'
-import { AuctionThresholdsData, AuctionSizes, AUCTION_TYPE_COLLECTION, WATCHLIST_TYPE_AUCTION, SCHEDULED_STATUS } from '~/static/constants'
+import { AuctionThresholdsData, SIZE_GUIDE_ITEMS, AUCTION_TYPE_COLLECTION, WATCHLIST_TYPE_AUCTION, SCHEDULED_STATUS } from '~/static/constants'
 import CheckmarkIcon from '~/assets/img/icons/checkmark.svg?inline'
 import {API_PROD_URL} from '~/static/constants/environments'
 import {LARGE_PRODUCT_IMG_WIDTH, THUMB_PRODUCT_IMG_WIDTH, DEADSTOCK_PRODUCT_FALLBACK_IMAGE, EXPIRED_STATUS} from '~/static/constants/auctions'
@@ -779,7 +801,7 @@ import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360
 import BottomSheetOpener from '~/components/Auctions/BottomSheetOpener'
 import CollectionItemsSlider from '~/components/Auctions/CollectionItemsSlider'
 import WatchlistBottomSheet from '~/components/Auctions/WatchlistBottomSheet'
-import screenSize from '~/plugins/mixins/screenSize';
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'AuctionDetailsPage',
@@ -819,7 +841,7 @@ export default {
         },
       ],
       ThresholdsData: AuctionThresholdsData,
-      sizes: AuctionSizes,
+      sizes: SIZE_GUIDE_ITEMS,
       activeAuthTab: 'signup',
       authUser: this.$auth.user,
       autoBidStep: this.$auth.loggedIn ? 'payment' : 'auth',
@@ -895,7 +917,7 @@ export default {
           thumb: DEADSTOCK_PRODUCT_FALLBACK_IMAGE,
         }
       })
-      const mainPrice = newV.highest_bid ? Math.floor(newV.highest_bid / 5000) + 1 : Math.floor(newV.start_bid_price / 5000) + 1;
+      const mainPrice = newV.highest_bid ? Math.floor(newV.highest_bid / 5000) + 1 : Math.floor(newV.start_bid_price / 5000) + 1
       this.quickBidPrices = [mainPrice * 5000, (mainPrice + 1) *5000, (mainPrice + 2) * 5000, (mainPrice + 3) * 5000, (mainPrice + 4) * 5000]
       if (this.$options.filters.remainingTime(newV) === EXPIRED_STATUS || newV.status === EXPIRED_STATUS) {
         this.isExpired = true
@@ -1153,6 +1175,8 @@ export default {
       font-weight: $medium
       @include body-8
       color: $color-gray-5
+      &.text-dark-blue
+        color: $color-blue-30
       &.fontweight-normal
         font-weight: $normal
     .stat-divider
@@ -1583,4 +1607,17 @@ export default {
   font-family: $font-sp-pro
   font-weight: $regular
   @include body-21
+.place-bid-desc1
+  font-family: $font-sf-pro-text
+  font-weight: $normal
+  @include body-30
+  color: $color-gray-25
+  margin: 36px 0 14px
+.place-bid-desc2
+  font-family: $font-montserrat
+  font-weight: $regular
+  @include body-21
+  color: $color-gray-25
+  width: 310px
+  margin: auto
 </style>

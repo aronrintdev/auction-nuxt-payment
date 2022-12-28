@@ -261,7 +261,7 @@
 
         <b-col
           v-if="offers && offers.length"
-          class="col-xs-5 d-flex justify-content-end action-cols mr-16"
+          class="col-xs-5 d-flex justify-content-end action-cols mr-16 px-0"
         >
           <span
             v-if="!showCheckBox"

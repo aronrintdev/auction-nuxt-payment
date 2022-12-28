@@ -168,7 +168,7 @@ export default {
     }
 
     if (this.orderItems.status_history) {
-      this.timelineStatus = this.orderItems.status_history.map((status, index) => {
+      const timelineWithDuplicateLables = this.orderItems.status_history.map((status, index) => {
         return {
           id: status.id,
           status: status.status_label,
@@ -177,6 +177,8 @@ export default {
           class: index + 1 === this.orderItems.status_history.length ? 'tracking-end' : ''
         }
       })
+
+      this.timelineStatus = Object.values(timelineWithDuplicateLables.reduce((acc,cur)=> Object.assign(acc,{[cur.status]:cur}),{}))
     }
   },
 

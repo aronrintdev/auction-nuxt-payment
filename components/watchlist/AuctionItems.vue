@@ -119,7 +119,7 @@
                 </p>
 
                 <Button
-                  variant="primary"
+                  variant="dark-blue"
                   class="mt-4 mx-auto"
                   pill
                   @click="handleBrowseClick"
@@ -134,7 +134,7 @@
                   class="action-container"
                 >
                   <Button
-                    variant="primary"
+                    variant="dark-blue"
                     :disabled="selected.length === 0"
                     @click="removeSelected"
                   >

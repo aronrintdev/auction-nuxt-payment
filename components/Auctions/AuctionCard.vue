@@ -45,29 +45,31 @@
       </div>
     </div>
     <div class="d-flex justify-content-between align-items-end mt-2 mt-md-3">
-      <div class="flex-grow-1 overflow-hidden mr-2 mr-md-4">
+      <div class="w-100 overflow-hidden">
         <div v-if="auction.type === AUCTION_TYPE_SINGLE">
           <h5 class="auct-card-title mb-03">{{ auction.auction_items[0].inventory.product.name }}</h5>
-          <div class="auct-card-text mb-1">
-            <span class="auct-card-text-colorway">{{ auction.auction_items[0].inventory.color }},&nbsp;</span>
-            <span class="auct-card-text-size">{{ `${$t('auctions.frontpage.size')} ${auction.auction_items[0].inventory.size.size}` }}</span>
+          <div class="auct-card-text mb-md-1 mb-0" :class="{'small-card': small }">
+            <span class="auct-card-text-colorway">{{ auction.auction_items[0].inventory.color }}</span>
+            <span class="auct-card-text-size d-none d-md-block">,&nbsp;{{ `${$t('auctions.frontpage.size')} ${auction.auction_items[0].inventory.size.size}` }}</span>
           </div>
         </div>
         <div v-else>
           <h5 class="auct-card-title mb-03 text-capitalize">{{ auction.name }}</h5>
-          <div class="auct-card-text mb-1">
+          <div class="auct-card-text mb-md-1 mb-0" :class="{'small-card': small }">
             <span v-for="(cat, idx) in auction.categories" :key="cat" class="auct-card-text-colorway">
-              <span v-if="idx !== 0">&nbsp;&amp;&nbsp;</span>
+              <span v-if="idx">&nbsp;&amp;&nbsp;</span>
               {{ $t(`common.categories.${cat}`) }}
             </span>
           </div>
         </div>
-        <div v-if="auction.highest_bid" class="auct-card-price">${{ auction.highest_bid | formatPrice }}</div>
-        <div v-else class="auct-card-price">${{ auction.start_bid_price | formatPrice }}</div>
+        <div class="d-flex align-items-end justify-content-between">
+          <div class="auct-card-price">${{ (auction.highest_bid || auction.start_bid_price) / 100 }}<span class="auct-card-text-size d-md-none ml-1">({{ `${$t('auctions.frontpage.size')} ${auction.auction_items[0].inventory.size.size}` }})</span></div>
+          <nuxt-link :to="auction.type === AUCTION_TYPE_COLLECTION ? `/auction/collection/${auction.id}` : `/auction/${auction.id}`" class="bid-now-btn-link">
+            <button v-if="!small" class="btn bid-now-btn text-nowrap">{{ $t('home_page.bid_now') }}</button>
+            <button v-else class="btn bid-now-btn small">{{ $tc('common.bid', 1) }}</button>
+          </nuxt-link>
+        </div>
       </div>
-      <nuxt-link :to="auction.type === AUCTION_TYPE_COLLECTION ? `/auction/collection/${auction.id}` : `/auction/${auction.id}`">
-        <button class="btn bid-now-btn text-nowrap">{{ $t('home_page.bid_now') }}</button>
-      </nuxt-link>
     </div>
     <div class="auct-card-quick-btns" :class="{ 'show-actions' : watchlistShow || shareShow }">
       <div class="d-flex align-items-center justify-content-center">
@@ -153,6 +155,10 @@ export default {
     type: {
       type: String,
       default: ''
+    },
+    small: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => {

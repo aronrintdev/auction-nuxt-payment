@@ -56,7 +56,7 @@
           role="button"
         >
           <div
-            class="add-amount-item d-flex align-items-center text-align-center justify-content-center"
+            class="add-amount-item d-flex align-items-center text-center justify-content-center"
             :class="value.includes(option) ? 'active' : ''"
             @click="activeStatus(option)"
           >
@@ -198,11 +198,14 @@ export default {
   font-family: $font-sp-pro
   font-style: normal
   border-radius: 5px
-  @include body-9-normal
+  @include body-11-medium
+  line-height: 18px
   color: $color-gray-28
   &.active
     border-color: $color-black-1
     background-color: $color-gray-2
+    @include body-11-medium
+    line-height: 18px
 
 .denomination
   &.active
@@ -210,7 +213,7 @@ export default {
     // border: 1px solid $color-black-1
     .add-amount-item
       font-style: normal
-      @include body-9-normal
+      @include body-1118-medium
       color: $color-black-1
 @media (min-width: 320px) and (max-width:330px)
   .add-amount-item

@@ -62,7 +62,7 @@
       <div v-if="!isScreenXS" class="mt-5 buttons-sec">
         <Button
           :disabled="loading || changedSettings.length === 0"
-          class="mr-2"
+          class="mr-2 btn-font"
           pill
           variant="dark-blue"
           @click="saveChanges"
@@ -70,6 +70,7 @@
         </Button>
         <Button
           :disabled="loading"
+          class="btn-font"
           pill
           variant="outline-dark"
           @click="updateSettings"
@@ -197,14 +198,16 @@ export default {
       width: 217px
 
 .push-title
-  @include body-8-medium
   font-family: $font-family-sf-pro-display
   font-style: normal
   color: $color-black-1
+  font-size: 16px
 
 .push-sub-title
-  @include body-8-regular
   font-family: $font-family-sf-pro-display
   font-style: normal
   color: $color-gray-5
+  font-size: 13px
+.btn-font
+  font-family: $font-sp-pro
 </style>
