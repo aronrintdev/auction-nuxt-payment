@@ -1,6 +1,6 @@
 <template>
-  <div v-if="auction" class="mt-3 p-3 px-md-5 py-md-4 ml-0 ml-md-n1 w-100 bg-white card-summary position-relative">
-    <div class="position-absolute tag-bid d-flex align-items-center justify-content-center text-white"
+  <div v-if="auction" class="bg-white card-summary position-relative">
+    <div class="position-absolute tag-bid d-none d-md-flex align-items-center justify-content-center text-white"
          :class="selectedBid.place">
       {{ $t('bids.bid_status.' + selectedBid.place) }}
     </div>
@@ -10,23 +10,18 @@
     </div>
     <b-row class="mt-2">
       <b-col sm="12" md="9">
-        <div class="d-flex flex-column mt-3 card-summary-header">
-          <b-row>
-            <b-col cols="8" sm="3" class="body-4-bold text-color-blue-1">
+        <div class="d-flex flex-column card-summary-header">
+          <b-row class="align-items-center">
+            <b-col cols="8" sm="5" class="card-summary-header-title">
               {{ $t('bids.auction_id') }} #{{ auction.id }}
             </b-col>
-            <b-col cols="4" sm="3" class="text-right text-md-left">
-              <span v-if="auction.status === 'live'" class="text-success body-4-medium">&bull; &nbsp; {{
-                  $t('bids.live')
-                }}</span>
-              <span v-else
-                    class="text-gray-24 body-4-medium">&bull; &nbsp;{{ $t('bids.expired') }}</span>
+            <b-col cols="4" sm="2" class="text-right text-md-left card-summary-header-status">
+              <span v-if="auctionIsLive">&bull;&nbsp;{{ $t('bids.live') }}</span>
+              <span v-if="auction.remaining_time !== EXPIRED_STATUS" class="text-gray-24">&bull; &nbsp;{{ $t(`auction.status_array.${auction.status}`) }}</span>
+              <span v-else class="text-danger">&bull; &nbsp;{{ $t('bids.expired') }}</span>
             </b-col>
-            <b-col cols="12" sm="6" class="text-danger body-4-medium">
-              {{ $t('bids.headers.time_remaining') }}&colon;
-              {{
-                auction.remaining_time
-              }}
+            <b-col v-if="auction.remaining_time !== EXPIRED_STATUS" cols="12" sm="5" class="text-danger">
+              {{ $t('bids.headers.time_remaining') }}&colon;&nbsp;{{ auction.remaining_time }}
             </b-col>
           </b-row>
         </div>
@@ -51,43 +46,24 @@
         </div>
 
 
-        <b-row class="d-none d-md-flex mt-3 mx-5 body-4-medium text-gray-25">
-          <b-col sm="3">
-            <span>{{ $t('bids.listed_on') }}</span>
-          </b-col>
-          <b-col sm="3">
-            <span>{{ auction.status === 'live' ? $t('bids.expires_on') : $t('bids.expired_on') }}</span>
-          </b-col>
-          <b-col sm="3">
-            {{ $t('bids.auction_type') }}
-          </b-col>
-          <b-col sm="3">
-            {{ $t('bids.bid_status.highest_bid') }}
-          </b-col>
-        </b-row>
-
-        <b-row class="d-none d-md-flex mt-3 mx-5 body-4-normal">
-          <b-col sm="3">
-            <span> {{
-                formattedDate(auction.listed_at)
-              }}</span>
-          </b-col>
-          <b-col sm="3">
-            <span>  {{
-                formattedDate(auction.end_date)
-              }}</span>
-
-          </b-col>
-          <b-col sm="3">
-            {{ $t('bids.auction_types.' + auction.type) }}
-          </b-col>
-          <b-col sm="3">
-            &dollar;
-            {{
-              auction.highest_bid / 100
-            }}
-          </b-col>
-        </b-row>
+        <div class="d-none d-md-flex justify-content-between card-summary-details">
+          <div>
+            <div class="card-summary-details-label">{{ $t('bids.listed_on') }}</div>
+            <div class="card-summary-details-value">{{ formattedDate(auction.listed_at) }}</div>
+          </div>
+          <div>
+            <div class="card-summary-details-label">{{ auction.status === 'live' ? $t('bids.expires_on') : $t('bids.expired_on') }}</div>
+            <div class="card-summary-details-value">{{ formattedDate(auction.end_date) }}</div>
+          </div>
+          <div>
+            <div class="card-summary-details-label">{{ $t('bids.auction_type') }}</div>
+            <div class="card-summary-details-value">{{ $t('bids.auction_types.' + auction.type) }}</div>
+          </div>
+          <div>
+            <div class="card-summary-details-label">{{ $t('bids.bid_status.highest_bid') }}</div>
+            <div class="card-summary-details-value">&dollar;{{ auction.highest_bid | formatPrice }}</div>
+          </div>
+        </div>
 
         <div>
           <BidAuctionSummarySingle v-if="auction.type === BID_AUCTION_TYPE_SINGLE" :auctionItem="getProducts"/>
@@ -96,10 +72,10 @@
 
       <b-col sm="12" md="3" class="d-flex flex-column justify-content-between">
         <div class="d-flex flex-column">
-          <div class="d-flex editable-bid">
+          <div class="d-flex align-items-center editable-bid">
             <div class="d-flex" :class="hasReserveError? 'error-border': ''">
                 <span v-if="auctionIsLive" class="mt-1 mr-2">
-                 {{ $t('bids.increase_bid') }}
+                 {{ $t('bids.increase_bid') }}:
                </span>
               <input
                 v-if="auctionIsLive"
@@ -208,6 +184,7 @@ import BidAuctionSummaryCollection from '~/components/profile/bids/BidAuctionSum
 import {
   BID_ACCEPTED,
   BID_AUCTION_TYPE_COLLECTION, BID_AUCTION_TYPE_SINGLE,
+  EXPIRED_STATUS,
   HIGHEST_BID_STATUS,
   OUTBID_BID_STATUS,
   WINNING_BID_STATUS
@@ -224,7 +201,8 @@ export default {
       hasReserveError: false,
       modalActionLoading: false,
       BID_AUCTION_TYPE_COLLECTION,
-      BID_AUCTION_TYPE_SINGLE
+      BID_AUCTION_TYPE_SINGLE,
+      EXPIRED_STATUS,
     }
   },
   /**
@@ -257,7 +235,7 @@ export default {
       return this.auction.highest_bid === this.selectedBid.price
     },
     auctionIsLive() {
-      return this.auction.status === 'live'
+      return this.auction.status === 'live' && this.auction.remaining_time !== EXPIRED_STATUS
     },
     /**
      * Returning the first item in the array if the auction type is single, otherwise it returns the entire array.
@@ -397,15 +375,15 @@ export default {
   color: $color-blue-1
 
 .tag-bid
-  @include body-4
-  font-weight: $regular
-  height: 30px
-  width: 110px
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-4b
   left: 0
   top: 0
   z-index: 10
-  border-top-left-radius: 10px
-  border-bottom-right-radius: 10px
+  padding: 3px 10px
+  border-top-left-radius: 9px
+  border-bottom-right-radius: 9px
 
 .tag-auto-bid
   height: 30px
@@ -418,6 +396,7 @@ export default {
   @include body-4
   font-weight: $normal
   font-family: 'SF Pro Display'
+  height: 24px
 
 .remove-button
   text-decoration: underline
@@ -505,14 +484,38 @@ export default {
 .card-summary
   border-radius: 10px
   border: 1px solid $color-gray-60
-  padding: 15px 10px
+  padding: 34px 67px 32px
+  margin: 0 -12px 0 -15px
+  &-header
+    &-title
+      font-family: $font-sp-pro
+      font-weight: $bold
+      @include body-2
+      color: $color-blue-1
+    &-status
+      font-family: $font-montserrat
+      font-weight: $normal
+      @include body-4
+      color: $color-green-2
+  &-details
+    margin-top: 25px
+    margin-bottom: 45px
+    &-label
+      font-family: $font-sp-pro
+      font-weight: $normal
+      @include body-4b
+      color: $color-gray-5
+      margin-bottom: 7px
+    &-value
+      font-family: $font-sp-pro
+      font-weight: $regular
+      @include body-4b
+      color: $black
+      max-width: 126px
 
 @media (max-width: 576px)
-  .tag-bid
-    @include body-10
-    width: 90px
-    height: 25px
-    @media (max-width: 576px)
+  .card-summary
+    padding: 17px 10px 6px
   .card-summary-header
     .body-4-bold
       @include body-4

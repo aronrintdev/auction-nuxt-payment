@@ -33,7 +33,7 @@
         <div class="details-box-header">{{ $t('orders.commission_details') }}:</div>
         <div class="details-box-body">
           <div><span>{{ $t('orders.vendor_ranking') }}:</span> <span> {{ vendorRanking }}</span></div>
-          <div><span>{{ $t('orders.commission_amount') }}:</span> <span>{{commissionType}}</span></div>
+          <div><span>{{ $t('vendor_dashboard.seller_fee') }}:</span> <span>{{commissionType}}</span></div>
         </div>
       </div>
     </div>

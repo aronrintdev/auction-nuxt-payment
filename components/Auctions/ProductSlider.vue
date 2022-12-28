@@ -18,7 +18,8 @@
             :key="auctionList.length"
             ref="carousel"
             class="carousel auction-carousel slide-fade"
-            :nav="showArrows"
+            :nav="false"
+            :showArrows="showArrows"
             :loop="false"
             :center="true"
             :margin="30"
@@ -26,7 +27,7 @@
               0: { items: 2, nav: false, center: false, margin: 12 },
               600: { items: 2, nav: false, center: false, margin: 18 },
               1024: { items: 3, nav: false, center: false, margin: 24 },
-              1200: { items: itemsCount, nav: showArrows, center: false,  margin: margin },
+              1200: { items: itemsCount, nav: false, showArrows: showArrows, center: false,  margin: margin },
             }"
             :mouse-drag="false"
             :dots="false"
@@ -37,6 +38,7 @@
                 :key="auction.id"
                 :auction="auction"
                 :type="type"
+                :small="smallSizeCard"
               ></AuctionCard>
             </template>
             <template #prev>
@@ -124,6 +126,10 @@ export default {
     margin: {
       type: Number,
       default: 24,
+    },
+    smallSizeCard: {
+      type: Boolean,
+      default: false,
     }
   },
 

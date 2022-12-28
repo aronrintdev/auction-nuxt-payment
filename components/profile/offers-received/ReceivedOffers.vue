@@ -496,12 +496,19 @@ export default {
       color: $color-red-3
 .offer-placed-table::v-deep
   .offer-table
+    .vd-selling-bt
+      border-top: 10px $color-white-4 solid
+    .table td, .table th
+      padding-bottom: 0px
     .table.b-table > thead > tr > [aria-sort=none]
       background-size: 0px
+      padding-right: 0px
     .table.b-table > thead > tr > [aria-sort=ascending]
       background-size: 0px
+      padding-right: 0px
     .table.b-table > thead > tr > [aria-sort=descending]
       background-size: 0px
+      padding-right: 0px
     .expire-date
       font-family: $font-sp-pro
       font-style: normal

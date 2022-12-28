@@ -194,7 +194,7 @@
           <div class="d-flex align-items-baseline">
             <span :class="`placed-offers-items d-flex text-align-center ${mobileClass}`">
              {{
-                $t('offers_received.your_placed_offers', { count: offerCount })
+                $t('offers_received.your_received_offers', { count: offerCount })
               }}
             </span>
             <span v-if="!mobileClass" class="fs-16 fw-5 text-secondary ml-3 help text">

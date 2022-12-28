@@ -20,13 +20,13 @@
           </div>
           <div class="w-100 d-flex flex-column justify-content-between ml-3">
             <div>
-              <h4 class="fs-14 fw-6 font-secondary mb-1">
+              <h4 class="fs-14 fw-6 font-secondary wishlist-product-name-mobile mb-1">
                 {{ product.name }}
               </h4>
-              <h6 class="fs-12 fw-5 text-gray-5 font-secondary text-capitalize">
+              <h6 class="fs-12 fw-5 text-gray-5 font-secondary wishlist-product-colorway-mobile text-capitalize">
                 {{ product.colorway }}
               </h6>
-              <h6 class="fs-12 fw-5 text-gray-5 font-secondary text-capitalize">
+              <h6 class="fs-12 fw-5 text-gray-5 font-secondary wishlist-product-price-mobile text-capitalize">
                 ${{ product.retail_price }}
               </h6>
             </div>
@@ -307,4 +307,20 @@ export default {
     stroke: $color-gray-47
   .fillColor
     fill: $color-gray-47
+.wishlist-product-name-mobile
+  font-family: $font-family-sf-pro-display
+  font-style: $normal
+  font-weight: $medium
+  @include body-10
+.wishlist-product-colorway-mobile
+  font-family: $font-family-sf-pro-display
+  font-style: $normal
+  font-weight: $normal
+  @include body-10
+.wishlist-product-price-mobile
+  font-family: $font-family-sf-pro-display
+  font-style: $normal
+  font-weight: $medium
+  color: $color-black-1
+  @include body-9
 </style>

@@ -8,7 +8,7 @@
         <b-col class="social-logo p-0 m-0 d-block d-flex" :class="{'col-md-2': !responsiveDesign}">
           <img :class="responsiveDesign && 'icon-image'" :src="require(`~/assets/img/icons/${img}`)" alt="logo" />
 
-          <div v-if="responsiveDesign" class="text-bold social-media-label ml-2">
+          <div v-if="responsiveDesign" class="text-bold social-media-label ml-2 mt-2">
               <span class="responsive-social-name">{{ type }}</span>
             <div
             v-if="connectionStatus === 'connected'"
@@ -157,13 +157,13 @@ export default {
 .btn-social-media-connect
     right: 8px
     box-sizing: border-box
-    border: 1px solid $color-blue-1
+    border: 1px solid $color-grey-101
     border-radius: 10px
 .btn-text
     font-family: $font-montserrat
     font-style: normal
     @include body-9-normal
-    color: $color-blue-1
+    color: $color-grey-101
 .icon-image
   width: 32px
   height: 32px

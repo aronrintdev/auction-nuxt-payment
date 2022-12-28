@@ -41,7 +41,7 @@
 
         <Button
           v-if="!mobileClass"
-          variant="dark export-button"
+          variant="dark export-button px-0"
           @click="toggleExport"
         >
             {{ $t('vendor_hub.commission.export_to_csv') }}
@@ -56,16 +56,18 @@
           <span class="label-text thin">{{ $t('vendor_hub.commission.date_ordered') }}</span>
           <div class="d-flex align-items-center mt-1">
             <CalendarInput
-                :date-reset-button="true"
-                :placeholder="$t('vendor_hub.commission.start_date')"
-                :value="filterForm.startDate"
-                @context="(ctx) => calendarContextChange(ctx, true)"
+              class="date-picker"
+              :date-reset-button="true"
+              :placeholder="$t('vendor_hub.commission.start_date')"
+              :value="filterForm.startDate"
+              @context="(ctx) => calendarContextChange(ctx, true)"
             />
             <CalendarInput
-                :date-reset-button="true"
-                :placeholder="$t('vendor_hub.commission.end_date')"
-                :value="filterForm.endDate"
-                @context="(ctx) => calendarContextChange(ctx, false)"
+              class="date-picker"
+              :date-reset-button="true"
+              :placeholder="$t('vendor_hub.commission.end_date')"
+              :value="filterForm.endDate"
+              @context="(ctx) => calendarContextChange(ctx, false)"
             />
             <Button class="apply-button" variant="primary" @click="applyFilter">
               {{ $t('vendor_hub.form.apply') }}
@@ -73,16 +75,15 @@
           </div>
         </div>
 
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column justify-content-end">
           <span class="label-text thin">{{ $t('vendor_hub.commission.filter_by') }}</span>
           <div class="mt-1">
             <CustomSelectwithCheckbox
-              style="max-width: 262px"
                 :options="STATUSES"
                 :title="$t('bids.status')"
                 :updateFilters="filterForm.activeStatusFilters"
                 :value="filterForm.statusType"
-                class="mr-4 dropdown-filters"
+                class="dropdown-filters"
                 @filters="onStatusHandler"
             />
           </div>
@@ -91,9 +92,9 @@
       <div v-else class="d-flex justify-content-between">
         <span class="text-color-gray-5 body-10-medium">{{ itemsTotal  }} {{ $t('vendor_hub.commission.entries') }}</span>
         <!-- Hide it right now there aren't API yet -->
-        <a role="button" class="d-flex align-items-center" @click="toggleExport">
+        <a role="button" class="d-flex align-items-center" @click="sendCSV">
           <img :src="require('~/assets/img/vendorhub/upload-icon.svg')" class="px-1">
-          <span class="color-gray-5 body-5-normal">{{ $t("vendor_hub.commission.email_cvs") }}</span>
+          <span class="color-gray-5 body-5-normal">{{ $t("vendor_hub.commission.email_csv") }}</span>
         </a>
       </div>
 
@@ -176,20 +177,19 @@
         >
           <template #head()="scope">
 
-            <div class="d-flex">
+            <div class="d-flex" :class="{'justify-content-center' : scope.column !== 'order_id'}">
               <b-form-checkbox
                 v-if="isExportActive && scope.column == 'order_id'"
                 v-model="isAllSelected"
                 @change="allSelected"
               />
               <div class="text-nowrap" role="button" @click="orderBy(scope)">
-                <span class="mr-1">{{ scope.label }}</span>
+                <span class="mr-1 header">{{ scope.label }}</span>
                 <img v-if="isSortActive(scope.field)"
                      :src="require('~/assets/img/icons/down-arrow-solid.svg')"
                      :alt="scope.label"
                      class="sort-icon" :class="reverseDirection(scope.column)">
               </div>
-
             </div>
           </template>
 
@@ -234,7 +234,7 @@
           </template>
 
           <template #cell(product)="data">
-            <div :class="data.item.product? 'text-left' : 'text-center'">
+            <div class="text-center">
               {{ data.item.product && data.item.product.name ? data.item.product.name : '-' }}
             </div>
           </template>
@@ -244,12 +244,12 @@
             </span>
           </template>
           <template #cell(shipped_to_ds)="data">
-            <span>
+            <span class="mr-4">
               {{ data.item.status === 'paid' ? 'Yes' : 'No' }}
             </span>
           </template>
           <template #cell(date_ordered)="data">
-            <span>
+            <span class="mr-4">
               {{ data.item.order.created_at | formatDate }}
             </span>
           </template>
@@ -283,6 +283,7 @@
     >
       <CommissionMobileFilter @filter="applyMobileFilter" />
     </vue-bottom-sheet>
+    <CSVMailSuccessModal :show-modal="csv_is_sent" />
   </div>
 </template>
 
@@ -298,13 +299,13 @@ import Loader from '~/components/common/Loader';
 import {COMMISSIONS_PAGE_OPTIONS, COMMISSIONS_PER_PAGE} from '~/static/constants';
 import screenSize from '~/plugins/mixins/screenSize'
 import CommissionMobileFilter from '~/components/profile/vendor-hub/CommissionMobileFilter';
-
+import CSVMailSuccessModal from '~/components/profile/vendor-hub/CSVMailSuccessModal';
 
 Vue.component('DownloadCsv', JsonCSV)
 export default {
   name: 'Commissions',
   components: {
-    Loader, CommissionItem,
+    Loader, CommissionItem, CSVMailSuccessModal,
     Button, CalendarInput, CustomSelectwithCheckbox, Pagination, BulkSelectToolbar, CommissionMobileFilter},
   mixins: [screenSize],
   data() {
@@ -340,36 +341,42 @@ export default {
       commissionItems: [
         {
           image: require('~/assets/img/icons/profile/orders.svg'),
+          mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/orders.svg'),
           description: this.$t('vendor_hub.commission.orders_fulfilled'),
           amount: '-',
           color: 'blue'
         },
         {
           image: require('~/assets/img/icons/purchase.svg'),
+          mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/purchase.svg'),
           description: this.$t('vendor_hub.commission.orders_pending'),
           amount: '-',
           color: 'orange'
         },
         {
           image: require('~/assets/img/profile/vendor-hub/infor-orders.svg'),
+          mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/orders-taken-over.svg'),
           description: this.$t('vendor_hub.commission.orders_taken_over'),
           amount: '-',
           color: 'orange'
         },
         {
           image: require('~/assets/img/profile/vendor-hub/singe-dollar.svg'),
+          mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/paid-commision.svg'),
           description: this.$t('vendor_hub.commission.total_commission'),
           amount: '-',
           color: 'blue'
         },
         {
           image: require('~/assets/img/profile/vendor-hub/comission-due.svg'),
+          mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/due-commision.svg'),
           description: this.$t('vendor_hub.commission.total_commission_due'),
           amount: '-',
           color: 'orange'
         },
         {
           image: require('~/assets/img/profile/vendor-hub/tri-star.svg'),
+          mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/vendor-rating.svg'),
           description: this.$t('vendor_hub.commission.vendor_rating'),
           amount: '-',
           color: 'blue'
@@ -380,6 +387,7 @@ export default {
       dataLoading: false,
       orderByField: 'id',
       orderByDirection: 'asc',
+      csv_is_sent: false,
     }
   },
   computed: {
@@ -487,36 +495,42 @@ export default {
         this.commissionItems = [
           {
             image: require('~/assets/img/icons/profile/orders.svg'),
+            mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/orders.svg'),
             description: this.$t('vendor_hub.commission.orders_fulfilled'),
             amount: String(stats.orders.fulfilled),
             color: 'blue'
           },
           {
             image: require('~/assets/img/icons/purchase.svg'),
+            mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/purchase.svg'),
             description: this.$t('vendor_hub.commission.orders_pending'),
             amount: String(stats.orders.pending),
             color: 'orange'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/infor-orders.svg'),
+            mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/orders-taken-over.svg'),
             description: this.$t('vendor_hub.commission.orders_taken_over'),
             amount: String(stats.orders.taken_over),
             color: 'orange'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/singe-dollar.svg'),
+            mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/paid-commision.svg'),
             description: this.$t('vendor_hub.commission.total_commission'),
             amount: this.$options.filters.toCurrency(parseFloat(stats.commission.paid)),
             color: 'blue'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/comission-due.svg'),
+            mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/due-commision.svg'),
             description: this.$t('vendor_hub.commission.total_commission_due'),
             amount: this.$options.filters.toCurrency(parseFloat(stats.commission.due)),
             color: 'orange'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/tri-star.svg'),
+            mobile_image: require('~/assets/img/vendorhub/commission-mobile-icons/vendor-rating.svg'),
             description: this.$t('vendor_hub.commission.vendor_rating'),
             amount: String(stats.vendor_data[0].current_points),
             color: 'blue'
@@ -586,6 +600,15 @@ export default {
     reverseDirection(column){
       return column === this.orderByField ? (this.orderByDirection === 'asc'? 'desc' : 'asc'): 'desc'
     },
+    sendCSV() {
+      // TODO: Mail send api integration
+      if (!this.csv_is_sent) {
+        this.csv_is_sent = true
+        setTimeout(() => {
+          this.csv_is_sent = false
+        }, 3000)
+      }
+    }
   }
 }
 </script>
@@ -605,7 +628,7 @@ export default {
     font-weight: $normal
 
 .dropdown-filters
-  min-width: 200px
+  min-width: 141px
 
 .label-text.thin
   font-weight: $normal
@@ -679,12 +702,12 @@ export default {
   color: $color-blue-30
 
 .export-button
-  width: 260px
+  min-width: 141px
   font-family: $font-sp-pro
-  @include body-8-normal
+  @include body-8-medium
 
 .header
-  font-family: $font-sp-pro
+  font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-8-bold
 
@@ -705,4 +728,10 @@ export default {
 .sort-icon
   &.asc
     transform: rotate(180deg)
+
+::v-deep.date-picker
+  width: 170px
+  .date-input,
+  .date-dp .btn-secondary
+    background-color: $white
 </style>
