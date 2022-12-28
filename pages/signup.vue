@@ -872,7 +872,7 @@ export default {
   width: 171.5px
   background-color: $color-white-1
   border-radius: 20px
-  font-weight: 600
+  font-weight: $medium
   @include body-6
 .login-btn
   padding: 4px 0px
