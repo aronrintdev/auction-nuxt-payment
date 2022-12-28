@@ -4,10 +4,10 @@
       <hr class="my-3" />
       <b-row class="d-flex align-items-center body-9-medium">
         <b-col cols="4">
-          <span>{{method.check_name}}</span>
+          <span class="font-style-1">{{method.check_name}}</span>
         </b-col>
         <b-col cols="3">
-          <span>{{method.check_account}}</span>
+          <span class="font-style-1">{{method.check_account}}</span>
         </b-col>
         <b-col cols="4" class="text-green-33">
           <span>{{$t('vendor_hub.payout_method.verified')}}</span>
@@ -98,6 +98,9 @@
             ></b-form-input>
           </b-input-group>
         </b-form-group>
+        <b-form-radio v-model="form.is_default" name="is_default" :value="true" class="w-100">
+          <span :class="{isMobileSize}" class="radio-label">{{ $t('vendor_hub.payout_method.set_default') }}</span>
+        </b-form-radio>
       </div>
 
     </div>
@@ -124,12 +127,18 @@ export default {
   data() {
     return {
       isShowDetail: false,
+      form: {
+        is_default: false,
+      },
     }
   },
   computed:{
     itemImage(){
       return this.method.is_verified? require('~/assets/img/profile/vendor-hub/check-outline.svg'): require('~/assets/img/profile/vendor-hub/cross-outline.svg')
-    }
+    },
+    isMobileSize() {
+      return this.isScreenXS
+    },
   },
   methods: {
     onDetails() {
@@ -143,10 +152,11 @@ export default {
 @import '~/assets/css/_variables'
 
 .label
-  @include body-9-medium
+  @include body-6
   font-family: $font-family-montserrat
   font-style: normal
-  font-weight: $normal
+  font-weight: $medium
+  color: $color-black-17
 
 :deep().form-control:disabled
   @include body-4
@@ -156,7 +166,7 @@ export default {
   background: $color-white-5
 
 .input-payout-mobile
-  @include body-5
+  @include body-9
   font-family: $font-family-montserrat
   font-style: normal
   font-weight: $normal
@@ -172,5 +182,18 @@ export default {
 
 .text-green-33
   color: $color-green-33
-
+  @include body-6
+.font-style-1
+  @include body-9
+  font-weight: $medium
+  color: $color-black-1
+.radio-label
+  position: absolute
+  display: flex
+  width: 100px
+  top: 3px
+  font-family: $font-montserrat-serif
+  @include body-5
+  font-weight: $normal
+  color: $color-black-1
 </style>

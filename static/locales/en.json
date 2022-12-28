@@ -5397,10 +5397,10 @@
   },
   "vendor_hub": {
     "tabs": {
-      "store_details": "Store Details",
+      "store_details": "Details",
       "payout_method": "Payout Method",
       "commission": "Commission",
-      "documents": "Documents"
+      "documents": "Docs."
     },
     "submit": "Submit",
     "cancel": "Cancel",
@@ -5526,7 +5526,7 @@
       "csv_exported": "CSV file has been exported to your downloads folder",
       "export_selected": "Export Selected",
       "orders_fulfilled": "Total Orders Fulfilled",
-      "email_cvs": "Email CVS",
+      "email_cvs": "Email CSV",
       "table": {
         "order_id": "Order ID",
         "product": "Product",

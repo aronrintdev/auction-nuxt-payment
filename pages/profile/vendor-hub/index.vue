@@ -1,6 +1,6 @@
 <template>
   <div v-if="user.vendor_status" class="vendor-page h-100 d-flex flex-column">
-    <div :class="mobileClass ? 'p-3' : 'title-area'">
+    <div class="title-area d-none d-lg-block">
       <span class="title" :class="mobileClass ? 'body-13-medium' : 'heading-4-bold'">
         {{ $t('vendor_hub.vendor_hub') }}
       </span>
