@@ -216,7 +216,7 @@ export default {
       background-color: $color-white-4
     .dropdownItem
       font-weight: $normal
-      font-weight: $normal
+      font-style: $normal
       font-family: $font-family-montserrat
       @include body-5
       color: $color-gray-5
