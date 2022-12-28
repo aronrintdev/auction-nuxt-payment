@@ -124,7 +124,7 @@ import WishListPopover from '~/components/wish-list/Popover.vue'
 import ShareButton from '~/components/common/ShareButton'
 
 export default {
-  name: 'ProductCard',
+  name: 'ShopByStyleDetailCard',
 
   components: {
     ShareButton,
@@ -319,7 +319,7 @@ export default {
       left: 0px
       width: 100%
       height: 100%
-      background: rgb(153,153,153,0.1)
+      background: transparent
       transition: .5s ease
     .product-actions
       display: none
@@ -348,6 +348,7 @@ export default {
     .product-image
       height: var(--card-height-sm)
       width: var(--card-width-sm)
+      background-color: $color-white-4
     .action-btn-slot button
       font-size: 10px
       img.btnIcon
@@ -362,4 +363,5 @@ export default {
     .product-price
       font-size: 12px
       font-weight: $medium
+      color: $color-gray-5
 </style>
