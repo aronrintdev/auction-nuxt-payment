@@ -46,12 +46,13 @@
           </b-col>
           <b-col cols="9" md="9" class="px-4">
             <b-row class="d-block">
-              <div class="product-name">{{ itemProduct.product.name }}</div>
+              <div class="product-name text-truncate">{{ itemProduct.product.name }}</div>
               <div class="product-sku text-uppercase">
                 {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ itemProduct.product.sku }}
               </div>
-              <div class="product-color">
-                {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ itemProduct.product.colorway }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{itemProduct.size.size }}
+              <div class="product-color d-flex text-truncate">
+                <span class="flex-grow-1 text-truncate">{{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ itemProduct.product.colorway }}</span>
+                <span>, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{itemProduct.size.size }}</span>
               </div>
               <div class="product-condition">
                 {{ $t('products.box_condition') }}&colon;&nbsp;{{itemProduct.packaging_condition.name}}
@@ -76,9 +77,8 @@
           <div class="d-flex align-items-center">
             <span v-if="item.scheduled_date">{{ item.scheduled_date }}</span>
             <b-form-datepicker
-              v-if="openDatePicker"
               size="xs"
-              class="ml-2"
+              class="ml-2 d-none d-md-flex"
               button-only
               hide-header
               :min="tomorrowDate"
@@ -241,7 +241,6 @@ export default {
         }
       }),
       tempScheduleDate: null,
-      openDatePicker: false,
     }
   },
   computed: {
@@ -264,7 +263,6 @@ export default {
       if (ctx.selectedFormatted!=='No date selected'){
         this.handleChanges('scheduled_date', ctx.selectedFormatted)
       }
-      this.openDatePicker = false
     },
     handleDurationSelect(item) {
       this.handleChanges('time_limit', item.value)
@@ -309,8 +307,6 @@ export default {
         this.tempScheduleDate = this.item.scheduled_date
         if (this.isMobileSize) {
           this.$refs.scheduleDateSheet.open()
-        } else {
-          this.openDatePicker = true
         }
       }
     },
@@ -479,6 +475,8 @@ export default {
       @include body-21
       color: $color-gray-6
       margin-top: 3px
+    &-color
+      width: max-content
   .auction-item-form
     max-width: 248px
     @media (max-width: 576px)

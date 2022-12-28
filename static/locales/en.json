@@ -547,7 +547,7 @@
     "trade_desc": "Use footwear, apparel, \n accessories, and cash to \n trade items.",
     "trade_areana": "Trade Arena",
     "newest_features": "Newest \n Features",
-    "newestfeatures_description": "View the latest features found on Deadstock V2 app",
+    "newestfeatures_description": "View the latest \n features found on \n Deadstock V2 app",
     "shareable_wishlist": "SHARABLE WISHLISTS & WATCHLISTS",
     "shareable_wishlist_sm": "WISHLISTS & WATCHLISTS",
     "intl_shipping": "INTL’ SHIPPING",
@@ -579,7 +579,7 @@
     "bestsellers": "Best Sellers",
     "current_promotions": "Current \n Promotions",
     "current_promos": "Current \n Promos",
-    "current_promotions_description": "Check out our latest promotions and giveaways",
+    "current_promotions_description": "Check out our \n latest promotions \n and giveaways",
     "view_more_promotions": "View More Promotions",
     "auctions": "Auctions",
     "ending_soon": "Ending Soon",
@@ -1154,7 +1154,8 @@
       "no_items": "0 Items have been found in your inventory.",
       "continue_listing": "Continue to List",
       "not_role_vendor_error": "Only vendors can create trades.",
-      "vendor_not_owner_error": "Inventory does not belong to vendor"
+      "vendor_not_owner_error": "Inventory does not belong to vendor",
+      "items_uploaded": "have been uploaded successfully"
     },
     "sale_confirmed": {
       "title": "Sale Confirmed",
@@ -2184,6 +2185,7 @@
     "delete_list": "Delete List",
     "confirm_delete": "Kindly confirm",
     "confirm_delete_message": "You are about to delete {list}",
+    "confirm_delete_list_message": "Are you sure you would like to delete this List?",
     "delete_success": "Wishlist deleted successfully",
     "rename_success": "Wishlist renamed successfully",
     "buying_lists": "Single items wishlist",
@@ -2223,6 +2225,7 @@
     "edit_list": "Edit List",
     "edit": "Edit",
     "buying_lists": "Buying Watchlist",
+    "trade_watchlists": "Trade Watchlist",
     "auction_watchlists": "Auction Watchlists",
     "trade_lists": "Trade Lists",
     "no_items_info": "You have no items in your Watchlist",
@@ -4899,7 +4902,7 @@
       "next": "Next",
       "go_back": "Go Back",
       "your_inventory": "Your Inventory ({0})",
-      "trade_upto_items": "Trade up to {0} Items for any trade",
+      "trade_upto_items": "Select up to 3 Items for any trade",
       "search_inventory": "Search your Inventory by SKU, Product Name or Brand",
       "filter_by": "Filter By",
       "category": "Category",
@@ -5019,6 +5022,7 @@
     "apply": "Apply",
     "listings": "Listing ({0})",
     "delete_expired_listings": "Delete Expired Listings",
+    "delete_expired_listings-sm": "Delete Expired",
     "select_all_expired_trades": "Select All Expired Trades",
     "trade_id": "Trade ID",
     "listed_on": "Listed on",
@@ -5081,7 +5085,7 @@
     "add_cash": "Add Cash",
     "your_inventory": "Your Inventory ({0})",
     "add_remove_items": "(Add and Remove Items to Trade)",
-    "discard_changes": "Discard changes",
+    "discard_changes": "Discard Changes",
     "search_trades": "Search Trades",
     "search_trades_offers": "Search Trades Offers",
     "are_you_sure_discard": "Are you sure you would like to discard your changes? The changes will be lost.",
@@ -5213,7 +5217,7 @@
     "balance_the_deal": "Balance this deal by adding cash",
     "balance_the_deal_request": "Balance this deal by requesting cash",
     "insert_amount": "Insert Amount",
-    "your_item_value": "Your items’ value",
+    "your_item_value": "Your Items’ Value",
     "total_value": "Total Value",
     "cash_added": "${0} Cash Added",
     "cash_requested": "${0} Cash Requested",
@@ -5940,19 +5944,19 @@
     "settings": {
       "texts": {
         "buying_new_offer": {
-          "until_desc": "Will not be notified until {n} % of fair trade meter is met",
+          "until_desc": "You will not be notified until {n} % of fair trade meter is met",
           "until_title": "Percentage Trade Offer Value"
         },
         "selling_trade_offer": {
-          "until_desc": "Will not be sent a notification unless {n} % of your Offer has been reached.",
+          "until_desc": "You will not be sent a notification unless {n} % of your Offer has been reached.",
           "until_title": "Percentage Reserve"
         },
         "selling_new_bids": {
-          "until_desc": "Will not be sent a notification unless {n} % of your Reserve Price has been reached.",
+          "until_desc": "You will not be sent a notification unless {n} % of your Reserve Price has been reached.",
           "until_title": "Percentage Reserve"
         },
         "selling_new_offer": {
-          "until_desc": "Will not be sent a notifications until {n} % of your asking price is reached",
+          "until_desc": "You will not be sent a notifications until {n} % of your asking price is reached",
           "until_title": "Percentage Asking Price"
         }
       },
@@ -6040,7 +6044,7 @@
   "offers_received": {
     "offers": "Offers",
     "heading": "Offers Received",
-    "your_placed_offers": "Offers Received ({count})",
+    "your_placed_offers": "Your Offers Received ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
     "start_date": "Start Date",
     "end_date": "End Date",

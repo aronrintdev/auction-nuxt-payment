@@ -2,8 +2,8 @@
   <b-container fluid class="container-watchlists">
     <div class="d-none d-sm-flex justify-content-between align-items-start header">
       <div v-if="!!currentWatchlist" class="title">
-        <h2 class="text-truncate mw-800px">{{ currentWatchlist.name }}</h2>
-        <span>({{ totalCount }} {{ $t('common.items') }})</span>
+        <h2 class="text-truncate mw-800px watch-list-name">{{ currentWatchlist.name }}</h2>
+        <span class="watch-list-counter">({{ totalCount }} {{ $t('common.items') }})</span>
       </div>
       <div v-else>&nbsp;</div>
 
@@ -49,7 +49,15 @@
       <div class="row">
         <div class="col-12 col-sm-3 section-lists-wrapper">
           <section class="d-none d-sm-block section-lists">
-            <h5>{{ watchlistsType !== WATCHLIST_TYPE_AUCTION ? $t('watchlists.buying_lists') : $t('watchlists.auction_watchlists') }}</h5>
+            <h5>
+              {{ 
+                watchlistsType !== WATCHLIST_TYPE_AUCTION ? $t('watchlists.trade_watchlists'): $t('watchlists.auction_watchlists') 
+              }} 
+              <span v-b-modal.create-watchlist-modal class="plus-sign">
+                +
+              </span>
+            </h5>
+            
             <div v-for="list in watchlists" :key="list.id">
               <Button
                 :pressed="list.id === currentWatchlist.id"
@@ -315,24 +323,39 @@ export default {
       padding-left: 10px
       font-family: $font-montserrat
       font-weight: $bold
-      @include body-4
+      font-style: $normal
+      @include body-4b
       letter-spacing: -0.02em
       text-transform: capitalize
       color: $black
   .title
     flex: 3
     max-width: calc(50vw - 368px)
+    .watch-list-name
+      font-family: $font-montserrat
+      font-style: $normal
+      font-weight: $bold
+      @include text-24
+    .watch-list-counter
+      font-family: $font-montserrat
+      font-style: $normal
+      font-weight: $normal
+      @include body-5
   .checkbox-switch-wrapper
     margin-top: 2px
     flex: 3
     max-width: calc(50vw - 368px)
 
+
 ::v-deep .checkbox-switch
   line-height: 32px
   span[role='button']
     font-family: $font-montserrat
-    @include body-5-bold
+    @include body-5
     margin-top: 7px
+    font-weight: $bold
+    font-style: $normal
+
   .custom-switch
     height: 31px
     margin-right: 20px

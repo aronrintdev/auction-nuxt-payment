@@ -125,7 +125,7 @@
             :class="`section-lists ${action !== 'none' ? 'mt' : ''}`"
           >
             <h5 class="d-none d-sm-block px-2">
-              {{ $t('wish_lists.buying_lists') }} <span v-b-modal.create-list-modal class="plus-sign">+</span>
+              {{ $t('profile_menu.wishlist') }} <span v-b-modal.create-list-modal class="plus-sign">+</span>
             </h5>
             <div class="d-none d-sm-block wishlist-wrapper">
               <div v-for="list in wishLists" :key="list.id" class="px-2">
@@ -343,8 +343,8 @@
     <!-- On delete list -->
     <ConfirmModal
       id="confirm-wishlist-delete"
-      :confirmLabel="$t('wish_lists.confirm_delete')"
-      :message="$t('wish_lists.confirm_delete_message', { list: currentWishList && currentWishList.name })"
+      :confirmLabel="$t('preferences.common.delete')"
+      :message="$t('wish_lists.confirm_delete_list_message')"
       @cancel="onCancel"
       @confirm="onConfirm"
     />

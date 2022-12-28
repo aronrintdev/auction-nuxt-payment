@@ -27,7 +27,7 @@
             <b-col md="11">
               <b-button
                 variant="light"
-                class="purchase-gift-card-button text-white mt-2"
+                class="purchase-gift-card-btn text-white mt-2"
                 pill
                 @click="showPaymentModal('purchaseGiftCard')"
               >
@@ -312,9 +312,12 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.purchase-gift-card-btn
+  background-color: $color-blue-20
 @media (min-width: 630px)
   .add-new-payments,
-  .purchase-gift-card-button
+  .purchase-gift-card-btn
     float: right
 @media (min-width: 630px) and (max-width: 768px)
   .updated-payment-info,

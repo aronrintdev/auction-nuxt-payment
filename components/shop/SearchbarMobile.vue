@@ -49,7 +49,7 @@
     </section>
     <!-- todo  -->
     <section class="trending-products my-3">
-      <h4 class="fs-16 fw-6 text-black font-primary mb-0 my-3">
+      <h4 class="fs-17 fw-5 text-black font-primary mb-0 my-3">
         {{ $t('home.trending') }}
       </h4>
       <div
@@ -69,7 +69,7 @@
               <div class="product-thumb">
                 <Thumb :src="product.image" class="mr-2" />
               </div>
-              <h4 class="fs-13 fw-5 text-gray font-primary mb-0 text-truncate">
+              <h4 class="fs-13 fw-5 font-primary mb-0 text-truncate product-name-text">
                 {{ getTruncateName(product) }}
               </h4>
             </div>
@@ -213,4 +213,6 @@ export default {
     height: 14px
 .product-thumb
     width: 70px
+.product-name-text
+  color: $color-black-15
 </style>

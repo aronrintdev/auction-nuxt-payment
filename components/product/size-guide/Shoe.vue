@@ -82,3 +82,10 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.item-type
+ font-family: $font-sf-pro-text
+.item-value
+ font-family: $font-sf-pro-text
+</style>
