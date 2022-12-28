@@ -6,7 +6,7 @@
     <div class="ml-0 ml-md-5 mt-2 d-flex align-items-center">
       <div class="auto-bid-sub">{{ $t('bids.auto_bid') }}</div>
       <CheckboxSwitch
-        class="scale-up mx-2"
+        class="mx-2 "
         :value="isAutoBid"
         @change="handleAutoBidChange"
       />
@@ -120,40 +120,33 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
-.scale-up
-  transform: scale(1.4)
+::v-deep .checkbox-switch
+  line-height: 32px
+  span[role='button']
+    font-family: $font-montserrat
+    @include body-5-bold
+    margin-top: 7px
+  .custom-switch
+    height: 31px
+    margin-right: 20px
+    .custom-control-label::before
+      background-color: rgba(120, 120, 128, 0)
+      border: none
+      height: 31px
+      width: 51px
+      box-shadow: none
+      background-image: url('~/assets/img/profile/wishlist/toggle-bg.svg')
+      background-repeat: no-repeat
 
-:deep(.custom-switch)
-  .custom-control-input
-    &:checked
-      & ~ .custom-control-label
-        &::before
-          color: $color-white-1
-          border-color: $color-green-17
-          background-color: $color-green-17
-          box-shadow: none
-
-:deep(.custom-switch)
-  .custom-control-input
-    & ~ .custom-control-label
-      &::before
-        color: $color-white-1
-        border-color: rgba($color-gray-61, 0.16)
-        background-color: rgba($color-gray-61, 0.16)
-        box-shadow: none
-
-:deep(.custom-switch)
-  .custom-control-input
-    &:checked
-      & ~ .custom-control-label
-        &::after
-          background-color: $color-white-1
-
-:deep(.custom-switch)
-  .custom-control-input
-    & ~ .custom-control-label
-      &::after
-        background-color: $color-white-1
+    .custom-control-label::after
+      background: $color-white
+      border: 0.5px solid rgba(0, 0, 0, 0.04)
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06)
+      width: 27px
+      height: 27px
+      border-radius: 100%
+    .custom-control-input:checked ~ .custom-control-label::after
+      transform: translateX(1.27rem)
 
 .btn-save.btn
   width: 30px

@@ -1,24 +1,38 @@
 <template>
-  <SideOverlay :is-open="detailsMenu" @closed="$emit('closed')" @opened="$emit('opened')">
+  <SideOverlay
+    :is-open="detailsMenu"
+    @closed="$emit('closed')"
+    @opened="$emit('opened')"
+  >
     <div class="d-flex flex-column h-100 menu-content">
-      <div class="menu-header position-relative d-flex align-items-center justify-content-between">
-        <div class="position-absolute close-icon" role="button" @click="$emit('closed')">
-          <closeIcon height="14px" width="14px"/>
+      <div
+        class="menu-header position-relative d-flex align-items-center justify-content-between"
+      >
+        <div
+          class="position-absolute close-icon"
+          role="button"
+          @click="$emit('closed')"
+        >
+          <closeIcon height="14px" width="14px" />
         </div>
         <div class="d-flex flex-column text-white">
           <div class="body-3-medium">
             {{ $t('vendor_dashboard.hi_name', [$auth.user.first_name]) }}
           </div>
           <div class="body-5-regular d-flex align-items-center">
-            {{ $t('vendor_dashboard.you_are_seller', {rank: vendor.rank}) }}
+            {{ $t('vendor_dashboard.you_are_seller', { rank: vendor.rank }) }}
             <!--            TODO make it dynamic when rank color design is ready-->
 
             <img
-                :src="require(`~/assets/img/icons/${vendor.rank? vendor.rank.toLowerCase(): 'bronze'}-badge.svg`)"
-                aria-hidden="true"
-                class="ml-2"
-                height="26px"
-                width="26px"
+              :src="
+                require(`~/assets/img/icons/${
+                  vendor.rank ? vendor.rank.toLowerCase() : 'bronze'
+                }-badge.svg`)
+              "
+              aria-hidden="true"
+              class="ml-2"
+              height="26px"
+              width="26px"
             />
           </div>
         </div>
@@ -37,36 +51,54 @@
           {{ $t('vendor_dashboard.overview') }}
         </div>
         <div class="d-flex overview-body align-items-center">
-          <div class="position-relative image-bg ">
+          <div class="position-relative image-bg">
             <!--            TODO make it dynamic when medal design is ready-->
             <img
-                :src="require('~/assets/img/icons/silver-medal.svg')"
-                aria-hidden="true"
-                class="position-absolute medal-icon"
+              :src="require('~/assets/img/icons/silver-medal.svg')"
+              aria-hidden="true"
+              class="position-absolute medal-icon"
             />
           </div>
-          <div v-if="nextThreshold" class="d-flex flex-column gray-color pl-3">
-            <div class="body-13-medium">
-              {{ $t('vendor_dashboard.on_track', {rank: nextThreshold.label}) }}
+          <div
+            v-if="nextThreshold"
+            class="d-flex flex-column gray-color pl-3 mr-120"
+          >
+            <div class="body-13-medium font-pro-display">
+              {{
+                $t('vendor_dashboard.on_track', { rank: nextThreshold.label })
+              }}
             </div>
-            <div class="body-5-normal mt-2">
-              {{ $t('vendor_dashboard.next_sales', {next: ordersTillNext}) }}
+            <div class="body-5-normal mt-2 font-pro-display">
+              {{ $t('vendor_dashboard.next_sales', { next: ordersTillNext }) }}
             </div>
           </div>
-          <div>
-            <GaugeChart :max-height="150" :max-width="150" :radius="60" :stroke-width="'10'">
+          <div class="gauge position-absolute">
+            <GaugeChart
+              :max-height="150"
+              :max-width="150"
+              :radius="60"
+              :stroke-width="'10'"
+            >
               <template #center>
-                <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                <div
+                  class="d-flex flex-column align-items-center justify-content-center h-100"
+                >
                   <div class="heading-13">{{ vendor.current_points }}</div>
-                  <div class="body-18-bold gray-color">{{ $t('vendor_dashboard.seller_ranking') }}</div>
+                  <div class="body-18-bold gray-color">
+                    {{ $t('vendor_dashboard.seller_ranking') }}
+                  </div>
                 </div>
               </template>
               <template #bottom>
-                <div v-if="nextThreshold" class="d-flex body-9-medium blue-dark-color text-center">
+                <div
+                  v-if="nextThreshold"
+                  class="d-flex body-9-medium blue-dark-color text-center"
+                >
                   {{
                     $t('vendor_dashboard.till_next', {
-                      point: nextThreshold.ending_ranking - vendor.current_points,
-                      next: nextThreshold.label
+                      point:
+                        nextThreshold.ending_ranking - vendor.current_points,
+                      next: nextThreshold.label,
                     })
                   }}
                 </div>
@@ -81,14 +113,14 @@
 
         <div class="overlay-card px-11 mb-35">
           <b-table
-              :busy="loading"
-              :fields="fields"
-              :items="orders"
-              class="orders-table"
-              foot-row-variant="dflex justify-content-center"
-              no-border-collapse
-              tbody-tr-class="bg-white body-9-normal gray-color"
-              thead-tr-class="body-21-medium text-center"
+            :busy="loading"
+            :fields="fields"
+            :items="orders"
+            class="orders-table"
+            foot-row-variant="dflex justify-content-center"
+            no-border-collapse
+            tbody-tr-class="bg-white body-9-normal gray-color"
+            thead-tr-class="body-21-medium text-center"
           >
             <template #table-busy>
               <div class="d-flex align-items-center justify-content-center">
@@ -99,11 +131,11 @@
               <div class="text-nowrap" role="button" @click="orderBy(scope)">
                 <span class="mr-1">{{ scope.label }}</span>
                 <img
-                    v-if="scope.label !== $t('vendor_dashboard.actions')"
-                    :src="require('~/assets/img/icons/down-arrow-solid.svg')"
-                    :alt="scope.label"
-                    class="sort-icon"
-                    :class="reverseDirection(scope.column)"
+                  v-if="scope.label !== $t('vendor_dashboard.actions')"
+                  :src="require('~/assets/img/icons/down-arrow-solid.svg')"
+                  :alt="scope.label"
+                  class="sort-icon"
+                  :class="reverseDirection(scope.column)"
                 />
               </div>
             </template>
@@ -115,7 +147,11 @@
 
             <template #cell(product)="data">
               <div class="text-nowrap text-truncate max-128">
-                {{ data.item.listing_item? data.item.listing_item.inventory.product.name: '-' }}
+                {{
+                  data.item.listing_item
+                    ? data.item.listing_item.inventory.product.name
+                    : '-'
+                }}
               </div>
             </template>
 
@@ -131,32 +167,36 @@
               </div>
             </template>
 
-            <template #cell(actions)="">
-
-            </template>
+            <template #cell(actions)=""> </template>
             <template #head(actions)="">
               <!--              TODO will be added order score calc column-->
               <div></div>
             </template>
           </b-table>
 
-          <div class="d-flex align-items-center justify-content-center blue-color-link body-9-normal read-more"
-               role="button" @click="addMore">
+          <div
+            class="d-flex align-items-center justify-content-center blue-color-link body-9-normal read-more"
+            role="button"
+            @click="addMore"
+          >
             {{ $t('vendor_dashboard.view_more') }}
-            <arrowBottomLong class="ml-2"/>
+            <arrowBottomLong class="ml-2 bottom-arrow" />
           </div>
         </div>
 
         <div class="text-center body-5-regular mb-17 text-black">
           {{ $t('vendor_dashboard.faq_body') }}
         </div>
-        <div class="overlay-card p-17 d-flex align-items-center justify-content-between"
-             @click="$router.push('/faqs/vendor-hub')">
+
+        <div
+          class="overlay-card faq p-17 d-flex align-items-center justify-content-between"
+          @click="$router.push('/faqs/vendor-hub')"
+        >
           <div class="body-5-medium blue-color">
             {{ $t('vendor_dashboard.faq_title') }}
           </div>
           <div>
-            <arrowRightLong/>
+            <arrowRightLong />
           </div>
         </div>
       </div>
@@ -168,23 +208,33 @@
 import closeIcon from '~/assets/img/icons/close-icon.svg?inline'
 import arrowRightLong from '~/assets/img/icons/arrow-right-long-black.svg?inline'
 import arrowBottomLong from '~/assets/img/icons/arrow-down-blue.svg?inline'
-import SideOverlay from '~/components/common/SideOverlay';
-import Loader from '~/components/common/Loader';
-import GaugeChart from '~/components/profile/vendor-dashboard/GaugeChart';
-import {DETAILS_ORDER_COUNT, SUCCESSFUL_ORDER_REWARD} from '~/static/constants/vendor-dashboard.js';
+import SideOverlay from '~/components/common/SideOverlay'
+import Loader from '~/components/common/Loader'
+import GaugeChart from '~/components/profile/vendor-dashboard/GaugeChart'
+import {
+  DETAILS_ORDER_COUNT,
+  SUCCESSFUL_ORDER_REWARD,
+} from '~/static/constants/vendor-dashboard.js'
 
 export default {
   name: 'VendorDetails',
-  components: {GaugeChart, Loader, SideOverlay, arrowBottomLong, closeIcon, arrowRightLong},
+  components: {
+    GaugeChart,
+    Loader,
+    SideOverlay,
+    arrowBottomLong,
+    closeIcon,
+    arrowRightLong,
+  },
   props: {
     vendor: {
       type: Object,
-      required: true
+      required: true,
     },
     isOpen: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -226,35 +276,42 @@ export default {
       orderByDirection: 'asc',
       detailsMenu: false,
       loading: false,
-      thresholds: []
+      thresholds: [],
     }
   },
   computed: {
     currentThreshold() {
-      const currentIndex = this.thresholds.findIndex(item => item.label === this.vendor.rank)
-      if (currentIndex < 0)
-        return null
+      const currentIndex = this.thresholds.findIndex(
+        (item) => item.label === this.vendor.rank
+      )
+      if (currentIndex < 0) return null
       return this.thresholds[currentIndex]
     },
     nextThreshold() {
-      const currentIndex = this.thresholds.findIndex(item => item.label === this.vendor.rank)
-      if (currentIndex < 0)
-        return null
-      if (this.thresholds.length > 0 && currentIndex === this.thresholds.length - 1)
+      const currentIndex = this.thresholds.findIndex(
+        (item) => item.label === this.vendor.rank
+      )
+      if (currentIndex < 0) return null
+      if (
+        this.thresholds.length > 0 &&
+        currentIndex === this.thresholds.length - 1
+      )
         return this.thresholds[currentIndex]
       return this.thresholds[currentIndex + 1]
     },
     ordersTillNext() {
-      if (!this.nextThreshold)
-        return 0
+      if (!this.nextThreshold) return 0
       else
-        return Math.ceil((this.nextThreshold.ending_ranking - this.vendor.current_points) / SUCCESSFUL_ORDER_REWARD)
-    }
+        return Math.ceil(
+          (this.nextThreshold.ending_ranking - this.vendor.current_points) /
+            SUCCESSFUL_ORDER_REWARD
+        )
+    },
   },
   watch: {
     isOpen(val) {
       this.detailsMenu = val
-    }
+    },
   },
   mounted() {
     this.getOrders()
@@ -270,10 +327,10 @@ export default {
     },
     reverseDirection(column) {
       return column === this.orderByField
-          ? this.orderByDirection === 'asc'
-              ? 'desc'
-              : 'asc'
-          : 'desc'
+        ? this.orderByDirection === 'asc'
+          ? 'desc'
+          : 'asc'
+        : 'desc'
     },
     addMore() {
       if (this.total > this.ordersCount) {
@@ -286,41 +343,48 @@ export default {
     },
     getCommissionThresholds() {
       this.$axios
-          .get('/commission-thresholds')
-          .then((res) => {
-            this.thresholds = res.data.data
-          })
-          .catch((err) => {
-            this.logger.logToServer(err.response)
-          })
+        .get('/commission-thresholds')
+        .then((res) => {
+          this.thresholds = res.data.data
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
     },
     getOrders() {
       this.loading = true
       this.$axios
-          .get('/dashboard/vendor/orders', {
-            params: {
-              orders_count: this.ordersCount,
-              order_by_column: this.orderByField,
-              order_by_direction: this.orderByDirection,
-            }
-          })
-          .then((res) => {
-            this.orders = res.data.data.data
-            this.total = res.data.data.total
-          })
-          .catch((err) => {
-            this.logger.logToServer(err.response)
-          })
-          .finally(() => {
-            this.loading = false
-          })
-    }
-  }
+        .get('/dashboard/vendor/orders', {
+          params: {
+            orders_count: this.ordersCount,
+            order_by_column: this.orderByField,
+            order_by_direction: this.orderByDirection,
+          },
+        })
+        .then((res) => {
+          this.orders = res.data.data.data
+          this.total = res.data.data.total
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+  },
 }
 </script>
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.gauge
+  right: 0
+
+.bottom-arrow
+  height: 11px
+  width: 12px
+
 .sort-icon
   &.asc
     transform: rotate(180deg)
@@ -333,7 +397,7 @@ export default {
   height: 55px
   min-height: 55px
   border-radius: 100%
-  background-color: $color-gray-th-44
+  background-color: $color-gray-44
 
   .medal-icon
     top: 25px
@@ -368,6 +432,10 @@ export default {
 
 .menu-content
   font-family: $font-montserrat
+.font-pro-display
+  font-family: $font-sp-pro
+.mr-120
+  margin-right: 120px
 
 .p-17
   padding: 17px
@@ -388,6 +456,8 @@ export default {
   background: $color-white-1
   box-shadow: 10px 10px 84px rgba($color-black-1, 0.11)
   border-radius: 10px
+  &.faq
+    height: 51px
 
 .close-icon
   top: 5px
@@ -399,11 +469,9 @@ export default {
   padding: 28px
 
 .menu-body
-  background-color: $color-white-12
+  background-color: $color-gray-1
   padding: 28px
 
   .title
     margin-bottom: 18px
-
-
 </style>

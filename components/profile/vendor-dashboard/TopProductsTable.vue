@@ -82,7 +82,9 @@
             role="button"
             @click="$router.push(`/profile/vendor-dashboard/products/${row.item.id}`)"
           >
-            <div class="col-thumb d-flex justify-content-center">
+            <div class="col-thumb d-flex justify-content-center" :class="{
+              'mr-55' :!isScreenXS
+            }">
               <ProductThumb
                 :product="row.item"
                 :src="row.item.image"
@@ -95,16 +97,22 @@
                   'body-5-medium mobile': isScreenXS,
                   'font-secondary': !isScreenXS,
                 }"
-                class="body-8-medium text-decoration-underline text-link-blue-mobile border-primary mb-1 text-nowrap text-truncate mw-220"
+                class="body-8-medium text-decoration-underline text-link-blue-mobile border-primary mb-3px text-nowrap text-truncate mw-170"
               >
                 {{ row.item.name }}
               </h4>
-              <h4 class="body-6-normal mb-0 text-color-gray-6">
+              <h4 :class="{
+                  'body-6-normal mobile': isScreenXS,
+                  'body-21-normal font-secondary': !isScreenXS,
+                }" class="text-color-gray-6 mb-3px">
                 {{ $t('vendor_dashboard.sku') }}: {{ row.item.sku }}
               </h4>
               <h4
-                :class="mobileClass"
-                class="body-6-normal mb-0 text-color-gray-6 text-nowrap text-truncate mw-220"
+                  :class="{
+                  'body-6-normal mobile': isScreenXS,
+                  'body-21-normal font-secondary': !isScreenXS,
+                }"
+                class="mb-0 text-color-gray-6 text-nowrap text-truncate mw-170 "
               >
                 {{ $t('vendor_dashboard.colorway') }}: {{ row.item.colorway }}
               </h4>
@@ -136,7 +144,7 @@
               <span
                 v-if="row.item.sales_percentage < 0"
                 class="text-danger text-sm"
-                >(-{{ row.item.sales_percentage }}%)</span
+                >({{ row.item.sales_percentage | formatPrice }}%)</span
               >
             </h4>
           </div>
@@ -188,7 +196,7 @@ export default {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
           sortable: false,
-          thClass: 'text-nowrap body-4-bold',
+          thClass: 'text-nowrap body-4-bold mw-170',
         },
         {
           key: 'average_sale_price',
@@ -216,6 +224,7 @@ export default {
         },
       ],
       lineConfig: {
+        isAfterDrawDisabled: true,
         responsive: true,
         maintainAspectRatio: false,
         borderWidth: 3,
@@ -359,8 +368,17 @@ export default {
 
 ::v-deep.nav-grp
   width: 460px
+  &:not(.mobile)
+    .btn-group
+      height: 32px
+      background-color: $color-gray-3
+      button.btn
+        &:not(.active)
+          background-color: $color-gray-3
+
   &.mobile
-    width: 100%
+    width: 343px
+    margin-inline: auto
   .btn-group
     height: 36px
     button.btn
@@ -380,6 +398,9 @@ export default {
 .text-color-blue-30
   color: $color-blue-30
 
+.mr-55
+  margin-right: 55px
+
 .mt-20
   margin-top: 20px
 
@@ -388,9 +409,11 @@ export default {
 
 .text-color-gray-6
   color: $color-gray-6
+.mb-3px
+  margin-bottom: 3px !important
 
-.mw-220
-  max-width: 220px
+.mw-170
+  max-width: 170px
 
   &.mobile
     max-width: 200px

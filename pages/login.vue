@@ -270,8 +270,7 @@ export default {
   font-style: normal
   font-weight: $bold
   font-size: 17px
-.toggle-btn
-  width: 320px !important
+  line-height: 51px
 .toggler-main
   background-color: $color-gray-75
   border-radius: 20px
@@ -302,20 +301,22 @@ export default {
   justify-content: center
   align-items: center
 .main-mobile-image
-  padding: 35px 0px 0px 1px
+  padding: 78px 0px 0px 1px
 
 @media (min-width: 320px) and (max-width: 556px)
   .img-main
-    height: 44px !important
-    width: 133.2px !important
+    height: 40px
+    width: 133px
+    margin-left: 10px
   .forgot-pass-text
-    font-size: 14px !important
+    font-size: 14px
   .text-line-middle
     width: 50%
+    padding-top: 30px
     margin: 0 auto
   .welcome-back-text
-    margin-left: auto
-    margin-right: auto
-    margin-top: 18px
-    margin-bottom: 24px
+    margin: 0 auto
+    line-height: 1.5
+    margin-top: 22px
+    margin-bottom: 31px
 </style>

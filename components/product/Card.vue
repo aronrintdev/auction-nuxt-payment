@@ -48,19 +48,19 @@
     </div>
     <div class="mt-2 row">
       <div :class="[showActionBtn ? 'col-7' : 'col-12']">
-        <div class="fs-15 fw-6 font-secondary product-title text-truncate">
+        <div class="fs-14 fw-7 font-secondary product-title text-truncate">
           {{ getTruncateName }}
         </div>
         <div
-          class="fs-14 fw-5 font-secondary text-gray-light text-truncate product-title-2"
+          class="fs-14 fw-6 font-secondary text-gray-light text-truncate product-title-2"
         >
           {{ getRemainingName }}
         </div>
-        <div v-if="showSize" class="fs-15 fw-6 font-secondary product-price">
+        <div v-if="showSize" class="fs-14 fw-6 font-secondary product-price">
           {{ $t('home_page.size') }}
           {{ product.inventory ? product.inventory[0].size.size : '' }}
         </div>
-        <div v-if="showPrice" class="fs-15 fw-6 font-secondary product-price">
+        <div v-if="showPrice" class="fs-14 fw-6 font-secondary product-price">
           {{ product.sale_price | toRoundedCurrency }}
         </div>
         <div

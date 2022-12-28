@@ -2,7 +2,7 @@
   <client-only>
     <b-container :class="mobileClass" class="container-profile-inventory h-100" fluid>
       <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-end">
-        <h2 class="title">{{ $tc('common.inventory', 1) }}</h2>
+        <h2 class="title mb-0">{{ $tc('common.inventory', 1) }}</h2>
         <Button
             :disabled="!csvDrafts.length"
             class="btn-draft"
@@ -29,7 +29,7 @@
         </div>
         <div class="d-flex align-items-center justify-content-between col-xl-9 pr-0">
           <NavGroup
-            :class="`${isScreenXS && 'w-100'} my-2`"
+            :class="`${isScreenXS && 'w-100'} my-2 text-center`"
             :data="TYPES"
             :value="inventoryType"
             :btnGroupStyle="{
@@ -94,8 +94,8 @@
         <div class="mt-3 mt-xl-0 col-6 col-xl-2 d-flex justify-content-end">
           <FormDropdown
             id="inventory-actions"
-            :icon-arrow-down="require('~/assets/img/icons/arrow-down-blue.svg')"
-            :icon-arrow-up="require('~/assets/img/icons/arrow-up-blue.svg')"
+            :icon-arrow-down="require('~/assets/img/icons/arrow-up-blue.svg')"
+            :icon-arrow-up="require('~/assets/img/icons/arrow-down-blue.svg')"
             :items="ACTIONS"
             :value="action"
             :placeholder="$tc('common.action', 2)"
@@ -112,7 +112,7 @@
         <div class="d-flex align-items-center" @click="moveToCreateInventory">
           <add-svg class="add-svg mr-2" height="13" width="13"/>
           <span class="add-text">
-          {{ $t('createlisting.create_new_inventory') }}
+          {{ $t('inventory.add_inventory') }}
         </span>
         </div>
       </div>
@@ -215,7 +215,7 @@
           </div>
           <div class="d-flex align-items-center justify-content-between mb-3">
             <Button
-                class="filter-button"
+                class="filter-button reset-btn"
                 pill
                 variant="outline-dark"
                 @click="resetFilter"
@@ -326,16 +326,12 @@ export default {
       ],
       ACTIONS: [
         {
-          label: this.$t('common.list'),
-          value: 'list',
-        },
-        {
-          label: this.$t('sell.inventory.bulk_delete'),
-          value: 'delete',
-        },
-        {
           label: this.$t('inventory.export_to_csv'),
           value: 'export',
+        },
+        {
+          label: this.$t('sell.inventory.bulk_delist'),
+          value: 'delete',
         },
       ],
       FILTERS: [
@@ -662,7 +658,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .container-profile-inventory
-  padding: 47px 54px
+  padding: 47px 55px 16px 30px
   background-color: $color-white-5
 
   &.mobile
@@ -682,6 +678,7 @@ export default {
 
   h2.title
     @include heading-3
+    font-weight: $bold
     color: $color-black-1
 
   .btn-draft::v-deep
@@ -694,17 +691,36 @@ export default {
       justify-content: center
 
   .products-count
-    @include body-3-medium
-    color: $color-black-1
+    font-family: $font-sp-pro
+    font-weight: $bold
+    @include body-12
+    color: $black
 
   .btn-add::v-deep
     @include body-4-medium
-    width: 168px
+    width: 157px
     height: 40px
     padding: 0
     display: flex
     align-items: center
     justify-content: center
+    font-family: $font-sp-pro
+    font-weight: $medium
+    @include body-13
+    color: $white
+
+  .nav-group::v-deep
+    .btn-group
+      height: 32px
+      background: $color-gray-3
+      border-radius: 20px
+      .btn
+        font-weight: $regular
+        @include body-6
+        background: transparent
+        &.active
+          background: $white
+          font-weight: $medium
 
   .dropdown-actions::v-deep
     .dropdown_wrapper
@@ -797,13 +813,9 @@ export default {
       flex: 0 0 33.33%
       max-width: 33.33%
 
-    @media (min-width: 1525px)
+    @media (min-width: 1400px)
       flex: 0 0 25%
       max-width: 25%
-
-    @media (min-width: 1800px)
-      flex: 0 0 20%
-      max-width: 20%
 
 ::v-deep.mobile-bottom-sheet
   .bottom-sheet__card.stripe
@@ -833,4 +845,8 @@ export default {
 .mt-8px
   margin-top: 8px
 
+.filter-button
+  font-family: $font-family-sf-pro-display
+.reset-btn
+  font-family: $font-family-sf-pro-display
 </style>

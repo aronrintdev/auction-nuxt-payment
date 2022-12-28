@@ -1,7 +1,7 @@
 <template>
   <div class="card-wrapper">
     <div
-      :class="{'px-4': !isScreenXS,}"
+      :class="{'px-4': !isScreenXS}"
       class="pt-3 action-buttons d-flex align-items-center justify-content-between mx-auto"
     >
       <Button
@@ -41,9 +41,9 @@
         {{ $t('auction.delist') }}
       </Button>
 
-      <div v-if="isScreenXS" class="d-flex flex-grow-1 justify-content-end w-100 pr-3">
+      <div v-if="isScreenXS" class="d-flex flex-grow-1 justify-content-end w-100 dot-icon-position">
         <Button variant="link"
-              id="mobile-down-icon"  @click="showMobileOptionsMenu">
+              class="mobile-down-icon"  @click="showMobileOptionsMenu">
         <img
           :src="require('~/assets/img/icons/dot-circle-gray.svg')"
           height="19"
@@ -75,12 +75,12 @@
       <ProductThumb :product="inventory.product"/>
 
       <div class="image-bottom-text position-absolute w-100 px-4">
-        <div class="d-flex align-items-center justify-content-between">
-          <div>
-            <!--          TODO add link to auction, trada or listing-->
+        <div class="d-flex">
+          <div v-if="inventory.listing_items.length">
+            <span class="listing-id">{{ $t('common.listing_id') }}: #{{inventory.listing_items[0].id}}</span>
           </div>
-          <div v-if="inventory.stock" class="stock-count">
-            {{ inventory.stock }}X
+          <div v-if="inventory.stock" class="stock-count ml-auto">
+            X{{ inventory.stock }}
           </div>
         </div>
       </div>
@@ -121,12 +121,34 @@
        @list="handleListClick"
        @edit="handleEditClick"
        @cancel="hideMobileOptionsMenu"
-       @delist="handleDelistClick"
+       @delist="showDelistConfirm"
        @delete="()=>{
          this.hideMobileOptionsMenu();
          handleDeleteClick()
        }"
      />
+    </vue-bottom-sheet>
+
+    <vue-bottom-sheet
+      ref="delistConfirm"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <div class="delist-confirm">
+        <div class="message-section-1">{{ $t('inventory.delist_mobile_message.title') }}</div>
+        <div class="message-section-2">
+          <span>{{ $t('inventory.delist_mobile_message.part_1') }}</span>
+          <span class="message-link">{{ $t('inventory.delist_mobile_message.part_2') }}</span>
+          <span>{{ $t('inventory.delist_mobile_message.part_3') }}</span>
+        </div>
+        <div class="text-center">
+          <Button @click="handleDelistClick" variant="dark-blue btn-delist" pill>{{ $t('auction.delist') }}</Button>
+        </div>
+        <div class="cancel-wrapper">
+          <a @click="hideDelistConfirm" class="cancel-confirm">{{ $t('common.cancel') }}</a>
+        </div>
+      </div>
     </vue-bottom-sheet>
 
   </div>
@@ -208,6 +230,7 @@ export default {
     handleDelistClick() {
       this.$emit('delist', this.inventory.listing_items[0].id)
       this.hideMobileOptionsMenu()
+      this.hideDelistConfirm()
     },
 
     handleEditClick() {
@@ -236,6 +259,18 @@ export default {
       const { mobileOptionsMenu } = this.$refs
       if (mobileOptionsMenu) {
         mobileOptionsMenu.close()
+      }
+    },
+    showDelistConfirm() {
+      const { delistConfirm } = this.$refs
+      if (delistConfirm) {
+        delistConfirm.open()
+      }
+    },
+    hideDelistConfirm() {
+      const { delistConfirm } = this.$refs
+      if (delistConfirm) {
+        delistConfirm.close()
       }
     },
   },
@@ -321,6 +356,55 @@ export default {
     color: $color-blue-20
 
   &.delist.btn, &.add.btn
-    color: $color-red-24
+    color: $color-black-1
+
+.dot-icon-position
+  padding-right: 6px
+  margin-top: -10px
+
+.listing-id
+  font-family: $font-family-sf-pro-display
+  @include body-10-medium
+  color: $color-blue-31
+  text-decoration: underline
+
+.delist-confirm
+  .message-section-1
+    width: 250px
+    margin: auto
+    text-align: center
+    font-family: $font-sf-pro-text
+    @include body-17-normal
+
+  .message-section-2
+    width: 350px
+    margin-left: auto
+    margin-right: auto
+    text-align: center
+    font-family: $font-sf-pro-text
+    @include body-17-regular
+    margin-top: 25px
+
+  .message-link
+    color: $color-blue-31
+    text-decoration: underline
+
+  .btn-delist
+    width: 216px
+    margin-top: 61px
+    font-family: $font-family-sf-pro-display
+    @include body-4-normal
+
+  .cancel-wrapper
+    margin-top: 19px
+    margin-bottom: 25px
+    text-align: center
+    .cancel-confirm
+      font-family: $font-family-sf-pro-display
+      color: $color-blue-20
+      @include body-17-normal
+      border: none
+      width: 216px
+      padding: 10px 80px
 
 </style>

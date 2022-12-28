@@ -1,6 +1,6 @@
 <template>
   <div v-if="selectedSetting">
-    <MobileHeader :title="tabTitle" @back="handlePageChange">
+    <MobileHeader :has-header="false" :title="tabTitle" @back="handlePageChange">
       <template #actions>
         <div class="d-flex align-items-center">
           <close-svg role="button" @click="handlePageChange"></close-svg>
@@ -17,7 +17,7 @@
           <div v-for="channel in channels" :key="channel.value" class="my-4 ">
             <hr class="divider">
             <div class="d-flex align-items-center justify-content-between ">
-              <span class="label">{{ channel.text }}</span>
+              <span class="label switch">{{ channel.text }}</span>
               <NotificationSwitch
                   :value="channelSettings[channel.value]"
                   class="mr-3"
@@ -58,9 +58,12 @@
           >
           </vue-slider>
           <div class="until-desc mt-2">
-            {{
-              $t(`notifications.settings.texts.${selectedSetting.setting.key}.until_desc`, {n: selectedSetting.setting.data.until.value})
-            }}
+            <i18n
+                :path="`notifications.settings.texts.${selectedSetting.setting.key}.until_desc`"
+                tag="div"
+            >
+              <span class="body-21-regular text-decoration-underline text-black">{{ formData.extra.until.value }}</span>
+            </i18n>
           </div>
         </template>
       </MobileSettingsItemCard>
@@ -84,9 +87,10 @@
             <div v-for="status in whenOptions(selectedSetting.setting.data)" :key="status.value" class="my-4 ">
               <hr class="divider">
               <div class="d-flex align-items-center justify-content-between ">
-                <span class="label">{{ status.text }}</span>
+                <span class="label pt-3">{{ status.text }}</span>
                 <b-form-checkbox
-                    :value="status.value"
+                  class="pt-1"
+                  :value="status.value"
                 >
                 </b-form-checkbox>
               </div>
@@ -103,7 +107,7 @@
           >
             <div v-for="status in getEveryOptions" :key="status.value" class="my-4 ">
               <hr class="divider">
-              <div class="d-flex align-items-center justify-content-between ">
+              <div class="d-flex align-items-center justify-content-between pt-3">
                 <span class="label">{{ status.text }}</span>
                 <b-form-radio
                     :value="status.value"
@@ -117,11 +121,11 @@
               <hr class="divider">
               <div class="d-flex align-items-center justify-content-between ">
                 <div class="d-flex align-items-center">
-                  <span class="label">{{ $t('notifications.settings.custom') }}:</span>
+                  <span class="label input">{{ $t('notifications.settings.custom') }}:</span>
                   <b-input
                       v-model="everyValue"
                       :placeholder="$t('notifications.enter_custom_amount')"
-                      class="ml-2 custom-radio-input"
+                      class="ml-2 custom-radio-input mt-3"
                       type="number"
                       @input="updateChanges"
                   >
@@ -130,6 +134,7 @@
                 <b-form-radio
                     :checked="everyValue"
                     :value="everyValue"
+                    class=" pt-1"
                 >
                 </b-form-radio>
               </div>
@@ -182,7 +187,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      selectedSetting: 'notifications/getSelectedSetting'
+      selectedSetting: 'notifications/getSelectedSetting',
+      getSettings: 'notifications/getSettings'
     }),
     tabTitle() {
       return this.$t('notifications.settings_titles.' + this.selectedSetting.path)
@@ -255,8 +261,11 @@ export default {
       this.updateChanges()
     },
     updateFormConstructor(channel) {
+      const id = this.getSettings.filter(
+          (sett) => sett.key === this.selectedSetting.setting.key && sett.channel === channel
+      )[0].id
       const data = {
-        id: this.selectedSetting.id,
+        id,
         data: JSON.stringify(Object.keys(this.selectedSetting.setting.data).reduce((obj, key) => {
           obj[key] = this.formData.extra[key]
           if (this.everyValue !== null && key === 'every') {
@@ -302,6 +311,10 @@ export default {
   font-style: normal
   font-weight: $normal
   color: $color-black-1
+  &:not(.input)
+    margin-top: 5px
+  &.switch
+    margin-top: 14px
 
 .until-desc
   @include body-10

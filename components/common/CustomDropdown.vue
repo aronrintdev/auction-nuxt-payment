@@ -14,6 +14,8 @@
       :style="{
         'padding-left': paddingX,
         'padding-right': paddingX,
+        'padding-top': paddingT,
+        'padding-bottom': paddingB,
         'min-width': width,
         'height': dropDownHeight,
         'width': maxWidth,
@@ -27,7 +29,7 @@
         class="font-weight-light m-0 p-0 my-label"
         :style="labelStyle"
       >
-        <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
+        <img v-if="labelLeftImage" :src="labelLeftImage" class="mr-2">
         {{label}}
       </label>
       <img alt="No Image" class="pull-right" :src="require(isOpen ? '~/assets/img/dashicons1.svg' : '~/assets/img/dashicons.svg' )" />
@@ -133,6 +135,14 @@ export default {
       type: String,
       default: ''
     },
+    paddingT: {
+      type: String,
+      default: ''
+    },
+    paddingB: {
+      type: String,
+      default: ''
+    },
     showFilterBtn: {
       type: Boolean,
       default: () => true
@@ -152,6 +162,10 @@ export default {
     optionStyle: {
       type: Object,
       default: () => {}
+    },
+    svgArrow: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -259,6 +273,7 @@ ul.custom-dropdown-options li.fixed button
   display: flex
   justify-content: space-between
   align-items: center
+  position: relative
 div.label-wrapper label
   padding-left: 5px
   padding-right: 5px
@@ -268,4 +283,11 @@ div.label-wrapper label
   background: $color-white-1
 .bordered
   border: 1px solid $color-gray-17b
+.svg-arrow-container
+  position: absolute
+  right: 14px
+  transition: transform .2s ease-in-out
+  &.rotate
+    transform: rotate(180deg)
+    transition: transform .2s ease-in-out
 </style>

@@ -20,7 +20,7 @@
             variant="link"
             size="sm"
             class="delete-expired"
-            @click="deleteAction = true"
+            @click="deleteExpireds"
           >
             {{ $t('bids.delete_expired') }}
           </Button>
@@ -38,7 +38,7 @@
         variant="link"
         size="sm"
         class="delete-expired-mobile"
-        @click="deleteAction = true"
+        @click="deleteExpireds"
       >
         <img src="~/assets/img/profile/mobile/mobile-delete.svg" class="mr-1" />
         <span>{{ $t('bids.delete_expired') }}</span>
@@ -71,24 +71,39 @@
 
 
     <div v-if="bidsCount===0 && !fetchLoading"
-         class="d-flex align-items-center justify-content-center flex-column h-50">
-      <div :class="isMobileSize ? 'body-5-medium' : 'not-found-text'">{{ $t('bids.no_bids') }}</div>
+         class="d-flex align-items-center justify-content-center flex-column">
+      <div :class="isMobileSize ? 'body-5-medium my-4 py-5' : 'not-found-text my-5 py-5'">{{ $t('bids.no_bids') }}</div>
     </div>
     <div v-if="bidsCount>0" class="bids-listing">
-      <b-row class="mt-5 mb-13 text-center p-0 font-weight-bold d-none d-md-flex">
-        <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
-        <b-col sm="12" md="3" class="text-left px-0">{{ $t('bids.headers.product') }}</b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }}
-          <span role="button"><img :src="FilterDown" alt="donw"></span>
-        </b-col>
-        <b-col sm="12" md="2">{{ $t('bids.headers.bid_amt') }}
-          <span role="button"><img :src="FilterDown" alt="donw"></span>
-        </b-col>
-        <b-col sm="12" md="2">{{ $t('bids.headers.time_remaining') }}
-          <span role="button"><img :src="FilterDown" alt="donw"></span>
-        </b-col>
-        <b-col sm="12" md="2" class="pr-5">{{ $t('bids.headers.action') }}</b-col>
-      </b-row>
+      <div class="px-3 d-none d-md-flex bids-listing-header">
+        <div class="d-flex align-items-center bids-listing-column pl-4 product">
+          <div class="bids-listing-header-name">{{ $t('bids.headers.product') }}</div>
+          <div class="ml-1" role="button" @click="FetchBids(bidSort)">
+            <img :src="FilterDown" alt="down">
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center bids-listing-column auction-type">
+          <div class="bids-listing-header-name">{{ $t('bids.headers.auction_type') }}</div>
+          <div class="ml-1" role="button" @click="FetchBids(bidSort)">
+            <img :src="FilterDown" alt="down">
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center bids-listing-column bid-amt">
+          <div class="bids-listing-header-name">{{ $t('bids.headers.bid_amt') }}</div>
+          <div class="ml-1" role="button" @click="FetchBids(bidSort)">
+            <img :src="FilterDown" alt="down">
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center bids-listing-column time-remaining">
+          <div class="bids-listing-header-name">{{ $t('bids.headers.time_remaining') }}</div>
+          <div class="ml-1" role="button" @click="FetchBids(bidSort)">
+            <img :src="FilterDown" alt="down">
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center bids-listing-column action">
+          <div class="bids-listing-header-name">{{ $t('bids.headers.action') }}</div>
+        </div>
+      </div>
 
       <client-only>
         <div v-if="bidsCount>0" class="w-100">
@@ -387,6 +402,7 @@ export default {
       deleteBids: 'profile-bids/deleteBids',
       editBids: 'profile-bids/editBids',
       acceptAuctionBid: 'profile-bids/acceptAuctionBid',
+      deleteExpiredBids: 'profile-bids/deleteExpiredBids',
     }),
     closeBidModals() {
       const { mobileBidAcceptConfirm } = this.$refs
@@ -617,6 +633,13 @@ export default {
       this.closeMobileFilter()
       await this.$store.commit('profile-bids/setFilters', filterData)
       this.FetchBids(true)
+    },
+    deleteExpireds() {
+      this.deleteExpiredBids({ type: this.bidType })
+        .then(() => {
+          this.FetchBids(true)
+          this.$toasted.success(this.$t('bids.success_expired_deleted'))
+        })
     }
   }
 }
@@ -735,6 +758,27 @@ h4.title
     color: $black
 .bids-listing
   margin: 0 -25px
+  &-header
+    margin-top: 50px
+    margin-bottom: 13px
+  &-header-name
+    font-family: $font-montserrat
+    font-weight: $bold
+    @include body-4
+    color: $black
+  &-column
+    padding: 0 12px
+  .product
+    flex: 1
+    padding-left: 24px
+  .action
+    width: 18%
+  .time-remaining
+    width: 17%
+  .bid-amt
+    width: 11.6%
+  .auction-type
+    width: 10.6%
   @media (max-width: 576px)
     margin: 0
 

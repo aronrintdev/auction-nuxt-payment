@@ -11,7 +11,7 @@
           class="d-flex justify-content-between align-items-center"
         >
           <div class="select-size">
-            {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
+            {{ $t('products.select_size') }}*<span class="d-sm-none">:</span>
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
           </div>
 
@@ -303,6 +303,10 @@ export default {
   @include body-10-regular
   color: $color-black-1
   @media (min-width: 576px)
+    font-family: $font-montserrat-serif
+    font-weight: $regular
+    font-style: $normal
+    @include body-10
     @include body-8-normal
     text-transform: uppercase
 

@@ -14,11 +14,7 @@
         <!-- New menu design end -->
       </b-row>
 
-      <div
-        id="mobile-p-b-1"
-        class="main-wrapper"
-        :class="{ 'mobile-p-b': isResponsive }"
-      >
+      <div class="main-wrapper">
         <Nuxt />
       </div>
     </div>
@@ -41,7 +37,6 @@ import { SCROLLY } from '~/static/constants'
 import realtime from '~/plugins/mixins/realtime'
 import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 import BottomNavigation from '~/components/homepage/BottomNavigation.vue'
-
 export default {
   name: 'Default',
   components: {
@@ -72,14 +67,6 @@ export default {
     }),
     isResponsive(vm) {
       return vm.isScreenXS || vm.isScreenSM
-    },
-  },
-  watch: {
-    screenIsSmallThanLG(newVal) {
-      const { mySidebar } = this.$refs
-      if (!newVal && mySidebar) {
-        mySidebar.hide()
-      }
     },
   },
   beforeMount() {
@@ -116,25 +103,20 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .bg-grayish
   background-color: $color-white-5 !important
-
 .wrapper
   .custom-wrapper
     margin: 0
     padding: 0
-
     .main-wrapper
       width: 100%
       background-color: $color-white-4
       @media (max-width: 576px)
         min-height: calc(100vh - 200px)
-
 .w3-xlarge
   @include body-1
   float: right
-
 .w3-btn, .w3-button
   border: none
   display: inline-block
@@ -147,7 +129,6 @@ export default {
   text-align: center
   cursor: pointer
   white-space: nowrap
-
 @media (min-width: 993px)
   .wrapper
     .custom-wrapper
@@ -156,13 +137,11 @@ export default {
     display: none
   .sidebar
     display: block
-
 @media (max-width: 992px)
   .wrapper
     .custom-wrapper
       .main-wrapper
         background-color: $color-white-1
-
   .sidebar
     display: none
   #sidemenu-expanded
@@ -172,6 +151,8 @@ export default {
     .custom-wrapper
       background-color: $color-white-19
 
-.mobile-p-b
-  padding-bottom: 98px
+@media (max-width: 576px)
+  .wrapper
+    .custom-wrapper
+      background-color: $color-white
 </style>
