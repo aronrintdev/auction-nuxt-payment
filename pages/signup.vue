@@ -880,6 +880,6 @@ export default {
   width: 168px
   background-color: $color-gray-75
   border-radius: 20px
-  font-weight: 500
+  font-weight: $normal
   @include body-6
 </style>
