@@ -192,6 +192,8 @@ export default {
   .btn
     &.btn-dark-blue
       &.btn-checkout
+        font-family: $font-sp-pro
+        font-style: $normal
         position: fixed
         bottom: 35px
         left: 50%
