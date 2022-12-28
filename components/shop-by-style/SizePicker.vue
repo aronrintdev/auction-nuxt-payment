@@ -5,7 +5,7 @@
       class="position-relative mx-auto carousel-wrapper"
       :style="wrapperStyle"
     >
-      <div class="d-flex justify-content-between align-items-center sizePickerHeader">
+      <div class="d-flex justify-content-between align-items-center size-picker-header">
         <span class="select-size">
           {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
           <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
@@ -350,8 +350,6 @@ export default {
     >span .owl-nav
       display: block
     .owl-carousel
-      .owl-item
-        // margin-right: 38px !important
       .item
         cursor: pointer
         margin: 0
@@ -383,7 +381,6 @@ export default {
       &.owl-next
         float: right
         width: auto
-        // margin-right: -30px
         margin-top: -71px
         @media (min-width: 576px)
           margin-right: -30px
@@ -392,7 +389,6 @@ export default {
         float: left
         width: auto
         margin-top: 13px
-        // margin-left: -30px
         @media (min-width: 576px)
           margin-top: 18px
           margin-left: -30px
