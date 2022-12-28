@@ -47,7 +47,7 @@
       </div>
     </div>
     <div class="mt-2 row">
-      <div :class="[showActionBtn ? 'col-7' : 'col-12','px-2']">
+      <div :class="[showActionBtn ? 'col-7' : 'col-12','px-3 px-lg-3']">
         <div class="fs-15 fw-6 font-secondary product-title text-truncate">
           {{ getTruncateName }}
         </div>
