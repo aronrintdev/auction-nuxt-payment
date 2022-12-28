@@ -6047,7 +6047,8 @@
   "offers_received": {
     "offers": "Offers",
     "heading": "Offers Received",
-    "your_placed_offers": "Your Offers Received ({count})",
+    "your_placed_offers": "Offers Received ({count})",
+    "your_received_offers": "Your Offers Received ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
     "start_date": "Start Date",
     "end_date": "End Date",
