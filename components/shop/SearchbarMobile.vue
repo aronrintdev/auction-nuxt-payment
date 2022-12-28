@@ -1,6 +1,6 @@
 <template>
-  <div class="container searchbar-main py-3 px-3">
-    <div class="d-flex align-items-center sf-wrapper pb-2">
+  <div class="container searchbar-main px-3">
+    <div class="d-flex align-items-center sf-wrapper">
       <div class="back-arrow" @click="$emit('close')">
         <Arrowback class="backarrow_icon mr-2" />
       </div>
@@ -189,6 +189,8 @@ export default {
 @import '~/assets/css/_variables'
 .searchbar-main
   display: block
+  .sf-wrapper
+    margin-bottom: 30px
   .trending-products
     a
      padding-right: 5px

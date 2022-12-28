@@ -516,6 +516,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
 .ShopFiltersMobile
   padding-bottom: 90px
   .bottom_sheet_body

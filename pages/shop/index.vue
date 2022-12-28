@@ -17,7 +17,7 @@
         :value="category"
         nav-key="category"
         btn-class="px-lg-5 px-0"
-        class="section-nav text-center mt-4 mr-3 ml-3 mr-lg-3 ml-lg-3 mx-sm-0"
+        class="section-nav text-center mr-3 ml-3 mr-lg-3 ml-lg-3 mx-sm-0"
         @change="handleCategoryChange"
       />
       <div v-if="!noSearchResult" class="container">
@@ -36,7 +36,6 @@
           </div>
           <ProductShopCarousel
             v-if="!recentLoading"
-            class="mt-4 mb-5"
             :products="recentProducts"
             :showActions="false"
             showArrowsOnHover
@@ -58,7 +57,6 @@
           </div>
           <ProductShopCarousel
             v-if="!newReleaseLoading"
-            class="mt-4 mb-5"
             :products="newRelease"
             showArrowsOnHover
           />
@@ -79,7 +77,6 @@
           </div>
           <ProductShopCarousel
             v-if="!trendingLoading"
-            class="mt-4 mb-5"
             :products="trendingPRoducts"
             showArrowsOnHover
           />
@@ -99,7 +96,6 @@
           </div>
           <ProductShopCarousel
             v-if="!instantShippingLoading"
-            class="mt-4 mb-5"
             :products="instantShippingProducts"
             showArrowsOnHover
             :badge="true"
@@ -343,6 +339,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .container-shop
+  
   .h-300
     height: 300px
   .section-nav
@@ -350,6 +347,7 @@ export default {
   @media (max-width: 425px)
     .section-nav
       margin-bottom: 18px
+      margin-top: 10px
   @media (min-width: 1024px)
     .scroll-to-top
       display: flex !important
@@ -379,4 +377,5 @@ export default {
 .container-shop
   @media (min-width: 576px)
     margin: 0px 60px
+
 </style>

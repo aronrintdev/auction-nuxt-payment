@@ -40,6 +40,7 @@
       max-width="auto"
       max-height="95vh"
       :rounded="true"
+      :background-scrollable="false"
       :is-full-screen="true"
     >
       <ShopFiltersMobile
@@ -232,6 +233,8 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.bottom-sheet
+  z-index: 2000000003 !important
 .bottom-sheet__pan
   height: 20px !important
   padding-bottom: 0

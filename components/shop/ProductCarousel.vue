@@ -8,7 +8,7 @@
         :nav="false"
         :showArrows="showArrows || showArrowsOnHover"
         :center="true"
-        :margin="20"
+        :margin="24"
         :responsive="responsiveAttr"
         :mouse-drag="true"
         :slideBy="4"
@@ -152,9 +152,6 @@ export default {
 @import '~/assets/css/_variables'
 .product-carousel-wrapper
   padding: 0
-  @media (max-width: 475px)
-    .product-carousel-wrapper
-      margin-bottom: 44px
   .no-text
     @include body-4-medium
     text-align: center
@@ -206,4 +203,7 @@ export default {
       &:hover
         .navigation-arrows
           display: flex
+@media (max-width: 475px)
+  .product-carousel-wrapper
+    margin-bottom: 44px
 </style>
