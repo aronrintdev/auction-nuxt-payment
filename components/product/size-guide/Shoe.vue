@@ -1,25 +1,28 @@
 <template>
-  <div class="w-100">
-    <b-table
-      responsive
-      :items="items"
-      striped
-      :fields="fields"
-      thead-class="d-none"
-      borderless
-      class="sbs-size-guide-table"
-    >
-      <template #cell(type)="data">
-        <span class="body-4-medium no-wrap">{{ data.item.type }}</span>
-      </template>
-      <template #cell()="data">
-        <span v-if="isSizeSelected(data.field.key)" class="body-4-medium">{{
-          data.value
-        }}</span>
-        <span v-else class="body-4-regular">{{ data.value }}</span>
-      </template>
-    </b-table>
-  </div>
+  <b-row class="w-100">
+    <b-col md="12">
+      <b-row>
+        <b-col md="12">
+          <b-table
+            responsive
+            :items="items"
+            striped
+            :fields="fields"
+            thead-class="d-none"
+            borderless
+          >
+            <template #cell(type)="data">
+              <span class="body-4-medium item-type">{{ data.item.type }}</span>
+            </template>
+            <template #cell()="data">
+              <span v-if="isSizeSelected(data.field.key)" class="body-4-medium">{{ data.value }}</span>
+              <span v-else class="body-4-regular item-value">{{ data.value }}</span>
+            </template>
+          </b-table>
+        </b-col>
+      </b-row>
+    </b-col>
+  </b-row>
 </template>
 <script>
 import { SIZE_GUIDE_ITEMS } from '~/static/constants/sizes'
