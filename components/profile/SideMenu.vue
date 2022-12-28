@@ -343,13 +343,13 @@ export default {
           icon: 'trade-outline-gray',
           label: this.$t('home.trade_listings'),
           link: '/profile/trades/dashboard/alltradelistings',
-          routeName: 'profile-trades-dashboard-AllTradeListings'
+          routeName: 'profile-trades-dashboard-alltradelistings'
         },
         {
           icon: 'shoes-outline-gray',
           label: this.$t('home.trade_offers'),
           link: '/profile/trades/dashboard/alloffers',
-          routeName: 'profile-trades-dashboard-AllOffers'
+          routeName: 'profile-trades-dashboard-alloffers'
         },
         {
           icon: 'settings-outline-gray',
