@@ -844,7 +844,7 @@ export default {
     margin: 0 -16px
     max-width: 100vw
     width: 100vw
-    .sizePickerHeader
+    .size-picker-header
       margin: 0 16px
 ::v-deep .box-conditions
   .dropdown-wrapper
