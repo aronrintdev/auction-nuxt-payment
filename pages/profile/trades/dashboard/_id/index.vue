@@ -22,9 +22,9 @@
               {{ $t('vendor_purchase.yours') }}
             </div>
           </div>
-          <div class="row justify-content-between px-29">
+          <div class="d-flex justify-content-between px-29">
             <div
-              class="col-5 d-flex flex-column align-items-center justify-content-center z-10"
+              class="d-flex flex-column align-items-center justify-content-center z-10 mt-8px"
               :class="{
                 'justify-content-between': lastSubmittedOffer.theirs_items.length === TWO_ITEMS
               }"
@@ -93,7 +93,7 @@
 
             </div>
             <div
-              class="col-5 d-flex flex-column align-items-center justify-content-center z-10"
+              class="d-flex flex-column align-items-center justify-content-center z-10 mt-8px"
               :class="{
                 'justify-content-between': lastSubmittedOffer.yours_items.length === TWO_ITEMS
               }"
@@ -198,7 +198,9 @@
               </div>
               <div
                 class="default-margin d-flex"
-                :class="{'cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length > ONE_ITEM)}"
+                :class="{'cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length > ONE_ITEM),
+                'one-item-margin': (lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM)
+                }"
               >
                 <div class="left-item" :class="{'one-item-margin-top': lastSubmittedOffer.theirs_items.length === ONE_ITEM,
                  'two-item-margin-top': lastSubmittedOffer.theirs_items.length > ONE_ITEM,}">
@@ -923,7 +925,7 @@ export default {
   color: $color-black-1
   background: $color-gray-1
   font-family: $font-sp-pro
-  width: 98px
+  width: 99px
   height: 23px
 
 .h-70
@@ -989,4 +991,8 @@ export default {
 .item-small
   width: 99px
   height: 161px
+.mt-8px
+  margin-top: 8px
+.one-item-margin
+  margin: 0 330px
 </style>
