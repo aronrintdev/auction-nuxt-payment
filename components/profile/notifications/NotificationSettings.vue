@@ -71,10 +71,9 @@
         </Button>
         <Button
           :disabled="loading"
-          class="btn-font"
+          class="btn-font action-buttons"
           pill
           variant="outline-dark"
-          class="action-buttons"
           @click="updateSettings"
           >{{ $t('common.discard_changes') }}
         </Button>
