@@ -126,13 +126,13 @@ export default {
     responsiveAttr() {
       if (this.variant === 'detail') {
         return {
-          0: { items: 2, nav: false, center: false,margin:10},
+          0: { items: 2, nav: false, center: false,stagePadding:13,margin:10},
           768: { items: 3, nav: false, center: false },
           950: { items: 4, nav: false, center: false },
         }
       } else {
         return {
-          0: { items: 2, nav: false, center: false,margin:10},
+          0: { items: 2, nav: false, center: false,stagePadding:13,margin:10},
           768: { items: 3, nav: false, center: false},
           950: { items: 4, nav: false, center: false},
         }
