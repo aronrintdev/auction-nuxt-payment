@@ -8,7 +8,7 @@
         :nav="false"
         :showArrows="showArrows || showArrowsOnHover"
         :center="true"
-        :margin="0"
+        :margin="20"
         :responsive="responsiveAttr"
         :mouse-drag="true"
         :slideBy="4"
@@ -17,7 +17,7 @@
         :class="{ 'show-arrows-on-hover': showArrowsOnHover }"
       >
         <template #default>
-          <slot name="product">
+          <!-- <slot name="product"> -->
             <div
               v-for="(product, index) in products"
               :key="`product-carousel-${index}`"
@@ -29,7 +29,18 @@
                   :product="product"
                   :pageName="pageName"
                   :cardHeight="cardHeight"
-                />
+                  :showActions="false"
+                >
+                <template v-if="badge" #badge>
+                    <!-- TODO -->
+                    <Badge
+                      :title="$t('home_page.instant')"
+                      :icon="require('~/assets/img/home/instant.svg')"
+                      color="black"
+                      right
+                    />
+                </template>
+              </ProductCard>
               </div>
               <nuxt-link
                 v-if="variant === 'photo'"
@@ -42,14 +53,14 @@
                 />
               </nuxt-link>
             </div>
-          </slot>
+          <!-- </slot> -->
         </template>
         <template #prev>
           <div
             class="owl-nav navigation-arrows owl-prev"
-            :style="`--cardHeight: ${cardHeight}`"
+            :style="`--cardHeight: ${cardHeight};`"
           >
-            <img :src="require('~/assets/img/home/arrow-left.svg')" />
+            <img :src="require('~/assets/img/home/arrow-left.svg')" height="82%"/>
           </div>
         </template>
 
@@ -58,7 +69,7 @@
             class="owl-nav navigation-arrows owl-next"
             :style="`--cardHeight: ${cardHeight}`"
           >
-            <img :src="require('~/assets/img/home/arrow-right.svg')" />
+            <img :src="require('~/assets/img/home/arrow-right.svg')" height="82%" />
           </div>
         </template>
       </Carousel>
@@ -70,11 +81,12 @@
   </div>
 </template>
 <script>
-import ProductCard from '~/components/product/Card.vue'
+import ProductCard from '~/components/shop/ProductCard.vue'
 import ProductThumb from '~/components/product/Thumb.vue'
+import Badge from '~/components/product/Badge'
 export default {
   name: 'HomeProductCarousel',
-  components: { ProductCard, ProductThumb },
+  components: { ProductCard, ProductThumb,Badge },
   props: {
     products: {
       type: Array,
@@ -100,6 +112,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    badge:{
+      type:Boolean,
+      default:false
+    },
     cardHeight: {
       type: String,
       default: '312px',
@@ -110,15 +126,15 @@ export default {
     responsiveAttr() {
       if (this.variant === 'detail') {
         return {
-          0: { items: 2, nav: false, center: false },
+          0: { items: 2, nav: false, center: false,margin:10},
           768: { items: 3, nav: false, center: false },
           950: { items: 4, nav: false, center: false },
         }
       } else {
         return {
-          0: { items: 2, nav: false, center: false },
-          768: { items: 3, nav: false, center: false },
-          950: { items: 4, nav: false, center: false },
+          0: { items: 2, nav: false, center: false,margin:10},
+          768: { items: 3, nav: false, center: false},
+          950: { items: 4, nav: false, center: false},
         }
       }
     },
@@ -136,7 +152,7 @@ export default {
 @import '~/assets/css/_variables'
 .product-carousel-wrapper
   padding: 0
-  margin: 0 -12px
+  // margin: 0 -10px
   .no-text
     @include body-4-medium
     text-align: center
@@ -159,7 +175,7 @@ export default {
     .owl-carousel
       .item
         text-align: left
-        margin: 0 12px
+        // margin: 0 0 0 0
         &.photo-item
           img
             border-radius: 5px
@@ -173,10 +189,10 @@ export default {
         background: none
       &.owl-next
         float: right
-        margin-right: -30px
+        margin-right: -45px
       &.owl-prev
         float: left
-        margin-left: -30px
+        margin-left: -45px
     &.show-arrows-on-hover
       .navigation-arrows
         display: none

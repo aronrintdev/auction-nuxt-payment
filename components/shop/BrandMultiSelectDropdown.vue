@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="options && options.length"
     v-click-outside="hideMenu"
     class="position-relative border-0 accordion-filter-item"
     :class="{ 'collapsed': !menuVisible }"
@@ -39,7 +38,7 @@
 import ClickOutside from 'vue-click-outside'
 
 export default {
-  name: 'MultiSelectDropdown',
+  name: 'BrandMultiSelectDropdown',
   directives: {
     ClickOutside
   },

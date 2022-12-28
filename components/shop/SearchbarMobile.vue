@@ -1,6 +1,6 @@
 <template>
   <div class="container searchbar-main py-3 px-3">
-    <div class="d-flex align-items-center sf-wrapper">
+    <div class="d-flex align-items-center sf-wrapper pb-2">
       <div class="back-arrow" @click="$emit('close')">
         <Arrowback class="backarrow_icon mr-2" />
       </div>
@@ -41,7 +41,7 @@
           <h4 class="fs-13 fw-5 text-gray font-primary mb-0 text-truncate">
             {{ search.keyword }}
           </h4>
-          <div @click="getTrending(search.keyword)">
+          <div class="pr-3" @click="getTrending(search.keyword)">
             <Arrowforward class="backarrow_icon" />
           </div>
         </div>
@@ -56,7 +56,7 @@
         v-if="trendingLoading"
         class="d-flex align-items-center justify-content-center h-300"
       >
-        <Loader :loading="trendingLoading"></Loader>
+        <Loader/>
       </div>
       <template v-if="!noSearchResult">
         <div
@@ -69,11 +69,11 @@
               <div class="product-thumb">
                 <Thumb :src="product.image" class="mr-2" />
               </div>
-              <h4 class="fs-13 fw-5 text-gray font-primary mb-0 text-truncate">
+              <h4 class="fs-13 fw-5 text-gray font-primary mb-0 text-truncate pl-3">
                 {{ getTruncateName(product) }}
               </h4>
             </div>
-            <nuxt-link :to="`/shop/${product.sku}`">
+            <nuxt-link class="back" :to="`/shop/${product.sku}`">
               <Arrowforward class="backarrow_icon" />
             </nuxt-link>
           </div>
@@ -94,7 +94,8 @@ import SearchIcon from '~/assets/icons/SearchIcon'
 import Arrowback from '~/assets/icons/Arrowback'
 import Arrowforward from '~/assets/icons/Arrowforward'
 import Thumb from '~/components/product/Thumb'
-import { Loader } from '~/components/common'
+import  Loader  from '~/components/shop/ShopProductLoader'
+
 export default {
   name: 'SearchbarMobile',
   components: {
@@ -141,6 +142,8 @@ export default {
           params: filters,
         })
         .then((res) => {
+          
+          console.log('trending response', res)
           this.noSearchResult = false
           this.trendingProducts = res.data.data
           this.saveRecentSearch()
@@ -186,6 +189,9 @@ export default {
 @import '~/assets/css/_variables'
 .searchbar-main
   display: block
+  .trending-products
+    a
+     padding-right: 5px
   .h-300
     height: 300px
   .searchbar-filter
@@ -198,6 +204,14 @@ export default {
       &::placeholder
         color:  $color-gray-6
         letter-spacing: 0.06em
+      &::-webkit-search-cancel-button
+        -webkit-appearance: none
+        height: 1.5em
+        width: 1.5em
+        background: url(~assets/img/icons/search-close-circle.svg) no-repeat 50% 50%
+        background-size: contain
+        padding-right: 10px
+        cursor: pointer
 .search_icon::v-deep
     .strokeColor
         stroke: $color-gray-6

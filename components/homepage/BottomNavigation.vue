@@ -94,7 +94,7 @@ export default {
 
 .bottom-navigation
     bottom: 0
-    z-index: 9999
+    z-index: 1
     padding-bottom: 30px
 .shop-text
   margin-top: 5px

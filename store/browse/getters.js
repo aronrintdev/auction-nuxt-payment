@@ -29,6 +29,12 @@ export function selectedSearch(state) {
 export function selectedOrdering(state){
   return state.selectedOrdering
 }
+export function selectedProductType(state){
+  return state.selectedProductType
+}
+export function selectedGender(state){
+  return state.selectedGender
+}
 export function getSizesByType(state){
   return state.sizes
 }

@@ -17,7 +17,7 @@
         <div v-for="(item, index) in options" :key="index" class="form-check">
           <input
             :id="`${title}-flexCheckDefault-${index}`"
-            :checked="value && value.includes(item.value)"
+            :checked="value == item.value"
             class="form-check-input"
             type="radio"
             @click="updateFilter(item.value)"
@@ -52,7 +52,7 @@ export default {
       default: () => [],
     },
     value: {
-      type: String,
+      type: [Number, String],
       default: '',
     },
     width: {
@@ -200,7 +200,7 @@ export default {
     width: 6px !important
 
   ::-webkit-scrollbar-thumb
-    background-color: $color-blue-2
+    background-color:  $color-blue-20
     border: none !important
 
   ::-webkit-scrollbar-track

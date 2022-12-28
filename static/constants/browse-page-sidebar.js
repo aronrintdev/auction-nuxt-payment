@@ -5,3 +5,5 @@ export const MIN_PRICE = 0
 export const MIN_YEAR = 1980
 export const MAX_YEAR = 2099
 export const MEN = 'men'
+export const ACCESSORIES = 'accessories'
+export const APPAREL = 'apparel'

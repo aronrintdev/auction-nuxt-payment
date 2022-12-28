@@ -56,27 +56,39 @@
       :is-full-screen="true"
     >
       <div class="all-brands-bottom-sheet">
-        <div class="border-bottom mb-3 pb-2 bottom_sheet_header">
-          <h3 class="font-secondary fs-16 fw-7 text-black text-center">
-            All Brands
-          </h3>
+        <div class="border-bottom pb-3 bottom_sheet_header">
+          <div class="row">
+            <div class="col-3">
+              <div class="back-arrow" @click="closeAllBrands">
+                <Arrowback class="backarrow_icon mr-2" />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="font-secondary fs-16 fw-7 text-black text-center">
+                {{ $t('filter_sidebar.brands') }}
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="bottom_sheet_body">
-          <div class="searchbar-filter position-relative w-100 mb-3">
+        <div
+          class="bottom_sheet_body"
+          :class="{ scrolled: scrollPosition > 30 }"
+        >
+          <div class="searchbar-filter position-relative w-100 mb-3 pt-3">
             <input
               v-model="brandName"
               type="search"
               :placeholder="`${$t('common.search')} ${$t(
                 'filter_sidebar.brands'
               )}`"
-              class="border-0 w-100 font-primary fs-12 fw-4 pr-2"
+              class="border-0 w-100 font-primary fs-13 fw-4 pr-2"
             />
-            <SearchIcon class="search_icon position-absolute" />
+            <SearchIcon class="brand-search-icon position-absolute" />
           </div>
           <div class="checkbox_wrapper">
             <div v-for="(brandCategory, index) in filterBrands" :key="index">
               <Checkbox
-                v-model="selectedBrand"
+                v-model="selectedBrands"
                 list
                 :label="brandCategory.label"
                 :val="brandCategory.value"
@@ -86,17 +98,19 @@
           </div>
         </div>
         <div
-          class="bottom-sheet-footers position-absolute d-flex justify-content-between align-items-center w-100 p-3 bg-white"
+          class="bottom-sheet-footers position-absolute d-flex justify-content-between align-items-center w-100 py-3 px-4 bg-white"
         >
           <button
-            class="btn fs-16 fw-6 font-secondary rounded-pill btn-outline-dark"
+            class="btn fs-16 fw-4 font-secondary rounded-pill btn-outline-dark"
+            @click="resetBrand"
           >
             {{ $t('common.reset') }}
           </button>
           <button
-            class="btn text-white fs-16 fw-6 font-secondary rounded-pill apply-btn"
+            class="btn text-white fs-16 fw-4 font-secondary rounded-pill apply-btn"
+            @click="selectBrands"
           >
-            {{ $t('orders.apply_filter') }}
+            {{ $t('common.select_brands') }}
           </button>
         </div>
       </div>
@@ -110,6 +124,8 @@ import SearchIcon from '~/assets/icons/SearchIcon'
 import ShopFiltersMobile from '~/components/shop/ShopFiltersMobile'
 import SearchbarMobile from '~/components/shop/SearchbarMobile'
 import Checkbox from '~/components/common/form/Checkbox'
+import Arrowback from '~/assets/icons/ArrowBack'
+
 export default {
   name: 'SearchAndFilter',
   components: {
@@ -118,17 +134,21 @@ export default {
     ShopFiltersMobile,
     SearchbarMobile,
     Checkbox,
+    Arrowback,
   },
   data() {
     return {
       scrollPosition: null,
       search: null,
       brandName: '',
-      selectedBrand: []
+      selectedBrands: [],
     }
   },
   computed: {
-    ...mapGetters('browse', ['filters', 'selectedBrands']),
+    ...mapGetters({
+      filters: 'browse/filters',
+      getSelectedBrands: 'browse/selectedBrands',
+    }),
     brandOptions() {
       return this.filters?.brands?.map(({ name }) => {
         return { label: name, value: name }
@@ -144,6 +164,20 @@ export default {
       )
     },
   },
+  watch: {
+    getSelectedBrands: {
+      immediate: true,
+      handler(val) {
+        this.selectedBrands = val
+      },
+    },
+    selectedBrands: {
+      immediate: true,
+      handler(val) {
+        this.$store.commit('browse/setSelectedBrands', val)
+      },
+    },
+  },
   destroyed() {
     window.removeEventListener('scroll', this.updateScroll)
   },
@@ -153,6 +187,7 @@ export default {
 
   methods: {
     openAllBrands() {
+      this.$store.commit('browse/setSelectedBrands', this.selectedBrands)
       this.$refs.AllBrands.open()
     },
     closeAllBrands() {
@@ -169,7 +204,6 @@ export default {
       this.$refs.searchbar.focusInput()
       this.$refs.searchbar.getTrending()
       this.$refs.searchbar.getRecentSearches()
-      
     },
     closeSearchbar() {
       this.$refs.searchBottomSheet.close()
@@ -184,12 +218,23 @@ export default {
     handleSearchChange(value) {
       this.search = value
     },
+    resetBrand() {
+      this.$store.commit('browse/setSelectedBrands', [])
+      this.closeAllBrands()
+    },
+    selectBrands() {
+      this.$store.commit('browse/setSelectedBrands', this.selectedBrands)
+      this.closeAllBrands()
+    },
   },
 }
 </script>
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.bottom-sheet__pan
+  height: 20px !important
+  padding-bottom: 0
 .search-filter-main
   .sf-wrapper
       margin: 0 16px
@@ -197,18 +242,35 @@ export default {
     input[type="search"]
       background: $color-white-5
       padding-left: 39px
-      height: 33px
+      height: 35px
       border-radius: 8px
       color: $color-gray-5
+      outline: none
       &::placeholder
         color: $color-gray-5
         letter-spacing: 0.06em
+      &::-webkit-search-cancel-button
+        -webkit-appearance: none
+        height: 1.5em
+        width: 1.5em
+        background: url(~assets/img/icons/close-circle-grey.svg) no-repeat 50% 50%
+        background-size: contain
+        padding-right: 10px
+        cursor: pointer
     .search_icon
       left: 14px
       top: 9px
       width: 14px
       height: 14px
     .search_icon::v-deep
+      .strokeColor
+        stroke: $color-gray-6
+    .brand-search-icon
+      top: 24px
+      left: 10px
+      height: 18px
+      width: 18px
+    .brand-search-icon::v-deep
       .strokeColor
         stroke: $color-gray-6
   .filter_icon::v-deep
@@ -223,21 +285,30 @@ export default {
     z-index: 1020
     box-shadow: 0 .125rem .25rem $extralight-grey-rgba
 ::v-deep .bottom-sheet__content
-  margin-right: -8px
+  overflow-y: hidden!important
 .all-brands-bottom-sheet
   padding-bottom: 90px
+  .bottom_sheet_header
+    padding: 0px 30px
   .bottom_sheet_body
-    margin: 0 19px
+    padding: 0px 28px
+    overflow-y: scroll
+    overflow-x: hidden
+    height: 550px
+    &::-webkit-scrollbar
+      width: 0px !important
+
     .checkbox_wrapper
-      margin: 0 -19px
+      margin: 0 -28px
       ::v-deep .list-type .checkbox-title
-        padding-left: 19px
-        padding-right: 19px
+         padding-left: 28px
+         padding-right: 28px
   .bottom-sheet-footers
     bottom: 0
-    z-index: 9
+    z-index: 9999
     .btn
-      width: 134px
+      width: 140px
     .apply-btn
         background-color: $color-blue-20
+
 </style>

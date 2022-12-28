@@ -9,7 +9,7 @@
         >
           <search-box
             :searchText="searchText"
-            :placeholder="`${$t('common.search')} ${$t('common.shop')}`"
+            :placeholder="`${$t('common.search')}`"
             @search="search"
             @enter="searchProducts"
           />

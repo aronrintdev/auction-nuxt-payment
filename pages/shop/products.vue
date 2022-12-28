@@ -32,7 +32,7 @@
               :key="`product-carousel-${index}`"
               class="item mb-5 col"
             >
-              <ShopProductCard :product="product">
+              <ShopProductCard :product="product" :showActions="false">
                 <template v-if="pageType === 'instant-shipping'" #badge>
                   <Badge
                     :title="$t('home_page.instant')"
@@ -96,7 +96,7 @@ export default {
         { label: this.$t('common.all'), value: 'all' },
         { label: this.$t('common.footwear'), value: 'sneakers' },
         { label: this.$t('common.apparel'), value: 'apparel' },
-        { label: this.$t('common.all_sizes', 2), value: 'all_sizes' },
+        { label: this.$t('common.accessories', 2), value: 'accessories' },
       ],
       infiniteId: +new Date(),
     }
@@ -109,10 +109,12 @@ export default {
       'selectedYears',
       'selectedBrands',
       'selectedSizes',
-      'selectedSizeTypes',
+      'selectedSizeType',
       'selectedSearch',
       'selectedSort',
       'selectedOrdering',
+      'selectedGender',
+      'selectedProductType'
     ]),
     pageCount() {
       return Math.ceil(this.totalResults / this.maxPerPage)
@@ -126,6 +128,7 @@ export default {
   },
   mounted() {
     this.fetchProducts()
+    this.fetchFilters(this.category)
   },
   methods: {
     ...mapActions('browse', ['fetchFilters', 'resetFilters']),
@@ -136,44 +139,52 @@ export default {
     fetchProducts: debounce(function () {
       const filters = {}
       if (this.search) {
-        filters.search = this.search
         this.filter = true
+        filters.search = this.search
       }
       if (this.category) {
-        filters.category = this.category !== 'all' ? this.category : ''
         this.filter = true
+        filters.category = this.category !== 'all' ? this.category : ''
       }
       if (this.selectedPrices.length > 0) {
+        this.filter = true
         this.prices =
           this.selectedPrices[0] * 100 + '-' + this.selectedPrices[1] * 100
         filters.prices = this.prices
-        this.filter = true
       }
       if (this.selectedBrands) {
-        filters.brands = this.selectedBrands.join(',')
         this.filter = true
+        filters.brands = this.selectedBrands.join(',')
       }
       if (this.selectedSizes) {
+        this.filter = true
         filters.sizes = this.selectedSizes.join(',')
-        this.filter = true
-      }
-      if (this.selectedSizeTypes) {
-        filters.size_types = this.selectedSizeTypes.join(',')
-        this.filter = true
       }
       if (this.selectedYears) {
-        filters.years = this.selectedYears.join('-')
         this.filter = true
+        filters.years = this.selectedYears.join('-')
       }
       if (this.selectedSearch) {
-        filters.search = this.selectedSearch
         this.filter = true
+        filters.search = this.selectedSearch
       }
       if (this.selectedSort) {
-        filters.desc = this.selectedSort ?? 'true'
         this.filter = true
+        filters.desc = this.selectedSort ?? 'true'
       }
-
+      if (this.selectedProductType) {
+        this.filter = true
+        filters.product_type = this.selectedProductType
+      }
+      if (this.selectedGender) {
+        this.filter = true
+        filters.gender = this.selectedGender
+      }
+      if(this.selectedSizeType){
+         this.filter = true
+        filters.size_types = this.selectedSizeType
+      }
+      
       filters.take = this.maxPerPage
       filters.page = this.currentPage
 
@@ -195,7 +206,7 @@ export default {
         this.getInstantShip(filters)
       }
     }, 200),
-    getRecentProducts(filters) {
+     getRecentProducts(filters) {
       if (this.selectedOrdering) {
         filters.order_by = this.selectedOrdering
       } else {
@@ -259,8 +270,11 @@ export default {
         })
     },
     handleCategoryChange(category) {
-      this.category = category
+      if (this.category === category) {
+        return
+      }
       this.filter = true
+      this.category = category
       this.$store.commit('browse/setSelectedCategory', category)
       this.fetchProducts()
     },

@@ -32,3 +32,9 @@ export function setSelectedOrdering(state, val){
 export function setSizesByType(state, val){
   state.sizes = val
 }
+export function setProductType(state, val){
+  state.selectedProductType = val
+}
+export function setGender(state, val){
+  state.selectedGender = val
+}
