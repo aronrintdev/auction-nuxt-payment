@@ -35,7 +35,7 @@ export default {
       required: false,
       default() {
         return {}
-      },
+      }
     },
   },
   data() {
@@ -68,11 +68,11 @@ export default {
   },
   methods: {
     isSizeSelected(sizeKey) {
-      return this.items.find((item) => {
+      return this.items.find(item => {
         if (item.label_key === this.selectedSize.type) {
           const sizes = Object.keys(item).length - 1
 
-          for (let i = 1; i < sizes; i++) {
+          for (let i = 1; i < sizes ; i++) {
             if (item[`s${i}`] === this.selectedSize.size) {
               return `s${i}` === sizeKey
             }
@@ -81,7 +81,7 @@ export default {
 
         return false
       })
-    },
+    }
   },
 }
 </script>
