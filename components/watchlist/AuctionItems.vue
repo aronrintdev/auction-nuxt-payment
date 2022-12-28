@@ -2,7 +2,7 @@
   <div class="mt-5">
     <div
       v-if="action === 'none'"
-      class="d-flex align-items-center justify-content-between mb-2"
+      class="d-flex align-items-start justify-content-between mb-2"
     >
       <div class="position-relative">
         <div class="header-title position-absolute">{{ $t('bids.filter_by') }}</div>
@@ -27,7 +27,7 @@
       <div class="btn-edit">
         <b-dropdown
           variant="link"
-          toggle-class="text-decoration-none"
+          toggle-class="text-decoration-none py-0 my-0"
           no-caret
           right
         >
@@ -119,7 +119,7 @@
                 </p>
 
                 <Button
-                  variant="primary"
+                  variant="dark-blue"
                   class="mt-4 mx-auto"
                   pill
                   @click="handleBrowseClick"
@@ -134,7 +134,7 @@
                   class="action-container"
                 >
                   <Button
-                    variant="primary"
+                    variant="dark-blue"
                     :disabled="selected.length === 0"
                     @click="removeSelected"
                   >

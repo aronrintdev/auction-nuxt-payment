@@ -1,25 +1,18 @@
 <template>
-  <b-row v-if="bid" class="mt-3 text-center px-3 py-4 px-md-5 py-md-5 ml-0 ml-md-n1 table-text w-100 bg-white single-item position-relative">
-    <div v-if="isMine"
-         class="position-absolute tag-bid d-flex align-items-center justify-content-center text-white your-tag">
+  <b-row v-if="bid" class="mx-0 bg-white align-items-center single-item position-relative">
+    <div v-if="isMine" class="d-none position-absolute tag-bid d-md-flex align-items-center justify-content-center text-white your-tag">
       {{ $t('bids.yours') }}
     </div>
-    <b-col cols="4" md="5" class="text-left">
+    <b-col cols="6" md="5" class="text-left">
       <b-row class="align-items-center">
-        <b-col sm="2">
-          <img :src="HandIcon" class="hand" alt="Bid hand">
-        </b-col>
-        <b-col sm="4">
-          <div v-if="isHighest" class="highest-bid-text ">{{ $t('bids.bid_status.highest_bid') }}</div>
-        </b-col>
-        <b-col sm="6">
-        </b-col>
+        <img :src="HandIcon" class="hand" alt="Bid hand">
+        <div v-if="isHighest" class="highest-bid-text ">{{ $t('bids.bid_status.highest_bid') }}</div>
       </b-row>
     </b-col>
-    <b-col cols="4" md="4" class="d-flex flex-column align-items-center justify-content-center">
-      <div class="price-text">&dollar;{{ bid.price / 100 }}</div>
+    <b-col cols="3" md="5" class="d-flex flex-column align-items-center justify-content-center">
+      <div class="price-text">&dollar;{{ bid.price | formatPrice }}</div>
     </b-col>
-    <b-col cols="4" md="3" class="d-flex flex-column align-items-center justify-content-center">
+    <b-col cols="3" md="2" class="d-flex flex-column align-items-center justify-content-center text-center">
       <div class="date-text">{{ getDateAndTime[0] }}</div>
       <div class="time-text">{{ getDateAndTime[1] }}</div>
     </b-col>
@@ -89,33 +82,58 @@ export default {
 
 
 .highest-bid-text
-  color: $secondary
-
-.table-text
-  @include body-4-medium
-
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-13
+  color: $color-green-26
 .time-text
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-5
   color: $color-gray-47
+.date-text
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-13
+  color: $black
+.price-text
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-13
+  color: $black
 
 .single-item
   border-radius: 10px
   border: 1px solid $color-gray-60
-  padding: 15px 10px
+  padding: 38px 47px
+  margin-bottom: 11px
+
+img.hand
+  width: 63px
+  margin-right: 38px
 
 @media (max-width: 576px)
   .tag-bid
-    @include body-6
-    height: 22px
+    display: none
+  
+  .single-item
+    padding: 8px 6.5px 11px 15px
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+    border-radius: 10px
+    border: none
+    height: 64px
+    margin-bottom: 22px
 
   img.hand
-    width: 40px
-    margin-bottom: 5px
+    width: 54px
+    margin-right: 30px
 
-  .highest-bid-text
-    @include body-9
+  .highest-bid-text,
   .price-text,
   .time-text,
-  .single-item
-    @include body-10
+  .date-text
+    font-family: $font-montserrat
+    font-weight: $medium
+    @include body-9
   
 </style>

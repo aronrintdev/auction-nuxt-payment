@@ -105,11 +105,16 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.giftcardpurchase-heading
+  font-family: $font-montserrat-serif
+  font-size: 18px
+  font-style: $normal
+  font-weight: $medium
 .view-all-link
-  color: $color-blue-20
-  font-family: $font-family-montserrat
-  font-style: normal
-  @include body-5-medium
+  font-family: $font-montserrat-serif
+  font-size: 14px
+  font-style: $normal
+  font-weight: $medium
 .selected-card
   -webkit-box-shadow: 10px 10px 14px 0px $color-black-1
   -moz-box-shadow: 10px 10px 14px 0px $color-black-1

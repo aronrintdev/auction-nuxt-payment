@@ -1,18 +1,16 @@
 <template>
   <b-container fluid class="container-watchlists">
-    <div
-      class="d-none d-sm-flex justify-content-between align-items-start header"
-    >
+    <div class="d-none d-sm-flex justify-content-between align-items-start header">
       <div v-if="!!currentWatchlist" class="title">
-        <h2 class="text-truncate mw-800px">{{ currentWatchlist.name }}</h2>
-        <span>({{ totalCount }} {{ $t('common.items') }})</span>
+        <h2 class="text-truncate mw-800px watch-list-name">{{ currentWatchlist.name }}</h2>
+        <span class="watch-list-counter">({{ totalCount }} {{ $t('common.items') }})</span>
       </div>
       <div v-else>&nbsp;</div>
 
       <div class="py-1 d-flex align-items-center">
         <span
           role="button"
-          class="body-2-medium mx-5 watchlists-type"
+          class="mx-5 watchlists-type"
           :class="{ active: watchlistsType === WATCHLIST_TYPE_TRADE }"
           @click="changeListType(WATCHLIST_TYPE_TRADE)"
         >
@@ -20,7 +18,7 @@
         </span>
         <span
           role="button"
-          class="body-2-medium text-underline mx-5 watchlists-type"
+          class="text-underline mx-5 watchlists-type"
           :class="{ active: watchlistsType === WATCHLIST_TYPE_AUCTION }"
           @click="changeListType(WATCHLIST_TYPE_AUCTION)"
         >
@@ -49,9 +47,17 @@
     </div>
     <div v-if="watchlists.length > 0 && currentWatchlist">
       <div class="row">
-        <div class="col-12 col-sm-3">
+        <div class="col-12 col-sm-3 section-lists-wrapper">
           <section class="d-none d-sm-block section-lists">
-            <h5>{{ $t('watchlists.buying_lists') }}</h5>
+            <h5>
+              {{ 
+                watchlistsType !== WATCHLIST_TYPE_AUCTION ? $t('watchlists.trade_watchlists'): $t('watchlists.auction_watchlists') 
+              }} 
+              <span v-b-modal.create-watchlist-modal class="plus-sign">
+                +
+              </span>
+            </h5>
+            
             <div v-for="list in watchlists" :key="list.id">
               <Button
                 :pressed="list.id === currentWatchlist.id"
@@ -138,24 +144,24 @@
 
         <div
           v-if="!!currentWatchlist && watchlistsType === WATCHLIST_TYPE_AUCTION"
-          class="section-items mt-4 col-9 d-none d-sm-block"
+          class="section-items mt-4 col-12 col-sm-9 d-none d-sm-block"
         >
           <div class="accordion" role="tablist">
-              <AuctionItems
-                :key="currentWatchlist.id"
-                :currentWatchlist="currentWatchlist"
-                type="single"
-                :auctionsCount="singleAuctionsCount"
-                accordionId="accordion-1"
-              />
-
-              <AuctionItems
-                :key="currentWatchlist.id"
-                :currentWatchlist="currentWatchlist"
-                type="collection"
-                :auctionsCount="collectionAuctionsCount"
-                accordionId="accordion-2"
-              />
+            <AuctionItems
+              :key="currentWatchlist.id"
+              :currentWatchlist="currentWatchlist"
+              type="single"
+              :auctionsCount="singleAuctionsCount"
+              accordionId="accordion-1"
+            />
+            <hr />
+            <AuctionItems
+              :key="currentWatchlist.id"
+              :currentWatchlist="currentWatchlist"
+              type="collection"
+              :auctionsCount="collectionAuctionsCount"
+              accordionId="accordion-2"
+            />
           </div>
         </div>
       </div>
@@ -168,7 +174,7 @@
 
         <Button
           v-b-modal.create-watchlist-modal
-          variant="primary"
+          variant="dark-blue"
           class="mx-auto"
           pill
         >
@@ -315,10 +321,61 @@ export default {
       font-weight: $medium
     h5
       padding-left: 10px
+      font-family: $font-montserrat
+      font-weight: $bold
+      font-style: $normal
+      @include body-4b
+      letter-spacing: -0.02em
+      text-transform: capitalize
+      color: $black
   .title
     flex: 3
-    padding-right: 100px
+    max-width: calc(50vw - 368px)
+    .watch-list-name
+      font-family: $font-montserrat
+      font-style: $normal
+      font-weight: $bold
+      @include text-24
+    .watch-list-counter
+      font-family: $font-montserrat
+      font-style: $normal
+      font-weight: $normal
+      @include body-5
   .checkbox-switch-wrapper
     margin-top: 2px
     flex: 3
+    max-width: calc(50vw - 368px)
+
+
+::v-deep .checkbox-switch
+  line-height: 32px
+  span[role='button']
+    font-family: $font-montserrat
+    @include body-5
+    margin-top: 7px
+    font-weight: $bold
+    font-style: $normal
+
+  .custom-switch
+    height: 31px
+    margin-right: 20px
+    .custom-control-label::before
+      background-color: rgba(120, 120, 128, 0)
+      border: none
+      height: 31px
+      width: 51px
+      box-shadow: none
+      background-image: url('~/assets/img/profile/wishlist/toggle-bg.svg')
+      background-repeat: no-repeat
+
+    .custom-control-label::after
+      background: $color-white
+      border: 0.5px solid rgba(0, 0, 0, 0.04)
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06)
+      width: 27px
+      height: 27px
+      border-radius: 100%
+
+    .custom-control-input:checked ~ .custom-control-label::after
+      transform: translateX(1.27rem)
 </style>

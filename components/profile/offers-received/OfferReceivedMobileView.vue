@@ -107,10 +107,10 @@
           list-item-details
         "
       >
-        <span class="offer-details-key my-auto mx-2">
+        <span class="offer-details-key my-auto">
           {{ $t('selling_page.offer_date') }}&colon;
         </span>
-        <span class="offer-details-value text-right my-auto mx-2">{{
+        <span class="offer-details-value text-right my-auto">{{
           offerDate | formatDate
         }}</span>
       </div>
@@ -381,7 +381,7 @@ export default {
       background: $color-white-5
 
     .offer-details-key
-      width: 97px
+      width: 120px
       height: 15px
       left: 36px
       top: 511px
@@ -389,7 +389,7 @@ export default {
       font-style: normal
       @include body-9-medium
       color: $color-black-1
-      padding-left: 14px
+      padding-left: 20px
 
     .offer-details-value
       font-family: $font-montserrat
@@ -397,7 +397,7 @@ export default {
       @include body-9-normal
       color: $color-gray-6
       box-sizing: border-box
-      padding-left: 14px
+      padding-right: 14px
 
   .product-mobile-img
     width: 86px

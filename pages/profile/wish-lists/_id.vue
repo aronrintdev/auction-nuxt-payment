@@ -8,7 +8,7 @@
         {{ $t('wish_lists.no_wish_lists') }}
       </p>
 
-      <Button variant="primary" class="mx-auto" pill>
+      <Button variant="dark-blue" class="mx-auto" pill>
         {{ $t('wish_lists.create_new_list') }}
       </Button>
     </div>
@@ -20,20 +20,20 @@
           </div>
           <div class="w-100 d-flex flex-column justify-content-between ml-3">
             <div>
-              <h4 class="fs-14 fw-6 font-secondary mb-1">
+              <h4 class="fs-14 fw-6 font-secondary wishlist-product-name-mobile mb-1">
                 {{ product.name }}
               </h4>
-              <h6 class="fs-12 fw-5 text-gray-5 font-secondary text-capitalize">
+              <h6 class="fs-12 fw-5 text-gray-5 font-secondary wishlist-product-colorway-mobile text-capitalize">
                 {{ product.colorway }}
               </h6>
-              <h6 class="fs-12 fw-5 text-gray-5 font-secondary text-capitalize">
+              <h6 class="fs-12 fw-5 text-gray-5 font-secondary wishlist-product-price-mobile text-capitalize">
                 ${{ product.retail_price }}
               </h6>
             </div>
             <button
               class="btn w-100 rounded-pill fs-13 fw-6 font-primary mb-4 text-base-blue add-to-bag"
             >
-              {{ $t('products.add_to_bag') }}
+              {{ $t('products.add_to_cart') }}
             </button>
           </div>
         </div>
@@ -86,7 +86,7 @@
       <h1 class="fs-16 fw-6 font-primary my-3">
         {{ $t('wish_lists.inspired_by_you') }}
       </h1>
-      <ProductCarousel class="mt-4 mb-5" :products="products" loop />
+      <ProductCarousel class="mt-4 mb-5" :products="products" :show-share-btns="false" :showActions="false" loop />
     </div>
     <CreateWishListModal />
   </b-container>
@@ -296,6 +296,7 @@ export default {
 @import '~/assets/css/_variables'
 .thumb-wrapper
   width: 164px
+  background-color: $color-white-4
 .add-to-bag
   border: 1px solid $color-blue-20
 .divider
@@ -306,4 +307,20 @@ export default {
     stroke: $color-gray-47
   .fillColor
     fill: $color-gray-47
+.wishlist-product-name-mobile
+  font-family: $font-family-sf-pro-display
+  font-style: $normal
+  font-weight: $medium
+  @include body-10
+.wishlist-product-colorway-mobile
+  font-family: $font-family-sf-pro-display
+  font-style: $normal
+  font-weight: $normal
+  @include body-10
+.wishlist-product-price-mobile
+  font-family: $font-family-sf-pro-display
+  font-style: $normal
+  font-weight: $medium
+  color: $color-black-1
+  @include body-9
 </style>

@@ -99,6 +99,6 @@ export default {
 
   .view-all-btn
     height: 62px
-    background-color: $color-blue-2
+    background-color: $color-blue-20
     border-radius: 0 0 20px 20px
 </style>

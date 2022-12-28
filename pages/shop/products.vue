@@ -15,7 +15,7 @@
       :data="CATEGORIES"
       :value="category"
       nav-key="category"
-      class="section-nav text-center mt-4 mb-5 mx-sm-0"
+      class="section-nav text-center mt-4 mb-5 mx-sm-0 mx-4"
       btn-class="px-lg-5 px-0"
       @change="handleCategoryChange"
     />
@@ -45,8 +45,8 @@
             </div>
           </div>
         </template>
-        <template v-else-if="!state">
-          <div class="text-center no-items-found h-300">
+        <template v-else-if="!loading">
+          <div class="d-flex align-items-center justify-content-center h-300">
             <div class="no-items-found-title">
               {{ $t('auctions.frontpage.no_results_found') }}
             </div>
@@ -74,7 +74,7 @@ export default {
     Badge,
     SearchAndFilter,
     NavGroup,
-    ShopProductCard
+    ShopProductCard,
   },
   layout: 'IndexLayout',
   fetchOnServer: false,
@@ -84,7 +84,6 @@ export default {
       maxPerPage: 12,
       totalResults: 0,
       loading: true,
-      filter: false,
       prices: null,
       products: [],
       pageType: this.$route.query.type,
@@ -114,7 +113,8 @@ export default {
       'selectedSort',
       'selectedOrdering',
       'selectedGender',
-      'selectedProductType'
+      'selectedProductType',
+      'getIsFilterActive',
     ]),
     pageCount() {
       return Math.ceil(this.totalResults / this.maxPerPage)
@@ -137,54 +137,44 @@ export default {
       this.fetchProducts()
     },
     fetchProducts: debounce(function () {
+      this.loading = true
       const filters = {}
       if (this.search) {
-        this.filter = true
         filters.search = this.search
       }
       if (this.category) {
-        this.filter = true
         filters.category = this.category !== 'all' ? this.category : ''
       }
       if (this.selectedPrices.length > 0) {
-        this.filter = true
         this.prices =
           this.selectedPrices[0] * 100 + '-' + this.selectedPrices[1] * 100
         filters.prices = this.prices
       }
       if (this.selectedBrands) {
-        this.filter = true
         filters.brands = this.selectedBrands.join(',')
       }
       if (this.selectedSizes) {
-        this.filter = true
         filters.sizes = this.selectedSizes.join(',')
       }
       if (this.selectedYears) {
-        this.filter = true
         filters.years = this.selectedYears.join('-')
       }
       if (this.selectedSearch) {
-        this.filter = true
         filters.search = this.selectedSearch
       }
       if (this.selectedSort) {
-        this.filter = true
         filters.desc = this.selectedSort ?? 'true'
       }
       if (this.selectedProductType) {
-        this.filter = true
         filters.product_type = this.selectedProductType
       }
       if (this.selectedGender) {
-        this.filter = true
         filters.gender = this.selectedGender
       }
-      if(this.selectedSizeType){
-         this.filter = true
+      if (this.selectedSizeType) {
         filters.size_types = this.selectedSizeType
       }
-      
+
       filters.take = this.maxPerPage
       filters.page = this.currentPage
 
@@ -206,7 +196,7 @@ export default {
         this.getInstantShip(filters)
       }
     }, 200),
-     getRecentProducts(filters) {
+    getRecentProducts(filters) {
       if (this.selectedOrdering) {
         filters.order_by = this.selectedOrdering
       } else {
@@ -244,25 +234,29 @@ export default {
           params: filters,
         })
         .then((res) => {
-          if (this.filter === true) {
+          if (this.getIsFilterActive === true) {
+            this.state.reset()
             this.products = []
             this.currentPage = 1
-          }
-          this.loading = false
-          const that = this
-          this.filter = false
-          if (!res.data.next_page_url) {
-            this.state.complete()
+            this.url = ''
           } else {
-            this.currentPage += 1
-            this.url = res.data.next_page_url
-          }
-          if (res.data.current_page === 1) {
-            this.products = [...res.data.data]
-          } else {
-            this.products = [...that.products, ...res.data.data]
+            this.loading = false
+            const that = this
+            if (res.data.current_page === 1) {
+              this.products = [...res.data.data]
+            } else {
+              this.products = [...that.products, ...res.data.data]
+            }
+
+            if (!res.data.next_page_url) {
+              this.state.complete()
+            } else {
+              this.currentPage += 1
+              this.url = res.data.next_page_url
+            }
           }
 
+          this.$store.commit('browse/setIsFilter', false)
           this.state.loaded()
         })
         .finally(() => {
@@ -273,8 +267,8 @@ export default {
       if (this.category === category) {
         return
       }
-      this.filter = true
       this.category = category
+      this.$store.commit('browse/setIsFilter', true)
       this.$store.commit('browse/setSelectedCategory', category)
       this.fetchProducts()
     },

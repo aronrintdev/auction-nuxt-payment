@@ -37,6 +37,7 @@
           </div>
         </template>
       </MobileHeader>
+
       <div v-if="onSettings && !isScreenXS" class="title">
         {{ tabTitle }}
       </div>
@@ -181,10 +182,26 @@ export default {
     margin-bottom: 26px
 
   .title
-    @include body-8
+    @include body-4b
     font-family: $font-family-sf-pro-display
     font-style: normal
     font-weight: $medium
+
   .notification-nav
-    margin: 20px 0 18px 0
+    margin: 20px auto 18px auto
+    width: 236px
+    &.mobile
+      width: 100%
+    .btn-group
+      height: 32px
+      background-color: $color-gray-3
+      button.btn
+        @include body-6-regular
+        font-family: $font-montserrat
+        width: 103px
+        padding-block: 1px
+        &:not(.active)
+          background-color: $color-gray-3
+        &.active
+          font-weight: $medium
 </style>

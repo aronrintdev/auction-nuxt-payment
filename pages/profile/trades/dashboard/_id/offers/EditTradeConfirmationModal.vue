@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal id="edit-trade" hide-footer hide-header no-close-on-esc no-close-on-backdrop sm>
+    <b-modal id="edit-trade" centered hide-footer hide-header no-close-on-esc no-close-on-backdrop sm>
       <div class="d-block text-center">
         <b-row class="justify-content-end pointer pr-3">
           <span @click="$bvModal.hide('edit-trade')">X</span>
@@ -18,8 +18,8 @@
       </div>
       <div class="d-block text-center">
         <b-row class="justify-content-center mb-4 mt-4">
-          <Button pill class="mr-5" @click="editClick">{{$t('trades.edit')}}</Button>
-          <Button pill variant="outline-dark" @click="$bvModal.hide('edit-trade')">{{$t('trades.cancel')}}</Button>
+          <Button pill variant="dark-blue" class="mr-5 btn-edit" @click="editClick">{{$t('trades.edit')}}</Button>
+          <Button pill variant="outline-dark" @click="$bvModal.hide('edit-trade')" class="btn-cancel">{{$t('trades.cancel')}}</Button>
         </b-row>
       </div>
     </b-modal>
@@ -65,4 +65,10 @@ export default {
   font-size: 18px
   line-height: 150%
   color: $color-black-1
+.btn-edit
+  width: 147px
+  height: 38px
+.btn-cancel
+  width: 147px
+  height: 38px
 </style>

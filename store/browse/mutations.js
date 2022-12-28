@@ -38,3 +38,6 @@ export function setProductType(state, val){
 export function setGender(state, val){
   state.selectedGender = val
 }
+export function setIsFilter(state, val){
+  state.isFilter = val
+}

@@ -1,14 +1,14 @@
 <template>
   <b-navbar
     toggleable="lg"
-    :class="`navbar-wrapper ${!mobileClass && 'border-bottom'}`"
+    class="navbar-wrapper"
+    :class="mobileClass ? 'border-bottom' : ''"
   >
     <PortalTarget name="back-icon-slot" class="d-block d-sm-none">
       <b-navbar-toggle target="top-menu-sidebar">
         <template #default>
           <img
-            width="25px"
-            :src="require('~/assets/img/icons/menu.svg')"
+            :src="require('~/assets/img/icons/menu_v2.svg')"
             alt="..."
           />
         </template>
@@ -45,24 +45,26 @@
       @hide="handleSearchOverlayHide"
     />
     <b-navbar-nav class="nav-menu-wrapper flex-row d-flex d-lg-none">
-      <b-nav-item
-        class="nav-item-icons"
-        :to="`${authenticated ? '/profile/notification' : '/login'}`"
-      >
-        <!-- to append custom elements based on different pages in responsive mode  -->
-        <PortalTarget name="notification-icon-slot">
-          <img
-            height="24px"
-            :src="require('~/assets/img/icons/notification-icon.svg')"
-            alt="..."
-          />
-        </PortalTarget>
-      </b-nav-item>
+      <PortalTarget name="notification-slot">
+        <b-nav-item
+          class="nav-item-icons"
+          :to="`${authenticated ? '/profile/notification' : '/login'}`"
+        >
+          <!-- to append custom elements based on different pages in responsive mode  -->
+          <PortalTarget name="notification-icon-slot">
+            <img
+              height="24px"
+              :src="require('~/assets/img/icons/notification-icon.svg')"
+              alt="..."
+            />
+          </PortalTarget>
+        </b-nav-item>
+      </PortalTarget>
       <b-nav-item class="nav-item-icons" to="/checkout/selling">
         <PortalTarget name="cart-icon-slot">
           <img
             height="22px"
-            :src="require('~/assets/img/icons/bag.png')"
+            :src="require('~/assets/img/icons/basket.svg')"
             alt="..."
           />
         </PortalTarget>

@@ -1098,6 +1098,10 @@ export default {
   .btn-group
     width: 408px
 
+::v-deep .container .size-carousel
+    @media (min-width: 576px)
+      padding: 0 30px
+
 .create-listing-form-wrapper
   h2.title
     @include heading-1

@@ -3,7 +3,7 @@
     <div class="w-100 d-flex justify-content-between ">
         <span class="ml-3 edit-offer-title d-flex align-items-center text-center">{{ $t('placed_offers.edit_offer') }}</span>
         <span
-          class="header-cancel mr-3 d-flex align-items-center text-center"
+          class="header-cancel d-flex align-items-center text-center"
           role="button"
           @click="$emit('closed')"
         >{{ $t('common.cancel') }}</span>
@@ -22,7 +22,7 @@
         {{ $t('placed_offers.edit_offer_amount') }}
       </span>
 
-      <span class="edit-amount-sheet mr-3">
+      <span class="edit-amount-sheet">
         <input
           id="edit-amount-box"
           type="number"
@@ -48,14 +48,14 @@
       </span>
       <span
         ><img
-          :src="require('~/assets/img/icons/arrow-right-black.svg')"
+          :src="require('~/assets/img/icons/arrow-right-black-small.svg')"
           alt="more-option"
       /></span>
     </div>
 
-    <div class="d-flex justify-content-center mt-4 mb-1">
+    <div class="d-flex justify-content-center">
       <b-button
-        variant="save-edit-offer w-50"
+        variant="save-edit-offer"
         class="
           align-items-center
           text-align-center
@@ -137,6 +137,7 @@ export default {
   .title-underline
     border: 0.5px solid $color-gray-47
   .btn-save-edit-offer
+    margin-top: 20px
     background: $color-blue-20
     border-radius: 21px
     width: 216px
@@ -153,8 +154,8 @@ export default {
     font-family: $font-sp-pro
     font-style: normal
     @include body-8-normal
-    padding-top: 22px
-    padding-bottom: 22px
+    padding-top: 26px
+    padding-bottom: 26px
     border-bottom: 0.5px solid $color-gray-4
 
   .edit-amount-btn
@@ -172,6 +173,9 @@ export default {
   .bottom-indicator
     bottom: 0
   #edit-amount-box
+    margin-right: 20px
+    margin-top: 8px
+    margin-bottom: 8px
     &::placeholder
       font-family: $font-sp-pro
       font-style: normal
@@ -187,6 +191,7 @@ export default {
   .header-cancel
     font-family: $font-sp-pro
     font-style: normal
+    margin-right: 20px
     @include body-17-bold
     color: $color-blue-20
 </style>

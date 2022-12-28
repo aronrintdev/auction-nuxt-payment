@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <div class="dashboard  pt-sm-5 p-3" :class="mobileClass">
+    <div class="dashboard" :class="mobileClass">
       <div class="d-flex justify-content-between align-items-baseline">
         <h1 class="heading-1-bold d-none d-sm-block">
           {{ $t('vendor_dashboard.title') }}
@@ -91,6 +91,26 @@
         <Orders />
       </section>
       <Portal to="page-title"> Dashboard </Portal>
+      <Portal to="cart-icon-slot">
+        <img
+          height="22px"
+          :src="require('~/assets/img/home/sidebar/cart-outline-rounded.svg')"
+          alt="..."
+      />
+      </Portal>
+      <Portal to="back-icon-slot">
+        <b-navbar-toggle target="top-menu-sidebar">
+          <template #default>
+            <img
+                width="17px"
+                height="16px"
+                :src="require('~/assets/img/icons/side-menu/hamburger-menu-rounded.svg')"
+                alt="..."
+            />
+          </template>
+        </b-navbar-toggle>
+      </Portal>
+
       <VendorDetails
         v-if="vendor && !isScreenXS"
         :is-open="detailsMenu"
@@ -188,7 +208,9 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .dashboard
+  padding: 65px 30px 0 30px
   &.mobile
+    padding: 10px 16px 0px 16px
     margin-bottom: -60px
 
 .medal-badge

@@ -62,7 +62,7 @@
       <div v-if="!isScreenXS" class="mt-5 buttons-sec">
         <Button
           :disabled="loading || changedSettings.length === 0"
-          class="mr-2"
+          class="mr-2 btn-font"
           pill
           variant="dark-blue"
           @click="saveChanges"
@@ -70,6 +70,7 @@
         </Button>
         <Button
           :disabled="loading"
+          class="btn-font"
           pill
           variant="outline-dark"
           @click="updateSettings"
@@ -176,20 +177,37 @@ export default {
 @import "~/assets/css/variables"
 .notification-setting-main::v-deep
   .notification-setting-nav
-    margin: 26px 0 18px 0
+    margin: 20px auto 18px auto
+    width: 236px
+    &.mobile
+      width: 100%
+    .btn-group
+      height: 32px
+      background-color: $color-gray-3
+      button.btn
+        @include body-6-regular
+        font-family: $font-montserrat
+        width: 103px
+        padding-block: 1px
+        &:not(.active)
+          background-color: $color-gray-3
+        &.active
+          font-weight: $medium
   .buttons-sec
     button
       width: 217px
 
 .push-title
-  @include body-8-medium
   font-family: $font-family-sf-pro-display
   font-style: normal
   color: $color-black-1
+  font-size: 16px
 
 .push-sub-title
-  @include body-8-regular
   font-family: $font-family-sf-pro-display
   font-style: normal
   color: $color-gray-5
+  font-size: 13px
+.btn-font
+  font-family: $font-sp-pro
 </style>

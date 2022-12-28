@@ -1,16 +1,18 @@
 <template>
   <div class="col mx-2">
     <div class="movers-card row mx-0 d-flex flex-column justify-content-between">
-      <div class="d-flex justify-content-between">
-        <div class="d-none d-md-block"><img :src="brandNameToLogoUrl(product.brand)" alt="" height="40"></div>
-        <div v-if="topSalesPercentage > 0 && topSalesPercentage === product.sales_percentage"
-             class="d-flex justify-content-end align-items-stretch">
-          <div class="best-seller">{{ $t('orders.best_seller') }}</div>
-          <img :src="require('~/assets/img/icons/yellow-star.svg')" alt="" height="19">
+      <div>
+        <div class="d-flex justify-content-between">
+          <div class="d-none d-md-block position-absolute"><img :src="brandNameToLogoUrl(product.brand)" alt="" height="40"></div>
+          <div v-if="topSalesPercentage > 0 && topSalesPercentage === product.sales_percentage"
+               class="d-flex justify-content-end align-items-stretch">
+            <div class="best-seller">{{ $t('orders.best_seller') }}</div>
+            <img :src="require('~/assets/img/icons/yellow-star.svg')" alt="" height="19">
+          </div>
         </div>
-      </div>
-      <div class="text-center">
-        <img :src="productImage" alt="" height="120">
+        <div class="text-center">
+          <img :src="productImage" alt="" height="120">
+        </div>
       </div>
       <div class="d-flex justify-content-between align-items-end">
         <div class="d-none d-md-block">
@@ -31,7 +33,7 @@
     </div>
     <div class="d-block d-md-none product-info">
       <div class="product-name">{{ product.name | wordLimit }}</div>
-      <div class="product-color">{{ product.colorway }}</div>
+      <div class="product-color">{{ product.colorway.slice(0, 20) }}...</div>
       <div class="product-sku">{{ $t('orders.sku') }}: {{ product.sku }}</div>
     </div>
   </div>
@@ -135,5 +137,6 @@ export default {
     border: 1px solid $color-white-4
     background-color: $color-white-4
     border-radius: 8px 8px 0 0
+    padding: 20px 5px
 
 </style>

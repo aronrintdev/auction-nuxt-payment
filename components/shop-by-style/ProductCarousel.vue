@@ -150,7 +150,7 @@
   @import '~/assets/css/_variables'
   .product-carousel-wrapper
     padding: 0
-    margin: 0 -12px
+    margin: 0 -6px
     .no-text
       @include body-4-medium
       text-align: center
@@ -173,7 +173,7 @@
       .owl-carousel
         .item
           text-align: left
-          margin: 0 12px
+          margin: 0 6px
           width: var(--item-width)
           &.photo-item
             img

@@ -70,11 +70,10 @@ export default {
   transition: transform .2s
   height: 376px !important
   width: 376px !important
-
   background-color: $color-white-1
   &:hover
     cursor: pointer
-    transform: scale(1.1)
+
 
   .step-text
     @include heading-1
@@ -105,7 +104,7 @@ export default {
       width: 56px
       height: 47px
     &:hover
-      transform: scale(1)
+
 
 
     .feature-title

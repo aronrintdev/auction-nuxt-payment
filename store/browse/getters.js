@@ -38,3 +38,6 @@ export function selectedGender(state){
 export function getSizesByType(state){
   return state.sizes
 }
+export function getIsFilterActive(state){
+  return state.isFilter
+}

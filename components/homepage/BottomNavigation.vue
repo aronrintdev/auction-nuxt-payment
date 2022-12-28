@@ -33,7 +33,7 @@
         </h6>
       </nuxt-link>
       <nuxt-link class="navLink" to="/auction">
-        <auction :active="$route.path === '/auction'" />
+        <auction :active="$route.path.includes('/auction')" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
           {{ $t('navbar.auction') }}
         </h6>
@@ -94,7 +94,7 @@ export default {
 
 .bottom-navigation
     bottom: 0
-    z-index: 1
+    z-index: 2000000001
     padding-bottom: 30px
 .shop-text
   margin-top: 5px

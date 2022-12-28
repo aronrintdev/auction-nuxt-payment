@@ -15,4 +15,5 @@ export function resetFilters({ commit }) {
   commit('setSelectedCategory', 'all')
   commit('setGender', null)
   commit('setProductType', null)
+  commit('setIsFilter', false)
 }

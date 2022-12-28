@@ -431,12 +431,21 @@ export default {
         'browse/setSelectedSearch',
         this.selectedFilters.search
       )
+<<<<<<< HEAD
       this.$store.commit(
         'browse/setProductType',
         this.selectedFilters.productType
       )
       this.$store.commit('browse/setGender', this.selectedFilters.gender)
       if (this.selectedFilters.sizeType && this.selectedFilters.sizes) {
+=======
+      this.$store.commit('browse/setIsFilter',true)
+      if (
+        this.selectedFilters.sizeTypes &&
+        this.selectedFilters.sizeTypes.length > 0 &&
+        this.selectedFilters.sizes
+      ) {
+>>>>>>> develop
         const newSizes = this.selectedFilters.sizes.filter((size) =>
           this.filters?.sizes?.find(
             (s) => s.id === size && this.selectedFilters.sizeType === s.type
@@ -497,6 +506,7 @@ export default {
       this.$store.commit('browse/setSizesByType', [])
       this.$store.commit('browse/setSelectedPrices', [])
       this.$store.commit('browse/setSelectedYears', [])
+      this.$store.commit('browse/setIsFilter',false)
     },
     handleSortBySelect(option) {
       // Select SortBy option

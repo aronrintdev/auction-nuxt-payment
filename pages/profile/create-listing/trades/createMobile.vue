@@ -13,10 +13,10 @@
             class="create-trade-search w-100"
             @change="onSearchInput"
           />
-          <SearchedProductsBelowSearchTextBox 
-            v-if="searchedItems.length > 0" 
-            :productItems="searchedItems" 
-            productsFor="tradeItem" 
+          <SearchedProductsBelowSearchTextBox
+            v-if="searchedItems.length"
+            :productItems="searchedItems"
+            productsFor="tradeItem"
             class="position-absolute"
             listGroupItemClass="w-100 justify-content-between px-2"
           />
@@ -100,8 +100,8 @@
               <div v-for="(prod, index) in getTradeItems"
                    :key="'selected-'+index+prod.id" class="create-trade-item-sm d-flex justify-content-between flex-column mr-2">
                 <div class="position-relative">
-                  <div class="create-trade-minus-icon-sm position-absolute" @click="decrementOrRemoveItem(prod.id)">
-                    <div class="create-trade-minus-line-sm"></div>
+                  <div class="create-trade-remove-icon-sm position-absolute" @click="decrementOrRemoveItem(prod.id)">
+                    <img :src="require('~/assets/img/minusSign.svg')" />
                   </div>
                 </div>
                 <div class="offer-item-img-sm position-relative d-flex align-items-center justify-content-center">
@@ -722,8 +722,7 @@ export default {
   @include body-18
   font-weight: $normal
   font-family: $font-sp-pro
-.create-trade-minus-icon-sm
-  background-color: $color-red-27
+.create-trade-remove-icon-sm
   right: 5px
   top: 5px
   z-index: 81
@@ -770,7 +769,7 @@ export default {
   height: 28px
   padding: 0 25px 0 14px
   right: 15px
-  bottom: 120px
+  bottom: 110px
   position: fixed
   z-index: 80
 .offer-text
@@ -801,4 +800,9 @@ export default {
   bottom: 160px
   z-index: 80
   width: 92%
+.create-trade-search
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $regular
+  @include body-9
 </style>

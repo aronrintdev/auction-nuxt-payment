@@ -1,71 +1,71 @@
 <template>
-  <ul class="list-group">
-    <li class="px-3 pb-2 border-bottom">
-      <b-row class="align-items-center">
-        <b-col cols="2" class="pr-0 mb-1 mt-n2">
-          <ProductThumb :product="inventory.product" />
-        </b-col>
-        <b-col cols="10" class="pl-4 d-flex flex-wrap mt-n2">
-          <div class="text-nowrap overflow-hidden text-truncate">
-            <div class="text-black body-5-normal text-nowrap overflow-hidden text-truncate sf-pro-font">
-              {{ inventory.product.name }}
-            </div>
-            <div class="text-gray-6 body-6-normal text-nowrap overflow-hidden text-truncate sf-pro-font mt-1">
-              {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
-                inventory.product.colorway
-              }} | {{ $t('products.box_condition') }}&colon;&nbsp;{{ inventory.packaging_condition.name }}
-              | {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
-                inventory.size.size
-              }}
-            </div>
+<ul class="list-group">
+  <li class="px-3 pb-2 border-bottom">
+    <b-row class="align-items-center">
+      <b-col cols="2" class="pr-0 mb-1 mt-n2">
+        <ProductThumb :product="inventory.product" />
+      </b-col>
+      <b-col cols="10" class="pl-4 d-flex flex-wrap mt-n2">
+        <div class="text-nowrap overflow-hidden text-truncate">
+          <div class="text-black body-5-normal text-nowrap overflow-hidden text-truncate sf-pro-font">
+            {{ inventory.product.name }}
           </div>
-        </b-col>
-      </b-row>
-    </li>
-    <li v-if="!inventory.listing_items.length" class="border-bottom">
-      <a
-        class="d-flex justify-content-between align-items-center nav-link"
-        @click="$emit('list')"
-      >
-        <span>{{ $t('inventory.list_product') }}</span>
-        <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
-      </a>
-    </li>
-    <li v-else class="border-bottom">
-      <a
-        class="d-flex justify-content-between align-items-center nav-link"
-        @click="$emit('delist')"
-      >
-        <span>{{ $t('auction.delist') }}</span>
-        <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
-      </a>
-    </li>
-    <li class="border-bottom">
-      <a
-        class="d-flex justify-content-between align-items-center nav-link"
-        @click="$emit('edit')"
-      >
-        <span>{{ $t('inventory.edit_details') }}</span>
-        <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
-      </a>
-    </li>
-    <li class="border-bottom">
-      <a
-        class="d-flex justify-content-between align-items-center nav-link"
-        @click="$emit('delete')"
-      >
-        <span>{{ $t('common.delete') }}</span>
-      </a>
-    </li>
-    <li>
-      <a
-        class="d-flex justify-content-between align-items-center nav-link"
-        @click="$emit('cancel')"
-      >
-        <span>{{ $t('create_listing.confirm.cancel') }}</span>
-      </a>
-    </li>
-  </ul>
+          <div class="text-gray-6 body-6-normal text-nowrap overflow-hidden text-truncate sf-pro-font mt-1">
+            {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
+              inventory.product.colorway
+            }} | {{ $t('products.box_condition') }}&colon;&nbsp;{{ inventory.packaging_condition.name }}
+            | {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
+              inventory.size.size
+            }}
+          </div>
+        </div>
+      </b-col>
+    </b-row>
+  </li>
+  <li v-if="!inventory.listing_items.length" class="border-bottom">
+    <a
+      class="d-flex justify-content-between align-items-center nav-link"
+      @click="$emit('list')"
+    >
+      <span>{{ $t('inventory.list_product') }}</span>
+      <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
+    </a>
+  </li>
+  <li v-else class="border-bottom">
+    <a
+      class="d-flex justify-content-between align-items-center nav-link"
+      @click="$emit('delist')"
+    >
+      <span>{{ $t('auction.delist') }}</span>
+      <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
+    </a>
+  </li>
+  <li class="border-bottom">
+    <a
+      class="d-flex justify-content-between align-items-center nav-link"
+      @click="$emit('edit')"
+    >
+      <span>{{ $t('inventory.edit_details') }}</span>
+      <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
+    </a>
+  </li>
+  <li class="border-bottom">
+    <a
+      class="d-flex justify-content-between align-items-center nav-link"
+      @click="$emit('delete')"
+    >
+      <span>{{ $t('common.delete') }}</span>
+    </a>
+  </li>
+  <li>
+    <a
+      class="d-flex justify-content-between align-items-center nav-link"
+      @click="$emit('cancel')"
+    >
+      <span>{{ $t('create_listing.confirm.cancel') }}</span>
+    </a>
+  </li>
+</ul>
 </template>
 
 <script>

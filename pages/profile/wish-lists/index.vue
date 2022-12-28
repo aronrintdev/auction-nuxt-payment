@@ -8,7 +8,7 @@
       <Button
         v-if="!isScreenXS"
         v-b-modal.create-list-modal
-        variant="primary"
+        variant="dark-blue"
         class="mx-auto"
         pill
       >
@@ -19,7 +19,7 @@
         variant="primary"
         class="mx-auto"
         pill
-        @click="mobileFiltersOpen = !mobileFiltersOpen"
+        @click="showMobileCreate"
       >
         {{ $t('wish_lists.create_new_list') }}
       </Button>
@@ -57,8 +57,9 @@
 
       <div
         v-if="!!currentWishList && action === 'none'"
-        class="d-none d-sm-flex align-items-center"
+        class="d-none d-sm-flex justify-content-between align-items-center"
       >
+        <div></div>
         <div class="btn-categories flex-grow-1 text-center">
           <NavGroup
             v-model="category"
@@ -72,13 +73,28 @@
         <div class="btn-edit">
           <b-dropdown
             variant="link"
-            toggle-class="text-decoration-none"
+            toggle-class="text-decoration-none px-0 mx-0"
             no-caret
             right
           >
             <template #button-content>
               {{ $t('wish_lists.edit_list') }}
             </template>
+            <b-dropdown-item v-b-modal.edit-list-modal
+            >
+              {{ $t('wish_lists.rename_list') }}
+            </b-dropdown-item>
+            <b-dropdown-item
+              @click="handleDelete()"
+            >
+              {{ $t('wish_lists.delete_list') }}
+            </b-dropdown-item>
+            <b-dropdown-item
+              :disabled="listProducts.length === 0"
+              @click="setAction('remove')"
+            >
+              {{ $t('wish_lists.remove_items') }}
+            </b-dropdown-item>
             <b-dropdown-item
               :disabled="
                 listProducts.length === 0 || getMovableWishLists().length === 0
@@ -86,12 +102,6 @@
               @click="setAction('move')"
             >
               {{ $t('wish_lists.move_items') }}
-            </b-dropdown-item>
-            <b-dropdown-item
-              :disabled="listProducts.length === 0"
-              @click="setAction('remove')"
-            >
-              {{ $t('wish_lists.remove_items') }}
             </b-dropdown-item>
             <b-dropdown-item v-b-modal.create-list-modal>
               <img src="~/assets/img/icons/plus_blue.svg" />
@@ -107,14 +117,15 @@
         :data="tabs"
         @change="handleTabs"
       />
-      <div class="row wishlist-products-wrapper">
+      <shop-by-style-wish-list v-if="activeTab === 'shop-by-style'"></shop-by-style-wish-list>
+      <div v-if="activeTab === 'single-item'" class="row wishlist-products-wrapper">
         <div class="d-flex flex-column flex-shrink-0 col-12 col-sm-3">
           <section
             v-if="wishLists.length > 0"
             :class="`section-lists ${action !== 'none' ? 'mt' : ''}`"
           >
             <h5 class="d-none d-sm-block px-2">
-              {{ $t('wish_lists.buying_lists') }}
+              {{ $t('profile_menu.wishlist') }} <span v-b-modal.create-list-modal class="plus-sign">+</span>
             </h5>
             <div class="d-none d-sm-block wishlist-wrapper">
               <div v-for="list in wishLists" :key="list.id" class="px-2">
@@ -163,8 +174,8 @@
                           {{ list.privacy }} List
                         </h6>
                       </div>
-                      <div :id="`popover-share-${list.id}`">
-                        <ShareIcon />
+                      <div v-if="list.privacy === 'public'" :id="`popover-share-${list.id}`">
+                        <img src="~/assets/img/icons/share.svg" alt="Share" width="19" height="19" class="d-block" />
                       </div>
                     </div>
                     <nuxt-link
@@ -175,11 +186,12 @@
                     </nuxt-link>
                   </div>
                 </div>
-                <button
+                <span
                   class="fs-14 fw-5 font-secondary text-gray-47 btn btn-link p-0 mt-3"
+                  @click="handleMobileListEdit(list)"
                 >
                   Edit
-                </button>
+                </span>
 
                 <b-popover
                   ref="sharePopover"
@@ -199,12 +211,13 @@
                   />
                 </b-popover>
               </div>
-              <div class="d-flex justify-content-end">
-                <span @click="mobileFiltersOpen = !mobileFiltersOpen"><img width="42" height="42" src="~/assets/img/icons/plus-icon-bg.svg" /></span>
-              </div>
+
 
             </div>
           </section>
+          <div class="d-flex justify-content-end align-self-end d-block d-sm-none">
+            <span @click="showMobileCreate"><img width="42" height="42" src="~/assets/img/icons/plus-icon-bg.svg" /></span>
+          </div>
         </div>
 
         <div
@@ -241,6 +254,7 @@
                   :selectable="action === 'move' || action === 'remove'"
                   :selected="!!selected.find((id) => id == product.id)"
                   :show-actions="false"
+                  card-height="240px"
                   @select="selectItem"
                 />
               </b-col>
@@ -255,8 +269,8 @@
             </p>
 
             <Button
-              variant="primary"
-              class="mt-4 mx-auto"
+              variant="dark-blue"
+              class="mt-4 mx-auto browse-button"
               pill
               @click="handleBrowseClick"
             >
@@ -270,7 +284,7 @@
               class="action-container"
             >
               <Button
-                variant="primary"
+                variant="dark-blue"
                 :disabled="selected.length === 0"
                 @click="removeSelected"
               >
@@ -301,12 +315,40 @@
     </div>
     <Portal to="page-title"> Wishlist </Portal>
     <CreateWishListModal @created="handleCreated" />
+    <EditWishListModal
+      v-if="currentWishList"
+      :key="currentWishListUpdate"
+      :wishListItem="currentWishList"
+      @created="handleCreated"
+      />
     <MobileCreateWishListModal
-          :height="'90%'"
-          :open="mobileFiltersOpen"
+          ref="mobileCreateView"
+          :height="'40%'"
           :title="$t('wish_lists.create_new_list').toString()"
+          @created="hideMobileCreate"
+          @closed="hideMobileCreate"
       >
     </MobileCreateWishListModal>
+    <MobileEditWishListModal
+          v-if="currentWishList"
+          ref="mobileEditView"
+          :key="currentWishList"
+          :height="'40%'"
+          :wishListItem="currentWishList"
+          :title="$t('wish_lists.rename_list').toString()"
+          @closed="hideMobileEdit"
+          @created="handleCreated"
+      >
+    </MobileEditWishListModal>
+    <!-- On delete list -->
+    <ConfirmModal
+      id="confirm-wishlist-delete"
+      :confirmLabel="$t('preferences.common.delete')"
+      :message="$t('wish_lists.confirm_delete_list_message')"
+      @cancel="onCancel"
+      @confirm="onConfirm"
+    />
+    <!-- End of  On delete list -->
   </b-container>
 </template>
 <script>
@@ -317,12 +359,14 @@ import ShareButton from '~/components/common/ShareButton.vue'
 import Button from '~/components/common/Button.vue'
 import ProductCard from '~/components/product/Card.vue'
 import CreateWishListModal from '~/components/modal/CreateWishList'
+import EditWishListModal from '~/components/modal/EditWishList'
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar'
 import Thumb from '~/components/product/Thumb'
-import ShareIcon from '~/assets/icons/ShareIcon'
 import screenSize from '~/plugins/mixins/screenSize'
 import MobileCreateWishListModal from '~/components/mobile/MobileCreateWishList'
-
+import MobileEditWishListModal from '~/components/mobile/MobileEditWishList'
+import { ConfirmModal } from '~/components/modal'
+import ShopByStyleWishList from '~/components/wish-list/ShopByStyleWishList.vue'
 export default {
   name: 'WishLists',
   components: {
@@ -332,10 +376,13 @@ export default {
     Button,
     ProductCard,
     CreateWishListModal,
+    EditWishListModal,
     BulkSelectToolbar,
     Thumb,
-    ShareIcon,
     MobileCreateWishListModal,
+    ConfirmModal,
+    MobileEditWishListModal,
+    ShopByStyleWishList,
   },
   mixins: [screenSize],
   layout: 'Profile',
@@ -349,7 +396,7 @@ export default {
       category: 'all',
       activeTab: 'single-item',
       tabs: [
-        { label: 'Single Item', value: 'single-item' },
+        { label: 'Single Items', value: 'single-item' },
         { label: 'Shop by Style', value: 'shop-by-style' },
       ],
       action: 'none', // 'move' or 'remove'
@@ -373,6 +420,8 @@ export default {
       ],
       BUTTON_VARIANTS: ['primary', 'info', 'warning', 'dark'],
       currentWishList: null,
+      currentWishListUpdate: 1,
+      currentWishListMobileUpdate: 1,
       listProducts: [],
       selected: [],
       removed: [],
@@ -387,14 +436,13 @@ export default {
       infiniteId: +new Date(),
       state: '',
       url: '',
-      mobileFiltersOpen: false,
     }
   },
 
   computed: {
     ...mapGetters({
       wishLists: 'wish-list/getWishLists',
-    }),
+    })
   },
   async mounted (){
     await this.fetchWishLists()
@@ -414,6 +462,8 @@ export default {
   methods: {
     ...mapActions({
       fetchWishLists: 'wish-list/fetchWishLists',
+      editWishList: 'wish-list/editWishList',
+      deleteWishList: 'wish-list/deleteWishList',
       updateWishListPrivacy: 'wish-list/updateWishListPrivacy',
       fetchWishListItems: 'wish-list/fetchWishListItems',
       removeProductsFromWishList: 'wish-list/removeProductsFromWishList',
@@ -444,9 +494,11 @@ export default {
         this.currentWishList = wishList
         this.currentPage = 1
         this.infiniteId += 1
+        this.currentWishListUpdate += 1
       } else {
         this.currentWishList = null
         this.listProducts = []
+        this.currentWishListUpdate += 1
       }
     },
 
@@ -631,6 +683,70 @@ export default {
       }
       this.$refs.bulkSelectToolbar.showSuccess(null)
     },
+
+    // Remove selected products from current wishlist
+    async removeWishlist() {
+      await this.deleteWishList({
+        id: this.currentWishList.id
+      })
+      this.$toasted.success(this.$tc('wish_lists.delete_success'))
+      await this.fetchWishLists()
+      await this.selectWishList(this.wishLists[0])
+      this.infiniteId += 1
+    },
+
+    // Remove selected products from current wishlist
+    async renameSelected() {
+      await this.editWishList({
+        wishList: this.currentWishList,
+        ids: this.selected,
+      })
+      this.$toasted.success(this.$tc('wish_lists.rename_success'))
+    },
+
+    handleDelete() {
+      this.$bvModal.show('confirm-wishlist-delete')
+    },
+
+    // On confirm remove
+    onConfirm() {
+      this.removeWishlist()
+    },
+    // On cancel click, clear the value
+    onCancel() {
+      this.$emit('clearValue')
+    },
+    handleMobileListEdit(wishlist) {
+      this.selectWishList(wishlist)
+      this.currentWishListMobileUpdate += 1
+      this.$nextTick(() => {
+        this.showMobileEdit()
+      })
+    },
+    showMobileEdit() {
+      const { mobileEditView } = this.$refs
+      if (mobileEditView) {
+        mobileEditView.show()
+      }
+    },
+    hideMobileEdit() {
+      const { mobileEditView } = this.$refs
+      if (mobileEditView) {
+        mobileEditView.hide()
+      }
+    },
+    showMobileCreate() {
+      const { mobileCreateView } = this.$refs
+      if (mobileCreateView) {
+        mobileCreateView.show()
+      }
+    },
+    hideMobileCreate() {
+      const { mobileCreateView } = this.$refs
+      if (mobileCreateView) {
+        mobileCreateView.hide()
+      }
+    }
   },
 }
 </script>
@@ -638,6 +754,8 @@ export default {
 @import '~/assets/css/_variables'
 .text-gray-5
   color: $color-gray-5
+.btn-primary, .browse-button
+  background: $color-blue-10
 
 .mw-300px
   max-width: 300px
@@ -655,10 +773,8 @@ export default {
       color: $color-black-1
       &:hover
         border-bottom: 1px solid $color-black-1
-.tablist
-  ::v-deep .btn-group
-     width: 460px
-     height: 32px
+::v-deep .btn-group
+    height: 32px
 ::v-deep .nav-group
   margin: 0
 .wishlist-mobile
@@ -674,5 +790,38 @@ export default {
   min-height: 500px
 .wishlist-wrapper
   margin-left: -10px
+::v-deep .checkbox-switch
+  line-height: 32px
+  margin-top: -4px
+  span[role='button']
+    font-family: $font-montserrat
+    @include body-5-bold
+    margin-top: 7px
+  .custom-switch
+    height: 31px
+    margin-right: 20px
+    .custom-control-label::before
+      background-color: rgba(120, 120, 128, 0)
+      border: none
+      height: 31px
+      width: 51px
+      box-shadow: none
+      background-image: url('~/assets/img/profile/wishlist/toggle-bg.svg')
+      background-repeat: no-repeat
 
+    .custom-control-label::after
+      background: $color-white
+      border: 0.5px solid rgba(0, 0, 0, 0.04)
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06)
+      width: 27px
+      height: 27px
+      border-radius: 100%
+
+    .custom-control-input:checked ~ .custom-control-label::after
+      transform: translateX(1.27rem)
+.plus-sign
+  @include body-4-normal
+@media (max-width: 576px)
+::v-deep .nav-group .btn-group
+  height: 35px
 </style>
