@@ -1607,7 +1607,7 @@
     "box_condition": "Box Condition",
     "box_conditions": {
       "excellent": "Excellent",
-      "good_condition": "Excellent Condition",
+      "good_condition": "Good Condition",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
       "no_original_box": "No Original Box",
