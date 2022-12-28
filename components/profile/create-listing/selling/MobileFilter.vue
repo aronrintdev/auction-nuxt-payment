@@ -181,7 +181,7 @@
           <Button variant="reset" @click="resetFilter">
             {{ $t('common.reset') }}
           </Button>
-          <Button variant="apply-filter" @click="applyFilter">
+          <Button variant="apply-filter" @click="applyFilter" class="apply-filters">
             {{ $t('common.apply_filters') }}
           </Button>
         </div>
@@ -609,4 +609,6 @@ export default {
     .custom-button-multi
       display: flex
       justify-content: space-between
+.apply-filters
+  white-space: nowrap
 </style>

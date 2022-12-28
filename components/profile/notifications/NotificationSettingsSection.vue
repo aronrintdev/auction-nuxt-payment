@@ -2,13 +2,13 @@
   <div
     :class="{
       'mobile p-3': isScreenXS,
-      'p-4': !isScreenXS,
+      'p-4  d-flex flex-column': !isScreenXS,
     }"
-    class="notification-settings-section w-100 d-flex flex-column"
+    class="notification-settings-section w-100"
   >
     <b-row>
       <b-col md="5" sm="12">
-        <span class="title">{{ title }}</span>
+        <span class="title" :class="mobileClass">{{ title }}</span>
       </b-col>
       <b-col v-if="!isScreenXS" class="title-labels" md="4">
         <span v-if="preference"
@@ -32,6 +32,7 @@
         <NotificationSettingsItem
           :path="path"
           :settings="item"
+          :preference="preference"
         ></NotificationSettingsItem>
       </div>
     </div>
@@ -76,8 +77,10 @@ export default {
   gap: 20px
 
   &.mobile
+    background: $color-white-1
     border-radius: 10px
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
+    border: none
 
     .title
       color: $color-blue-20

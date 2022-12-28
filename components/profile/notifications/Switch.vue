@@ -48,9 +48,17 @@ export default {
 ::v-deep.notification-switch
   .custom-control-input:checked ~ .custom-control-label
     &:before
+      height: 31px
+      width: 51px
+      border-radius: 25px
+      border: none
+      box-shadow: none
       background: $color-green-16
 
     &:after
+      width: 27px
+      height: 27px
+      border-radius: 25px
       transform: translateX(1.2rem)
       background-color: $color-white-1
 </style>

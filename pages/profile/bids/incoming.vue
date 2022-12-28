@@ -20,7 +20,7 @@
             variant="link"
             size="sm"
             class="delete-expired"
-            @click="deleteAction = true"
+            @click="deleteExpireds"
           >
             {{ $t('bids.delete_expired') }}
           </Button>
@@ -38,7 +38,7 @@
         variant="link"
         size="sm"
         class="delete-expired-mobile"
-        @click="deleteAction = true"
+        @click="deleteExpireds"
       >
         <img src="~/assets/img/profile/mobile/mobile-delete.svg" class="mr-1" />
         <span>{{ $t('bids.delete_expired') }}</span>
@@ -71,8 +71,8 @@
 
 
     <div v-if="bidsCount===0 && !fetchLoading"
-         class="d-flex align-items-center justify-content-center flex-column h-50">
-      <div :class="isMobileSize ? 'body-5-medium' : 'not-found-text'">{{ $t('bids.no_bids') }}</div>
+         class="d-flex align-items-center justify-content-center flex-column">
+      <div :class="isMobileSize ? 'body-5-medium my-4 py-5' : 'not-found-text my-5 py-5'">{{ $t('bids.no_bids') }}</div>
     </div>
     <div v-if="bidsCount>0" class="bids-listing">
       <div class="px-3 d-none d-md-flex bids-listing-header">
@@ -402,6 +402,7 @@ export default {
       deleteBids: 'profile-bids/deleteBids',
       editBids: 'profile-bids/editBids',
       acceptAuctionBid: 'profile-bids/acceptAuctionBid',
+      deleteExpiredBids: 'profile-bids/deleteExpiredBids',
     }),
     closeBidModals() {
       const { mobileBidAcceptConfirm } = this.$refs
@@ -632,6 +633,13 @@ export default {
       this.closeMobileFilter()
       await this.$store.commit('profile-bids/setFilters', filterData)
       this.FetchBids(true)
+    },
+    deleteExpireds() {
+      this.deleteExpiredBids({ type: this.bidType })
+        .then(() => {
+          this.FetchBids(true)
+          this.$toasted.success(this.$t('bids.success_expired_deleted'))
+        })
     }
   }
 }

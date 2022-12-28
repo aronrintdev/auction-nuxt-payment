@@ -10,7 +10,7 @@
   >
     <template #button-content>
       <slot name="button-content">
-        <div class="d-flex align-items-center justify-content-between mx-2">
+        <div class="d-flex align-items-center justify-content-between font-styling mx-2">
           {{ label }}
           <img :class="{'reverse': shown}" :src="arrowDownBlack">
         </div>
@@ -113,6 +113,8 @@ export default {
 
 .reverse
   transform: rotate(180deg)
-
-
+.font-styling
+  font-family: $font-family-sf-pro-display
+  font-weight: $medium
+  @include body-5
 </style>

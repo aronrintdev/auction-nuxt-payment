@@ -29,7 +29,7 @@
       <b-col
         lg="8"
         cols="12"
-        class="social-area pt-5 px-2 d-flex justify-content-center"
+        class="social-area pt-lg-5 px-2 d-flex justify-content-center"
       >
         <b-row class="h-100 justify-content-center w-100">
           <b-col
@@ -125,19 +125,20 @@
                           <Logo class="img-main" />
                         </nuxt-link>
                         <span
-                          class="signup-heading fs-15 fw-5 font-primary w-75 text-center mb-4 pre-line"
+                        class="signup-heading"
                         >
                           {{ $t('signup.create_your_account') }}
                         </span>
                       </b-col>
                     </b-row>
-                    <NavGroup
-                      :data="tabs"
-                      :value="currentTab"
-                      nav-key="new_releases"
-                      class="text-center px-2 mb-4 d-lg-none d-block nav-buttons"
-                      @change="handleTabChange"
-                    />
+                    <div class="toggler-main d-lg-none d-flex justify-content-between">
+                      <span class="signup-btn" role="button" >
+                        {{$t('auth.create_an_account')}}
+                      </span>
+                      <button class="login-btn" @click="loginPage">
+                        {{$t('auth.login')}}
+                      </button>
+                    </div>
                     <ValidationProvider
                       v-slot="validationContext"
                       :name="$t('auth.first_name')"
@@ -472,7 +473,6 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Button from '~/components/common/Button'
 import { UNPROCESSABLE_ENTITY } from '~/static/constants'
-import NavGroup from '~/components/common/NavGroup'
 import Logo from '~/components/header/Logo.vue'
 import screenSize from '~/plugins/mixins/screenSize'
 import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
@@ -483,19 +483,12 @@ export default {
     ValidationProvider,
     ValidationObserver,
     Button,
-    NavGroup,
     Logo,
   },
   mixins: [screenSize],
   layout: 'Auth',
   data() {
     return {
-      tabs: [
-        { label: this.$t('auth.create_an_account'), value: 'signup' },
-        { label: this.$t('auth.login'), value: 'Login' },
-      ],
-      currentTab: 'signup',
-
       isPasswordShown: false,
       isConfirmPasswordShown: false,
       form: {
@@ -556,13 +549,14 @@ export default {
     this.$root.$emit('hide-footer', { hideFooter: false })
   },
   methods: {
+    loginPage(){
+      this.$router.push({
+        path: '/login',
+      })
+    },
     getValidationState({ dirty, validated, valid = null }) {
       // Returns the contextual state (validation style) of the element being validated (false for invalid, true for valid, or null for no validation state)
       return dirty || validated ? valid : null
-    },
-    handleTabChange(tab) {
-      this.currentab = tab
-      this.$router.push('login')
     },
     async onSubmit() {
       try {
@@ -783,14 +777,14 @@ export default {
 // ------------------Responsive--------------------
 @media only screen and (max-width: 768px)
   .input-signup
-    font-size: 15px
+    font-size: $font-size-14
     line-height: 18px
 
   .form-area::v-deep
-    padding: 30px 1px 0 1px
+    padding-top: 78px
 
     .form-group
-      margin-bottom: 14px !important
+      margin-bottom: 13px
     .minimum
       margin-bottom: 15px
     .submit-btn-p
@@ -825,7 +819,9 @@ export default {
       line-height: 18px
       color: $color-gray-5
       font-style: normal
-      font-weight: $medium
+      font-weight: $bolder
+      margin-top: 22px
+      margin-bottom: 31px
     .validation
       font-size: 10px !important
       font-weight: 500 !important
@@ -859,20 +855,31 @@ export default {
 
   .btn.btn-confirm.btn-disabled
     background: $color-black-1 !important
-  .form-area::v-deep
-    padding: 0px
-  fieldset
-    width: 343px
-    .input-group
-      width: 343px
-      margin-left: 4px
-      .input-signup
-        &::placeholder
-          color: $color-gray-47
-          font-size: 14px
-          font-weight: 500
-        &::-webkit-input-placeholder
-          color: $color-gray-47
-        &:-ms-input-placeholder
-          color: $color-gray-47
+
+.toggler-main
+  width: 335px
+  height: 36px
+  background-color: $color-gray-75
+  border-radius: 20px
+  display: inline
+  text-align: center
+  padding: 4px 4px
+  margin-bottom: 20px
+  margin-top: 2px
+.signup-btn
+  border: none
+  padding: 5px 0px
+  width: 171.5px
+  background-color: $color-white-1
+  border-radius: 20px
+  font-weight: $medium
+  @include body-6
+.login-btn
+  padding: 4px 0px
+  border: none
+  width: 168px
+  background-color: $color-gray-75
+  border-radius: 20px
+  font-weight: $normal
+  @include body-6
 </style>

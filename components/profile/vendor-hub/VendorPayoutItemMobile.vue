@@ -2,35 +2,32 @@
   <div>
     <template v-if="!isDetailView">
       <hr class="my-3" />
-      <b-row class="d-flex align-items-center body-9-medium">
-        <b-col cols="4">
-          <span class="font-style-1">{{method.check_name}}</span>
+      <b-row class="d-flex align-items-center body-9-medium mx-3">
+        <b-col cols="4" class="px-0">
+          <span class="info">{{method.check_name}}</span>
         </b-col>
         <b-col cols="3">
-          <span class="font-style-1">{{method.check_account}}</span>
+          <span class="info">{{method.check_account.replace(/^.{1}/g, '*').split('x').join('*')}}</span>
         </b-col>
-        <b-col cols="4" class="text-green-33">
-          <span>{{$t('vendor_hub.payout_method.verified')}}</span>
-          <i class="fa fa-check-circle-o" aria-hidden="true"></i>
-
+        <b-col cols="4" class="text-green-33 d-flex align-items-center">
+          <span class="info">{{$t('vendor_hub.payout_method.verified')}}</span>
+          <i class="fa fa-check-circle-o fa-font px-1" aria-hidden="true"></i>
         </b-col>
-        <b-col cols="1" class="text-right">
+        <b-col cols="1" class="text-right px-0">
           <a role="button" class="d-inline-block w-full p-1 text-black"  @click="$emit('showDetail', method.id)">
-            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            <img :src="require('~/assets/img/vendorhub/arrow-mobile.svg')" />
           </a>
         </b-col>
       </b-row>
-      <div v-if="method.is_default" class="mt-2">
-        <Button size="sm" class="px-2">
-          <span class="body-6-regular">
+      <div v-if="method.is_default" class="mt-2 mx-3">
+        <div class="default-item">
             {{ $t('vendor_hub.payout_method.default') }}
-          </span>
-        </Button>
+        </div>
       </div>
     </template>
-    <div v-else class="mt-3 body-9-medium">
-      <div class="d-flex justify-content-end">
-        <div>
+    <div v-else class="mt-3 body-9-medium mx-2">
+      <Portal to="vendor-mobile-button-area">
+        <div class="body-9-medium mr-3">
           <a role="button" class="text-blue-20" @click="$emit('edit', method)">{{  $t('common.edit') }}</a>
           <template v-if="!method.is_default">
             <span class="px-1 text-blue-20">|</span>
@@ -39,8 +36,7 @@
             </a>
           </template>
         </div>
-
-      </div>
+      </Portal>
       <div class="d-flex flex-column align-items-center mt-4 px-2">
         <b-form-group
           label-for="name"
@@ -71,7 +67,7 @@
           <template #label>
             <span class="label">{{ $t('vendor_hub.payout_method.account_number') }}</span>
           </template>
-          <b-input-group>
+          <b-input-group class="position-relative">
             <b-form-input
               id="account_number"
               :value="method.check_account"
@@ -79,6 +75,7 @@
               class="rounded-pill input-payout-mobile"
               :placeholder="$t('vendor_hub.payout_method.enter_account')"
             ></b-form-input>
+            <img :src="require('~/assets/img/icons/eye3.svg')" class="position-absolute right-0 eye-icon" />
           </b-input-group>
         </b-form-group>
         <b-form-group
@@ -102,17 +99,14 @@
           <span :class="{isMobileSize}" class="radio-label">{{ $t('vendor_hub.payout_method.set_default') }}</span>
         </b-form-radio>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-import Button from '~/components/common/Button';
-import screenSize from '~/plugins/mixins/screenSize';
+import screenSize from '~/plugins/mixins/screenSize'
 export default {
   name: 'VendorPayoutItemMobile',
-  components: {Button},
   mixins: [screenSize],
   props: {
     method: {
@@ -152,11 +146,8 @@ export default {
 @import '~/assets/css/_variables'
 
 .label
-  @include body-6
+  @include body-6-medium
   font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $medium
-  color: $color-black-17
 
 :deep().form-control:disabled
   @include body-4
@@ -166,10 +157,8 @@ export default {
   background: $color-white-5
 
 .input-payout-mobile
-  @include body-9
+  @include body-9-medium
   font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $normal
   background-color: $color-white-1 !important
   padding: 10px 20px
   width: 100%
@@ -182,18 +171,26 @@ export default {
 
 .text-green-33
   color: $color-green-33
-  @include body-6
-.font-style-1
-  @include body-9
-  font-weight: $medium
-  color: $color-black-1
-.radio-label
-  position: absolute
+
+.info
+  font-family: $font-montserrat
+
+.default-item
+  width: 61px
+  height: 22px
+  background-color: $color-blue-1
+  color: $white
+  @include body-6-regular
   display: flex
-  width: 100px
-  top: 3px
-  font-family: $font-montserrat-serif
-  @include body-5
-  font-weight: $normal
-  color: $color-black-1
+  align-items: center
+  justify-content: center
+  border-radius: 4px
+
+.fa-font
+  font-size: 17px
+
+.eye-icon
+  right: 20px
+  margin-top: 18px
+
 </style>
