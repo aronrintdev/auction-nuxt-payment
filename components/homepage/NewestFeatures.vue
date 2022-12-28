@@ -2,7 +2,7 @@
   <div class="section-wrapper">
     <SectionHeader
       :title="$t('home_page.newest_features')"
-      :desc="$t('home_page.trade_desc')"
+      :desc="$t('home_page.newestfeatures_description')"
       :label="$t('home_page.view_more_features')"
       to="/features"
     />

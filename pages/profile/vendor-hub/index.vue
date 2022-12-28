@@ -1,6 +1,6 @@
 <template>
   <div v-if="user.vendor_status" class="vendor-page h-100 d-flex flex-column">
-    <div :class="mobileClass ? 'p-3' : 'title-area'">
+    <div v-if="!isScreenXS" class="title-area">
       <span class="title" :class="mobileClass ? 'body-13-medium' : 'heading-4-bold'">
         {{ $t('vendor_hub.vendor_hub') }}
       </span>
@@ -24,6 +24,12 @@
     </div>
     <client-only v-if="mobileClass">
       <Portal to="page-title">{{ $t('vendor_hub.vendor_hub') }}</Portal>
+      <Portal to="back-icon-slot">
+        <a @click.stop="$router.go(-1)">
+          <img src="~/assets/img/icons/back.svg" />
+        </a>
+      </Portal
+      >
     </client-only>
   </div>
 </template>
@@ -47,18 +53,43 @@ export default {
     return {
       modalActionLoading: false,
       currentTab: 'store_details',
+      /*
       NAV_ITEMS: Object.keys(this.$t('vendor_hub.tabs')).map((key) => {
         return {
           label: this.$t('vendor_hub.tabs.' + key),
           value: key
         }
       })
+      */
     }
   },
   computed: {
     ...mapGetters({
       user: 'auth/user'
-    })
+    }),
+    NAV_ITEMS() {
+      const response = Object.keys(this.$t('vendor_hub.tabs')).map((key) => {
+        return {
+          label: this.$t('vendor_hub.tabs.' + key),
+          value: key
+        }
+      })
+
+      if (this.isScreenXS) {
+        Object.keys(this.$t('vendor_hub.tabs_mobile')).forEach((key) => {
+          const mobileItem = {
+            label: this.$t('vendor_hub.tabs_mobile.' + key),
+            value: key
+          }
+          const index = response.findIndex((i) => i.value === mobileItem.value)
+          if (index > -1) {
+            response[index] = mobileItem
+          }
+        })
+      }
+
+      return response
+    }
   },
   mounted() {
     this.getVendorDocRequirements()
@@ -115,5 +146,5 @@ export default {
   font-weight: $bold
 
 .vendor-page
-  background-color: $color-gray-1
+  background-color: $color-white-4
 </style>

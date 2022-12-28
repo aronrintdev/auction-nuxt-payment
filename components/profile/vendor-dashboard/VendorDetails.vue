@@ -63,12 +63,12 @@
             v-if="nextThreshold"
             class="d-flex flex-column gray-color pl-3 mr-120"
           >
-            <div class="body-13-medium">
+            <div class="body-13-medium font-pro-display">
               {{
                 $t('vendor_dashboard.on_track', { rank: nextThreshold.label })
               }}
             </div>
-            <div class="body-5-normal mt-2">
+            <div class="body-5-normal mt-2 font-pro-display">
               {{ $t('vendor_dashboard.next_sales', { next: ordersTillNext }) }}
             </div>
           </div>
@@ -432,6 +432,8 @@ export default {
 
 .menu-content
   font-family: $font-montserrat
+.font-pro-display
+  font-family: $font-sp-pro
 .mr-120
   margin-right: 120px
 

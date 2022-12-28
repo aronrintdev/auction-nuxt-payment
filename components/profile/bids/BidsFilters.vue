@@ -64,7 +64,7 @@
           <div class="d-flex align-items-center position-relative">
             <b-button
               variant="primary"
-              class=" apply-button text-white shadow border-0"
+              class="apply-button text-white border-0"
               @click="GetBids"
             >{{ $t('vendor_purchase.apply') }}
             </b-button>

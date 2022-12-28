@@ -214,7 +214,7 @@ export default {
 /* Override bottom sheet settings in order to fix height readjustment. */
 .bottom-sheet
   &__content
-    height: 100% !important
+    height: 100%
     font-family: $font-sp-pro !important
     overflow-x: hidden !important
 </style>

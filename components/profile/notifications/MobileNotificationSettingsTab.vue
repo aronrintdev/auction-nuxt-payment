@@ -87,9 +87,10 @@
             <div v-for="status in whenOptions(selectedSetting.setting.data)" :key="status.value" class="my-4 ">
               <hr class="divider">
               <div class="d-flex align-items-center justify-content-between ">
-                <span class="label">{{ status.text }}</span>
+                <span class="label pt-3">{{ status.text }}</span>
                 <b-form-checkbox
-                    :value="status.value"
+                  class="pt-1"
+                  :value="status.value"
                 >
                 </b-form-checkbox>
               </div>
@@ -106,7 +107,7 @@
           >
             <div v-for="status in getEveryOptions" :key="status.value" class="my-4 ">
               <hr class="divider">
-              <div class="d-flex align-items-center justify-content-between ">
+              <div class="d-flex align-items-center justify-content-between pt-3">
                 <span class="label">{{ status.text }}</span>
                 <b-form-radio
                     :value="status.value"
@@ -124,7 +125,7 @@
                   <b-input
                       v-model="everyValue"
                       :placeholder="$t('notifications.enter_custom_amount')"
-                      class="ml-2 custom-radio-input"
+                      class="ml-2 custom-radio-input mt-3"
                       type="number"
                       @input="updateChanges"
                   >
@@ -133,6 +134,7 @@
                 <b-form-radio
                     :checked="everyValue"
                     :value="everyValue"
+                    class=" pt-1"
                 >
                 </b-form-radio>
               </div>

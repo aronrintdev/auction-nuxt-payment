@@ -43,7 +43,7 @@ export default {
     color: $color-black-1
 
   .desc
-    @include body-21
+    @include body-10
     font-family: $font-family-sf-pro-display
     font-style: normal
     font-weight: $regular

@@ -71,6 +71,7 @@
         </Button>
         <Button
           :disabled="loading"
+          class="btn-font"
           pill
           variant="outline-dark"
           class="action-buttons"
@@ -204,10 +205,14 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   color: $color-black-1
+  font-size: 16px
 
 .push-sub-title
   @include body-21-regular
   font-family: $font-family-sf-pro-display
   font-style: normal
   color: $color-gray-5
+  font-size: 13px
+.btn-font
+  font-family: $font-sp-pro
 </style>
