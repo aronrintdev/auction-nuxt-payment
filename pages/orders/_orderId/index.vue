@@ -141,4 +141,8 @@ export default {
 
 .color-gray
   color: $color-gray-5
+
+.page-subtitle
+  font-family: $font-family-sf-pro-display
+  @include body-7-bold
 </style>
