@@ -20,7 +20,7 @@
                   {{ $t('orders.print_shipping_label') }}
                 </a>
               </div>
-              <div class="print-invoice text-right mr-4">
+              <div class="print-invoice text-right mr-4 mt-2">
                 <a href="#print-invoice" class="mr-3" @click="exportPDF(order.id)">{{ $t('orders.print_invoice') }}</a>
               </div>
             </template>
