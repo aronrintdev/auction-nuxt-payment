@@ -7,11 +7,6 @@
           <div class="p-4 page-title text-capitalize">{{ $t('orders.order_id') }} #{{ order.order_id }}</div>
           <div class="px-4 page-subtitle">{{ $t('orders.product_summary') }}</div>
         </div>
-        <div>
-          <div class="px-5">
-            <NuxtLink to="/orders">&laquo; {{ $t('orders.back') }}</NuxtLink>
-          </div>
-        </div>
       </div>
       <b-row class="p-4 d-none d-sm-block">
         <b-col>
