@@ -36,7 +36,7 @@
          </Button>
 
          <Button
-           :id="`popover-wishlist-${product.id}`"
+           :id="`wishlist-popover-${product.id}`"
            :tooltip-text="wishList ? wishList.name : ''"
            tabindex="0"
            variant="light"
@@ -55,7 +55,7 @@
        v-if="!wishList"
        :product="product"
        :wish-list="wishList"
-       :target="`popover-wishlist-${product.id}`"
+       :target="`wishlist-popover-${product.id}`"
        @wishlisted="onWishListed"
        @show="wishListShow = true"
        @hidden="wishListShow = false"

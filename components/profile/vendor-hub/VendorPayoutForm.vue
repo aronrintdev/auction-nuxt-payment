@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{'px-3': isMobileSize}">
     <b-form class="d-flex flex-column" >
         <div class="d-flex flex-column flex-sm-row align-items-start mt-4">
             <b-form-group
@@ -45,9 +45,11 @@
               </b-input-group>
             </b-form-group>
         </div>
-        <b-form-radio v-model="form.is_default" name="is_default" :value="true" class="mt-4">
-          <span :class="{'label' : isMobileSize}">{{ $t('vendor_hub.payout_method.set_default') }}</span>
-        </b-form-radio>
+        <div class="set-default">
+          <b-form-radio v-model="form.is_default" name="is_default" :value="true" class="mt-4">
+            <span :class="{'label' : isMobileSize}">{{ $t('vendor_hub.payout_method.set_default') }}</span>
+          </b-form-radio>
+        </div>
         <component :is="isScreenXS ? 'Portal' : 'div'" to="button-portal">
           <div class="mt-4 d-flex justify-content-center" :class="{'flex-row-reverse bg-white py-4' : isScreenXS}">
             <b-button :disabled="modalActionLoading || !isValid"
@@ -167,8 +169,8 @@ export default {
         height: '49px',
         padding: '10px 20px',
         fontFamily: 'Montserrat',
-        'font-size': '14px',
-        fontWeight: 500
+        'font-size': '12px',
+        'font-weight': '600'
       }
 
       return this.isMobileSize ? mobileSizeCss : webSizeCss
@@ -377,14 +379,31 @@ div.invalid-feedback
   width: auto
 
 .label
-  @include body-9-medium
+  @include body-6-medium
   font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $normal
 
 .fix
   margin-right: 2px
 
 .bg-white
   background-color: $color-white
+
+
+::v-deep .set-default
+  .custom-control-label
+    &:before
+      border: solid 2px $color-gray-11
+      background-color: $color-white
+      box-shadow: inset 0 0 0 rgba(1,1,1, 0)
+    &:after
+      background: 80%/80% 80% no-repeat
+      top: 0.26rem
+      left: -1.5465rem
+
+  .custom-radio .custom-control-input:checked ~ .custom-control-label::before
+    border: solid 2px $color-gray-11
+    background-color: $color-white
+
+  .custom-radio .custom-control-input:checked~.custom-control-label::after
+    filter: invert(55%)
 </style>
