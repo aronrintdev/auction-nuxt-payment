@@ -380,7 +380,6 @@ export default {
     .section-header
       margin-bottom: 25px
       margin-top: 18px
-    
     .section-nav
       margin: 16px 16px 18px 16px 
 </style>
