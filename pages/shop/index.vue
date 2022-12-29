@@ -371,10 +371,12 @@ export default {
       color: $black
 ::v-deep .section-header
   @media (max-width: 576px)
-    margin: 25px 12.5px
+    margin: 25px 16px
 .container-shop
   @media (min-width: 576px)
     margin: 0px 60px
+  .section-nav
+    margin: 45px 0 70px 0 
     
   @media (max-width: 425px)
     .section-header

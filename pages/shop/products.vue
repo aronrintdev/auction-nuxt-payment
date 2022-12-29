@@ -15,47 +15,47 @@
       :data="CATEGORIES"
       :value="category"
       nav-key="category"
-      class="section-nav text-center mt-4 mb-5 mx-sm-0 mx-4"
+      class="section-nav text-center"
       btn-class="px-lg-5 px-0"
       @change="handleCategoryChange"
     />
     <section>
-      <div class="pt-1">
-        <h1 class="fw-7 heading-garamond text-left mb-4 mx-4 mx-lg-0">
-          {{ productType }}
-        </h1>
+      <h1
+        class="fw-7 section-header heading-garamond text-left mx-4 mx-lg-0"
+      >
+        {{ productType }}
+      </h1>
 
-        <template v-if="products.length">
-          <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-3 row-cols-2">
-            <div
-              v-for="(product, index) in products"
-              :key="`product-carousel-${index}`"
-              class="item mb-5 col"
-            >
-              <ShopProductCard :product="product" :showActions="false">
-                <template v-if="pageType === 'instant-shipping'" #badge>
-                  <Badge
-                    :title="$t('home_page.instant')"
-                    :icon="require('~/assets/img/home/instant.svg')"
-                    color="black"
-                    right
-                  />
-                </template>
-              </ShopProductCard>
-            </div>
+      <template v-if="products.length">
+        <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-3 row-cols-2 product-section">
+          <div
+            v-for="(product, index) in products"
+            :key="`product-carousel-${index}`"
+            class="item mb-5 col"
+          >
+            <ShopProductCard :product="product" :showActions="false">
+              <template v-if="pageType === 'instant-shipping'" #badge>
+                <Badge
+                  :title="$t('home_page.instant')"
+                  :icon="require('~/assets/img/home/instant.svg')"
+                  color="black"
+                  right
+                />
+              </template>
+            </ShopProductCard>
           </div>
-        </template>
-        <template v-else-if="!loading">
-          <div class="d-flex align-items-center justify-content-center h-300">
-            <div class="no-items-found-title">
-              {{ $t('auctions.frontpage.no_results_found') }}
-            </div>
+        </div>
+      </template>
+      <template v-else-if="!loading">
+        <div class="d-flex align-items-center justify-content-center h-300">
+          <div class="no-items-found-title">
+            {{ $t('auctions.frontpage.no_results_found') }}
           </div>
-        </template>
+        </div>
+      </template>
 
-        <infinite-loading :identifier="infiniteId" @infinite="handleLoading">
-        </infinite-loading>
-      </div>
+      <infinite-loading :identifier="infiniteId" @infinite="handleLoading">
+      </infinite-loading>
     </section>
   </div>
 </template>
@@ -280,6 +280,19 @@ export default {
 .h-300
   height: 300px
 .container-shop
+  .section-header
+    margin-bottom: 50px
+    margin-top: 70px
   @media (min-width: 576px)
     margin: 0px 60px
+  .section-nav
+    margin: 45px 0 70px 0
+  @media (max-width: 425px)
+    .section-header
+      margin-bottom: 25px
+      margin-top: 18px
+    .section-nav
+      margin: 16px 16px 18px 16px
+    .product-section
+      margin: 0 16px
 </style>
