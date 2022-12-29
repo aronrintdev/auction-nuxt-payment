@@ -49,7 +49,7 @@
                 <img v-else :src="item.product | getProductImageUrl" class="pro-image pt-4" />
                 <div class="overlay"></div>
               </div>
-              <div class="bottom-section  mt-4">
+              <div class="bottom-section" :class="{'mt-4': !isOfferSummary}">
                 <div class="product-name pt-1">  {{item.inventory ? item.inventory.product.name : item.product.name}}</div>
                 <div class="product-size "><span>{{ $tc('common.size') }} </span> {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
                 <div class="product-box "><span>{{$t('common.box')}}: </span>{{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
