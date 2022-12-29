@@ -56,7 +56,7 @@
           role="button"
         >
           <div
-            class="add-amount-item d-flex align-items-center text-center justify-content-center"
+            class="add-amount-item d-flex align-items-center justify-content-center"
             :class="value.includes(option) ? 'active' : ''"
             @click="activeStatus(option)"
           >
