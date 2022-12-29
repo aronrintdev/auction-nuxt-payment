@@ -512,7 +512,7 @@ export default {
       if (!this.currentSize) {
         return (this.error.addToCart = this.$t('products.error.select_size'))
       }
-      this.addingToCart = true
+      this.addingToCart = false
       this.$store.dispatch('shopping-cart/addProduct', this.getCartProduct())
       this.show = false
       if (device !== 'mobile') {
