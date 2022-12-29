@@ -1,6 +1,6 @@
 <template>
   <b-img
-    :src="require('~/assets/img/home/logo-mb.png')"
+    :src="require('~/assets/icons/navbar/logo.svg')"
     :width="width"
     :height="height"
     alt="DEADSTOCK"
