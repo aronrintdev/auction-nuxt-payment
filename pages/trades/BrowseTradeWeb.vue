@@ -18,7 +18,8 @@
           nav-key="trade-type"
           class="section-nav pb-4"
           :btnGroupStyle="{
-            margin: 0
+            margin: 0,
+            width:'337px',
           }"
           @change="changeTotalTradeItems"
         />
@@ -330,7 +331,7 @@ export default {
 
 .trade-card
   width: 255px
-  background: $color-white-1
+  background: $color-white-4
   box-sizing: border-box
 .carousel-heading
   & h2
