@@ -525,11 +525,6 @@ export default {
     height: 550px
     &::-webkit-scrollbar
         width: 0px !important
-
-  // .sizes-option
-  //   display: grid
-  //   grid-template-columns: repeat(2 , 1fr)
-  //   gap: 14px
   .bottom-sheet-footers
     padding: 20px 28px
     bottom: 0

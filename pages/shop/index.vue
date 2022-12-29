@@ -17,7 +17,7 @@
         :value="category"
         nav-key="category"
         btn-class="px-lg-5 px-0"
-        class="section-nav text-center mr-3 ml-3 mr-lg-3 ml-lg-3 mx-sm-0"
+        class="section-nav text-center"
         @change="handleCategoryChange"
       />
       <div v-if="!noSearchResult" class="container">
@@ -345,10 +345,7 @@ export default {
   .h-300
     height: 300px
   
-  .section-header
-    @media (max-width: 425px)
-      margin-bottom: 25px
-      margin-top: 18px
+ 
   @media (min-width: 1024px)
     .scroll-to-top
       display: flex !important
@@ -378,5 +375,12 @@ export default {
 .container-shop
   @media (min-width: 576px)
     margin: 0px 60px
-
+    
+  @media (max-width: 425px)
+    .section-header
+      margin-bottom: 25px
+      margin-top: 18px
+    
+    .section-nav
+      margin: 16px 16px 18px 16px 
 </style>
