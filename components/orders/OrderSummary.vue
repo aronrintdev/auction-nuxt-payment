@@ -1,5 +1,5 @@
 <template>
-  <div class="border round-box order-summary">
+  <div class="border round-box order-summary-component">
     <div class="pad">
       <b-row align-h="between">
         <b-col cols="8">
@@ -154,7 +154,7 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-.order-summary
+.order-summary-component
   .pad
     padding: 1.5rem 3rem
 
@@ -234,7 +234,7 @@ export default {
     color: $color-gray-5
 
 @media (max-width: 992px)
-  .order-summary
+  .order-summary-component
     &.border
       border: none !important
 
