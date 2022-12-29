@@ -27,7 +27,7 @@
           </div>
         </b-col>
       </b-row>
-      <div class="sold-items d-none d-sm-block">{{ $t('orders.sold_items') }}: {{ order.items.length }}</div>
+      <div class="sold-items mt-md-3 d-none d-sm-block">{{ $t('orders.sold_items') }}: {{ order.items.length }}</div>
       <b-row class="product-details" align-v="center">
         <b-col cols="4" sm="2">
           <div class="text-center">
@@ -36,8 +36,8 @@
         </b-col>
         <b-col cols="8" sm="10">
           <div class="box-header pb-2 d-none d-sm-block">{{ $t('orders.product_details') }}</div>
-          <b-row class="d-none d-sm-flex">
-            <b-col cols="3">
+          <b-row class="d-none d-sm-flex product-details-text">
+            <b-col cols="3" >
               <div>{{ product(item).name }} ({{ product(item).release_year }})</div>
               <div>{{ $t('orders.colorway') }}: {{ product(item).colorway }}</div>
               <div v-if="isBuy">
@@ -154,6 +154,10 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+.product-details-text
+  font-family: $font-montserrat
+  @include body-4-regular
+
 .order-summary-component
   .pad
     padding: 1.5rem 3rem
