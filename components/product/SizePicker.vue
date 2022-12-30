@@ -305,15 +305,12 @@ export default {
 @import '~/assets/css/_variables'
 
 .select-size
-  @include body-10-regular
+  @include body-10
+  font-weight: $regular
   color: $color-black-1
-  @media (min-width: 576px)
-    font-family: $font-montserrat-serif
-    font-weight: $regular
-    font-style: $normal
-    @include body-10
-    @include body-8-normal
-    text-transform: uppercase
+  font-family: $font-montserrat
+  font-style: normal
+  text-transform: uppercase
 
 .all-sizes
   @include body-10-regular

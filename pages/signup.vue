@@ -29,7 +29,7 @@
       <b-col
         lg="8"
         cols="12"
-        class="social-area pt-lg-5 px-2 d-flex justify-content-center"
+        class="social-area px-1 d-flex justify-content-center"
       >
         <b-row class="h-100 justify-content-center w-100">
           <b-col
@@ -125,20 +125,19 @@
                           <Logo class="img-main" />
                         </nuxt-link>
                         <span
-                        class="signup-heading"
+                          class="signup-heading font-primary w-75 text-center mb-4 pre-line"
                         >
                           {{ $t('signup.create_your_account') }}
                         </span>
                       </b-col>
                     </b-row>
-                    <div class="toggler-main d-lg-none d-flex justify-content-between">
-                      <span class="signup-btn" role="button" >
-                        {{$t('auth.create_an_account')}}
-                      </span>
-                      <button class="login-btn" @click="loginPage">
-                        {{$t('auth.login')}}
-                      </button>
-                    </div>
+                    <NavGroup
+                      :data="tabs"
+                      :value="currentTab"
+                      nav-key="new_releases"
+                      class="text-center px-1 mb-4 d-lg-none d-block nav-buttons"
+                      @change="handleTabChange"
+                    />
                     <ValidationProvider
                       v-slot="validationContext"
                       :name="$t('auth.first_name')"
@@ -156,7 +155,7 @@
                           <b-form-input
                             id="first-name"
                             v-model="form.first_name"
-                            class="rounded-pill rounded-md input-signup"
+                            class="rounded-pill rounded-md input-signup mt-4"
                             :placeholder="$t('auth.first_name')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -166,11 +165,12 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1 pl-2"
+                          class="success-check d-flex align-items-center pl-1 pt-2"
                         >
                           <b-img
                             width="20"
                             height="20"
+                            class="mt-4"
                             :src="require('~/assets/img/auth/check.svg')"
                           />
                         </b-input-group-prepend>
@@ -203,11 +203,12 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1 pl-2"
+                          class="success-check d-flex align-items-center pl-1 pt-2"
                         >
                           <b-img
                             width="20"
                             height="20"
+                            class="mt-2"
                             :src="require('~/assets/img/auth/check.svg')"
                           />
                         </b-input-group-prepend>
@@ -240,11 +241,12 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1 pl-2"
+                          class="success-check d-flex align-items-center pl-1 pt-1"
                         >
                           <b-img
                             width="20"
                             height="20"
+                            class="mt-2"
                             :src="require('~/assets/img/auth/check.svg')"
                           />
                         </b-input-group-prepend>
@@ -277,11 +279,12 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1 pl-2"
+                          class="success-check d-flex align-items-center pl-1 pt-1"
                         >
                           <b-img
                             width="20"
                             height="20"
+                            class="mt-2"
                             :src="require('~/assets/img/auth/check.svg')"
                           />
                         </b-input-group-prepend>
@@ -335,11 +338,12 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1"
+                          class="success-check d-flex align-items-center pl-1 pt-1"
                         >
                           <b-img
                             width="20"
                             height="20"
+                            class="mt-2"
                             :src="require('~/assets/img/auth/check.svg')"
                           />
                         </b-input-group-prepend>
@@ -397,11 +401,12 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1"
+                          class="success-check d-flex align-items-center pl-1 pt-1"
                         >
                           <b-img
                             width="20"
                             height="20"
+                            class="mt-2"
                             :src="require('~/assets/img/auth/check.svg')"
                           />
                         </b-input-group-prepend>
@@ -473,6 +478,7 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Button from '~/components/common/Button'
 import { UNPROCESSABLE_ENTITY } from '~/static/constants'
+import NavGroup from '~/components/common/NavGroup'
 import Logo from '~/components/header/Logo.vue'
 import screenSize from '~/plugins/mixins/screenSize'
 import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
@@ -483,12 +489,19 @@ export default {
     ValidationProvider,
     ValidationObserver,
     Button,
+    NavGroup,
     Logo,
   },
   mixins: [screenSize],
   layout: 'Auth',
   data() {
     return {
+      tabs: [
+        { label: this.$t('auth.create_an_account'), value: 'signup' },
+        { label: this.$t('auth.login'), value: 'Login' },
+      ],
+      currentTab: 'signup',
+
       isPasswordShown: false,
       isConfirmPasswordShown: false,
       form: {
@@ -549,14 +562,13 @@ export default {
     this.$root.$emit('hide-footer', { hideFooter: false })
   },
   methods: {
-    loginPage(){
-      this.$router.push({
-        path: '/login',
-      })
-    },
     getValidationState({ dirty, validated, valid = null }) {
       // Returns the contextual state (validation style) of the element being validated (false for invalid, true for valid, or null for no validation state)
       return dirty || validated ? valid : null
+    },
+    handleTabChange(tab) {
+      this.currentab = tab
+      this.$router.push('login')
     },
     async onSubmit() {
       try {
@@ -681,8 +693,7 @@ export default {
   width: 5%
 
 .success-check
-  padding: 0.5rem
-  margin: 0px auto
+  margin: 0 auto
   height: 100%
 
 /* Override common Button component border color */
@@ -691,7 +702,8 @@ export default {
 
 /* Override bootstrap-vue 'b-form-input' styles */
 .input-signup
-  @include body-5-normal
+  @include body-5
+  font-weight: $normal
   color: $color-black-1
   background-color: $color-white-5
   border: 0
@@ -776,15 +788,9 @@ export default {
   padding-left: 13px
 // ------------------Responsive--------------------
 @media only screen and (max-width: 768px)
-  .input-signup
-    font-size: $font-size-14
-    line-height: 18px
-
   .form-area::v-deep
-    padding-top: 78px
+    padding: 30px 1px 0px 1px
 
-    .form-group
-      margin-bottom: 13px
     .minimum
       margin-bottom: 15px
     .submit-btn-p
@@ -812,16 +818,14 @@ export default {
       border: 1px solid $color-gray-3
       border-left: 0px
       border-radius: 0px 10px 10px 0px !important
-      padding: 0.7rem
+      padding: 0.68rem
       &:focus
         border-radius: 0px 10px 10px 0px
     .signup-heading
-      line-height: 18px
       color: $color-gray-5
       font-style: normal
-      font-weight: $bolder
-      margin-top: 22px
-      margin-bottom: 31px
+      font-weight: $bold
+      @include body-17
     .validation
       font-size: 10px !important
       font-weight: 500 !important
@@ -829,6 +833,7 @@ export default {
     .switch-btn
       padding: 0px 64px 0px 70px
   .social-area
+    padding: 82px 0px 0px 1px
     .or
       padding: 26px 0px !important
     .skip-link
@@ -855,31 +860,20 @@ export default {
 
   .btn.btn-confirm.btn-disabled
     background: $color-black-1 !important
-
-.toggler-main
-  width: 335px
-  height: 36px
-  background-color: $color-gray-75
-  border-radius: 20px
-  display: inline
-  text-align: center
-  padding: 4px 4px
-  margin-bottom: 20px
-  margin-top: 2px
-.signup-btn
-  border: none
-  padding: 5px 0px
-  width: 171.5px
-  background-color: $color-white-1
-  border-radius: 20px
-  font-weight: $medium
-  @include body-6
-.login-btn
-  padding: 4px 0px
-  border: none
-  width: 168px
-  background-color: $color-gray-75
-  border-radius: 20px
-  font-weight: $normal
-  @include body-6
+  .form-area::v-deep
+    padding: 0px
+  fieldset
+    width: 343px
+    .input-group
+      width: 310px
+      margin-left: 4px
+      .input-signup
+        &::placeholder
+          color: $color-gray-47
+          font-size: 14px
+          font-weight: 500
+        &::-webkit-input-placeholder
+          color: $color-gray-47
+        &:-ms-input-placeholder
+          color: $color-gray-47
 </style>
