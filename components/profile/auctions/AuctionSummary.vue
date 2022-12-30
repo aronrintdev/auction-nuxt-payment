@@ -1,20 +1,25 @@
 <template>
-  <div v-if="auction" class="mt-3 p-3 px-md-5 py-md-4 ml-n1 w-100 bg-white card-summary">
-    <b-row>
-      <b-col sm="11">
+  <div v-if="auction" class="card-summary">
+    <b-row class="align-items-center">
+      <b-col sm="10">
         <div class="d-flex flex-column card-summary-header">
-          <b-row>
-            <b-col cols="8" md="3" class="body-4-bold">
+          <b-row class="align-items-center">
+            <b-col cols="8" md="3" class="card-summary-header-title">
               {{ $t('auction.auction_id') }} #{{ auction.id }}
             </b-col>
-            <b-col cols="4" md="3" class="text-right text-md-left">
-              <span v-if="auction.status === LIVE_STATUS" class="text-success body-4-medium">&bull; {{
+            <b-col cols="4" md="3" class="text-right text-md-center">
+              <span v-if="auction.remaining_time === EXPIRED_STATUS" class="text-gray-2 card-summary-header-status">&bull; {{
+                  $t('auctions.status.expired')
+                }}</span>
+              <span v-else-if="auction.status === LIVE_STATUS" class="text-green-2 card-summary-header-status">&bull; {{
                   $t('auction.live')
                 }}</span>
-              <span v-if="auction.status === SCHEDULED_STATUS"
-                    class="text-gray-24 body-4-medium">&bull; {{ $t('auction.scheduled') }}</span>
+              <span v-else-if="auction.status === SCHEDULED_STATUS"
+                    class="text-gray-2 card-summary-header-status">&bull; {{ $t('auction.scheduled') }}</span>
             </b-col>
-            <b-col v-if="auction.status === LIVE_STATUS" cols="12" md="6" class="text-danger body-4-medium">
+            <b-col v-if="auction.remaining_time === EXPIRED_STATUS" cols="12" md="6" class="text-red card-summary-header-status">
+              {{$t('auction.time_remaining')}}&colon;&nbsp;0d 0h</b-col>
+            <b-col v-else cols="12" md="6" class="text-red card-summary-header-status">
               {{$t('auction.time_remaining')}}&colon;
               {{
                 auction.remaining_time
@@ -22,7 +27,38 @@
             </b-col>
           </b-row>
         </div>
-
+      </b-col>
+      <b-col sm="2" class="mt-3 mt-md-0 d-flex flex-row justify-content-between flex-md-column align-items-end">
+        <Button
+          v-if="isDelistBtnVisible"
+          variant="dark-blue"
+          class="delist-btn"
+          pill
+          @click="delistAuction"
+        >
+          {{ $t('auction.delist') }}
+        </Button>
+        <Button
+          v-if="isDelistedOrExpired"
+          variant="dark-blue"
+          class="relist-btn"
+          pill
+          @click="relistAuction"
+        >{{ $t('auction.relist') }}
+        </Button
+        >
+        <div
+          v-if="!isExpired && bidCount===0"
+          role="button"
+          class="modify-button"
+          @click="$emit('modify')"
+        >
+          {{ $t('auction.modify_listing') }}
+        </div>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col sm="11">
         <div class="mt-3 d-md-none">
           <div class="mb-1 d-flex d-md-none justify-content-between">
             <span v-if="isScheduled" class="field-label">{{ $t('auction.scheduled') }}</span>
@@ -44,8 +80,8 @@
             <span class="field-label">{{ $t('auction.reserve_price') }}</span>
             <div class="field-value">
               <div class="d-flex">
-                <div class="d-flex" :class="hasReserveError? 'error-border': ''">
-                  <span v-if="auction.is_reserved" class="mt-1">
+                <div class="d-flex align-items-center" :class="hasReserveError? 'error-border': ''">
+                  <span v-if="auction.is_reserved">
                     &dollar;
                 </span>
                   <input
@@ -65,7 +101,6 @@
                 <Button
                   v-if="auction.is_reserved && moreThan12"
                   variant="link"
-                  class=" ml-3"
                   :class="editReserve? 'btn-send': 'btn-edit-inventory'"
                   :tooltip-text="$t('common.edit')"
                   @click="editReserveAction"
@@ -73,7 +108,7 @@
                 <Button
                   v-if="auction.is_reserved && editReserve"
                   variant="link"
-                  class="btn-revert ml-3"
+                  class="btn-revert"
                   :tooltip-text="$t('common.revert')"
                   @click="editReserveReverse"
                 ></Button>
@@ -92,7 +127,7 @@
           </div>
         </div>
 
-        <b-row class="d-none d-md-flex mt-3 mx-5 body-4-medium text-gray-25">
+        <b-row class="d-none d-md-flex summary-columns">
           <b-col sm="2">
             <span v-if="isScheduled">{{ $t('auction.scheduled') }}</span>
             <span v-else>{{ $t('auction.listed_on') }}</span>
@@ -114,7 +149,7 @@
           </b-col>
         </b-row>
 
-        <b-row class="d-none d-md-flex mt-3 mx-5 body-4-normal">
+        <b-row class="d-none d-md-flex summary-values">
           <b-col sm="2">
             <span v-if="isScheduled"> {{
                 formattedDate(auction.scheduled_date)
@@ -135,8 +170,8 @@
           </b-col>
           <b-col sm="2" class="d-flex flex-column">
             <div class="d-flex">
-              <div class="d-flex" :class="hasReserveError? 'error-border': ''">
-                <span v-if="auction.is_reserved" class="mt-1">
+              <div class="d-flex align-items-center" :class="hasReserveError? 'error-border': ''">
+                <span v-if="auction.is_reserved">
                   &dollar;
                </span>
                 <input
@@ -156,7 +191,6 @@
               <Button
                 v-if="auction.is_reserved && moreThan12"
                 variant="link"
-                class=" ml-3"
                 :class="editReserve? 'btn-send': 'btn-edit-inventory'"
                 :tooltip-text="$t('common.edit')"
                 @click="editReserveAction"
@@ -164,12 +198,12 @@
               <Button
                 v-if="auction.is_reserved && editReserve"
                 variant="link"
-                class="btn-revert ml-3"
+                class="btn-revert"
                 :tooltip-text="$t('common.revert')"
                 @click="editReserveReverse"
               ></Button>
             </div>
-            <div v-if="hasReserveError" class="mt-1 reserve-error position-absolute mt-4 pt-2">
+            <div v-if="hasReserveError" class="reserve-error position-absolute">
                {{$t('auction.reserve_error')}}
             </div>
             <div v-if="editReserve" class="mt-4 remove-button" role="button" @click="removeReserve">
@@ -177,10 +211,7 @@
             </div>
           </b-col>
           <b-col sm="2">
-            &dollar;
-            {{
-              auction.start_bid_price | formatPrice
-            }}
+            &dollar;{{ auction.start_bid_price | formatPrice }}
           </b-col>
           <b-col sm="2">
           </b-col>
@@ -191,33 +222,7 @@
           <AuctionSummaryCollection v-if="auction.type === AUCTION_TYPE_COLLECTION" :products="getProducts"/>
         </div>
       </b-col>
-      <b-col sm="1" class="mt-3 mt-md-0 d-flex flex-row justify-content-between flex-md-column align-items-center">
-        <Button
-          v-if="moreThan12 && !isDelistedOrExpired"
-          class="bg-blue-2"
-          pill
-          @click="delistAuction"
-        >
-          {{ $t('auction.delist') }}
-        </Button>
-        <Button
-          v-if="isDelistedOrExpired"
-          variant="primary"
-          class="bg-blue-2"
-          pill
-          @click="relistAuction"
-        >{{ $t('auction.relist') }}
-        </Button
-        >
-        <div
-          v-if="reserveMet && moreThan12 && bidCount===0"
-          role="button"
-          class="modify-button"
-          @click="$emit('modify')"
-        >
-          {{ $t('auction.modify_listing') }}
-        </div>
-      </b-col>
+      
     </b-row>
 
 
@@ -227,18 +232,19 @@
       no-header-border
       no-footer-border
       hide-footer
+      rounded
     >
       <template #default>
-        <div class="px-5">
-          <b-row class="mb-4">
-            <b-col md="12">
+        <div class="px-5 mt-n4">
+          <b-row class="mb-4 pb-2">
+            <b-col md="12" class="modal-text">
               {{delistRelistText}}
             </b-col>
           </b-row>
-          <b-row class="d-flex justify-content-around">
+          <b-row class="d-flex justify-content-around pb-3">
             <Button
-              variant="primary"
-              class="bg-blue-2"
+              variant="dark-blue"
+              class="modal-button"
               :disabled="isModalActionLoading"
               pill
               @click="delistModalOK"
@@ -247,6 +253,7 @@
             <Button
               v-if="isModalActionDelist"
               variant="outline-dark"
+              class="modal-button"
               pill
               :disabled="isModalActionLoading"
               @click="$bvModal.hide('delist-item-modal')">{{ $t('common.cancel') }}
@@ -254,6 +261,7 @@
             <Button
               v-else
               variant="outline-dark"
+              class="modal-button"
               pill
               :disabled="isModalActionLoading"
               @click="editSingle">{{ $t('common.edit') }}
@@ -271,18 +279,19 @@
       no-header-border
       no-footer-border
       hide-footer
+      rounded
     >
       <template #default>
-        <div class="px-5">
-          <b-row class="mb-4">
-            <b-col md="12">
+        <div class="px-5 mt-n4">
+          <b-row class="mb-4 pb-1">
+            <b-col md="12" class="modal-text">
               {{modalBodyText}}
             </b-col>
           </b-row>
-          <b-row class="d-flex justify-content-around">
+          <b-row class="d-flex justify-content-around pb-3">
             <Button
-              variant="primary"
-              class="bg-blue-2"
+              variant="dark-blue"
+              class="modal-button"
               pill
               :disabled="isModalActionLoading"
               @click="generalModalOk"
@@ -291,6 +300,7 @@
 
             <Button
               variant="outline-dark"
+              class="modal-button"
               pill
               :disabled="isModalActionLoading"
               @click="$bvModal.hide('general-reserve-modal')">{{ $t('common.cancel') }}
@@ -309,18 +319,19 @@
       no-header-border
       no-footer-border
       hide-footer
+      rounded
     >
       <template  #default>
-        <div class="px-5">
+        <div class="px-5 mt-n4">
           <b-row class="mb-4">
-            <b-col md="12" >
+            <b-col md="12" class="modal-text" >
               {{successModalText}}
             </b-col>
           </b-row>
-          <b-row class="d-flex justify-content-around">
+          <b-row class="d-flex justify-content-around pb-2">
             <Button
-              iconOnly
-              variant="primary"
+              variant="dark-blue"
+              class="checkmark-btn px-0"
               pill
             >
               <img :src="whiteCheck" alt="success check"/>
@@ -362,6 +373,7 @@ export default {
       AUCTION_TYPE_COLLECTION,
       AUCTION_TYPE_SINGLE,
       SCHEDULED_STATUS,
+      EXPIRED_STATUS,
       LIVE_STATUS,
       whiteCheck,
       hasReserveError: false,
@@ -414,14 +426,14 @@ export default {
      * @return {boolean}
      */
     isDelistedOrExpired() {
-      return this.auction.status === DELISTED_STATUS || this.auction.status === EXPIRED_STATUS
+      return this.auction.status === DELISTED_STATUS || this.auction.remaining_time === EXPIRED_STATUS
     },
     /**
-     * A method that returns true if the remaining_hrs is greater than 12.
+     * A method that returns true if the remaining_hours is greater than 12.
      * @return {boolean}
      */
     moreThan12() {
-      return this.auction.remaining_hrs>12
+      return this.auction.remaining_hours > 12
     },
     /**
      * Checking if the auction is reserved and if it is, it is checking if the reserve price is less than the highest bid.
@@ -439,6 +451,13 @@ export default {
      */
     auctionReserveValue() {
       return !this.auction.is_reserved ? this.$t('auction.no_reserve') : (this.auction.reserve_price / 100)
+    },
+    isDelistBtnVisible() {
+      if (this.isExpired) return false
+      if (this.moreThan12) return true
+      if (this.auction.bids.length === 0) return true
+      if (!this.reserveMet) return true
+      return false
     }
   },
   methods: {
@@ -532,8 +551,7 @@ export default {
         this.editReserve = true
         return null
       }else{
-        if (!this.reserveMet)
-        {
+        if (this.newReserve > this.auctionReserveValue) {
           this.hasReserveError = true
           return null
         }
@@ -588,11 +606,18 @@ export default {
   color: $color-blue-2
 
 .reserve-error
-  color: $color-red-1
+  top: 32px
+  color: $color-red-3
   width: 450px
+  font-family: $font-sf-pro-text
+  font-weight: $regular
+  @include body-5
 
 .error-border
-  border: 1px solid $color-red-1
+  border: 1px solid $color-red-3
+  padding: 0 4px
+  input
+    border-bottom: none
 
 .non-edit
   max-width: 70px
@@ -604,7 +629,7 @@ export default {
 
 
 .custom-reserve-input
-  max-width: 70px
+  width: 100%
   border: none
   border-bottom: $black 1px solid
   padding-inline: 2px
@@ -617,8 +642,8 @@ export default {
     margin: 0
 
 
-.btn-send
-  width: 30px
+.btn-send.btn
+  min-width: 30px
   height: 30px
   background-image: url('~/assets/img/icons/send.png')
   background-repeat: no-repeat
@@ -626,9 +651,10 @@ export default {
   background-position: center
   border: none
   border-radius: 4px
+  margin-left: 10px
 
-.btn-revert
-  width: 30px
+.btn-revert.btn
+  min-width: 30px
   height: 30px
   background-image: url('~/assets/img/icons/revert-reserve.png')
   background-repeat: no-repeat
@@ -636,8 +662,9 @@ export default {
   background-position: center
   border: none
   border-radius: 4px
+  margin-left: 13px
 
-.btn-edit-inventory
+.btn-edit-inventory.btn
   width: 30px
   height: 30px
   background-image: url('~/assets/img/product/actions.png')
@@ -646,13 +673,13 @@ export default {
   border-radius: 4px
 
 .modify-button
-  color: $color-blue-2
+  color: $color-blue-20
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-13
   position: absolute
-  top: 45px
-  width: 115px
-
-  &:hover
-    color: $color-blue-5
+  top: 50px
+  right: 10px
 
 .bg-blue-2
   background-color: $color-blue-2 !important
@@ -661,7 +688,19 @@ export default {
 .card-summary
   border-radius: 10px
   border: 1px solid $color-gray-58
-  padding: 15px 10px
+  padding: 26px 20px 32px 67px
+  background: $white
+  &-header
+    &-title
+      font-family: $font-sp-pro
+      font-weight: $bold
+      @include body-2
+      color: $black
+    &-status
+      font-family: $font-montserrat
+      font-weight: $normal
+      @include body-4
+      color: $color-green-2
 
 @media (max-width: 576px)
   .card-summary-header
@@ -681,4 +720,41 @@ export default {
     padding: 6px 20px
     width: auto
     border-radius: 40px
+
+.text-red
+  color: $color-red-2
+.text-green-2
+  color: $color-green-2
+.summary-columns
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-4b
+  color: $color-gray-5
+  margin-top: 25px
+  margin-bottom: 8px
+.summary-values
+  font-family: $font-sp-pro
+  font-weight: $regular
+  @include body-4b
+  color: $black
+  margin-bottom: 45px
+.relist-btn,
+.delist-btn
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-4b
+  color: $white
+.modal-button
+  width: 147px
+.modal-text
+  font-family: $font-sf-pro-text
+  font-weight: $regular
+  @include body-3
+  color: $black
+.text-gray-2
+  color: $color-gray-5
+.checkmark-btn
+  width: 48px
+  height: 48px
+  border-radius: 24px
 </style>

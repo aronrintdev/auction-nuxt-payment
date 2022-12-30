@@ -1,20 +1,30 @@
 <template>
   <b-container fluid class="container-profile-auctions h-100">
-    <div class="d-flex align-items-center mt-3">
-      <h2 class="title">{{ $tc('auction.auction_summary', 1) }}</h2>
+    <div class="d-flex align-items-center">
+      <h2 class="title mb-0">{{ $t('common.auction') }}</h2>
       <div class="ml-4 reserve-not-met-title">
         {{!reserveMet? $t('auction.reserve_no_met'): ''}}
       </div>
     </div>
-    <div v-if="selectedAuction">
+    <div class="position-relative w-100 searchbar">
+      <SearchInput
+        :value="searchText"
+        :placeholder="$t('sell.auction.search_placeholder')"
+        :debounce="1000"
+        inputHeight="38px"
+        @change="onSearchProduct"
+      />
+    </div>
+    <div v-if="selectedAuction" class="auction-summary-wrapper">
+      <h4 class="title summary-title">{{ $tc('auction.auction_summary', 1) }}</h4>
       <AuctionSummary :auction="selectedAuction"  @update-auction="getUpdatedAuction"/>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mt-3 mt-md-5 mb-3">
-      <h4 class="mb-0 title">{{ $tc('auction.bids', 1) }} ({{selectedAuction?selectedAuction.bids.length: 0}})</h4>
+    <div class="d-flex justify-content-between align-items-center auction-summary-wrapper">
+      <h4 class="mx-3 title">{{ $tc('auction.bids', 1) }} ({{selectedAuction?selectedAuction.bids.length: 0}})</h4>
       <Button
-        v-if="selectedAuction && sortedBids.length > 0"
-        variant="outline-primary"
+        v-if="selectedAuction && sortedBids.length > 0 && isExpired"
+        variant="outline-dark-blue"
         pill
         class="send-final-btn"
         @click="selectAction = true"
@@ -23,68 +33,70 @@
       </Button>
     </div>
 
-    <BulkSelectToolbar
-      v-if="selectedAuction"
-      ref="bulkSelectToolbar"
-      :active="selectAction"
-      :selected="selected"
-      :unit-label="$tc('auction.bids', selected.length)"
-      :total="selectedAuction.bids.length"
-      :action-label="$tc(`auction.next`)"
-      class="mt-3"
-      @close="cancelAction()"
-      @selectAll="handleSelectAll()"
-      @deselectAll="handleDeselectAll()"
-      @submit="handleBulkAction()"
-    />
-
-    <b-row class="mt-2 text-center px-0 px-md-5 bids-table-columns font-weight-bold">
-      <b-col cols="5" md="5" class="text-left d-flex align-items-center">
-        <b-form-checkbox
-        v-if="selectAction"
-        id="checkbox-1"
-        :checked="selectedAll"
-        class="custom-checkbox"
-        @change="selectAllChange"
-      >
-          &nbsp;
-      </b-form-checkbox> {{ $t('auction.recent_history') }}</b-col>
-      <b-col cols="4" md="4">{{ $t('auction.bid_amount') }}</b-col>
-      <b-col cols="3" md="3">{{ $t('auction.date_time') }}</b-col>
-    </b-row>
-    <div v-if="selectedAuction">
-      <Bid
-        v-for="bid in sortedBids"
-        :key="bid.id"
-        :bid="bid"
-        :is-highest="bid.price===selectedAuction.highest_bid && !isDelistedOrExpired"
-        :selectable="selectAction"
-        :selected="selected.includes(bid.id)"
-        @accept="acceptBid"
-        @selected="selectBid"
+    <div class="auction-summary-wrapper">
+      <BulkSelectToolbar
+        v-if="selectedAuction"
+        ref="bulkSelectToolbar"
+        :active="selectAction"
+        :selected="selected"
+        :unit-label="$tc('auction.bids', selected.length)"
+        :total="selectedAuction.bids.length"
+        :action-label="$tc(`auction.next`)"
+        @close="cancelAction()"
+        @selectAll="handleSelectAll()"
+        @deselectAll="handleDeselectAll()"
+        @submit="handleBulkAction()"
       />
 
-      <div v-if="!sortedBids.length">
-        <b-row class="mt-2 text-center px-0 px-md-5 bids-table-columns">
-          <b-col cols="5" md="5" class="text-left">-</b-col>
-          <b-col cols="4" md="4">-</b-col>
-          <b-col cols="3" md="3">-</b-col>
-        </b-row>
-      </div>
-
-      <div v-if="totalCount > sortedBids.length" class="d-flex align-items-center justify-content-center">
-        <Button
-          variant="primary"
-          class="bg-blue-2 mt-3"
-          :disabled="bidsLoading"
-          @click="fetchBids"
-        >{{ $t('auction.view_more') }}
-        </Button
+      <b-row class="mt-2 text-center mx-0 bids-table-columns font-weight-bold">
+        <b-col cols="5" md="5" class="text-left d-flex align-items-center pl-5">
+          <b-form-checkbox
+          v-if="selectAction"
+          id="checkbox-1"
+          :checked="selectedAll"
+          class="custom-checkbox"
+          @change="selectAllChange"
         >
+            &nbsp;
+        </b-form-checkbox> {{ $t('auction.recent_history') }}</b-col>
+        <b-col cols="4" md="4">{{ $t('auction.bid_amount') }}</b-col>
+        <b-col cols="3" md="3">{{ $t('auction.date_time') }}</b-col>
+      </b-row>
+      <div v-if="selectedAuction">
+        <Bid
+          v-for="bid in sortedBids"
+          :key="bid.id"
+          :bid="bid"
+          :is-highest="bid.price===selectedAuction.highest_bid"
+          :selectable="selectAction"
+          :acceptable="isAcceptableHighestBid"
+          :selected="selected.includes(bid.id)"
+          @accept="acceptBid"
+          @selected="selectBid"
+        />
+
+        <div v-if="!sortedBids.length">
+          <b-row class="mt-2 text-center mx-0 bids-table-columns">
+            <b-col cols="5" md="5" class="text-left pl-5">&nbsp;-</b-col>
+            <b-col cols="4" md="4">-</b-col>
+            <b-col cols="3" md="3">-</b-col>
+          </b-row>
+        </div>
+
+        <div v-if="totalCount > sortedBids.length" class="d-flex align-items-center justify-content-center">
+          <Button
+            variant="primary"
+            class="bg-blue-2 mt-3"
+            :disabled="bidsLoading"
+            @click="fetchBids"
+          >{{ $t('auction.view_more') }}
+          </Button
+          >
+        </div>
       </div>
-    </div>
-    <div v-else class="d-flex align-items-center justify-content-around mt-5 body-5-bold text-gray-24">
-      {{$t('auction.no_bid')}}
+      <div v-else class="d-flex align-items-center justify-content-around mt-5 body-5-bold text-gray-24">
+        {{$t('auction.no_bid')}}
+      </div>
     </div>
 
     <Modal
@@ -93,18 +105,19 @@
       no-header-border
       no-footer-border
       hide-footer
+      rounded
     >
       <template  #default>
-        <div class="px-5">
+        <div class="px-5 mt-n4 pb-3">
           <b-row class="mb-4">
-            <b-col md="12" >
+            <b-col md="12" class="modal-text">
               {{ $tc('auction.accept_body', 1).replace(':amount:', selectedAuction.highest_bid/100) }}
             </b-col>
           </b-row>
           <b-row class="d-flex justify-content-around">
             <Button
-              variant="primary"
-              class="bg-blue-2"
+              variant="dark-blue"
+              class="modal-button"
               pill
               :disabled="modalActionLoading"
               @click="acceptBidModalOk"
@@ -112,6 +125,7 @@
             <Button
               variant="outline-dark"
               pill
+              class="modal-button"
               :disabled="modalActionLoading"
               @click="$bvModal.hide('accept-item-modal')"
             >{{ $t('common.cancel') }}</Button
@@ -128,11 +142,12 @@
       no-header-border
       no-footer-border
       hide-footer
+      rounded
     >
       <template  #default>
         <div class="px-5">
           <b-row class="mb-4">
-            <b-col md="12" >
+            <b-col md="12" class="modal-text">
               {{ $tc('auction.sold_body', 1) }}<br/>
               {{ $tc('auction.sold_body', 2) }}
             </b-col>
@@ -140,7 +155,7 @@
           <b-row class="d-flex justify-content-around">
             <Button
               iconOnly
-              variant="primary"
+              variant="dark-blue"
               pill
             >
               <img :src="whiteCheck"/>
@@ -156,14 +171,14 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex';
-import {Button, BulkSelectToolbar, Modal} from '~/components/common';
+import {Button, BulkSelectToolbar, Modal, SearchInput} from '~/components/common';
 import Bid from '~/components/profile/auctions/Bid';
 import AuctionSummary from '~/components/profile/auctions/AuctionSummary';
 import whiteCheck from '~/assets/img/icons/white-check.svg'
-import {BIDS_PER_PAGE, DELISTED_STATUS, EXPIRED_STATUS} from '~/static/constants';
+import {BIDS_PER_PAGE, DELISTED_STATUS, EXPIRED_STATUS, LIVE_STATUS} from '~/static/constants';
 export default {
   name: 'Details',
-  components: {AuctionSummary, Bid, Button, BulkSelectToolbar, Modal},
+  components: {AuctionSummary, Bid, Button, BulkSelectToolbar, Modal, SearchInput},
   layout: 'Profile',
   middleware: ['vendor'],
   data(){
@@ -180,6 +195,7 @@ export default {
       take: BIDS_PER_PAGE,
       page: 1,
       totalCount: 0,
+      searchText: null,
     }
   },
   computed: {
@@ -191,7 +207,7 @@ export default {
      * @return boolean
      */
     isDelistedOrExpired() {
-      return this.selectedAuction.status === DELISTED_STATUS || this.selectedAuction.status === EXPIRED_STATUS
+      return this.selectedAuction.status === DELISTED_STATUS || this.selectedAuction.remaining_time === EXPIRED_STATUS
     },
     /**
      * Sorting the bids by price.
@@ -207,6 +223,14 @@ export default {
     reserveMet() {
       return this.selectedAuction?.is_reserved ? this.selectedAuction.reserve_price / 100 <= this.selectedAuction.highest_bid / 100 : true
     },
+    isExpired() {
+      return this.selectedAuction.status === LIVE_STATUS && this.selectedAuction.remaining_time === EXPIRED_STATUS
+    },
+    isAcceptableHighestBid() {
+      if (this.isExpired) return false
+      if (!this.reserveMet) return false
+      return true
+    }
   },
   mounted() {
     if (!this.$route.params.id){
@@ -298,7 +322,11 @@ export default {
     cancelAction(){
       this.selectAction = false
       this.handleDeselectAll()
-    }
+    },
+    // Search product
+    onSearchProduct(term) {
+      this.searchText = term
+    },
   }
 }
 </script>
@@ -316,7 +344,6 @@ export default {
 ::v-deep
   .custom-control-input:checked
     ~ .custom-control-label::before
-      transform: scale(1.5)
       color: $white
       background-color: $black
       box-shadow: none
@@ -341,17 +368,50 @@ export default {
 .mw-734
   max-width: 734px
 
+.modal-text
+  font-family: $font-sf-pro-text
+  font-weight: $regular
+  @include body-12
+.modal-button
+  font-family: $font-sf-pro-text
+  font-weight: $medium
+  @include body-13
+  width: 147px
+
 .container-profile-auctions
   padding: 47px 54px
   background-color: $color-white-5
 
   h2.title
+    font-family: 'Montserrat'
     @include heading-3
+    font-weight: $bold
+    letter-spacing: -0.02em
     color: $color-black-1
 
   h4.title
-    @include heading-1-medium
+    font-family: $font-sp-pro
+    font-weight: $bold
+    @include body-15
     color: $color-black-1
+    margin-bottom: 23px
+    margin-top: 40px
+    &.summary-title
+      margin-top: 0
+      margin-bottom: 42px
+  .bids-table-columns
+    padding: 0 10px 15px
+    .custom-control
+      padding: 0
+      margin-right: 1.5em
+  .bulk-select-toolbar-wrapper::v-deep
+    margin: 0 -27px
+    height: 58px
+  .custom-control::v-deep
+    .custom-control-label::before,
+    .custom-control-label::after
+      width: 16px
+      height: 16px
 
   @media (max-width: 576px)
     padding: 16px
@@ -362,10 +422,13 @@ export default {
     h4.title
       @include body-4-bold
     .send-final-btn
-      @include body-21
+      @include body-4b
       border: none
       padding: 0
       height: auto
+      font-family: $font-sp-pro
+      font-weight: $normal
+      background: transparent
       &::focus
         background: transparent
     .bids-table-columns
@@ -403,4 +466,20 @@ export default {
       @include body-9
       .btn
         @include body-9
+
+.searchbar 
+  max-width: 734px
+  margin: 24px 0 68px
+  .search-input-wrapper.search-md::v-deep
+    input.search-input
+      font-family: $font-montserrat
+      font-weight: $regular
+      @include body-5
+      letter-spacing: 0.06em
+      text-transform: capitalize
+      color: $color-gray-5
+.auction-summary-wrapper
+  margin: 0 -27px
+  @media (max-width: 576px)
+    margin: 0
 </style>

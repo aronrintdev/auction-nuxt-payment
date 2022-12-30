@@ -114,8 +114,8 @@ Vue.filter('formatDate', (value, type) => {
 
 Vue.filter('remainingTime', (value, type) => {
   // Calculate remaining time in this format: "xDAYS yHRS zMINS"
-  const { created_at: createdAt, time_limit: timeLimit } = value
-  const endingTimestamp = new Date(createdAt).valueOf() + 86400000 * timeLimit
+  const { listed_at: listedAt, time_limit: timeLimit } = value
+  const endingTimestamp = new Date(listedAt).valueOf() + 86400000 * timeLimit
   const currentTimestamp = new Date().valueOf()
   let diffInSeconds = (endingTimestamp - currentTimestamp) / 1000
   if (diffInSeconds < 0) {

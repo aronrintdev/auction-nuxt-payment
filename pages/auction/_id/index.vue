@@ -98,10 +98,10 @@
             <span v-if="isExpired" class="ml-2 text-danger text-capitalize stat-value">
               {{ $t('bids.expired') }}
             </span>
-            <span v-if="isScheduled" class="ml-2 text-gray text-capitalize stat-value">
+            <span v-else-if="isScheduled" class="ml-2 text-gray text-capitalize stat-value">
               {{ $t('bids.scheduled') }}
             </span>
-            <span v-else class="ml-2 stat-value">{{ activeAuction | remainingTime('dots') }}</span>
+            <span v-else class="ml-2 stat-value text-capitalize">{{ activeAuction | remainingTime('dots') }}</span>
           </div>
           <div class="stat-divider mx-3"></div> 
           <div>
@@ -919,7 +919,7 @@ export default {
       })
       const mainPrice = newV.highest_bid ? Math.floor(newV.highest_bid / 5000) + 1 : Math.floor(newV.start_bid_price / 5000) + 1
       this.quickBidPrices = [mainPrice * 5000, (mainPrice + 1) *5000, (mainPrice + 2) * 5000, (mainPrice + 3) * 5000, (mainPrice + 4) * 5000]
-      if (this.$options.filters.remainingTime(newV) === EXPIRED_STATUS || newV.status === EXPIRED_STATUS) {
+      if (newV.remaining_time === EXPIRED_STATUS) {
         this.isExpired = true
       }
       this.autoBidDisabled = newV.auto_bid_settings[0] ? newV.auto_bid_settings[0].is_disabled : false

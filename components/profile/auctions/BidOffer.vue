@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-3 d-flex justify-content-between align-items-center align-items-md-end mx-auto body-3-bold w-650 bid-offer">
+  <div class="d-flex justify-content-between align-items-center mx-auto w-650 bid-offer">
     <span>{{$t('auction.bid')}} {{ index+1 }}</span>
     <span>=</span>
     <span>&dollar;{{ bid.price | formatPrice }}</span>
@@ -10,12 +10,11 @@
         :value="duration"
         :placeholder="$tc('auction.select_duration', 2)"
         :items="DURATIONS"
-        :label="$t('bids.duration')"
+        :label="showLabel ? `${$t('bids.duration')}*` : ''"
         :icon-arrow-up="arrowUpIcon"
         :icon-arrow-down="arrowDownIcon"
         class="d-none d-md-block dropdown-filters mr-4"
         :class="hasError? 'has-error' : ''"
-        no-arrow
         @select="selectDuration"
       />
       <button
@@ -52,8 +51,8 @@
 
 <script>
 import {FormDropdown, Button} from '~/components/common';
-import arrowUpIcon from '~/assets/img/icons/arrow-up-blue.svg'
-import arrowDownIcon from '~/assets/img/icons/arrow-down-blue.svg'
+import arrowUpIcon from '~/assets/img/icons/arrow-up-gray.svg'
+import arrowDownIcon from '~/assets/img/icons/arrow-down-gray.svg'
 
 export default {
   name: 'BidOffer',
@@ -71,6 +70,10 @@ export default {
       type: String,
       default: null
     },
+    showLabel: {
+      type: Boolean,
+      default: true,
+    }
   },
   data(){
     return{
@@ -107,8 +110,13 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
-.dropdown-filters
+.dropdown-filters::v-deep
   min-width: 200px
+  .input-label
+    font-family: $font-sp-pro
+    font-weight: $normal
+    @include body-12
+    color: $black
 
 ::v-deep
   .has-error
@@ -122,6 +130,23 @@ export default {
   background-image: url('~/assets/img/product/actions.png')
   background-position: right
   border-radius: 4px
+
+.bid-offer
+  margin-top: 37px
+  span
+    font-family: $font-sp-pro
+    font-weight: $medium
+    @include body-12
+    text-align: center
+    color: $black
+
+  .dropdown-filters::v-deep
+    .dropdown-btn
+      .fw-5
+        font-family: $font-sp-pro
+        font-weight: $regular
+        @include body-13
+        color: $color-gray-47
 
 @media (max-width: 576px)
   .bid-offer.w-650

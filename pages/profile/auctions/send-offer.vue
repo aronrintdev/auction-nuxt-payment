@@ -1,25 +1,26 @@
 <template>
   <b-container fluid class="container-profile-auctions h-100">
-    <div class="d-flex justify-content-start align-items-center body-4-normal back-btn" role="button" @click="goBackAuction">
+    <div class="d-flex justify-content-start align-items-center back-btn" role="button" @click="goBackAuction">
       <img :src="ArrowLeft" :alt="$t('auction.go_back_alt_text')" class="mr-2">
       {{$t('auction.back_to_summary')}}
     </div>
 
-    <div class="d-flex align-items-center justify-content-around w-100 mt-5">
+    <div class="d-flex align-items-center justify-content-around w-100">
       <div class="d-flex flex-column align-items-center ">
         <div class="title ">
           <h2>{{$t('auction.send_final_offers')}}</h2>
         </div>
-        <div class="subtitle text-gray-24">
+        <div class="subtitle">
           <h5>{{$t('auction.send_final_offers_subtitle')}}</h5>
         </div>
       </div>
     </div>
-    <div  class="mt-5 d-flex flex-column align-items-center">
+    <div  class="d-flex flex-column align-items-center">
       <div v-for="(bid, index) in selectedBids" :key="index" class="w-100">
         <BidOffer
           :bid="bid"
           :index="index"
+          :showLabel="false"
           :has-error="validationErrors[bid.id]"
           @remove="removeBid"
           @select="handleDurationSelect"
@@ -29,8 +30,9 @@
     <div class="d-flex justify-content-center  mt-5">
       <Button
         v-if="selectedBids.length"
-        class="bg-blue-2 border-0"
+        class="border-0 send-offer-btn"
         pill
+        variant="dark-blue"
         :disabled="modalActionLoading"
         @click="sendOffers"
       >
@@ -44,18 +46,19 @@
       no-header-border
       no-footer-border
       hide-footer
+      rounded
     >
       <template #default>
-        <div class="px-md-5 mt-n3 mt-md-0 px-0">
+        <div class="px-md-5 mt-n4 pb-3 px-0">
           <b-row class="mb-4">
-            <b-col md="12">
+            <b-col md="12" class="modal-text">
               {{modalBody}}
             </b-col>
           </b-row>
           <b-row class="d-flex justify-content-around">
             <Button
-              variant="primary"
-              class="bg-blue-2 border-0"
+              variant="dark-blue"
+              class="border-0 modal-button"
               :disabled="modalActionLoading"
               pill
               @click="modalOkAction"
@@ -65,6 +68,7 @@
             <Button
               variant="outline-dark"
               pill
+              class="modal-button"
               :disabled="modalActionLoading"
               @click="$bvModal.hide('final-offer-modal')">{{ $t('common.cancel') }}
             </Button
@@ -238,13 +242,45 @@ export default {
   max-width: 734px
 
 
-.title
-  @include heading-1-bold
+.title h2
+  font-family: $font-montserrat
+  @include heading-3
+  font-weight: $bold
+  letter-spacing: -0.02em
+  text-transform: capitalize
   color: $color-black-1
+  margin-bottom: 20px
+  margin-top: 60px
 
 .container-profile-auctions
-  padding: 47px 54px
+  padding: 26px 54px
   background-color: $color-white-5
+  .back-btn
+    font-family: $font-sp-pro
+    font-weight: $regular
+    @include body-4b
+    letter-spacing: 0.06em
+    color: $black
+  h5
+    font-family: $font-montserrat
+    font-weight: $regular
+    @include body-5
+    color: $black
+    margin-bottom: 0
+  .send-offer-btn
+    font-family: $font-sp-pro
+    font-weight: $medium
+    @include body-13
+    width: 238px
+.modal-text
+  font-family: $font-sf-pro-text
+  font-weight: $regular
+  @include body-12
+.modal-button
+  font-family: $font-sf-pro-text
+  font-weight: $medium
+  @include body-13
+  width: 147px
 
   @media (max-width: 576px)
     padding: 16px

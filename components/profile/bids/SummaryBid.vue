@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import HandIcon from '~/assets/img/icons/bid-hand.svg'
+import HandIcon from '~/assets/img/icons/bid-hand.png'
 
 export default {
   name: 'SummaryBid',

@@ -1,35 +1,30 @@
 <template>
-  <b-row v-if="bid" class="mt-3 text-center p-0 py-2 px-md-5 py-md-5 ml-0 ml-md-n1 table-text bg-white single-item" >
-    <b-col cols="5" md="5" class="text-left">
-      <b-row class="align-items-center">
-        <b-col cols="6" sm="2" class="d-flex d-md-block align-items-center px-0">
-          <b-form-checkbox
-            v-if="selectable"
-            :id="'checkbox-bid-'+ bid.id"
-            :checked="selected"
-            class="custom-checkbox"
-            @change="bidSelected"
-          >&nbsp;</b-form-checkbox>
-          <img :src="HandIcon" :alt="$t('bids.bid_hand')">
-        </b-col>
-        <b-col cols="6" sm="4" class="px-0">
-          <div v-if="isHighest" class="highest-bid-text">{{ $t('auction.highest_bid') }}</div>
-        </b-col>
-        <b-col cols="12" sm="6">
-          <div v-if="isHighest && acceptable" class="px-0 px-md-5">
-            <Button
-              pill
-              block
-              class="accept-button border-0"
-              @click="$emit('accept', bid)"
-            >
-              {{$t('auction.accept')}}
-            </Button>
-          </div>
-        </b-col>
-      </b-row>
+  <b-row v-if="bid" class="mx-0 table-text single-item" >
+    <b-col cols="5" md="5" class="d-flex text-left align-items-center">
+      <div class="d-flex align-items-center">
+        <b-form-checkbox
+          v-if="selectable"
+          :id="'checkbox-bid-'+ bid.id"
+          :checked="selected"
+          class="custom-checkbox"
+          @change="bidSelected"
+        >&nbsp;</b-form-checkbox>
+        <img :src="HandIcon" :alt="$t('bids.bid_hand')">
+        <div v-if="isHighest" class="highest-bid-text text-center">{{ $t('auction.highest_bid') }}</div>
+        <div v-if="isHighest && acceptable">
+          <Button
+            pill
+            block
+            variant="dark-grey"
+            class="accept-button border-0"
+            @click="$emit('accept', bid)"
+          >
+            {{$t('auction.accept')}}
+          </Button>
+        </div>
+      </div>
     </b-col>
-    <b-col cols="4" md="4" class="d-flex flex-column align-items-center justify-content-center">
+    <b-col cols="4" md="4" class="d-flex flex-column align-items-center justify-content-center price-text">
       <div>&dollar;{{ bid.price| formatPrice}}</div>
     </b-col>
     <b-col cols="3" md="3" class="d-flex flex-column align-items-center justify-content-center">
@@ -40,7 +35,7 @@
 </template>
 
 <script>
-import HandIcon  from '~/assets/img/icons/bid-hand.svg'
+import HandIcon  from '~/assets/img/icons/bid-hand.png'
 import Button from '~/components/common/Button';
 export default {
   name: 'Bid',
@@ -93,24 +88,63 @@ export default {
 @import '~/assets/css/_variables'
 
 ::v-deep
-  .accept-button
-    background-color: $secondary !important
-
+  .accept-button.btn
+    background-color: $secondary
+    font-family: $font-sp-pro
+    font-weight: $normal
+    @include body-4b
+    color: $white
+    border: 1px solid $white
+    border-radius: 21px
+    width: 191px
 
 .highest-bid-text
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-4b
+  color: $color-green-26
   color: $secondary
+  width: 141px
+  margin-left: 14px
+  margin-right: 45px
 
 .table-text
   @include body-4-medium
 
+.date-text
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-5
+  color: $black
+  margin-bottom: 3px
+
 .time-text
   color: $color-gray-59
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-5
+
+.price-text
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-4b
+  color: $black
 
 .single-item
   border-radius: 10px
   border: 1px solid $color-gray-58
   padding: 15px 10px
-  width: 100%
+  background: white
+  margin-bottom: 11px
+  height: 116px
+  img
+    width: 63px
+    margin-left: 30px
+  .custom-control::v-deep
+    .custom-control-label::before,
+    .custom-control-label::after
+      width: 16px
+      height: 16px
 
 @media (max-width: 576px)
   .table-text
