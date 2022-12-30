@@ -67,7 +67,7 @@
               class="d-flex align-items-center justify-content-center mx-auto card"
               :style="cardStyle"
             >
-              {{ size.size }}
+            {{ (size.size - Math.floor(size.size)) !== 0 ? size.size : parseInt(size.size).toFixed(1) }}
             </div>
             <div class="price">
               {{ getPriceBySize(size.id) | toCurrency }}
@@ -104,7 +104,7 @@
             class="d-flex align-items-center justify-content-center mx-auto card"
             @click="handleSizeSelect(size.id)"
           >
-            {{ size.size }}
+          {{ (size.size - Math.floor(size.size)) !== 0 ? size.size : parseInt(size.size).toFixed(1) }}
           </div>
           <div class="text-center price">
             {{ getPriceBySize(size.id) | toCurrency }}

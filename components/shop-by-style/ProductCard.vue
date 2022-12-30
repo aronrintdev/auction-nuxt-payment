@@ -194,22 +194,12 @@
                   variant="dark"
                   border="thick"
                   :disabled="addingToCart"
-                  class="mx-auto add-to-cart-button"
+                  class="mx-auto add-to-cart-button d-block pl-205"
                   @click="handleAddToCartClick('web', product.id)"
                 >
-                  <div class="d-flex justify-content-center">
-                    <div>
-                      {{ $t('product_page.add_to_cart') }}
-                    </div>
-                    <div
-                      class="ml-1"
-                      :class="
-                        addingToCart ? 'add-to-cart-animation' : 'invisible'
-                      "
-                    >
-                      +1
-                    </div>
-                  </div>
+                <div class="w-fit-content">
+                  {{ $t('product_page.add_to_cart') }}
+                </div>
                 </Button>
                 <button
                   :id="`popover-wishlist-${product.id}`"
@@ -580,4 +570,6 @@ export default {
   .heart-icon
     width: 21px
     height: 21px
+.pl-205
+  padding-left: 205px
 </style>

@@ -16,7 +16,7 @@
         <span v-if="isSizeSelected(data.field.key)" class="body-4-medium">{{
           data.value
         }}</span>
-        <span v-else class="body-4-regular">{{ data.value }}</span>
+        <span v-else class="body-4-regular">{{ (data.value - Math.floor(data.value)) !== 0 ? data.value : parseInt(data.value).toFixed(1) }}</span>
       </template>
     </b-table>
   </div>
