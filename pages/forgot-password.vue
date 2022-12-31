@@ -2,7 +2,9 @@
   <b-row class="vh-100">
     <b-col md="8">
       <b-row class="mt-3 ml-2 back-to-login">
-        <b-col md="12" class="d-flex align-items-center">
+      </b-row>
+      <b-row class="h-50">
+        <b-col offset-md="3" class="back-to-login">
           <b-img :src="require('~/assets/img/auth/back_arrow_blue_1.svg')"></b-img>
           <NuxtLink
             class="custom-link pl-0"
@@ -12,12 +14,9 @@
             }}</span>
           </NuxtLink>
         </b-col>
-      </b-row>
-
-      <b-row class="h-100">
         <b-col md="6" offset-md="3" class="d-flex flex-column align-items-center justify-content-center">
           <nuxt-link class="d-lg-none mb-5" to="/">
-            <Logo class="mb-3"/>
+            <Logo class="mb-3 main-img"/>
           </nuxt-link>
           <b-row>
             <b-col md="12">
@@ -38,7 +37,7 @@
                       <b-form-input
                         id="email-address"
                         v-model="email"
-                        class="input-forgot-password"
+                        class="rounded-pill input-forgot-password"
                         :placeholder="$t('auth.email_address')"
                         :state="getValidationState(validationContext)"
                       ></b-form-input>
@@ -93,7 +92,7 @@
         </b-col>
       </b-row>
     </b-col>
-    <b-col md="4" class="flex-column align-items-center justify-content-center bg-color-white-5 new-to-deadstock-main">
+    <b-col md="4" class="right-section flex-column align-items-center justify-content-center new-to-deadstock-main">
       <b-row class="mt-5">
         <b-col md="12">
           <div class="left-heading-bold text-center">{{ $t('auth.new_to_deadstock') }}&quest;</div>
@@ -157,6 +156,13 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.right-section
+    width: 505px
+    min-width: 450px
+    background-image: url('~/assets/img/sign-up/loginbackground.png') !important
+    background-position: center center
+    background-repeat: no-repeat
+    background-size: cover
 .bg-color-white-5
   background: $color-white-5
 .text-color-black-1
@@ -188,6 +194,8 @@ export default {
   display: block
 .back-to-login
   display: block
+  margin-top: 118px
+  margin-bottom: 51px
 .back-to-login-btn
   margin-top: 160px
 @media (min-width: 320px) and (max-width: 556px)
@@ -212,6 +220,11 @@ export default {
     padding: 6px 10px
     width: 185px
     margin-top: 80px
+  .main-img
+    margin-top: 78px
+  .login-form-section 
+  fieldset
+    width: 323px
 /* Override bootstrap-vue 'b-form-input' styles */
 .input-forgot-password
   @include body-5-normal

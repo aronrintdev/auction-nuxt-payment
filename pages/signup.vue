@@ -667,6 +667,7 @@ export default {
   font-weight: $bold
   font-size: 42px
   line-height: 51px
+  margin-top: 46px
 
 .bg-color-white-5
   background: $color-white-5
