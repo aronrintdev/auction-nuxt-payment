@@ -1,8 +1,8 @@
 <template>
   <div class="card-wrapper">
     <div
-      :class="{'px-4': !isScreenXS}"
       class="pt-3 action-buttons d-flex align-items-center justify-content-between mx-auto"
+      :class="{'buttons-wrapper' : !isScreenXS}"
     >
       <Button
         v-if="!selectable && isActionsVisible && !isScreenXS"
@@ -75,7 +75,8 @@
       <ProductThumb :product="inventory.product"/>
 
       <div class="image-bottom-text position-absolute w-100 px-4">
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center"
+             :class="inventory.listing_items.length ? 'justify-content-between' : 'justify-content-end'">
           <div v-if="inventory.listing_items.length">
             <span class="listing-id">{{ $t('common.listing_id') }}: #{{inventory.listing_items[0].id}}</span>
           </div>
@@ -98,7 +99,6 @@
       <div class="product-price text-truncate">
         {{ inventory.sale_price | toCurrency }}
       </div>
-
     </div>
 
 
@@ -297,6 +297,12 @@ export default {
 .action-buttons
   background-color: $color-white-4
   max-width: 242px
+  &.buttons-wrapper
+    padding-left: 44px
+    padding-right: 45px
+    padding-top: 14px
+
+
 
 .product-image
   padding: 0 25px 15px 25px
@@ -322,17 +328,17 @@ export default {
     @include body-8
     font-family: $font-family-sf-pro-display
     color: $color-black-1
-    margin-bottom: 3px
+    margin-bottom: 8px
     font-weight: $medium
 
   .product-color
     color: $color-gray-5
     font-family: $font-family-sf-pro-display
-    margin-bottom: 3px
+    margin-bottom: 8px
 
   .product-price
     color: $color-black-1
-    margin-top: 3px
+    margin-top: 1px
     @include body-9-normal
 
   .product-stock
