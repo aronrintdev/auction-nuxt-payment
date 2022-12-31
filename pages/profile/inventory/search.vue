@@ -81,6 +81,7 @@
           :placeholder="$t('inventory.search_product_placeholder')"
           size="lg"
           class="search-input mr-3"
+          input-height="60px"
           bordered
           autofocus
           @change="handleSearchChange"
@@ -310,6 +311,7 @@ export default {
   .search-input
     width: 100%
     max-width: 688px
+    height: 60px
 
   .btn-download
     @include body-3-normal
@@ -368,6 +370,10 @@ export default {
 
 .mt-38
   margin-top: 38px
+
+.input-padding
+  pading-top: 25px
+  pading-bottom: 25px
 
 
 </style>
