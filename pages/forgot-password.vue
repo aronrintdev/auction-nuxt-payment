@@ -159,7 +159,7 @@ export default {
 .right-section
     width: 505px
     min-width: 450px
-    background-image: url('~/assets/img/sign-up/loginbackground.png') !important
+    background-image: url('~/assets/img/sign-up/loginbackground.png')
     background-position: center center
     background-repeat: no-repeat
     background-size: cover
