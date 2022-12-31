@@ -198,7 +198,8 @@
       />
 
       <MobileBottomSheet
-          :max-height="'50%'"
+          :max-height="'464px'"
+          :height="'464px'"
           :open="mobileFiltersOpen"
           :title="$t('notifications.filter_by')"
           @closed="mobileFiltersOpen = false"
@@ -215,7 +216,7 @@
           </div>
           <div class="d-flex align-items-center justify-content-between mb-3">
             <Button
-                class="filter-button reset-btn"
+                class="filter-button reset-btn px-0"
                 pill
                 variant="outline-dark"
                 @click="resetFilter"
@@ -225,7 +226,7 @@
 
             <Button
                 :disabled="loading"
-                class="filter-button apply-filters"
+                class="filter-button apply-filters px-0"
                 pill
                 variant="dark-blue"
                 @click="getInventories"
@@ -859,6 +860,8 @@ export default {
 
 .filter-button
   font-family: $font-family-sf-pro-display
+  height: 40px
+  width: 135px
 .reset-btn
   font-family: $font-family-sf-pro-display
 
