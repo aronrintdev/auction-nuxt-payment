@@ -17,7 +17,7 @@
         {{ $t('common.edit') }}
       </Button>
       <Button
-        v-if="!selectable && isActionsVisible && !isScreenXS && !inventory.listing_items.length"
+        v-if="!selectable && isActionsVisible && !isScreenXS && !isListed"
         class="btn-list add"
         icon="plus-circle-gray.svg"
         icon-height="15"
@@ -29,7 +29,7 @@
         {{ $t('common.list') }}
       </Button>
       <Button
-        v-if="!selectable && isActionsVisible && !isScreenXS && inventory.listing_items.length"
+        v-if="!selectable && isActionsVisible && !isScreenXS && isListed"
         class="btn-list delist"
         icon="plus-circle-delist.svg"
         icon-height="15"
@@ -76,9 +76,9 @@
 
       <div class="image-bottom-text position-absolute w-100 px-4">
         <div class="d-flex align-items-center"
-             :class="inventory.listing_items.length ? 'justify-content-between' : 'justify-content-end'">
-          <div v-if="inventory.listing_items.length">
-            <span class="listing-id">{{ $t('common.listing_id') }}: #{{inventory.listing_items[0].id}}</span>
+             :class="isListed ? 'justify-content-between' : 'justify-content-end'">
+          <div v-if="isListed">
+            <span class="listing-id">{{ $t('common.listing_id') }}: #{{listingId}}</span>
           </div>
           <div v-if="inventory.stock" class="stock-count">
             X{{ inventory.stock }}
@@ -209,6 +209,12 @@ export default {
     conditionLabel() {
       return this.inventory.product.category.name === 'sneakers' ? this.$t('sell.inventory.box') : this.$t('sell.inventory.package')
     },
+    isListed() {
+      return this.inventory.listing_items.length
+    },
+    listingId() {
+        return this.isListed ? this.inventory.listing_items[0].id : null
+    }
   },
   methods: {
     ...mapActions({
@@ -234,10 +240,20 @@ export default {
     },
 
     handleEditClick() {
-      this.$router.push({
-        path: '/profile/inventory/edit',
-        query: {id: this.inventory.id},
-      })
+      // if inventory listed then go to modify listing page
+      if (this.isListed) {
+        this.$router.push({
+          path: '/profile/vendor-selling/details/modify',
+          query: {id: this.listingId},
+        })
+      } else {
+        // if inventory isn't listing then go to the inventory edit page
+        this.$router.push({
+          path: '/profile/inventory/edit',
+          query: {id: this.inventory.id},
+        })
+      }
+
     },
 
     handleDeleteClick() {
