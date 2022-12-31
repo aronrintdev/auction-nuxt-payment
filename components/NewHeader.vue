@@ -24,7 +24,7 @@
           <Logo :width="164" />
         </div>
         <div class="d-inline-block d-sm-none">
-          <h2 class="meta-info font-primary fs-18 fw-7 mb-0 text-black">
+          <h2 class="meta-info font-primary body-3-medium mb-0 text-black">
             <PortalTarget name="page-title">
               <Logo :width="164" />
             </PortalTarget>
@@ -279,7 +279,7 @@ export default {
     left: 50%
     margin-left: -82px
     @media (max-width: 450px)
-      padding-left: 15px
+      padding-left: 35px
   .navbar-collapse
     padding: 0
     margin: 0
@@ -326,7 +326,7 @@ export default {
         display: flex
         align-items: center
         img, svg
-          margin: 0 15px
+          margin: 0 5px
     .nav-item-signup
       .nav-link
         padding-right: 7px

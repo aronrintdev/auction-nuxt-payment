@@ -150,4 +150,9 @@ export default {
   .wrapper
     .custom-wrapper
       background-color: $color-white-19
+
+@media (max-width: 575px)
+  .wrapper
+    .custom-wrapper
+      background-color: $color-white
 </style>

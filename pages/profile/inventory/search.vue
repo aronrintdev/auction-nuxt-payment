@@ -2,6 +2,13 @@
   <b-container fluid class="h-100" :class="isScreenXS ? 'p-4' : 'container-profile-inventory-search'">
     <!-- Mobile View Begin -->
     <div v-if="isScreenXS">
+
+      <!-- Header Title Begin -->
+      <client-only v-if="isScreenXS">
+        <Portal to="page-title">{{ $t('home.inventory') }}</Portal>
+      </client-only>
+      <!-- Header Title End -->
+
       <div class="d-flex align-items-center">
         <MobileSearchInput
           :value="searchKeyword"

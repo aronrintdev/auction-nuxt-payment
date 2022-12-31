@@ -27,7 +27,7 @@
         <div v-if="!isScreenXS" class="products-count">
           {{ $tc('common.product', totalCount) }} ({{ totalCount }})
         </div>
-        <div class="d-flex align-items-center justify-content-between col-xl-9 pr-0">
+        <div class="d-flex align-items-center justify-content-between col-xl-9 px-0 nav-container">
           <NavGroup
             :class="`${isScreenXS && 'w-100'} my-2 text-center`"
             :data="TYPES"
@@ -66,6 +66,7 @@
 
         <div class="mt-3 mt-xl-0 col-6 col-xl-3 col-xxl-2 d-flex align-items-center justify-content-xl-center">
           <CustomDropdown
+            class="category-dropdown"
             v-model="category"
             :options="FILTERS"
             :label="categoryFilterLabel"
@@ -105,7 +106,7 @@
         </div>
       </div>
 
-      <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between mt-4">
+      <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between my-20">
         <div class="products-count">
           {{ $tc('home.inventory', totalCount) }} ({{ totalCount }})
         </div>
@@ -196,7 +197,6 @@
           @hidden="onExportedModalHidden"
       />
 
-
       <MobileBottomSheet
           :max-height="'50%'"
           :open="mobileFiltersOpen"
@@ -235,6 +235,10 @@
           </div>
         </div>
       </MobileBottomSheet>
+
+      <client-only v-if="isScreenXS">
+        <Portal to="page-title">{{ $t('home.inventory') }}</Portal>
+      </client-only>
 
     </b-container>
   </client-only>
@@ -316,12 +320,12 @@ export default {
           value: 'selling',
         },
         {
-          label: this.$t('home.auctions'),
-          value: 'auction',
-        },
-        {
           label: this.$t('home.trades'),
           value: 'trade',
+        },
+        {
+          label: this.$t('home.auctions'),
+          value: 'auction',
         },
       ],
       ACTIONS: [
@@ -711,7 +715,7 @@ export default {
 
   .nav-group::v-deep
     .btn-group
-      height: 32px
+      height: 36px
       background: $color-gray-3
       border-radius: 20px
       .btn
@@ -726,7 +730,9 @@ export default {
     .dropdown_wrapper
       height: auto !important
       .dropdownItem
-        height: 41px
+        padding: 17px 0px 17px 10px
+        font-family: $font-family-montserrat
+        height: 46px
     .btn-dropdown
       border: 1px solid $color-blue-20
       border-radius: 4px
@@ -735,7 +741,7 @@ export default {
       justify-content: center !important
 
       div
-        @include body-5-regular
+        @include body-5-normal
         font-family: $font-family-montserrat
         color: $color-gray-5
 
@@ -756,6 +762,8 @@ export default {
           border-bottom: 1px solid $color-gray-23
           border-left: 1px solid $color-blue-1
           border-right: 1px solid $color-blue-1
+          border-top: 0px
+          z-index: 9999
 
           &:hover
             color: $color-black-1
@@ -804,6 +812,10 @@ export default {
   .inventory-card
     flex: 0 0 50%
     max-width: 50%
+    &.col-xs-6:nth-child(even)
+     padding-right: 0px
+    &.col-xs-6:nth-child(odd)
+      padding-left: 0px
 
     @media (min-width: 1030px)
       flex: 0 0 50%
@@ -849,4 +861,15 @@ export default {
   font-family: $font-family-sf-pro-display
 .reset-btn
   font-family: $font-family-sf-pro-display
+
+::v-deep.category-dropdown
+  ul.custom-dropdown-options li
+    padding-left: 10px
+    padding-top: 10px
+    padding-bottom: 10px
+
+.my-20
+  margin-top: 20px
+  margin-bottom: 20px
+
 </style>
