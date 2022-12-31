@@ -3,7 +3,6 @@
     <b-navbar
       toggleable="lg"
       class="navbar-wrapper w-100 d-flex justify-content-between"
-      :class="mobileClass ? 'border-bottom' : ''"
     >
       <PortalTarget name="back-icon-slot" class="d-block d-sm-none">
         <b-navbar-toggle target="top-menu-sidebar">
@@ -132,6 +131,7 @@
           </b-nav-item>
         </b-navbar-nav>
       </div>
+
     </b-navbar>
     <SearchOverlay
       ref="searchOverlay"
@@ -263,9 +263,8 @@ export default {
 
 .navbar-wrapper.navbar::v-deep
   font-family: $font-family-base
-  padding: 19px 10px 10px 10px
+  padding: 19px 10px 14px 10px
   background-color: $color-white-1
-  border-bottom: 1px $color-gray-47
 
   svg text
     font-family: $font-family-sf-pro-display
@@ -274,12 +273,14 @@ export default {
   @media (min-width: 576px)
     padding: 22.5px 16px
     padding-right: 16px
+
   .navbar-brand
     position: absolute
     left: 50%
-    margin-left: -82px
+    transform: translateX(-50%)
     @media (max-width: 450px)
-      padding-left: 35px
+      padding-left: 0px
+
   .navbar-collapse
     padding: 0
     margin: 0

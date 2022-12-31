@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="h-100" :class=" !isScreenXS ? 'container-profile-inventory-new' : 'p-0'">
+  <b-container fluid class="h-100" :class=" !isScreenXS ? 'container-profile-inventory-new' : 'px-0 pt-3'">
     <client-only v-if="isScreenXS">
       <Portal to="back-icon-slot">
         <img
