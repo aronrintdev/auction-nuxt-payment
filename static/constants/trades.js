@@ -115,3 +115,5 @@ export const FILTER_OFFER_STATUS_DELETED = 'Deleted'
 export const SHIPPING_FEE_FIRST_ITEM = 1500
 export const SHIPPING_FEE_SECOND_ITEM = 1000
 export const SHIPPING_FEE_THIRD_ITEM = 1000
+export const OFFER_SUMMARY = 'offer_summary'
+export const OFFER_SUMMARY_INITIAL_LISTING = 'offer_summary_initial_listing'

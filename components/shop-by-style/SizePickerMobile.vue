@@ -20,15 +20,15 @@
         class="radio-title w-100 text-capitalize"
         :class="{ checked: isChecked }"
       >
-        <div class="size-block">
-          {{ size }}
+        <div class="size-block text-black">
+          {{ (size - Math.floor(size)) !== 0 ? size : parseInt(size).toFixed(1) }}
         </div>
         <template v-if="price">
-          <div class="box-condition color-black-15">( {{ boxCondition }} )</div>
+          <div class="box-condition color-black-15 text-center">({{ boxCondition }})</div>
           <div class="size-price ml-auto">{{ price | toRoundedCurrency }}</div>
         </template>
         <template v-else>
-          <div class="box-condition color-black-15">
+          <div class="box-condition color-black-15 text-center">
             - {{ $t('createlisting.out_of_stock') }} -
           </div>
           <div
@@ -128,7 +128,7 @@ input[type="radio"]
     border: 0
     border-bottom: 1px solid $color-gray-62
     border-radius: 0
-    color: $color-black-1
+    color: $color-black-15
     padding: 10px 0
     font-size: 14px
     font-weight: 400
@@ -146,5 +146,7 @@ input[type="radio"]
         div
             color: $color-white-1
 .size-block
-    width: 110px
+    width: 118px
+.box-condition
+  width: 100px
 </style>

@@ -27,6 +27,8 @@
             variant="white"
             borderRadius="4px"
             padding-x="10px"
+            padding-t="5px"
+            padding-b="5px"
             @change="changeStatus"
             class="inventory-status-dropdown"
           />
@@ -39,14 +41,6 @@
           {{$t('trades.your_inventory', {0: totalInventory})}}
         </div>
         <your-inventory @updateTotal="setTotalInventory" @change="changePublicInventories" />
-        <b-row class="justify-content-center pt-3">
-          <Button variant="primary" class="mr-4" pill @click="savePreference()">
-            {{$t('trades.preferences.save_changes')}}
-          </Button>
-          <Button variant="grey-light" pill @click="getTradePreferences()">
-            {{$t('trades.preferences.discard_changes')}}
-          </Button>
-        </b-row>
       </b-col>
 
       <!-- Offers Settings -->
@@ -81,7 +75,7 @@
               {{$t('trades.preferences.sneaker')}}
             </b-col>
             <b-col md="10" sm="12">
-              <single-slider :value="sneakerInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeSneakerInterest" />
+              <single-slider :value="sneakerInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" :meterTextSneaker="true" @slide="changeSneakerInterest" />
             </b-col>
           </div>
         </div>
@@ -91,7 +85,7 @@
               {{$t('trades.preferences.apparel')}}
             </b-col>
             <b-col md="10" sm="12">
-              <single-slider :value="apparelInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeApparelInterest" />
+              <single-slider :value="apparelInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true"  :meterTextSneaker="true" @slide="changeApparelInterest" />
             </b-col>
           </div>
         </div>
@@ -101,7 +95,7 @@
               {{$t('trades.preferences.accessories')}}
             </b-col>
             <b-col md="10" sm="12">
-              <single-slider :value="accessoriesInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeAccessoriesInterest" />
+              <single-slider :value="accessoriesInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true"  :meterTextSneaker="true" @slide="changeAccessoriesInterest" />
             </b-col>
           </div>
         </div>
@@ -196,14 +190,6 @@
             </div>
           </b-col>
         </b-col>
-        <b-row class="justify-content-center pt-3">
-          <Button variant="dark-blue" class="mr-4" pill @click="savePreference()">
-            {{$t('trades.preferences.save_changes')}}
-          </Button>
-          <Button variant="grey-light" pill @click="getTradePreferences()">
-            {{$t('trades.preferences.discard_changes')}}
-          </Button>
-        </b-row>
       </b-col>
 
       <!-- Brands Section -->
@@ -217,7 +203,7 @@
         <b-row class="mt-4">
           <b-row>
             <b-col md="3" v-for="(brand,index) in filters.brands" :key="index" class="brand-section-left">
-              <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"> <span class="brnad-name">{{brand.name}}</span>  </b-form-checkbox>
+              <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"> <span class="brnad-name pl-3">{{brand.name}}</span>  </b-form-checkbox>
             </b-col>
           </b-row>
         </b-row>
@@ -240,7 +226,6 @@ import debounce from 'lodash.debounce';
 import {mapActions, mapGetters} from 'vuex';
 import CustomDropdown from '~/components/common/CustomDropdown';
 import SingleSlider from '~/components/common/SingleSlider';
-import Button from '~/components/common/Button';
 import YourInventory from '~/pages/profile/trades/preferences/YourInventory';
 import ResetModal from '~/pages/profile/trades/preferences/ResetModal';
 import {
@@ -254,7 +239,7 @@ import {
 
 export default {
   name: 'Index',
-  components: {ResetModal, YourInventory, Button, SingleSlider, CustomDropdown},
+  components: {ResetModal, YourInventory, SingleSlider, CustomDropdown},
   layout: 'Profile',
   data(){
     return {
@@ -353,6 +338,7 @@ export default {
     },
     setTotalInventory(totalInventory){
       this.totalInventory = totalInventory
+      this.savePreference()
     },
     changeFairTrade: debounce( function (val) {
       this.fairTrade = val
@@ -382,6 +368,7 @@ export default {
         this.sizeType = this.sizeType.filter(item => item !== selectedSizeType)
       }
       this.sizeTypeLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeType, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
+      this.savePreference()
     },
 
     /**
@@ -398,6 +385,7 @@ export default {
 
       this.apparelSizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.apparelSize, 5)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
+      this.savePreference()
     },
 
     /**
@@ -414,6 +402,7 @@ export default {
 
       this.sizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizes, 5)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
+      this.savePreference()
     },
 
     /****
@@ -430,18 +419,21 @@ export default {
     removeSizeType(index){
       this.sizeType.splice(index, 1)
       this.sizeTypeLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeType, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
+      this.savePreference()
     },
 
     removeSize(index){
       this.sizes.splice(index, 1)
       this.sizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizes, 5)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
+      this.savePreference()
     },
 
     removeApparelSize(index){
       this.apparelSize.splice(index, 1)
       this.apparelSizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.apparelSize, 5)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
+      this.savePreference()
     },
 
     resetToDefaultPreferences(){
@@ -459,6 +451,7 @@ export default {
 
     changePublicInventories(selectedInventories){
       this.publicInventories = selectedInventories
+      this.savePreference()
     },
 
     changeSelectedBrands(brandId){
@@ -483,7 +476,7 @@ export default {
   font-style: normal
   @include heading-11
   color: $color-black-1
-  padding: 50px
+  padding: 50px 50px 65px 50px
 
 .main-pref-container
   background: $color-white-5
@@ -493,6 +486,7 @@ export default {
   background: $color-white-1
   border-radius: 4px
   box-shadow: 0 1px 4px $drop-shadow1
+  padding-bottom: 20px
 .inventory-offer-settings
   background: $color-white-1
   border-radius: 4px
@@ -525,6 +519,8 @@ export default {
   font-style: normal
   @include body-16-medium
   color: $color-black-1
+  padding-top: 32px
+  padding-left: 30px
 .offer-setting
   font-family: $font-family-montserrat
   font-style: normal

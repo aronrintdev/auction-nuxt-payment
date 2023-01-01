@@ -73,6 +73,10 @@ export default {
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
 #notificationDropdown::v-deep
+  .content-top
+    svg
+      path
+        stroke: $color-blue-20
   button
     background-color: transparent
     border: none
@@ -91,7 +95,7 @@ export default {
     font-family: $font-family-montserrat
     font-style: normal
     font-weight: $normal
-    color: $color-blue-1
+    color: $color-blue-20
 
   .header
     @include body-4
@@ -102,5 +106,5 @@ export default {
   .view-all-btn
     height: 62px
     background-color: $color-blue-20
-    border-radius: 0 0 20px 20px
+    border-radius: 0 0 19px 19px
 </style>

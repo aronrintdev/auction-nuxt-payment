@@ -19,7 +19,7 @@
           <div class="row">
             <template v-for="(sizeType, index) in sizeTypeOptions">
               <div
-                v-if="sizeType.value !== 'apparel' && sizeType.value !== 'shoes' && sizeType.value !== 'streetwear'"
+                v-if="sizeType.value.toLowerCase() !== 'apparel' && sizeType.value.toLowerCase() !== 'shoes' && sizeType.value.toLowerCase() !== 'streetwear'"
                 :key="index"
                 class="col-4 mb-3"
               >
