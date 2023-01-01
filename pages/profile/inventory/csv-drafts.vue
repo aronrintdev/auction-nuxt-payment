@@ -22,7 +22,7 @@
       @change="handleTypeChange"
     />
 
-    <div class="d-flex align-items-center justify-content-between mt-4">
+    <div class="d-flex align-items-end justify-content-between" :class="type === 'available' ? 'mt-1' : 'mt-fix'">
       <SearchInput
         v-model="search"
         :placeholder="$t('inventory.search_draft_placeholder')"
@@ -30,18 +30,20 @@
         :debounce="1000"
       />
 
-      <Button
-        v-if="type === 'available'"
-        variant="dark"
-        class="flex-shrink-0 btn-add-to-inventory"
-        :disabled="selected.length === 0"
-        @click="handleAddToInventoryClick"
-        >{{
-          `${$t('inventory.add_to_inventory')}${
-            selected.length ? ' (' + selected.length + ')' : ''
-          }`
-        }}</Button
-      >
+      <div v-if="type === 'available'">
+        <div class="save-draft-btn"><a role="button">Save as Draft</a></div>
+        <Button
+          variant="dark"
+          class="flex-shrink-0 btn-add-to-inventory"
+          :disabled="selected.length === 0"
+          @click="handleAddToInventoryClick"
+          >{{
+            `${$t('inventory.add_to_inventory')}${
+              selected.length ? ' (' + selected.length + ')' : ''
+            }`
+          }}
+        </Button>
+      </div>
     </div>
 
     <div :class="{'scroll-container' : !isScreenXS && !isScreenSM}">
@@ -716,7 +718,7 @@ export default {
       width: 17px
       height: 17px
       border-radius: 3px
-      border: solid 1px $color-gray-47
+      border: solid 2px $color-gray-47
       box-shadow: none
     &:after
       width: 17px
@@ -728,4 +730,15 @@ export default {
     background-color: $color-blue-20
     background-image: none
 
+.save-draft-btn
+  text-align: center
+  margin-bottom: 15px
+  width: 100%
+  @include body-13-medium
+  text-decoration: underline
+  font-family: $font-montserrat
+  color: $color-gray-5
+
+.mt-fix
+  margin-top: 36px
 </style>
