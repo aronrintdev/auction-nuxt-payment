@@ -190,6 +190,7 @@ export default {
           self.progressValue = 0
           self.progressMax = data.length
           self.parseCsvData(data)
+          self.$store.commit('inventory/setLastUploadedCSVFile', file.name)
         }
         reader.readAsText(file)
       }

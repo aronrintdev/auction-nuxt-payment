@@ -4,6 +4,7 @@ export default function () {
     csvDraftInventories: [],
     packageConditions: [],
     colors: [],
-    inventoryPageReferrer: ''
+    inventoryPageReferrer: '',
+    lastUploadedCSVFile: '',
   }
 }

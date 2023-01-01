@@ -10,7 +10,7 @@
         {{ $t('inventory.csv_upload') }}
       </h2>
       <div class="text-count ml-2">
-        {{ `(${drafts.length} items)` }}
+       <span class="px-3" v-if="getLastUploadedCSVFile.length">( {{getLastUploadedCSVFile}} )</span> {{ `(${drafts.length} items)` }}
       </div>
     </div>
 
@@ -351,6 +351,7 @@ export default {
   computed: {
     ...mapGetters({
       drafts: 'inventory/getCsvDrafts',
+      getLastUploadedCSVFile: 'inventory/getLastUploadedCSVFile'
     }),
 
     availableItems() {
