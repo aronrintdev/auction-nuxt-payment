@@ -2204,6 +2204,7 @@
     },
     "list_has_been_created": "{list} has been created",
     "one_item_added": "One item added to {list}",
+    "item_added_success": "{item} has been added to {list}",
     "view_list": "View List",
     "continue_shopping": "Continue Shopping",
     "products_removed_from_wishlist": "{n} product has been removed from wishlist | {n} products have been removed from wishlist",

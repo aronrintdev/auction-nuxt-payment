@@ -17,7 +17,7 @@
   >
     <template
       #modal-header="{ close }"
-      :class="{ 'modal-header': false, 'no-border': noBorder }"
+      :class="{ 'modal-header': false, 'no-border': noHeaderBorder }"
     >
       <slot name="header"></slot>
 
