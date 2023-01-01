@@ -30,6 +30,14 @@
       :wish-list="createdWishlist"
       @hidden="$emit('wishlisted', createdWishlist)"
     />
+
+    <NewWishListProductModal
+      :id="`new-list-product-modal-${product.id}`"
+      :product="product"
+      :wish-list="createdWishlist"
+      @hidden="$emit('wishlisted', createdWishlist)"
+    />
+
   </div>
 </template>
 <script>
@@ -37,13 +45,14 @@ import {mapActions, mapGetters} from 'vuex'
 import CreateWishListModal from '~/components/modal/CreateWishList'
 import NewWishListProductModal from '~/components/modal/NewWishListProduct'
 import Icon from '~/components/common/Icon'
+
 export default {
   name: 'WishListPopover',
 
   components: {
     CreateWishListModal,
     NewWishListProductModal,
-    Icon
+    Icon,
   },
 
   props: {
