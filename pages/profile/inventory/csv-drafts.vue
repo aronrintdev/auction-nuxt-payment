@@ -440,7 +440,7 @@ export default {
 
     getPackagingConditionOptions(conditions) {
       return conditions.map((i) => {
-        return { text: i.name, value: i.id }
+        return { text: this.$t(i.name), value: i.id }
       })
     },
 
@@ -618,6 +618,9 @@ export default {
     max-width: 688px
 
   .table-inventory
+    th
+      font-family: $font-family-sf-pro-display
+      @include body-3-normal
     .inventory-rows
       max-height: 35vh
       height: 35vh
@@ -705,4 +708,23 @@ export default {
       top: 0
       background-color: $color-white-5
       z-index: 9999
+
+::v-deep.custom-control
+  .custom-control-label
+    &:before
+      width: 17px
+      height: 17px
+      border-radius: 3px
+      border: solid 1px $color-gray-47
+      box-shadow: none
+    &:after
+      width: 17px
+      height: 17px
+  .custom-control-input ~ .custom-control-label::before
+    background-color: $white
+    background-image: none
+  .custom-control-input:checked ~ .custom-control-label::before
+    background-color: $color-blue-20
+    background-image: none
+
 </style>
