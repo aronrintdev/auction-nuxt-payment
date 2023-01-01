@@ -60,6 +60,12 @@
        @show="wishListShow = true"
        @hidden="wishListShow = false"
      />
+     <WishListSuccessModal
+       ref="successModal"
+       :id="`wishlist-success-modal-${product.id}`"
+       :productName="product.name"
+       :listName="wishListName"
+     />
    </b-col>
  </b-row>
 </template>
@@ -68,10 +74,11 @@
 import { mapActions } from 'vuex'
 import Button from '~/components/common/Button'
 import WishListPopover from '~/components/wish-list/WishListPopover'
+import WishListSuccessModal from '~/components/modal/WishListSuccessModal'
 
 export default {
   name: 'OutOfStock',
-  components: { Button, WishListPopover },
+  components: { Button, WishListPopover, WishListSuccessModal },
   props: {
     product: {
       type: Object,
@@ -80,6 +87,7 @@ export default {
   },
   data() {
     return {
+      wishListName: null,
       wishListShow: false,
       offerAmount: null,
       wishList: this.product.wish_lists && this.product.wish_lists.length > 0
@@ -111,6 +119,10 @@ export default {
         this.$set(this, 'wishList', wishList)
         this.wishListShow = false
         this.$emit('wishlisted', this.product, wishList)
+
+        // show success message
+        this.wishListName = wishList.name
+        this.$nextTick(() => this.$bvModal.show(`wishlist-success-modal-${this.product.id}`))
       }
     }
   }
