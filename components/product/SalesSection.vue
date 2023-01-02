@@ -69,7 +69,7 @@
           </div>
         </div>
         <b-tab
-          title-link-class="body-2-bold border-0 p-0 w-160 text-center d-none d-sm-block"
+          title-link-class="body-2-bold border-0 p-0 w-160 text-center d-none d-sm-block pl-2"
           :title="$t('products.sales_data')"
         >
           <b-row>
