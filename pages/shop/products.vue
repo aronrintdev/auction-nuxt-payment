@@ -235,35 +235,32 @@ export default {
       this.loadData(filters)
     },
     loadData(filters) {
-      if (this.getIsFilterActive === true) {
+        if (this.getIsFilterActive === true) {
             this.products = []
             this.currentPage = 1
-            this.infiniteId += 1
-      }
+            // this.url = ''
+            // this.infiniteId += 1;
+          }
       this.$axios
         .get(this.url, {
           params: filters,
         })
         .then((res) => {
             const that = this
-            if (res.data.data.length) {
-              this.products = [...that.products, ...res.data.data]
-              this.currentPage += 1
-              this.url = res.data.next_page_url
-              this.state.loaded()
-            
+            if (res.data.current_page === 1) {
+              this.products = [...res.data.data]
             } else {
-              // this.products = [...res.data.data]
-              this.state.complete()
+              this.products = [...that.products, ...res.data.data]
             }
 
-            // if (!res.data.next_page_url) {
-              
-            // } else {
-             
-            // }
+            if (!res.data.next_page_url) {
+              this.state.complete()
+            } else {
+              this.currentPage += 1
+              this.url = res.data.next_page_url
+            }
           this.$store.commit('browse/setIsFilter', false)
-         
+          this.state.loaded()
         })
         .finally(() => {
           this.loading = false
