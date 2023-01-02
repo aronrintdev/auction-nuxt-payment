@@ -488,6 +488,7 @@ export default {
       this.selectedFilters.brands = []
       this.selectedFilters.years = []
       this.selectedFilters.prices = []
+      this.selectedFilters.gender = []
       this.$store.commit('browse/setSelectedBrands', [])
       this.$store.commit('browse/setSelectedSizeType', null)
       this.$store.commit('browse/setProductType', null)

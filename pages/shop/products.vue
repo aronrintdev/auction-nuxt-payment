@@ -20,18 +20,18 @@
       @change="handleCategoryChange"
     />
     <section>
-      <h1
-        class="fw-7 section-header heading-garamond text-left mx-4 mx-lg-0"
-      >
+      <h1 class="fw-7 section-header heading-garamond text-left mx-4 mx-lg-0">
         {{ productType }}
       </h1>
 
       <template v-if="products.length">
-        <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-3 row-cols-2 product-section">
+        <div
+          class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-3 row-cols-2 product-section"
+        >
           <div
             v-for="(product, index) in products"
             :key="`product-carousel-${index}`"
-            class="item mb-5 col"
+            class="item col"
           >
             <ShopProductCard :product="product" :showActions="false">
               <template v-if="pageType === 'instant-shipping'" #badge>
@@ -46,15 +46,19 @@
           </div>
         </div>
       </template>
-      <template v-else-if="!loading">
+      <!-- <template v-if="!loading && products.length === 0">
         <div class="d-flex align-items-center justify-content-center h-300">
           <div class="no-items-found-title">
             {{ $t('auctions.frontpage.no_results_found') }}
           </div>
         </div>
-      </template>
+      </template> -->
 
       <infinite-loading :identifier="infiniteId" @infinite="handleLoading">
+        <template slot="spinner">
+          <Loader />
+        </template>
+        <template slot="no-more"> No More Data </template>
       </infinite-loading>
     </section>
   </div>
@@ -66,6 +70,7 @@ import ShopFilters from '~/components/shop/ShopFilters.vue'
 import SearchAndFilter from '~/components/shop/SearchAndFilter'
 import ShopProductCard from '~/components/shop/ProductCard'
 import Badge from '~/components/product/Badge'
+import Loader from '~/components/shop/ShopProductLoader'
 import { NavGroup } from '~/components/common'
 
 export default {
@@ -75,6 +80,7 @@ export default {
     SearchAndFilter,
     NavGroup,
     ShopProductCard,
+    Loader,
   },
   layout: 'IndexLayout',
   fetchOnServer: false,
@@ -229,35 +235,35 @@ export default {
       this.loadData(filters)
     },
     loadData(filters) {
+      if (this.getIsFilterActive === true) {
+            this.products = []
+            this.currentPage = 1
+            this.infiniteId += 1
+      }
       this.$axios
         .get(this.url, {
           params: filters,
         })
         .then((res) => {
-          if (this.getIsFilterActive === true) {
-            this.state.reset()
-            this.products = []
-            this.currentPage = 1
-            this.url = ''
-          } else {
-            this.loading = false
             const that = this
-            if (res.data.current_page === 1) {
-              this.products = [...res.data.data]
-            } else {
+            if (res.data.data.length) {
               this.products = [...that.products, ...res.data.data]
-            }
-
-            if (!res.data.next_page_url) {
-              this.state.complete()
-            } else {
               this.currentPage += 1
               this.url = res.data.next_page_url
+              this.state.loaded()
+            
+            } else {
+              // this.products = [...res.data.data]
+              this.state.complete()
             }
-          }
 
+            // if (!res.data.next_page_url) {
+              
+            // } else {
+             
+            // }
           this.$store.commit('browse/setIsFilter', false)
-          this.state.loaded()
+         
         })
         .finally(() => {
           this.loading = false
@@ -280,6 +286,8 @@ export default {
 .h-300
   height: 300px
 .container-shop
+  .item
+    margin-bottom: 70px
   .section-header
     margin-bottom: 50px
     margin-top: 70px
