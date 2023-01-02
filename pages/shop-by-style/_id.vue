@@ -81,6 +81,7 @@
             />
             <button
               class="view-cart-button fs-16 fw-5 font-secondary text-white"
+              @click="goToCheckout()"
             >
               {{ $t('shop_by_style.general.view_cart') }}
             </button>
@@ -241,6 +242,9 @@ export default {
         this.$emit('wishlisted', this.style, wishList)
       }
     },
+    goToCheckout() {
+      this.$router.push('/checkout/selling')
+    }
   },
 }
 </script>
