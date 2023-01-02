@@ -238,8 +238,6 @@ export default {
         if (this.getIsFilterActive === true) {
             this.products = []
             this.currentPage = 1
-            // this.url = ''
-            // this.infiniteId += 1;
           }
       this.$axios
         .get(this.url, {
