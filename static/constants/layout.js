@@ -1,1 +1,1 @@
-export const SCROLLY = 1500
+export const SCROLLY = 150

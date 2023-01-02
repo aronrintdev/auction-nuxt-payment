@@ -214,9 +214,10 @@ export default {
       padding: 0 20px
       background-color: $color-white-4
     .dropdownItem
-      font-weight: $regular
-      font-size: 16px
-      font-family: $font-sp-pro
+      font-weight: $normal
+      font-style: $normal
+      font-family: $font-family-montserrat
+      @include body-5
       color: $color-gray-5
       border-radius: 0
       padding: 0 14px
