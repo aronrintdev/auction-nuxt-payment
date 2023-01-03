@@ -95,6 +95,9 @@
             ></b-form-input>
           </b-input-group>
         </b-form-group>
+        <b-form-radio v-model="form.is_default" name="is_default" :value="true" class="w-100">
+          <span :class="{isMobileSize}" class="radio-label">{{ $t('vendor_hub.payout_method.set_default') }}</span>
+        </b-form-radio>
       </div>
     </div>
   </div>
@@ -118,12 +121,18 @@ export default {
   data() {
     return {
       isShowDetail: false,
+      form: {
+        is_default: false,
+      },
     }
   },
   computed:{
     itemImage(){
       return this.method.is_verified? require('~/assets/img/profile/vendor-hub/check-outline.svg'): require('~/assets/img/profile/vendor-hub/cross-outline.svg')
-    }
+    },
+    isMobileSize() {
+      return this.isScreenXS
+    },
   },
   methods: {
     onDetails() {

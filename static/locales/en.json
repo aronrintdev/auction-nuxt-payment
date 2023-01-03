@@ -5402,10 +5402,10 @@
   },
   "vendor_hub": {
     "tabs": {
-      "store_details": "Store Details",
+      "store_details": "Details",
       "payout_method": "Payout Method",
       "commission": "Commission",
-      "documents": "Documents"
+      "documents": "Docs."
     },
     "tabs_mobile": {
       "store_details": "Details",
@@ -5535,7 +5535,7 @@
       "csv_exported": "CSV file has been exported to your downloads folder",
       "export_selected": "Export Selected",
       "orders_fulfilled": "Total Orders Fulfilled",
-      "email_csv": "Email CSV",
+      "email_cvs": "Email CSV",
       "table": {
         "order_id": "Order ID",
         "product": "Product",
