@@ -31,7 +31,7 @@
       />
 
       <div v-if="type === 'available'">
-        <div class="save-draft-btn"><a role="button">Save as Draft</a></div>
+        <div class="save-draft-btn"><a role="button">{{ $t('inventory.save_as_draft') }}</a></div>
         <Button
           variant="dark"
           class="flex-shrink-0 btn-add-to-inventory"
