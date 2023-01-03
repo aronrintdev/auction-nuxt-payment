@@ -167,6 +167,8 @@ export default {
     margin-left: 66px
 
 .buy-now-section .add-to-cart
+  font-family: $font-family-montserrat
+  font-size: 16px
   width: 162px
   border-radius: 20px
   color: $color-white-1
