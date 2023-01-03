@@ -56,7 +56,7 @@
           role="button"
         >
           <div
-            class="add-amount-item d-flex align-items-center text-center justify-content-center"
+            class="add-amount-item d-flex align-items-center justify-content-center"
             :class="value.includes(option) ? 'active' : ''"
             @click="activeStatus(option)"
           >
@@ -196,10 +196,10 @@ export default {
   width: 99px
   height: 45px
   font-family: $font-sp-pro
-  font-style: normal
+  font-style: $normal
+  font-weight: $medium
   border-radius: 5px
-  @include body-11-medium
-  line-height: 18px
+  @include body-5
   color: $color-gray-28
   &.active
     border-color: $color-black-1

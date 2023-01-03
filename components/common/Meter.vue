@@ -94,9 +94,11 @@ export default {
   .meter
     border: 0.5px solid $color-gray-23
     box-shadow: inset 0 2px 3px $color-gray-85
-    width: 183px
+    width: 249px
     height: 24px
     position: relative
+    @media (max-width: 320px)
+      width: 183px
 
     .label-poor, .label-excellent
       font-family: $font-family-sf-pro-display
