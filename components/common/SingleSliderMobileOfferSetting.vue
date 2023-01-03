@@ -27,6 +27,11 @@
             </vue-slider>
           </client-only>
     </b-col>
+      <div class="input-box ml-12">
+        <span v-if="textToShow" class="input-text">{{textToShow}}</span>
+        <input class="percentage-value"  :value="`${value}%`" readonly />
+
+      </div>
   </b-row>
 </template>
 
@@ -91,10 +96,8 @@ export default {
 .percentage-value
   width: 35px
   height: 35px
-  background: $color-white-5
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25)
-  border: 1px solid $color-white-5
-  border-radius: 5px
+  margin-top: -9px
+  border: none
   @include body-9
   color: $color-black-1
   float: right
@@ -131,4 +134,6 @@ export default {
 .percent-div
   margin-top: -10px
   margin-left: 20px
+.ml-12
+  margin-left: 12rem
 </style>

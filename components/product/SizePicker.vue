@@ -43,10 +43,11 @@
           :nav="true"
           :center="true"
           :margin="38"
+          :slide-by="slideBy"
           :responsive="{
             0: { items: xsCount, nav: false, center: xsCenter },
             576: { items: 6, nav: false },
-            1268: { items: 3, nav: false },
+            1268: { items: 5, nav: false },
           }"
           :mouse-drag="mouseDrag"
           :show-arrows="arrowsVisible"
@@ -208,6 +209,10 @@ export default {
       type: Number,
       default: 2,
     },
+    slideBy: {
+      type: [Number, String],
+      default: 1,
+    },
     errorText: {
       type: String,
       default: null,
@@ -303,6 +308,10 @@ export default {
   @include body-10-regular
   color: $color-black-1
   @media (min-width: 576px)
+    font-family: $font-montserrat-serif
+    font-weight: $regular
+    font-style: $normal
+    @include body-10
     @include body-8-normal
     text-transform: uppercase
 
@@ -373,7 +382,7 @@ export default {
 
           &::after
             content: " "
-            border-bottom: 2px solid $color-blue-5
+            border-bottom: 2px solid $color-blue-19
             margin-top: 11px
             display: block
             margin-left: auto
@@ -453,7 +462,7 @@ export default {
         &::after
           content: " "
           width: 53px
-          border-bottom: 2px solid $color-blue-5
+          border-bottom: 2px solid $color-blue-19
           margin-top: 11px
           display: block
           margin-left: auto

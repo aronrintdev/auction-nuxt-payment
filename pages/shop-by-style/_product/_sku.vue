@@ -1,5 +1,5 @@
 <template>
-  <b-row class="my-2 mx-3">
+  <b-row class="my-2 mx-3 sku-wrapper">
     <b-col md="6" class="text-center w-50 line-bar">
       <p class="fw-6 fs-13 lh-16 mb-1">
         {{ $t('shop_by_style.style_id') }}
@@ -38,7 +38,6 @@
             "
             class="mt-5"
           />
-
           <!-- Lowest Price & Highest Offer Nav Group -->
           <NavGroup
             v-model="method"
@@ -50,7 +49,6 @@
             }"
             @change="handleMethodNavClick"
           />
-
           <b-row class="mt-2 offer-text d-none d-sm-flex mx-auto">
             <b-col md="6" class="text-center">
               <span class="body-1-medium" :class="method === 'buy' && 'active'">
@@ -75,7 +73,8 @@
             :viewMode="sizeViewMode"
             :arrows-visible="false"
             class="size-picker"
-            :xsCount="5"
+            :xsCount="6"
+            :xsCenter="true"
             @update="handleSizeChange"
             @changeViewMode="handleSizeViewModeChange"
           >
@@ -155,28 +154,26 @@
       <!-- End of Product Details & Size Guide Section -->
 
       <AlertModal id="message-modal" :message="message" icon="tick" />
-      <div class="row mt-3 ml-2 mr-2">
-        <div class="w-75 text-left">
-          <p class="fw-6 fs-16">{{ $t('shop_by_style.more_look') }}</p>
-        </div>
-        <div class="w-25 fw-5 fs-14 text-right view-all">
-          <p>{{ $t('shop_by_style.view_all') }}</p>
-        </div>
+      <div class="d-flex align-items-center justify-content-between mt-22">
+        <p class="fw-6 fs-16">{{ $t('shop_by_style.more_look') }}</p>
+        <NuxtLink :to="`/shop-by-style/${style.styleID}`" tag="div">
+          <p class="fw-5 fs-14 view-all">{{ $t('shop_by_style.view_all') }}</p>
+        </NuxtLink>
       </div>
       <ProductCarousel
-        :products="style.products"
+        :products="filteredProducts"
         :pageName="pageName"
         itemWidth="164px"
         autoWidth
       >
         <template #product>
           <div
-            v-for="(product, index) in filteredProducts"
+            v-for="(item, index) in filteredProducts"
             :key="`product-carousel-${index}`"
             class="item"
           >
             <DetailCard
-              :product="product"
+              :product="item"
               :showActionBtn="false"
               :showActions="false"
               cardHeight="137px"
@@ -189,7 +186,7 @@
               <template #badge>
                 <div
                   class="d-flex justify-content-end"
-                  @click="redirectToDetail(product)"
+                  @click="redirectToDetail(item)"
                 >
                   <PlusCircle />
                 </div>
@@ -230,15 +227,19 @@
     <vue-bottom-sheet
       ref="sizePicker"
       max-width="auto"
-      max-height="95vh"
+      max-height="85vh"
       :rounded="true"
       :is-full-screen="true"
+      class="mobile-sizes-scroll"
     >
       <div class="all-sizes-bottom-sheet">
         <div class="border-bottom mb-3 pb-2 bottom_sheet_header">
-          <h3 class="font-secondary fs-16 fw-7 text-black text-center">
-            All Sizes
+          <h3 class="font-secondary fs-16 fw-7 text-black text-center mb-1">
+            {{ $t('shop_by_style.general.all_sizes') }}
           </h3>
+          <p class="text-center mb-1 fs-15 fw-4">
+            {{ product ? product.name : '' }}
+          </p>
         </div>
         <div class="bottom_sheet_body">
           <div class="radio_wrapper">
@@ -248,7 +249,7 @@
                 list
                 :size="size.size"
                 :price="getPriceBySize(size.id)"
-                :boxCondition="'Excellent Condition'"
+                :boxCondition="'Excellent'"
                 :val="size.id"
                 name="sizePicker"
                 @notify-me="handleNotifyMeClick"
@@ -272,6 +273,14 @@
         </div>
       </div>
     </vue-bottom-sheet>
+    <Portal to="back-icon-slot">
+      <img
+        :src="require('~/assets/img/icons/back.svg')"
+        alt="back-arrow"
+        class="float-left"
+        @click="backTo"
+      />
+    </Portal>
   </b-row>
 </template>
 
@@ -282,8 +291,8 @@ import { NavGroup, Loader } from '~/components/common'
 import ProductTitle from '~/components/shop-by-style/ProductTitle'
 import ProductImageViewer from '~/components/product/ImageViewerV2'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
-import ProductSizePicker from '~/components/product/SizePicker'
-import ProductBoxConditionPicker from '~/components/product/BoxConditionPicker'
+import ProductSizePicker from '~/components/shop-by-style/SizePicker'
+import ProductBoxConditionPicker from '~/components/shop-by-style/SBSProductConditionPicker'
 import ProductDetailsTab from '~/components/shop-by-style/DetailsTab'
 import AlertModal from '~/components/modal/Alert'
 import { API_PROD_URL } from '~/static/constants/environments'
@@ -399,7 +408,7 @@ export default {
     }),
 
     filteredProducts() {
-      return this.style.products.filter(
+      return this.style.products?.filter(
         (item) => item.sku !== this.$route.params.sku
       )
     },
@@ -484,6 +493,9 @@ export default {
     },
     closeSizePicker() {
       this.$refs.sizePicker.close()
+    },
+    backTo() {
+      this.$router.push(`/shop-by-style/${this.style.styleID}`)
     },
     handleShippingOptionSelected(shippingOption) {
       this.shippingOption = shippingOption
@@ -789,7 +801,8 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
+.sku-wrapper
+  padding-bottom: 70px
 .view-all
   color: $color-gray-30
 .line-bar
@@ -826,13 +839,12 @@ export default {
 
 .size-picker::v-deep
   padding: 0
-  margin: 0 -16px
-  max-width: 100vw
-  width: 100vw
+  margin: 0
   .carousel-wrapper
-    .owl-item
-      margin-right: 17px
-    .row
+    margin: 0 -16px
+    max-width: 100vw
+    width: 100vw
+    .size-picker-header
       margin: 0 16px
 ::v-deep .box-conditions
   .dropdown-wrapper
@@ -871,10 +883,11 @@ export default {
   color: $color-white-1
 
 .product-image-wrapper
+  margin: 0 auto
   margin-top: 13px
-  width: 286px
-  height: 286px
-  margin-left: 45px
+  padding: 0
+  width: 268px
+  height: 268px
 
 .buy-now-section, .out-of-stock-section
   position: fixed
@@ -894,4 +907,9 @@ export default {
       ::v-deep .list-type .radio-title
         padding-left: 19px
         padding-right: 19px
+.mobile-sizes-scroll
+  ::-webkit-scrollbar-thumb
+    background-color: $color-gray-23
+.mt-22
+  margin-top: 22px
 </style>

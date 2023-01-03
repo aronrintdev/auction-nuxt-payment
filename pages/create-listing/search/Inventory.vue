@@ -32,8 +32,10 @@
           </div>
         </div>
       </div>
-      <Button class="btn-file">
-        <b-img :src="require('~/assets/img/bx_upload.svg')" class="mr-3" />
+      <input ref="fileUploader" type="file" hidden accept=".csv" @change="onFileUpload" />
+      <Button variant="dark" class="btn-file" @click="$refs.fileUploader.click()">
+        <b-spinner v-if="status === 'uploading'" small label="Small Spinner" variant="light" class="mr-3"></b-spinner>
+        <b-img v-else :src="require('~/assets/img/bx_upload.svg')" class="mr-3" />
         <span>{{ $t('create_listing.search.bulk_file') }}</span>
       </Button>
     </div>
@@ -95,7 +97,7 @@
             class="btn-filter px-2"
             @click="getInventories"
           >
-            {{ $tc('common.filter', 1) }}
+            {{ $t('selling_page.apply') }}
           </Button>
         </div>
         <FormDropdown
@@ -361,6 +363,19 @@ export default {
       longArrowRightIcon,
       categoryFilterLabel: this.$t('trades.create_listing.vendor.wants.category'),
       infiniteId: +new Date(),
+      status: null,
+      CSV_KEYS: [
+        'product',
+        'sku',
+        'size',
+        'packaging condition',
+        'quantity',
+        'price',
+      ],
+      PARSE_COUNT: 1,
+      progressValue: 0,
+      progressMax: 0,
+      result: [],
     }
   },
   computed: {
@@ -465,6 +480,8 @@ export default {
   },
   methods: {
     ...mapActions({
+      bulkMatch: 'product/bulkMatch',
+      addInventoriesToCsvDraft: 'inventory/addInventoriesToCsvDraft',
       fetchPublicInventories: 'create-listing/fetchPublicInventories',
     }),
     dragStart(ev, inv){
@@ -690,6 +707,95 @@ export default {
         this.loading = false
         this.totalCount = 0
         $state.loaded()
+      })
+    },
+    onFileUpload(event) {
+      const self = this
+      const file = event.target.files && event.target.files[0]
+      if (file) {
+        this.status = 'uploading'
+        const reader = new FileReader()
+        reader.onload = function (e) {
+          const contents = e.target.result
+          const rows = contents.split('\n')
+          const keys = rows[0].split(',')
+          const data = []
+          rows.forEach(function (row, index) {
+            if (index > 0) {
+              const rowData = row.split(',')
+              const obj = {}
+              rowData.forEach(function (dd, idx) {
+                const key = keys[idx]
+                obj[key] = dd
+              })
+              data.push(obj)
+            }
+          })
+          self.progressValue = 0
+          self.progressMax = data.length
+          self.parseCsvData(data)
+        }
+        reader.readAsText(file)
+      }
+    },
+    parseCsvData(data, start = 0) {
+      const payload = []
+      for (
+        let i = start;
+        i < Math.min(start + this.PARSE_COUNT, data.length);
+        i++
+      ) {
+        payload.push({
+          name: data[i].product,
+          sku: data[i].sku,
+        })
+      }
+      this.bulkMatch(payload).then((res) => {
+        const drafts = res.map((item, index) => {
+          const draft = {
+            product: null,
+            sizeId: null,
+            packagingConditionId: null,
+          }
+          if (item.product) {
+            draft.product = item.product
+            if (item.product.name === payload[index].name) {
+              draft.status = 'available'
+              draft.sizeId = item.product.sizes.find(
+                (i) => i.size === data[start + index].size
+              )?.id
+              draft.packagingConditionId =
+                item.product.packaging_conditions.find(
+                  (i) => (i.name = data[start + index]['packaging condition'])
+                )?.id
+            } else {
+              draft.status = 'unrecognized'
+            }
+          } else {
+            draft.status = 'unrecognized'
+          }
+          draft.size = data[start + index].size
+          draft.quantity = Number(data[start + index].quantity)
+          draft.price = Number(data[start + index].price) * 100
+          draft.packagingCondition = data[start + index]['packaging condition']
+          draft.sku = data[start + index].sku
+          draft.productName = data[start + index].product
+          return draft
+        })
+        this.result = this.result.concat(drafts)
+        this.progressValue = this.progressValue + payload.length
+        if (data.length > start + this.PARSE_COUNT) {
+          setTimeout(() => {
+            this.parseCsvData(data, start + this.PARSE_COUNT)
+          }, 200)
+        } else {
+          this.status = 'uploaded'
+          this.result = this.result.filter(item => item.status === 'available')
+          setTimeout(() => {
+            this.addInventoriesToCsvDraft(this.result)
+            this.$toasted.success(`${this.result.length} ${this.$tc('common.inventory', this.result.length)} ${this.$t('sell.create_listing.items_uploaded')}`)
+          }, 2000)
+        }
       })
     },
   },
@@ -956,7 +1062,7 @@ export default {
 .search-input-wrapper::v-deep
   border-radius: 8px
   background: $white
-  max-width: 688px
+  width: 688px
   img.icon-search
     margin-left: 21px
     width: 18px
@@ -974,12 +1080,14 @@ export default {
   white-space: nowrap
   border: 1px solid $black
   min-width: 179px
-  height: 40px
+  height: 46px
   font-family: $font-sp-pro
   font-weight: $medium
   @include body-13
   color: $white
-  &:hover
+  &:hover,
+  &:active,
+  &:focus
     background-color: $color-black-10
     border-color: $color-black-10
 .inventories-wrapper

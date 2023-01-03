@@ -99,7 +99,7 @@
           <b-button
             variant="primary"
             size="sm"
-            class=" apply-button text-white shadow border-0"
+            class=" apply-button text-white border-0"
             @click="FetchAuctions"
           >{{ $t('vendor_purchase.apply') }}
           </b-button>
@@ -122,13 +122,13 @@
 
     <div class="d-flex justify-content-start align-items-center mt-4 pt-1 pt-md-0 mt-md-5">
       <div class="d-flex w-100 justify-content-between align-items-center mb-1">
-        <h4 class="title" :class="{'mb-0 body-4-medium' : isMobileSize}">
+        <h4 class="title mb-0" :class="{'body-4-medium' : isMobileSize}">
           {{ $tc('auction.auctions_listings', 1) }} ({{ totalCount }})
         </h4>
         <Button
           variant="link"
           size="sm"
-          class="delete-expired-mobile"
+          class="d-md-none delete-expired-mobile"
           @click="deleteAction = true"
         >
           <img src="~/assets/img/profile/mobile/mobile-delete.svg" class="mr-1" />
@@ -188,19 +188,16 @@
       <b-row v-if="!isMobileSize" class="text-center font-weight-bold auction-listings-table-header">
         <b-col sm="12" md="5" class="text-left">
           <b-row>
-            <b-col cols="4" md="4">
-              {{ $t('auction.auction_id') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"/>
-            </b-col>
-            <b-col cols="8" md="8" class="pl-3">
-              <b-row class="align-items-center">{{ $t('auction.product') }}<img class="ml-1" src="~/assets/img/icons/triangle-arrow-down.svg"/></b-row>
+            <b-col cols="12" md="12">
+              <div class="pl-4 d-flex align-items-center">{{ $t('auction.product') }}<img class="ml-1" src="~/assets/img/icons/triangle-arrow-down.svg"/></div>
             </b-col>
           </b-row>
         </b-col>
-        <b-col sm="12" md="1">{{ $t('auction.type') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
-        <b-col sm="12" md="2">{{ $t('auction.highest_bid') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
-        <b-col sm="12" md="1">{{ $t('auction.bids') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
-        <b-col sm="12" md="2">{{ $t('auction.time_remaining') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
-        <b-col sm="12" md="1">{{ $t('auction.status') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
+        <b-col sm="12" md="1">{{ $t('auction.type') }} <img class="" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
+        <b-col sm="12" md="2">{{ $t('auction.highest_bid') }} <img class="" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
+        <b-col sm="12" md="1">{{ $t('auction.bids') }} <img class="" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
+        <b-col sm="12" md="2">{{ $t('auction.time_remaining') }} <img class="" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
+        <b-col sm="12" md="1">{{ $t('auction.status') }} <img class="" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
       </b-row>
 
       <client-only>
@@ -906,6 +903,8 @@ h4.title
   .auction-listings-table
     margin: 37px -25px 0
     color: $black
+    &-header
+      padding: 0 16px
   @media (max-width: 576px)
     padding: 12px 16px
     min-height: calc(100vh - 360px)

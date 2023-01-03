@@ -2,7 +2,7 @@
   <div
     :class="{
       'mt-4': !isScreenXS,
-      'm-2': isScreenXS,
+      'm-3': isScreenXS,
     }"
     class="notification-setting-main"
   >
@@ -44,13 +44,14 @@
         </template>
       </NotificationSettingsSection>
 
-      <div class="d-flex justify-content-center my-4">
+      <div class="d-flex justify-content-center">
         <NavGroup
           v-if="isVendor"
           :data="tabs"
           :value="currentTab"
           nav-key="notification-tabs"
           class="notification-setting-nav"
+          :class="mobileClass"
           @change="handlePageChange"
         />
       </div>
@@ -62,7 +63,7 @@
       <div v-if="!isScreenXS" class="mt-5 buttons-sec">
         <Button
           :disabled="loading || changedSettings.length === 0"
-          class="mr-2"
+          class="mr-2 action-buttons"
           pill
           variant="dark-blue"
           @click="saveChanges"
@@ -70,6 +71,7 @@
         </Button>
         <Button
           :disabled="loading"
+          class="btn-font action-buttons"
           pill
           variant="outline-dark"
           @click="updateSettings"
@@ -174,37 +176,42 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+
 .notification-setting-main::v-deep
   .notification-setting-nav
-    margin: 20px auto 18px auto
-    width: 236px
     &.mobile
-      width: 100%
+      margin: 25px 0 20px 0
+      margin-inline: auto
+      .btn-group
+        width: 343px
+        height: 36px
+        button.btn
+          @include body-21
+
+    margin: 26px 0 18px 0
     .btn-group
+      width: 236px
       height: 32px
-      background-color: $color-gray-3
       button.btn
-        @include body-6-regular
-        font-family: $font-montserrat
-        width: 103px
-        padding-block: 1px
-        &:not(.active)
-          background-color: $color-gray-3
-        &.active
-          font-weight: $medium
+        @include body-6
   .buttons-sec
     button
-      width: 217px
+      font-family: $font-family-sf-pro-display
+      @include body-8-medium
 
 .push-title
-  @include body-8-medium
+  @include body-4-medium
   font-family: $font-family-sf-pro-display
   font-style: normal
   color: $color-black-1
+  font-size: 16px
 
 .push-sub-title
-  @include body-8-regular
+  @include body-21-regular
   font-family: $font-family-sf-pro-display
   font-style: normal
   color: $color-gray-5
+  font-size: 13px
+.btn-font
+  font-family: $font-sp-pro
 </style>
