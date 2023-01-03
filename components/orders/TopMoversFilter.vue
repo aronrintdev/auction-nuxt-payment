@@ -117,7 +117,7 @@
                 </b-form-group>
               </div>
               <div class="border-top py-2">
-                <collapsible-box :title="$t('orders.type').toString()" :second-title="selectedTypesString">
+                <collapsible-box :title="$t('orders.type').toString()" :second-title="selectedTypesString | truncate(32, '...')">
                   <div class="row my-2">
                     <div v-for="type in orderTypes" :key="type.key" class="col-4 my-1 filter-boxes">
                       <div
@@ -130,7 +130,7 @@
                 </collapsible-box>
               </div>
               <div class="border-top py-2">
-                <collapsible-box :title="$t('orders.status').toString()" :second-title="selectedStatusString">
+                <collapsible-box :title="$t('orders.status').toString()" :second-title="selectedStatusString | truncate(32, '...')">
                   <div class="row my-2">
                     <div v-for="status in orderStatuses" :key="status.key" class="col-4 my-1 filter-boxes">
                       <div
