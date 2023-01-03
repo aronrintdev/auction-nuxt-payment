@@ -281,6 +281,12 @@
         @click="backTo"
       />
     </Portal>
+    <Portal to="notification-icon-slot">
+      <ShareIcon class="share-icon" />
+    </Portal>
+    <Portal to="cart-icon-slot">
+      <Cart class="cart-icon" />
+    </Portal>
   </b-row>
 </template>
 
@@ -306,6 +312,9 @@ import PlusCircle from '~/assets/icons/PlusCircle'
 import ProductCarousel from '~/components/shop-by-style/ProductCarousel'
 import DetailCard from '~/components/shop-by-style/DetailCard'
 import SizePickerMobile from '~/components/shop-by-style/SizePickerMobile'
+import ShareIcon from '~/assets/icons/ShareIcon'
+import Cart from '~/assets/icons/Cart'
+
 export default {
   name: 'ShopByStyleProductDetails',
   components: {
@@ -327,6 +336,8 @@ export default {
     ProductCarousel,
     DetailCard,
     SizePickerMobile,
+    ShareIcon,
+    Cart,
   },
   layout: 'IndexLayout',
   fetchOnServer: false,
@@ -912,4 +923,10 @@ export default {
     background-color: $color-gray-23
 .mt-22
   margin-top: 22px
+@media (max-width: 460px)
+.share-icon::v-deep
+  .strokeColor
+    stroke: $color-gray-47
+  .fillColor
+    fill: $color-gray-47
 </style>

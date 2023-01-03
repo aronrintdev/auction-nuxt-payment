@@ -178,6 +178,7 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 
 .filter-text
   padding: 4px 15px
@@ -256,5 +257,5 @@ input[type="search"].brandsSearchbar
     color:  $color-gray-6
     letter-spacing: 0.06em
 .fs-17
-  font-size: 17px
+  font-size: $font-size-17
 </style>

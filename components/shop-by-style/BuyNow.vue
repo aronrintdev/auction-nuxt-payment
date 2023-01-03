@@ -134,6 +134,7 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 
 .h-46
   height: 46px
@@ -168,7 +169,7 @@ export default {
 
 .buy-now-section .add-to-cart
   font-family: $font-family-montserrat
-  font-size: 16px
+  font-size: $font-size-16
   width: 162px
   border-radius: 20px
   color: $color-white-1
