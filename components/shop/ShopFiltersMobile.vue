@@ -208,7 +208,7 @@
       </div>
     </div>
     <div
-      class="bottom-sheet-footers position-absolute d-flex justify-content-between align-items-center w-100 bg-white"
+      class="bottom-sheet-footers d-flex justify-content-between align-items-center w-100 bg-white"
     >
       <button
         class="btn fs-16 fw-5 text-dark font-secondary rounded-pill btn-outline-dark"
@@ -528,7 +528,6 @@ export default {
   .bottom-sheet-footers
     padding: 20px 28px
     bottom: 0
-    z-index: 1000
     .btn
       width: 134px
     .apply-btn

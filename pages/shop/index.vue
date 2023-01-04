@@ -156,7 +156,7 @@ export default {
         { label: this.$t('common.accessories', 2), value: 'accessories' },
       ],
       category: 'all',
-      loadingFilter: true,
+      loadingFilter: false,
       prices: null,
       perPage: 12,
       page: 1,
