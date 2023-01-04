@@ -7,3 +7,5 @@ export const MAX_YEAR = 2099
 export const MEN = 'men'
 export const ACCESSORIES = 'accessories'
 export const APPAREL = 'apparel'
+export const FOOTWEAR = 'footwear'
+export const SNEAKERS = 'sneakers'

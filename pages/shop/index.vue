@@ -121,7 +121,7 @@
 <script>
 import debounce from 'lodash.debounce'
 import { mapActions, mapGetters } from 'vuex'
-import { MEN, APPEARL } from '~/static/constants'
+import { MEN, APPEARL,FOOTWEAR,SNEAKERS } from '~/static/constants'
 import ShopFilters from '~/components/shop/ShopFilters.vue'
 import { NavGroup } from '~/components/common'
 import SearchAndFilter from '~/components/shop/SearchAndFilter'
@@ -147,6 +147,8 @@ export default {
       instantShippingLoading: true,
       MEN,
       APPEARL,
+      FOOTWEAR,
+      SNEAKERS,
       // todo
       products: [],
       CATEGORIES: [
@@ -189,8 +191,7 @@ export default {
   },
   created() {
     this.resetFilters()
-    const categoryName = this.$router.currentRoute.query.category?this.$router.currentRoute.query.category.toLowerCase():'';
-    this.$store.commit('browse/setSelectedCategory', categoryName)
+    this.setCategory()
   },
   methods: {
     ...mapActions('browse', ['fetchFilters', 'resetFilters']),
@@ -331,6 +332,17 @@ export default {
         this.$axios.post(`/recent/search/${keyword}`)
       }
     },
+    setCategory(){
+      const categoryName = this.$router.currentRoute.query.category? 
+      this.$router.currentRoute.query.category.toLowerCase():'';
+    
+      if(categoryName === FOOTWEAR){
+        this.category = SNEAKERS
+      }else{
+        this.category = categoryName
+      }
+      this.$store.commit('browse/setSelectedCategory', categoryName)
+    }
   },
 }
 </script>
