@@ -1,21 +1,9 @@
 <template>
   <b-container fluid class="container-profile-selling h-100">
     <div class="selling-listing">
-      <b-row class="mt-md-4 mt-2 vd-selling">
+      <b-row class="mt-md-0 mt-2 vd-selling">
         <b-col cols="12" class="vd-selling-details-heading">
           {{ $t('selling_page.selling_page_heading') }}
-          <Button
-            to="/profile/vendor-selling"
-            variant="link"
-            class="btn-back float-right"
-          >
-            <img
-              :src="require('~/assets/img/icons/arrow-back.svg')"
-              :alt="$t('common.back')"
-              class="mr-2"
-            />
-            {{ $t('vendor_purchase.back_to_selling') }}
-          </Button>
         </b-col>
       </b-row>
       <!-- Purchase Summary Section -->
@@ -56,7 +44,6 @@
 import { mapActions } from 'vuex'
 import SellingDetailsPurchaseSummary from '~/components/profile/vendor-selling/details/PurchaseSummary.vue'
 import SellingOffers from '~/components/profile/vendor-selling/details/Offers.vue'
-import { Button } from '~/components/common'
 import SellingDetails from '~/components/profile/vendor-selling/SellingDetails.vue'
 export default {
   name: 'VendorSellingDetails',
@@ -64,7 +51,6 @@ export default {
   components: {
     SellingDetailsPurchaseSummary,
     SellingOffers,
-    Button,
     SellingDetails,
   },
 
