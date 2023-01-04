@@ -524,7 +524,7 @@ export default {
     overflow-y: scroll
     height: 550px
     &::-webkit-scrollbar
-        width: 0px !important
+        width: 0px
   .bottom-sheet-footers
     padding: 20px 28px
     bottom: 0
