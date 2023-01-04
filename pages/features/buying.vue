@@ -105,16 +105,16 @@ export default {
         {
           benefitImage: require('@/assets/img/features/newest-feature/buying/customerser.png'),
           benefitImageXS: require('@/assets/img/features/newest-feature/buying/customerser-xs.png'),
-          benefitTitle: 'newest_features.buying.benefits.third_benefit_title',
+          benefitTitle: 'newest_features.buying.benefits.second_benefit_title',
           benefitDescription:
-            'newest_features.buying.benefits.third_benefit_desc',
+            'newest_features.buying.benefits.second_benefit_desc',
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/buying/blockchainauth.png'),
           benefitImageXS: require('@/assets/img/features/newest-feature/buying/blockchainauth-xs.png'),
-          benefitTitle: 'newest_features.buying.benefits.second_benefit_title',
+          benefitTitle: 'newest_features.buying.benefits.third_benefit_title',
           benefitDescription:
-            'newest_features.buying.benefits.second_benefit_desc',
+            'newest_features.buying.benefits.third_benefit_desc',
         },
       ],
       bottomBanner: {

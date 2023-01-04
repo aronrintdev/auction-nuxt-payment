@@ -3912,7 +3912,7 @@
     "list_product": "List Product",
     "edit_details": "Edit Details",
     "mobile_search_info": "Begin by searching for your product",
-    "delist_mobile_message" : {
+    "delist_mobile_message": {
       "title": "Are you sure you would like to delist these listings?",
       "part_1": "All the",
       "part_2": "active offers",
@@ -4299,7 +4299,7 @@
       "increased_visibility_desc": "Our marketplace of international buyers offers more potential buyers.",
       "starting_bid": "Starting Bid and Reserve Options",
       "starting_bid_desc": "Create a starting bid price and place minimum bidding incraments.",
-      "flexibility_desc2": "Auction your items individually with a single item auction or in an entire collection and set your preferred duration.",
+      "flexibility_desc2": "A variety of bidding methods on single items or entire collections, increases flexibility and entices buyers to place more bids.",
       "explore": "Explore",
       "explore_desc": "Explore the excitment now by checking out our Single-Item and Collection Auctions for Footware, Apparel and Accessories."
     },
@@ -5236,7 +5236,7 @@
     "your_value": "YOUR VALUE",
     "view_details": "View Details",
     "all_trade_listing_expire": "All trade listings expire in 14 days",
-    "if_trader_accepts" : "*If the trader accepts this offer, the charges will be placed on your card. You will have 3 days to send your items.",
+    "if_trader_accepts": "*If the trader accepts this offer, the charges will be placed on your card. You will have 3 days to send your items.",
     "trade_offer_confirmation": "Trade Offer Confirmation"
   },
   "change_password": {
@@ -6238,10 +6238,10 @@
       "feature_banner_desc": "Start trading your items today",
       "benefits": {
         "first_benefit_title": "First of its Kind",
-        "first_benefit_desc": "The first platform that allows you to trade multiple items at once and add cash to complete a trade of sneakers, apparel, and accessories.",
+        "first_benefit_desc": "The first platform that allows you to trade multiple items at once and add cash to complete a trade of sneakers, apparel, and accessories. \n Trade your sneakers, apparel, and accessories with the benefits of multi-item trade and adding cash to complete a transaction.",
         "second_benefit_title": "Value Meter",
         "second_benefit_desc": "Our fair trade meter uses live analytics to help create the most compatible trades and assure equal transactions.",
-        "third_benefit_title": "Authenticity Guaranteed Products",
+        "third_benefit_title": "Deadstock Guarantee",
         "third_benefit_desc": "Trade with confidence as all of our items are verified through our authentication process using AI and in-person verification."
       },
       "new-features": "NEW FEATURES",
@@ -6262,7 +6262,7 @@
       "feature_banner_desc": "A new enhanced buying experience",
       "benefits": {
         "first_benefit_title": "Certified Authentic Products",
-        "first_benefit_desc": "Our experts verify each item through our authentication process using A.I. and in-person verification. We aim to ensure all items are authentic and as described.",
+        "first_benefit_desc": "All of our products are placed in our authentication process and authenticated by our experts. Feel safe with your purchases as we guarantee 100% authentication and satisfaction.",
         "second_benefit_title": "24 hour live Customer Service",
         "second_benefit_desc": "We offer 24 hour live customer service where you can speak with an actual person to help you resolve any issues, questions or concerns.",
         "third_benefit_title": "NFC blockchain backed photo ledger",
@@ -6299,16 +6299,16 @@
       }
     },
     "auctions": {
-      "title": "Auctions",
+      "title": "Auction",
       "desc": "Place bids on auctions and receive live updates. Auction off your items and use our analytics to determine what to sell at what price.",
       "feature_banner_title": "Auctions On  Deadstock",
       "feature_banner_desc": "Place bids or sell items through our auctions",
       "benefits": {
         "first_benefit_title": "Flexibility",
         "first_benefit_desc": "Deadstock offers bidding on single item auctions or entire collections, paired with a variety of bidding methods.",
-        "second_benefit_title": "Higher Revenue Options:",
+        "second_benefit_title": "Higher Revenues Options:",
         "second_benefit_desc": "1. Maximize revenue by auctioning single items or an entire collection and set a minimum bidding amount, paired with our low seller fees to reach your revenue goal. \n 2. Maximize revenue by setting a starting bidding amount and set an auction duration to entice buyers to place the highest bid. \n 3. Maximixe revenue faster by auctioning single items or an entire collection, setting a starting bidding amount, promoting auction on socials, and placing a duration on your auction.",
-        "third_benefit_title": "Certified Authentic Products   ",
+        "third_benefit_title": "Deadstock Authentic Products",
         "third_benefit_desc": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed."
       },
       "types": "Types",
