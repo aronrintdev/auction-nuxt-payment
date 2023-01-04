@@ -5,7 +5,7 @@
         <h1 class="fs-48 fw-7 font-adobe-garamond my-4">
           {{ $t('shop.browse_shop') }}
         </h1>
-        <ShopFilters ref="filterSidebar" @apply="fetchProducts" />
+        <ShopFilters ref="filterSidebar" @apply="applyFilters" />
       </div>
       <div class="searchbar d-block d-sm-none">
         <SearchAndFilter @apply="fetchProducts" />
@@ -19,12 +19,11 @@
       btn-class="px-lg-5 px-0"
       @change="handleCategoryChange"
     />
-    <section>
+    <div class="product-list">
       <h1 class="fw-7 section-header heading-garamond text-left mx-4 mx-lg-0">
         {{ productType }}
       </h1>
 
-      <!-- <template v-if="products.length"> -->
       <div
         class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-3 row-cols-2 product-section"
       >
@@ -49,17 +48,9 @@
         <template slot="spinner">
           <Loader />
         </template>
-        <template slot="no-more"> No More Data </template>
+        <template slot="no-more"> {{ $t('shop.no_more_results') }} </template>
       </infinite-loading>
-      <!-- </template> -->
-      <!-- <template v-if="!loading && products.length === 0">
-        <div class="d-flex align-items-center justify-content-center h-300">
-          <div class="no-items-found-title">
-            {{ $t('auctions.frontpage.no_results_found') }}
-          </div>
-        </div>
-      </template> -->
-    </section>
+    </div>
   </div>
 </template>
 <script>
@@ -88,7 +79,6 @@ export default {
       currentPage: 1,
       maxPerPage: 12,
       totalResults: 0,
-      loading: true,
       prices: null,
       products: [],
       pageType: this.$route.query.type,
@@ -141,8 +131,11 @@ export default {
       this.state = $state
       await this.fetchProducts()
     },
+    applyFilters() {
+      this.infiniteId += 1
+      this.fetchProducts()
+    },
     fetchProducts: debounce(async function () {
-      this.loading = true
       const filters = {}
       if (this.search) {
         filters.search = this.search
@@ -242,24 +235,29 @@ export default {
           params: filters,
         })
         .then((res) => {
-          
-          if (res.data.data.length) {
-            this.currentPage += 1
-            this.products.push(...res.data.data)
-            this.state.loaded()
+          const that = this
+          if (res.data.current_page === 1) {
+            this.products = [...res.data.data]
           } else {
-            this.state.complete()
+            this.products = [...that.products, ...res.data.data]
           }
+          if (!res.data.next_page_url) {
+            console.log('when data is Completed')
+            this.state.complete()
+          } else {
+            this.currentPage += 1
+            this.url = res.data.next_page_url
+          }
+          this.state.loaded()
           this.$store.commit('browse/setIsFilter', false)
-        })
-        .finally(() => {
-          this.loading = false
         })
     },
     async handleCategoryChange(category) {
       if (this.category === category) {
         return
       }
+      this.infiniteId += 1
+      this.products = []
       this.category = category
       this.$store.commit('browse/setIsFilter', true)
       this.$store.commit('browse/setSelectedCategory', category)
@@ -273,6 +271,8 @@ export default {
 .h-300
   height: 300px
 .container-shop
+  .product-list
+    min-height: 600px
   .item
     margin-bottom: 70px
   .section-header

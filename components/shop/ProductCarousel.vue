@@ -60,7 +60,7 @@
             class="owl-nav navigation-arrows owl-prev"
             :style="`--cardHeight: ${cardHeight};`"
           >
-            <img :src="require('~/assets/img/home/arrow-left.svg')" height="82%"/>
+            <img :src="require('~/assets/img/home/arrow-left.svg')" height="80%"/>
           </div>
         </template>
 
@@ -69,7 +69,7 @@
             class="owl-nav navigation-arrows owl-next"
             :style="`--cardHeight: ${cardHeight}`"
           >
-            <img :src="require('~/assets/img/home/arrow-right.svg')" height="82%" />
+            <img :src="require('~/assets/img/home/arrow-right.svg')" height="80%" />
           </div>
         </template>
       </Carousel>
@@ -187,15 +187,16 @@ export default {
         background: none
       &.owl-next
         float: right
-        margin-right: -45px
+        margin-right: -30px
+        padding-left: 15px
       &.owl-prev
         float: left
-        margin-left: -45px
+        margin-left: -30px
+        padding-right: 15px
     &.show-arrows-on-hover
       .navigation-arrows
         display: none
         height: calc(var(--cardHeight) + 66px)
-        width: 30px
         img
           width: 12px
         &.owl-prev
@@ -203,6 +204,7 @@ export default {
       &:hover
         .navigation-arrows
           display: flex
+          width: 30px
 @media (max-width: 475px)
   .product-carousel-wrapper
     margin-bottom: 44px

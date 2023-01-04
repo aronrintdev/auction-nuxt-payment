@@ -629,9 +629,9 @@ export default {
       width: calc(100% - 10px)
       height: 30px
       padding: 0px 0px 0px 40px
-      font-size: 14px
-      font-weight: 500
-      font-family: 'SF Pro Display'
+      font-size: $font-size-14
+      font-weight: $normal
+      font-family: $font-sp-pro
       outline: none
       &::placeholder
         color: $color-black-15

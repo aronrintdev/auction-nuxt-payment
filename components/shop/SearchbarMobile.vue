@@ -143,7 +143,6 @@ export default {
         })
         .then((res) => {
           
-          console.log('trending response', res)
           this.noSearchResult = false
           this.trendingProducts = res.data.data
           this.saveRecentSearch()

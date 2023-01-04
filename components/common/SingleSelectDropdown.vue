@@ -162,7 +162,7 @@ export default {
       margin-bottom: 7px
 
       & > *
-        cursor: pointer !important
+        cursor: pointer
 
       .form-check-input
         border: none
@@ -197,12 +197,10 @@ export default {
         width: 100%
 
   ::-webkit-scrollbar
-    width: 6px !important
-
+    width: 6px
   ::-webkit-scrollbar-thumb
     background-color:  $color-blue-20
-    border: none !important
-
+    border: none
   ::-webkit-scrollbar-track
     background-color: $color-gray-3
 </style>
