@@ -131,7 +131,7 @@
            }">
             <div  v-if="getYourTradeItems.length" class="">
               <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_ONE && !isPayment ?'your-item-'+index : getYourTradeItems.length > ITEM_COUNT_ONE && isPayment ? 'your-item-payment-'+index : isPayment ? 'your-items-payment-'+index : 'your-items-'+index" :key="index" class="preview" :class="{'right-item-payment': isPayment,'item-normal': !isPayment}">
-                <div class="remove-item" @click="decrementOrRemoveItem(item)" v-if="!isPayment">
+                <div v-if="!isPayment" class="remove-item" @click="decrementOrRemoveItem(item)">
                   <div class="minus"></div>
                 </div>
                 <div class="image-wrapper position-relative d-flex align-items-center justify-content-center" :class="{'image-wrapper-payment':isPayment}">
@@ -252,7 +252,7 @@
                           optionsWidth="custom" dropDownHeight="46px" :showFilterBtn="false" @getResults="applyFilters()" @change="changeSizeFilter" />
                     </client-only>
                     <b-btn class="filter-btn" @click="applyFilters()">{{$t('trades.trade_arena.apply')}}</b-btn>
-                    <label class="d-flex align-items-center" v-if="categoryFilter || sizeTypesFilter.length || sizeFilter.length "><u class="clear-all-text" @click="clearAllFilters" role="button">{{$t('common.clear_all')}}</u></label>
+                    <label v-if="categoryFilter || sizeTypesFilter.length || sizeFilter.length" class="d-flex align-items-center"><u class="clear-all-text" role="button" @click="clearAllFilters">{{$t('common.clear_all')}}</u></label>
                   </div>
                 </div>
               </div>
@@ -264,8 +264,8 @@
                   <div class="no-item">{{$t('trades.trade_arena.no_items')}}</div>
                 </div>
                 <div v-else class="row pl-154px">
-                  <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item position-relative">
-                    <div draggable @dragstart="startDrag($event, item)">
+                  <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item position-relative" :class="{'d-none': item.stock <= 0}">
+                    <div v-if="item.stock >= 1" draggable @dragstart="startDrag($event, item)">
                       <img alt="No Image" class="plus-icon-add-trade" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
                             @click="addYourItem(item)"/>
                       <div class="position-relative height-240px d-flex justify-content-center align-items-center">
@@ -576,11 +576,25 @@ export default {
       }
     },
     /**
+     * Update inventory stock
+     */
+    updateInventoryStock(inventoryId, increment){
+      const allInventories = JSON.parse(JSON.stringify(this.inventoryItems))
+      const index = this.inventoryItems.findIndex((inventoryItem) => inventoryItem.id === inventoryId)
+      if(index !== false && increment){
+        allInventories[index].stock += 1
+      }else if(index !== false){
+        allInventories[index].stock -= 1
+      }
+      this.inventoryItems = JSON.parse(JSON.stringify(allInventories))
+    },
+    /**
      * This function is used to add or increment your trade item in store
      * @param item
      */
     addOrIncrementYourItem: debounce(function (item) {
         this.$store.commit('trade/setYourTradeItems', item)
+        this.updateInventoryStock(item.id, false)
         this.updateActiveTrade()
         this.$nextTick(() => this.$forceUpdate())
     }, 100),
@@ -756,6 +770,7 @@ export default {
       } else {
         this.$store.commit('trade/removeYourTradeItem', item.id)
       }
+      this.updateInventoryStock(item.id, true)
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
     },
@@ -814,15 +829,11 @@ export default {
      */
     onSearchInput(term) {
       this.searchText = term
-      if (term) {
-        this.page = 1;
-        this.inventoryItems = []
-        this.infiniteId += 1;
-      } else {
+      this.page = 1;
+      this.inventoryItems = []
+      this.infiniteId += 1;
+      if (!term) {
         this.searchText = null
-        this.page = 1;
-        this.inventoryItems = []
-        this.infiniteId += 1;
       }
     },
 
@@ -846,12 +857,23 @@ export default {
         })
         .then((response) => { // response will get us listing of
           const res = response?.data
+
           if (!res.next_page_url) {
             $state.complete()
           }else {
             this.page += 1;
-            this.inventoryItems.push(...res.data);
             $state.loaded()
+          }
+          this.inventoryItems.push(...res.data);
+
+          if(this.getYourTradeItems.length >= 1){
+            const inventoryIds = this.getYourTradeItems.map((yourItem) => {
+              return yourItem.id
+            });
+
+            inventoryIds.forEach((inventoryId) => {
+              this.updateInventoryStock(inventoryId, false)
+            })
           }
         })
         .catch((error) => { // return error
