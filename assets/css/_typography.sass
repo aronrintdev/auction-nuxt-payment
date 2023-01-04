@@ -7,6 +7,8 @@ $bolder: 800
 $exbolder: 900
 $font-size-12: 12px
 $font-size-7: 7px
+$font-size-14: 14px
+$font-size-24: 24px
 
 @mixin heading-1
   font-size: 24px
@@ -141,6 +143,10 @@ $font-size-7: 7px
 @mixin body-11
   font-size: 14px
   line-height: 30px
+
+@mixin body-1118
+  font-size: 14px
+  line-height: 18px
 
 @mixin body-12
   font-size: 18px
@@ -530,6 +536,10 @@ $font-size-7: 7px
 
 @mixin body-11-medium
   @include body-11
+  font-weight: $medium
+
+@mixin body-1118-medium
+  @include body-1118
   font-weight: $medium
 
 @mixin body-12-medium
@@ -940,6 +950,9 @@ $font-size-7: 7px
 
 .body-32-bold
   @include body-32-bold
+
+.body-1118-medium
+  @include body-1118-medium
 
 $font-size-17: 17px
 $font-size-16: 16px
