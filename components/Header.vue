@@ -19,7 +19,7 @@
         <Logo :width="171" />
       </div>
       <div class="d-inline-block d-sm-none">
-        <h2 class="meta-info font-primary fs-18 fw-7 mb-0 text-black">
+        <h2 class="meta-info font-primary fs-18 fw-6 mb-0 text-black">
           <PortalTarget name="page-title">
             <Logo :width="171" />
           </PortalTarget>

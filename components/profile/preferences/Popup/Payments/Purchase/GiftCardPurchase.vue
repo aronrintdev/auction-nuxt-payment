@@ -176,7 +176,7 @@
             <b-button
               variant="addToBag"
               type="submit"
-              class="float-right"
+              class="float-right addToBag-btn"
               pill
               @click="updateSubmitType('addToBag')"
             >
@@ -440,4 +440,6 @@ export default {
   .addToBag-col
     display: flex
     justify-content: flex-end
+.addToBag-btn
+  color: $color-gray-47
 </style>

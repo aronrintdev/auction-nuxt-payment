@@ -62,7 +62,7 @@
             </b-row>
           </b-col>
           <b-col cols="4">
-            <div class="card-ending-details float-right d-flex align-items-center">
+            <div class="card-ending-details float-right d-flex align-items-center mt-1">
               <span v-if="data && data.card_last_digits">
                 &times;{{ data.card_last_digits }}
               </span>

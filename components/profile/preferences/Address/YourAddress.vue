@@ -39,14 +39,13 @@
           <div v-if="shipping" class="heading-subtext mt-2 d-flex">
             <span v-if="shipping.is_default === 1">
               {{ $t('preferences.common.default') }}&colon;&nbsp;
+              {{ shipping.address_line_1 }}
+              {{ shipping.address_line_2 }}
+              {{ shipping.city }}
+              {{ shipping.state }}
+              {{ shipping.country }}
+              {{ shipping.zip }}
             </span>
-            {{ shipping.address_line_1 }}
-            {{ shipping.address_line_2 }}
-            {{ shipping.city }}
-            {{ shipping.state }}
-            {{ shipping.country }}
-            {{ shipping.zip }}
-
           </div>
         </div>
         <hr />
@@ -78,14 +77,13 @@
           <div v-if="billing" class="heading-subtext mt-2 d-flex">
             <span v-if="billing.is_default === 1">
               {{ $t('preferences.common.default') }}&colon;&nbsp;
+              {{ billing.address_line_1 }},
+              {{ billing.address_line_2 }},
+              {{ billing.city }},
+              {{ billing.state }},
+              {{ billing.country }},
+              {{ billing.zip }}
             </span>
-            {{ billing.address_line_1 }},
-            {{ billing.address_line_2 }},
-            {{ billing.city }},
-            {{ billing.state }},
-            {{ billing.country }},
-            {{ billing.zip }}
-
           </div>
         </div>
       </b-card>

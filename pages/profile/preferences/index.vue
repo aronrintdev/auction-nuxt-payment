@@ -1,5 +1,16 @@
 <template>
   <b-col class="vendor-preferences-body" :class="isScreenXS">
+    <client-only>
+      <Portal to="page-title"> {{ $t('profile_menu.preferences') }}</Portal>
+      <Portal to="back-icon-slot">
+        <img
+          :src="require('~/assets/img/icons/back.svg')"
+          alt="back-arrow"
+          class="float-left"
+          @click="$emit('moveBack')"
+        />
+      </Portal>
+    </client-only>
     <div v-if="!isScreenXS" class="vd-preferences-slider preferences-web">
       <h1 class="vd-preferences-slider-heading">
         {{ $t('profile_menu.preferences') }}
@@ -45,23 +56,6 @@
 
     <!-- for responsive screen-->
     <div v-if="isScreenXS" class="responsive-preferences">
-      <!-- heading for responsive screen-->
-      <span
-        v-if="showHeader"
-        class="
-          d-flex
-          text-align-center
-          align-items-center
-          justify-content-center
-          mt-3
-          border-bottom
-        "
-      >
-        <h1 class="responsive-heading text-capitalize">
-          {{ $t('profile_menu.preferences') }}
-        </h1>
-      </span>
-      <!-- heading for responsive screen-->
       <b-col
         v-if="showHeader"
         class="justify-content-center align-items-center d-flex mt-3"
