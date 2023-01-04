@@ -134,7 +134,7 @@
               <div class="flex-grow-1 overflow-hidden">
                 <h5 class="auct-card-title mb-1">{{ item.inventory.product.name }}</h5>
                 <div class="auct-card-text mb-1">
-                  <span class="auct-card-text-colorway">{{ item.inventory.color }}</span>
+                  <span class="auct-card-text-colorway text-truncate">{{ item.inventory.color }}</span>
                   <span class="auct-card-text-size d-none d-md-block">,&nbsp;{{ $t('common.box') }}: {{ $t(`common.box_conditions.${item.inventory.packaging_condition.category_id}.${item.inventory.packaging_condition.display_order}`) }}</span>
                 </div>
                 <div class="auct-card-price">
@@ -149,6 +149,12 @@
         <nuxt-link :to="`/auction/${activeAuction.id}`" class="w-100 d-flex align-items-center justify-content-center view-auction-btn">{{ $t('bids.view') }}</nuxt-link>
       </div>
     </div>
+    <Portal to="back-icon-slot">
+      <nuxt-link to="/auction" class="header-back-icon">
+        <img src="~/assets/img/icons/back.svg" />
+      </nuxt-link>
+    </Portal>
+    <ShareLinkSheet v-if="isMobileSize" />
   </div>
 </template>
 
@@ -157,6 +163,7 @@ import { mapGetters, mapActions } from 'vuex'
 import dayjs from 'dayjs'
 
 import Icon from '~/components/common/Icon.vue'
+import ShareLinkSheet from '~/components/Auctions/ShareLinkSheet'
 import MobileTimeRemaining from '~/components/Auctions/MobileTimeRemaining'
 import {
   EXPIRED_STATUS,
@@ -165,13 +172,16 @@ import {
 import {
   COMPLETED_STATUS
 } from '~/static/constants/trades'
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'AuctionCollectionBrowser',
   components: {
     Icon,
     MobileTimeRemaining,
+    ShareLinkSheet,
   },
+  mixins: [screenSize],
   layout: 'IndexLayout',
   data() {
     return {
@@ -190,6 +200,9 @@ export default {
     ...mapGetters({
       activeAuction: 'auction/activeAuction',
     }),
+    isMobileSize() {
+      return this.isScreenXS || this.isScreenSM
+    },
     isExpired() {
       return this.activeAuction && this.activeAuction.remaining_time === EXPIRED_STATUS
     },
@@ -381,14 +394,14 @@ export default {
             overflow: hidden
             text-overflow: ellipsis
             white-space: nowrap
-          &-size
-            white-space: nowrap
           &-text
             font-family: $font-sp-pro
             font-weight: $normal
             @include body-5
             color: $color-gray-5
             display: flex
+            &-size
+              white-space: nowrap
           &-price
             font-weight: $bold
             @include body-2
@@ -484,4 +497,6 @@ export default {
     width: 100%
     left: 0
     background: $white
+.header-back-icon
+  padding: 0 6px 0 8px
 </style>

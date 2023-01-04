@@ -23,6 +23,7 @@
             :loop="false"
             :center="true"
             :margin="30"
+            :slideBy="slideBy"
             :responsive="{
               0: { items: 2, nav: false, center: false, margin: 12 },
               600: { items: 2, nav: false, center: false, margin: 18 },
@@ -43,13 +44,13 @@
             </template>
             <template #prev>
               <div class="owl-nav owl-prev">
-                <img :src="require('~/assets/img/icons/arrow-left-black.svg')" />
+                <img :src="leftArrow ? leftArrow : require('~/assets/img/icons/arrow-left-black.svg')" />
               </div>
             </template>
 
             <template #next>
               <div class="owl-nav owl-next">
-                <img :src="require('~/assets/img/icons/arrow-right-black.svg')" />
+                <img :src="rightArrow ? rightArrow : require('~/assets/img/icons/arrow-right-black.svg')" />
               </div>
             </template>
           </carousel>
@@ -130,6 +131,18 @@ export default {
     smallSizeCard: {
       type: Boolean,
       default: false,
+    },
+    leftArrow: {
+      type: String,
+      default: '',
+    },
+    rightArrow: {
+      type: String,
+      default: '',
+    },
+    slideBy: {
+      type: [Number, String],
+      default: 1,
     }
   },
 

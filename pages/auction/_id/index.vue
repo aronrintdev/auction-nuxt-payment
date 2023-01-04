@@ -20,12 +20,11 @@
       v-if="activeAuction.auction_items && activeAuction.auction_items.length > 0 && !isMobileSize"
       class="d-md-flex auction-content"
     >
-      <div class="auction-content-main d-block">
+      <div class="auction-content-main">
         <!-- 360 image viewer -->
-        <ProductImageViewerMagic360
-          v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images"
-          :product="activeAuction.auction_items[currentItemIdx].inventory.product"
-        />
+        <div v-if="currentProduct.has360Images" class="image-360-container m-auto">
+          <ProductImageViewerMagic360 :product="currentProduct" />
+        </div>
         <div v-else class="w-auto pr-5 mr-5">
           <Thumb :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
         </div>
@@ -226,11 +225,11 @@
       </div>
     </div>
     <div v-if="activeAuction.auction_items && activeAuction.auction_items.length > 0 && isMobileSize">
-      <div>
+      <div class="mobile-360-image-container mx-auto">
         <!-- 360 image viewer -->
         <ProductImageViewerMagic360
-          v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images"
-          :product="activeAuction.auction_items[currentItemIdx].inventory.product"
+          v-if="currentProduct.has360Images"
+          :product="currentProduct"
         />
         <Thumb v-else :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
       </div>
@@ -431,6 +430,9 @@
         :margin="33"
         small-size-card
         :showArrows="true"
+        slideBy="page"
+        :left-arrow="require('/assets/img/icons/arrow-in-red-cycle.svg')"
+        :right-arrow="require('/assets/img/icons/arrow-right-in-red-circle.svg')"
         @showAll="showAllAuctions"
       ></product-slider>
     </div>
@@ -575,9 +577,9 @@
         :description="''"
       />
     </b-popover>
-    <vue-bottom-sheet v-if="isMobileSize" ref="quickBidModalSheet">
-      <div class="d-flex flex-column h-100 filters-sheet">
-        <div class="flex-shrink-1 overflow-auto text-center filters-sheet-content quick-bid-sheet">
+    <vue-bottom-sheet v-if="isMobileSize" ref="quickBidModalSheet" max-height="70%">
+      <div class="filters-sheet h-100 overflow-hidden">
+        <div class="text-center filters-sheet-content quick-bid-sheet pb-5">
           <h5 class="w-100">{{ modalData.title }}</h5>
           <div class="d-flex justify-content-center time-remaining">
             <span class="mr-3">{{ $t('auctions.frontpage.time_remaining') }}</span>
@@ -585,7 +587,7 @@
           </div>
           <div class="my-4 d-flex justify-content-center">
             <b-button class="mr-2 px-5" variant="outline-dark" pill @click="closeQuickBidSheet">{{ $t('common.cancel') }}</b-button>
-            <b-button class="ml-2 px-4 border-0 text-white bg-dark-blue d-flex align-items-center" pill @click="onPlaceBidConfirmed">{{ modalData.auto_bid ? $t('auctions.frontpage.bid_up_to') : $t('auctions.frontpage.bid') }} ${{ modalData.price | formatPrice }}<small> {{ $t('auctions.frontpage.fees') }}</small></b-button>
+            <b-button class="ml-2 px-4 border-0 text-white bg-dark-blue d-flex align-items-center" pill @click="onPlaceBidConfirmed">{{ modalData.auto_bid ? $t('auctions.frontpage.bid_up_to') : $t('auctions.frontpage.bid') }} ${{ modalData.price | formatPrice }}<small class="text-capitalize">{{ $t('auctions.frontpage.fees') }}</small></b-button>
           </div>
           <i18n
             path="shopping_cart.terms_and_conditions_paragraph_mobile"
@@ -598,8 +600,8 @@
         </div>
       </div>
     </vue-bottom-sheet>
-    <vue-bottom-sheet v-if="isMobileSize" ref="placeBidModalSheet">
-      <div class="d-flex flex-column h-100 filters-sheet">
+    <vue-bottom-sheet v-if="isMobileSize" ref="placeBidModalSheet" max-height="70%">
+      <div class="d-flex flex-column filters-sheet">
         <div class="flex-shrink-1 overflow-auto text-center filters-sheet-content quick-bid-sheet">
           <h5 class="w-100">{{ modalData.title }}</h5>
           <div class="d-flex justify-content-center time-remaining">
@@ -608,7 +610,7 @@
           </div>
           <div class="my-4 d-flex justify-content-center">
             <b-button class="mr-2 px-5" variant="outline-dark" pill @click="$refs.placeBidModalSheet.close()">{{ $t('common.cancel') }}</b-button>
-            <b-button class="ml-2 px-4 border-0 text-white bg-dark-blue d-flex align-items-center" pill @click="onPlaceBidConfirmed">{{ $t('auctions.frontpage.bid') }} ${{ modalData.price | formatPrice }}&nbsp;<small>{{ $t('auctions.frontpage.fees') }}</small></b-button>
+            <b-button class="ml-2 px-4 border-0 text-white bg-dark-blue d-flex align-items-center" pill @click="onPlaceBidConfirmed">{{ $t('auctions.frontpage.bid') }} ${{ modalData.price | formatPrice }}<small class="text-capitalize">{{ $t('auctions.frontpage.fees') }}</small></b-button>
           </div>
           <i18n
             path="shopping_cart.terms_and_conditions_paragraph_mobile"
@@ -623,7 +625,7 @@
     </vue-bottom-sheet>
     <!-- AutoBid Modal Sheet -->
     <vue-bottom-sheet v-if="isMobileSize" ref="autoBidModalSheet">
-      <div class="d-flex flex-column h-100 filters-sheet">
+      <div class="d-flex flex-column filters-sheet">
         <div class="flex-shrink-1 overflow-auto text-center filters-sheet-content quick-bid-sheet">
           <h5>{{ $t('auctions.frontpage.enable_auto_bid_confirm_text') }}</h5>
           <div class="d-flex justify-content-center time-remaining">
@@ -638,7 +640,7 @@
               pill
               @click="onEnableAutoBid"
             >
-              {{ $t('auctions.frontpage.bid_up_to') }} ${{ autoBidPrice }}<small>&nbsp;{{ $t('auctions.frontpage.fees') }}</small>
+              {{ $t('auctions.frontpage.bid_up_to') }} ${{ autoBidPrice }}<small class="text-capitalize">{{ $t('auctions.frontpage.fees') }}</small>
             </b-button>
           </div>
           <i18n
@@ -754,7 +756,7 @@
     <WatchlistBottomSheet v-if="isMobileSize" :auction="activeAuction" :open="watchlistSheetVisible" @watchlisted="onWatchlisted" @close="watchlistSheetVisible=false" />
     <!-- PlaceBid Desc Sheet -->
     <vue-bottom-sheet v-if="isMobileSize" ref="quickBidDescSheet" max-height="70%">
-      <div class="d-flex flex-column h-100 filters-sheet">
+      <div class="d-flex flex-column filters-sheet">
         <div class="filters-sheet-title text-center">{{ $t('auctions.frontpage.quick_bid') }}</div>
         <div class="flex-shrink-1 overflow-auto filters-sheet-content quick-bid-desc-sheet">
           <div class="d-flex align-items-start px-3 pt-1 pb-5">
@@ -766,7 +768,7 @@
     </vue-bottom-sheet>
     <!-- AutoBid Desc Sheet -->
     <vue-bottom-sheet v-if="isMobileSize" ref="autoBidDescSheet" max-height="70%">
-      <div class="d-flex flex-column h-100 filters-sheet">
+      <div class="d-flex flex-column filters-sheet">
         <div class="filters-sheet-title text-center">{{ $t('auctions.frontpage.auto_bid') }}</div>
         <div class="flex-shrink-1 overflow-auto filters-sheet-content quick-bid-desc-sheet">
           <div class="d-flex align-items-start px-3 pt-1 pb-5">
@@ -776,6 +778,12 @@
         </div>
       </div>
     </vue-bottom-sheet>
+    <Portal to="back-icon-slot">
+      <nuxt-link to="/auction" class="header-back-icon">
+        <img src="~/assets/img/icons/back.svg" />
+      </nuxt-link>
+    </Portal>
+    <ShareLinkSheet v-if="isMobileSize" />
   </div>
 </template>
 <script>
@@ -802,6 +810,7 @@ import BottomSheetOpener from '~/components/Auctions/BottomSheetOpener'
 import CollectionItemsSlider from '~/components/Auctions/CollectionItemsSlider'
 import WatchlistBottomSheet from '~/components/Auctions/WatchlistBottomSheet'
 import screenSize from '~/plugins/mixins/screenSize'
+import ShareLinkSheet from '~/components/Auctions/ShareLinkSheet'
 
 export default {
   name: 'AuctionDetailsPage',
@@ -819,6 +828,7 @@ export default {
     BottomSheetOpener,
     CollectionItemsSlider,
     WatchlistBottomSheet,
+    ShareLinkSheet,
   },
   mixins: [screenSize],
   layout: 'IndexLayout',
@@ -863,6 +873,7 @@ export default {
       auctionName: '',
       watchlistSheetVisible: false,
       EXPIRED_STATUS,
+      currentProduct: {},
     }
   },
   computed: {
@@ -926,10 +937,14 @@ export default {
       this.auctionName = this.getAuctionName(newV)
       this.watchlist = newV.watchlist_item?.watchlist
       this.loadSimilarAuctions()
+      this.loadProductDetails(newV.auction_items[0].inventory.product)
     },
     placeBidPrice(value) {
       this.showLowBidError = false
     },
+    currentItemIdx(value) {
+      this.loadProductDetails(this.activeAuction.auction_items[value].inventory.product)
+    }
   },
   mounted() {
     this.loadAuction()
@@ -996,7 +1011,7 @@ export default {
       this.$axios.get('/auctions/public', {
         params: {
           status: 'live',
-          take: 8,
+          take: 10,
           type: this.activeAuction.type,
         }
       })
@@ -1132,7 +1147,14 @@ export default {
     },
     openAutoBidDescSheet() {
       this.$refs.autoBidDescSheet.open()
-    }
+    },
+    loadProductDetails(product) {
+      this.$axios
+        .get(`/products/${product.sku}/details`)
+        .then((res) => {
+          this.currentProduct = res.data
+        })
+    },
   },
 }
 </script>
@@ -1260,6 +1282,11 @@ export default {
       height: 100%
       background: $color-gray-16f
   .similar-auctions::v-deep
+    .owl-nav 
+      &.owl-next
+        right: -72px
+      img
+        width: 42px
     .auctions-block-header
       border-bottom: 0.5px solid $color-gray-23
       padding-bottom: 14px
@@ -1271,6 +1298,7 @@ export default {
       margin-bottom: 30px
     .auctions-block-list
       margin-top: 30px
+      padding: 0 24px
     .view-more-products-text
       display: none
   .product-details-tabs::v-deep
@@ -1497,7 +1525,7 @@ export default {
         font-weight: $regular
         color: $light-gray-3
     .quick-bid-sheet
-      padding: 0 10px 20px
+      padding: 0 10px
       h5
         @include body-17
         font-family: $font-family-sf-pro-display
@@ -1620,4 +1648,10 @@ export default {
   color: $color-gray-25
   width: 310px
   margin: auto
+.image-360-container
+  width: 84.35%
+.mobile-360-image-container
+  width: 78%
+.header-back-icon
+  padding: 0 6px 0 8px
 </style>

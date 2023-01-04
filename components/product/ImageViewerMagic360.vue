@@ -75,13 +75,13 @@ export default {
     this.containerHeight = this.$refs.container.clientHeight
     this.shouldMount = true
 
-    const script = document.createElement('script')
-    script.setAttribute('src', '/magic360.js')
-    document.head.appendChild(script)
-
     const script2 = document.createElement('script')
     script2.setAttribute('src', '/custom.js')
     document.head.appendChild(script2)
+
+    const script = document.createElement('script')
+    script.setAttribute('src', '/magic360.js')
+    document.head.appendChild(script)
 
     this.dismissHint()
   },
