@@ -242,7 +242,7 @@ export default {
             this.products = [...that.products, ...res.data.data]
           }
           if (!res.data.next_page_url) {
-            console.log('when data is Completed')
+
             this.state.complete()
           } else {
             this.currentPage += 1
