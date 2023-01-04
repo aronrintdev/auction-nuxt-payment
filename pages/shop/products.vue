@@ -24,28 +24,34 @@
         {{ productType }}
       </h1>
 
-      <template v-if="products.length">
+      <!-- <template v-if="products.length"> -->
+      <div
+        class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-3 row-cols-2 product-section"
+      >
         <div
-          class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-3 row-cols-2 product-section"
+          v-for="(product, index) in products"
+          :key="`product-carousel-${index}`"
+          class="item col"
         >
-          <div
-            v-for="(product, index) in products"
-            :key="`product-carousel-${index}`"
-            class="item col"
-          >
-            <ShopProductCard :product="product" :showActions="false">
-              <template v-if="pageType === 'instant-shipping'" #badge>
-                <Badge
-                  :title="$t('home_page.instant')"
-                  :icon="require('~/assets/img/home/instant.svg')"
-                  color="black"
-                  right
-                />
-              </template>
-            </ShopProductCard>
-          </div>
+          <ShopProductCard :product="product" :showActions="false">
+            <template v-if="pageType === 'instant-shipping'" #badge>
+              <Badge
+                :title="$t('home_page.instant')"
+                :icon="require('~/assets/img/home/instant.svg')"
+                color="black"
+                right
+              />
+            </template>
+          </ShopProductCard>
         </div>
-      </template>
+      </div>
+      <infinite-loading :identifier="infiniteId" @infinite="handleLoading">
+        <template slot="spinner">
+          <Loader />
+        </template>
+        <template slot="no-more"> No More Data </template>
+      </infinite-loading>
+      <!-- </template> -->
       <!-- <template v-if="!loading && products.length === 0">
         <div class="d-flex align-items-center justify-content-center h-300">
           <div class="no-items-found-title">
@@ -53,13 +59,6 @@
           </div>
         </div>
       </template> -->
-
-      <infinite-loading :identifier="infiniteId" @infinite="handleLoading">
-        <template slot="spinner">
-          <Loader />
-        </template>
-        <template slot="no-more"> No More Data </template>
-      </infinite-loading>
     </section>
   </div>
 </template>
@@ -138,11 +137,11 @@ export default {
   },
   methods: {
     ...mapActions('browse', ['fetchFilters', 'resetFilters']),
-    handleLoading($state) {
+    async handleLoading($state) {
       this.state = $state
-      this.fetchProducts()
+      await this.fetchProducts()
     },
-    fetchProducts: debounce(function () {
+    fetchProducts: debounce(async function () {
       this.loading = true
       const filters = {}
       if (this.search) {
@@ -180,98 +179,91 @@ export default {
       if (this.selectedSizeType) {
         filters.size_types = this.selectedSizeType
       }
-
+      if (this.getIsFilterActive === true) {
+        this.products = []
+        this.currentPage = 1
+      }
       filters.take = this.maxPerPage
       filters.page = this.currentPage
 
       if (this.pageType === 'recent') {
         this.url = '/products/shop'
         this.productType = this.$t('auctions.frontpage.recently_viewed')
-        this.getRecentProducts(filters)
+        await this.getRecentProducts(filters)
       } else if (this.pageType === 'new-release') {
         this.url = '/products/shop'
         this.productType = this.$t('banner.new_release')
-        this.getNewRelease(filters)
+        await this.getNewRelease(filters)
       } else if (this.pageType === 'trending') {
         this.url = '/products/shop/trending'
         this.productType = this.$t('home.trending')
-        this.getTrending(filters)
+        await this.getTrending(filters)
       } else if (this.pageType === 'instant-shipping') {
         this.url = '/products/shop/instant-shipping'
         this.productType = this.$t('home_page.instant_shipping')
-        this.getInstantShip(filters)
+        await this.getInstantShip(filters)
       }
     }, 200),
-    getRecentProducts(filters) {
+    async getRecentProducts(filters) {
       if (this.selectedOrdering) {
         filters.order_by = this.selectedOrdering
       } else {
         filters.order_by = 'views'
       }
-      this.loadData(filters)
+      await this.loadData(filters)
     },
-    getNewRelease(filters) {
+    async getNewRelease(filters) {
       if (this.selectedOrdering) {
         filters.order_by = this.selectedOrdering
       } else {
         filters.order_by = 'created_at'
       }
-      this.loadData(filters)
+      await this.loadData(filters)
     },
-    getTrending(filters) {
+    async getTrending(filters) {
       if (this.selectedOrdering) {
         filters.order_by = this.selectedOrdering
       } else {
         filters.order_by = 'created_at'
       }
-      this.loadData(filters)
+      await this.loadData(filters)
     },
-    getInstantShip(filters) {
+    async getInstantShip(filters) {
       if (this.selectedOrdering) {
         filters.order_by = this.selectedOrdering
       } else {
         filters.order_by = 'created_at'
       }
-      this.loadData(filters)
+      await this.loadData(filters)
     },
-    loadData(filters) {
-        if (this.getIsFilterActive === true) {
-            this.products = []
-            this.currentPage = 1
-          }
-      this.$axios
+    async loadData(filters) {
+      await this.$axios
         .get(this.url, {
           params: filters,
         })
         .then((res) => {
-            const that = this
-            if (res.data.current_page === 1) {
-              this.products = [...res.data.data]
-            } else {
-              this.products = [...that.products, ...res.data.data]
-            }
-
-            if (!res.data.next_page_url) {
-              this.state.complete()
-            } else {
-              this.currentPage += 1
-              this.url = res.data.next_page_url
-            }
+          
+          if (res.data.data.length) {
+            this.currentPage += 1
+            this.products.push(...res.data.data)
+            this.state.loaded()
+          } else {
+            this.state.complete()
+          }
           this.$store.commit('browse/setIsFilter', false)
-          this.state.loaded()
         })
         .finally(() => {
           this.loading = false
         })
     },
-    handleCategoryChange(category) {
+    async handleCategoryChange(category) {
       if (this.category === category) {
         return
       }
       this.category = category
       this.$store.commit('browse/setIsFilter', true)
       this.$store.commit('browse/setSelectedCategory', category)
-      this.fetchProducts()
+      await this.fetchProducts()
     },
   },
 }

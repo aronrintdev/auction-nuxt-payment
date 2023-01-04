@@ -156,8 +156,7 @@ export default {
         { label: this.$t('common.accessories', 2), value: 'accessories' },
       ],
       category: 'all',
-      loading: false,
-      loadingFilter: false,
+      loadingFilter: true,
       prices: null,
       perPage: 12,
       page: 1,
@@ -210,7 +209,6 @@ export default {
     },
     fetchProducts: debounce(function () {
       if (!this.perPage || !this.page) return
-      this.loading = false
       const filters = {}
       if (this.selectedCategory) {
         filters.category =

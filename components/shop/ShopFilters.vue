@@ -157,44 +157,56 @@
           </span>
         </div>
       </template>
-      <div
-        v-for="(x, index) in selectedFilters.sizes"
-        :key="`sizes${index}`"
-        class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
-      >
-        {{ getSizeName(x) }}
-        <span class="remove-filter ml-3" @click="removeFilter('sizes', index)">
-          ✖
-        </span>
-      </div>
-      <div
-        v-for="(x, index) in selectedFilters.brands"
-        :key="`brands${index}`"
-        class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
-      >
-        {{ x }}
-        <span class="remove-filter ml-3" @click="removeFilter('brands', index)">
-          ✖
-        </span>
-      </div>
-      <div
-        v-if="selectedFilters.prices.length > 0"
-        class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
-      >
-        ${{ selectedFilters.prices[0] }} - ${{ selectedFilters.prices[1] }}
-        <span class="remove-filter ml-3" @click="removeFilter('prices')">
-          ✖
-        </span>
-      </div>
-      <div
-        v-if="selectedFilters.years.length > 0"
-        class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
-      >
-        {{ selectedFilters.years[0] }} - {{ selectedFilters.years[1] }}
-        <span class="remove-filter ml-3" @click="removeFilter('years')">
-          ✖
-        </span>
-      </div>
+      <template v-if="selectedFilters.sizes.length > 0">
+        <div
+          v-for="(x, index) in selectedFilters.sizes"
+          :key="`sizes${index}`"
+          class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
+        >
+          {{ getSizeName(x) }}
+          <span
+            class="remove-filter ml-3"
+            @click="removeFilter('sizes', index)"
+          >
+            ✖
+          </span>
+        </div>
+      </template>
+      <template v-if="selectedFilters.brands.length">
+        <div
+          v-for="(x, index) in selectedFilters.brands"
+          :key="`brands${index}`"
+          class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
+        >
+          {{ x }}
+          <span
+            class="remove-filter ml-3"
+            @click="removeFilter('brands', index)"
+          >
+            ✖
+          </span>
+        </div>
+      </template>
+      <template v-if="selectedFilters.prices.length > 0">
+        <div
+          class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
+        >
+          ${{ selectedFilters.prices[0] }} - ${{ selectedFilters.prices[1] }}
+          <span class="remove-filter ml-3" @click="removeFilter('prices')">
+            ✖
+          </span>
+        </div>
+      </template>
+      <template v-if="selectedFilters.years.length > 0">
+        <div
+          class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
+        >
+          {{ selectedFilters.years[0] }} - {{ selectedFilters.years[1] }}
+          <span class="remove-filter ml-3" @click="removeFilter('years')">
+            ✖
+          </span>
+        </div>
+      </template>
       <div
         v-if="
           selectedFilters.sizes.length > 0 ||
@@ -289,23 +301,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(
-      'browse',
-      [
-        'filters',
-        'selectedBrands',
-        'selectedSearch',
-        'selectedSizes',
-        'selectedSizeType',
-        'selectedOrdering',
-        'getSizesByType',
-        'selectedCategory',
-        'selectedProductType',
-        'selectedGender',
-      ],
-      'auction',
-      ['getProductFilter']
-    ),
+    ...mapGetters('browse', [
+      'filters',
+      'selectedBrands',
+      'selectedSearch',
+      'selectedSizes',
+      'selectedSizeType',
+      'selectedOrdering',
+      'getSizesByType',
+      'selectedCategory',
+      'selectedProductType',
+      'selectedGender',
+    ]),
     filterBrands() {
       if (this.brandName.trim() === '') {
         return this.brandOptions
@@ -393,7 +400,7 @@ export default {
             this.$store.commit(
               'browse/setSelectedSizeType',
               this.defaultSizetype
-        )
+            )
         }
         this.category = newV
       },
@@ -435,7 +442,7 @@ export default {
         'browse/setProductType',
         this.selectedFilters.productType
       )
-      this.$store.commit('browse/setIsFilter',true)
+      this.$store.commit('browse/setIsFilter', true)
       this.$store.commit('browse/setGender', this.selectedFilters.gender)
       if (this.selectedFilters.sizeType && this.selectedFilters.sizes) {
         const newSizes = this.selectedFilters.sizes.filter((size) =>
@@ -488,7 +495,7 @@ export default {
       this.selectedFilters.brands = []
       this.selectedFilters.years = []
       this.selectedFilters.prices = []
-      this.selectedFilters.gender = []
+      this.selectedFilters.gender = null
       this.$store.commit('browse/setSelectedBrands', [])
       this.$store.commit('browse/setSelectedSizeType', null)
       this.$store.commit('browse/setProductType', null)
@@ -499,7 +506,7 @@ export default {
       this.$store.commit('browse/setSizesByType', [])
       this.$store.commit('browse/setSelectedPrices', [])
       this.$store.commit('browse/setSelectedYears', [])
-      this.$store.commit('browse/setIsFilter',false)
+      this.$store.commit('browse/setIsFilter', false)
     },
     handleSortBySelect(option) {
       // Select SortBy option
