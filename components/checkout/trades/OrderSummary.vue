@@ -262,7 +262,7 @@ export default {
       return vm.getCashAdded
     },
     getCashAdded: (vm) => {
-      return vm.getTypeOffer ? 0 : vm.shoppingCart.cashAdded
+      return vm.getCashType === 'requested'? 0 : vm.shoppingCart.cashAdded
     },
     getTypeOffer: (vm) => {
       return  vm.shoppingCart.typeOffer

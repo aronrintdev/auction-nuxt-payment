@@ -121,7 +121,7 @@
 
     <b-row class="justify-content-center mt-4 mb-4">
       <b-btn class="confirm-trade-draft" variant="listing" @click="saveVendorTrade(STATUS_DRAFT)">{{ $t('trades.create_listing.vendor.wants.save_as_draft') }}</b-btn>
-      <b-btn class="confirm-trade-post ml-5" :disabled="!getTradeItemsWants.length || !getTradeItems.length" variant="listing" @click="saveVendorTrade(STATUS_LIVE)">{{ $t('trades.create_listing.vendor.wants.post_trade_listing') }}</b-btn>
+      <b-btn class="confirm-trade-post ml-5" :disabled="!getTradeItemsWants.length && !getTradeItems.length" variant="listing" @click="saveVendorTrade(STATUS_LIVE)">{{ $t('trades.create_listing.vendor.wants.post_trade_listing') }}</b-btn>
     </b-row>
     <b-row class="justify-content-center mt-4">
       <div class="post-listing-tax">

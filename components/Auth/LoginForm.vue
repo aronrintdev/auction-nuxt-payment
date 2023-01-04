@@ -187,7 +187,7 @@ export default {
   background-color: $color-white-1
   border: 1px solid $color-gray-3
   border-radius: 10px !important
-  padding: 19px 15px !important
+  padding: 19px 15px
   transition: border-color 0.01s ease-in-out, box-shadow 0.01s ease-in-out
   &::placeholder,
   &:-ms-input-placeholder,
@@ -252,7 +252,6 @@ export default {
     background-color: $color-white-5
     border: 1px solid $color-white-5
     color: $color-black-1
-
     &.input-username
       border-radius: 20px !important
 
@@ -276,4 +275,11 @@ export default {
       width: 171px
       height: 42px
       font-weight: $normal
+  .login-form-section 
+    fieldset 
+      .input-group
+        width: 323px
+  .login-form-section 
+    fieldset
+      width: 323px
 </style>
