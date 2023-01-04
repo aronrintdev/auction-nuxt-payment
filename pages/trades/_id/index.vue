@@ -188,7 +188,7 @@
               {{$t('trades.trade_arena.edit_cash')}}
             </div>
           </div>
-          <b-btn  v-if="!isExpire && !isPayment" ref="btnShow" class="next-btn" @click="showPoorTradeConfirmationModal">
+           <b-btn  v-if="!isExpire && !isPayment" ref="btnShow" class="next-btn" @click="showPoorTradeConfirmationModal">
             {{$t('trades.trade_arena.next')}}
           </b-btn>
           <b-btn v-if="isPayment" class="back-btn-trade" @click="goBack" >{{$t('trades.trade_arena.go_back')}}</b-btn>
@@ -293,7 +293,10 @@
       <PoorTradeConfirmationModal :poorTrade="checkForPoorTrade()"></PoorTradeConfirmationModal>
       <AlreadyListedModal :listingId="itemListingId" :item="alreadyListedItemDetails" @confirm="addOrIncrementYourItem" />
     </b-col>
-    <CheckoutSidebar  v-if="isPayment" class="order-summary" />
+    <b-col md="3" class="summary-box">
+      <CheckoutSidebar  v-if="isPayment" class="order-summary" />
+    </b-col>
+
     </b-row>
     </div>
     </div>
@@ -803,7 +806,7 @@ export default {
     showPoorTradeConfirmationModal() {
       if(this.checkForPoorTrade()){
         this.$root.$emit('bv::show::modal', 'poor_trade_confirmation', '#btnShow')
-      }else{
+      } else if(this.getYourTradeItems.length) {
         this.isPayment = true
       }
     },
@@ -1415,4 +1418,6 @@ export default {
 .payment-center-image
   height: 45px
   width: 45px
+.summary-box
+  margin-left: -4rem
 </style>
