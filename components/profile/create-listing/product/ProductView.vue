@@ -169,16 +169,16 @@
         <b-col sm="12" md="6" class="px-4 pt-3">
           <b-row>
             <b-col cols="4" class="text-black py-1">{{ $t('common.sku') }}:</b-col>
-            <b-col cols="8" class="py-1">{{ product.sku }}</b-col>
+            <b-col cols="8" class="py-1 pl-4">{{ product.sku }}</b-col>
             <b-col cols="4" class="text-black py-1">{{ $t('common.color') }}:</b-col>
-            <b-col cols="8" class="py-1">{{ product.colorway }}</b-col>
+            <b-col cols="8" class="py-1 pl-4">{{ product.colorway }}</b-col>
             <template v-if="product.retail_price">
               <b-col cols="4" class="text-black py-1">{{ $t('common.retail_price') }}:</b-col>
-              <b-col cols="8" class="py-1">{{ product.retail_price | formatPrice }}</b-col>
+              <b-col cols="8" class="py-1 pl-4">{{ product.retail_price | formatPrice }}</b-col>
             </template>
             <template v-if="product.release_date">
               <b-col cols="4" class="text-black py-1">{{ $t('common.release_date') }}:</b-col>
-              <b-col cols="8" class="py-1">{{ product.release_date | formatDate }}</b-col>
+              <b-col cols="8" class="py-1 pl-4">{{ product.release_date | formatDate }}</b-col>
             </template>
           </b-row>
         </b-col>
