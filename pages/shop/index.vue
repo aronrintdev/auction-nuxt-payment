@@ -334,7 +334,7 @@ export default {
     },
     setCategory(){
       const categoryName = this.$router.currentRoute.query.category? 
-      this.$router.currentRoute.query.category.toLowerCase():'';
+      this.$router.currentRoute.query.category.toLowerCase():'all';
       if(categoryName === FOOTWEAR){
         this.category = SNEAKERS
       }else{
