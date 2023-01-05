@@ -2,7 +2,7 @@
   <div>
     <div :class="{'mt-4': !isScreenXS}" class="d-flex justify-content-between align-items-center">
       <h3 v-if="newNotifications.length" :class="{'px-4': isScreenXS}"
-          class="fs-18 fw-6 text-black mb-0"
+          class="fs-16 fw-6 text-black mb-0"
       >
         {{ $t('notifications.new') }}
         <span v-if="!isScreenXS" class="text-primary ml-2">{{ newNotifications.length }}</span>
@@ -30,7 +30,7 @@
       </div>
       <div :class="{'px-4': isScreenXS, 'mt-4': !isScreenXS}"
            class="d-flex justify-content-between align-items-center">
-        <h3 v-if="earlyNotifications.length" class="fs-18 fw-6 text-black mb-0">
+        <h3 v-if="earlyNotifications.length" class="fs-16 fw-6 text-black mb-0">
           {{ $t('notifications.this_week') }}
           <span v-if="!isScreenXS" class="text-primary ml-2">{{ earlyNotifications.length }}</span>
         </h3>
@@ -48,7 +48,7 @@
 
       <div :class="{'px-4': isScreenXS, 'mt-4': !isScreenXS}"
            class="d-flex justify-content-between align-items-center">
-        <h3 v-if="olderNotifications.length" class="fs-18 fw-6 text-black mb-0">
+        <h3 v-if="olderNotifications.length" class="fs-16 fw-6 text-black mb-0">
           {{ $t('notifications.older') }}
           <span v-if="!isScreenXS" class="text-primary ml-2">{{ olderNotifications.length }}</span>
         </h3>
