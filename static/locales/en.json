@@ -2213,6 +2213,7 @@
     "one_item_added": "One item added to {list}",
     "view_list": "View List",
     "continue_shopping": "Continue Shopping",
+    "keep_shopping": "Keep Shopping",
     "products_removed_from_wishlist": "{n} product has been removed from wishlist | {n} products have been removed from wishlist",
     "products_moved": "{n} product moved to `{wishlist}` | {n} products moved to `{wishlist}`"
   },

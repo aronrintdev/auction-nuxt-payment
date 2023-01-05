@@ -2,23 +2,27 @@
   <Modal
     :id="id"
     modal-class="create-list-modal"
-    footer-class="justify-content-around pt-0"
-    no-footer-border
+    :rounded="true"
+    no-header-border
+    header-class="py-0"
+    bodyClass="pt-3"
+    footerClass="border-0"
     @hidden="$emit('hidden')"
   >
     <template #header>
-      <h5>{{ $t('wish_lists.create_new_list') }}</h5>
+      <h5 class="header px-5">{{ $t('wish_lists.create_new_list') }}</h5>
     </template>
 
     <template #default="{}">
-      <div class="body-text text-center">
+      <div class="px-5">
+        <div class="message_text">
         {{
           $t('wish_lists.one_item_added', {
             list: wishList ? wishList.name : 'Wishlist',
           })
         }}
       </div>
-      <div class="d-flex align-items-center justify-content-center mt-2">
+        <div class="d-flex align-items-center justify-content-center mt-2">
         <div class="img-product">
           <ProductThumb :product="product" :src="product.image" />
         </div>
@@ -27,23 +31,22 @@
           <div class="product-color">{{ color }}</div>
         </div>
       </div>
+      </div>
     </template>
 
     <template #footer="{ hide }">
-      <b-row class="action-btn-wrapper">
-        <b-col md="12" class="d-flex flex-column align-items-center justify-content-center">
-          <Button
-            variant="outline-dark"
-            pill
-            @click="wishList ? $router.push(`/profile/wish-lists?id=${wishList}`) : ''"
-          >
-            {{ $t('wish_lists.view_list') }}
-          </Button>
-          <Button class="mt-3" variant="dark-blue" pill @click="hide">
-            {{ $t('wish_lists.continue_shopping') }}
-          </Button>
-        </b-col>
-      </b-row>
+      <div class="action-btn-wrapper d-flex justify-content-between flex-grow-1 w-100 px-5">
+        <Button variant="dark-blue px-0" pill @click="hide">
+          {{ $t('wish_lists.keep_shopping') }}
+        </Button>
+        <Button
+          variant="outline-dark"
+          pill
+          @click="wishList ? $router.push(`/profile/wish-lists?id=${wishList}`) : ''"
+        >
+          {{ $t('wish_lists.view_list') }}
+        </Button>
+      </div>
     </template>
   </Modal>
 </template>
@@ -81,8 +84,19 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.header
+  padding-top: 27px
+
+.message_text
+  color: $color-gray-5
+  font-family: $font-sf-pro-text
+
+
 .action-btn-wrapper
-  button
-    width: 214px
-    height: 40px
+  ::v-deep.btn
+    width: 160px
+
+.product-title
+  font-family: $font-family-sf-pro-display
 </style>
