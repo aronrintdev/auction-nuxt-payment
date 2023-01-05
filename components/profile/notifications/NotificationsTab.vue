@@ -48,7 +48,7 @@
 
       <div :class="{'px-4': isScreenXS, 'mt-4': !isScreenXS}"
            class="d-flex justify-content-between align-items-center">
-        <h3 v-if="olderNotifications.length" class="fs-16 fw-6 text-black mb-0">
+        <h3 v-if="olderNotifications.length" class="fs-16 fw-6 font-secondary text-black mb-0">
           {{ $t('notifications.older') }}
           <span v-if="!isScreenXS" class="text-primary ml-2">{{ olderNotifications.length }}</span>
         </h3>
