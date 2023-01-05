@@ -335,13 +335,13 @@ export default {
     setCategory(){
       const categoryName = this.$router.currentRoute.query.category? 
       this.$router.currentRoute.query.category.toLowerCase():'';
-    
       if(categoryName === FOOTWEAR){
         this.category = SNEAKERS
       }else{
+      
         this.category = categoryName
       }
-      this.$store.commit('browse/setSelectedCategory', categoryName)
+      this.$store.commit('browse/setSelectedCategory', this.category)
     }
   },
 }
