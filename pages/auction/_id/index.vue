@@ -689,25 +689,68 @@
       </div>
     </b-modal>
     <!-- Place Bid Modal -->
-    <b-modal id="placebid-modal" class="bid-modal" hide-footer hide-header size="md">
-      <div class="text-right">
+    <b-modal id="placebid-modal" body-class="bid-modal" hide-footer hide-header size="md">
+      <div class="d-flex align-items-center justify-content-between justify-content-md-end">
         <close-icon role="button" class="close-icon" @click="$bvModal.hide('placebid-modal')"></close-icon>
+        <div class="bids-btn d-md-none" @click="$bvModal.show('mob-bids-history-modal')">{{ $tc('common.bid', 2) }}</div>
       </div>
       <div class="text-left">
-        <h5 class="mt-3 mb-4">{{ $t('auctions.frontpage.place_bid') }}</h5>
-        <div class="mt-3 field d-flex justify-content-between align-items-center">
+        <h5>
+          {{ $t('auctions.frontpage.place_bid') }}&nbsp;<span v-if="isCollection">({{ activeAuction.auction_items.length }} {{ $tc('common.item', 2) }})</span>
+        </h5>
+        <div v-if="!isCollection" class="d-flex d-md-none single-auction">
+          <div class="bid-modal-product-image">
+            <ProductThumb :product="activeAuction.auction_items[0].inventory.product" overlay />
+          </div>
+          <div class="flex-grow-1 bid-modal-product-details">
+            <div class="bid-modal-product-name">{{ activeAuction.auction_items[0].inventory.product.name }}</div>
+            <div class="bid-modal-product-sku text-uppercase">{{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ activeAuction.auction_items[0].inventory.product.sku }}</div>
+            <div class="bid-modal-product-color">{{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ activeAuction.auction_items[0].inventory.product.colorway }}
+            </div>
+            <div class="bid-modal-product-size">{{ $t('shopping_cart.size') }}&colon;&nbsp;{{activeAuction.auction_items[0].inventory.size.size }}</div>
+            <div class="bid-modal-product-condition">{{ $t('products.box_condition') }}&colon;&nbsp;{{ $t(`common.box_conditions.${activeAuction.auction_items[0].inventory.packaging_condition.category_id}.${activeAuction.auction_items[0].inventory.packaging_condition.display_order}`) }}</div>
+          </div>
+        </div>
+        <div v-else class="d-md-none">
+          <carousel
+            ref="carousel"
+            class="carousel auction-carousel slide-fade"
+            :nav="false"
+            :showArrows="false"
+            :loop="false"
+            autoWidth
+            :margin="6"
+            :items="2"
+            :dots="false"
+          >
+            <template #default>
+              <div v-for="(item, idx) in activeAuction.auction_items" :key="idx" class="bid-modal-product-item d-flex align-items-center justify-content-center">
+                <ProductThumb :product="item.inventory.product" overlay />
+                <div class="d-flex align-items-center justify-content-center bid-modal-product-label">{{ `${(idx + 1)} of ${activeAuction.auction_items.length}` }}</div>
+              </div>
+            </template>
+          </carousel>
+        </div>
+        <div class="field d-flex d-md-none justify-content-between align-items-center">
+          <span class="place-bid-label">{{ $t('trades.insert_amount') }}</span>
+          <div class="d-flex flex-column align-items-end position-relative">
+            <input v-model="placeBidPrice" type="number" placeholder="$0" class="text-right px-2" />
+            <span class="enter-more-text">{{ $t('products.enter_or_more', { amount: `$${activeAuction.highest_bid / 100 || activeAuction.start_bid_price / 100}` }) }}</span>
+          </div>
+        </div>
+        <div class="mt-3 field d-none d-md-flex justify-content-between align-items-center">
           <span class="mr-3">{{ $t('auctions.frontpage.insert_amount', { price: activeAuction.highest_bid / 100 || activeAuction.start_bid_price / 100 }) }}</span>
           <input v-model="placeBidPrice" type="number" placeholder="$0" class="text-right px-2" />
         </div>
         <div class="field d-flex justify-content-between align-items-center">
-          <span class="mr-3">{{ $t('auctions.frontpage.current_bid') }}</span>
-          <strong>${{ (activeAuction.highest_bid || activeAuction.start_bid_price) | formatPrice }}</strong>
+          <span class="place-bid-label mr-3">{{ $t('auctions.frontpage.current_bid') }}</span>
+          <strong class="place-bid-label font-weight-bold">${{ (activeAuction.highest_bid || activeAuction.start_bid_price) | formatPrice }}</strong>
         </div>
-        <div class="field d-flex justify-content-between align-items-center">
-          <span class="mr-3">{{ $t('auctions.frontpage.time_remaining') }}</span>
-          <strong class="text-danger">{{ activeAuction | remainingTime('medium') }}</strong>
+        <div class="field border-0 d-flex justify-content-between align-items-center">
+          <span class="place-bid-label mr-3">{{ $t('auctions.frontpage.time_remaining') }}</span>
+          <strong class="place-bid-label font-weight-bold text-danger">{{ activeAuction | remainingTime('medium') }}</strong>
         </div>
-        <div class="my-4 d-flex justify-content-center">
+        <div class="mt-2 mb-4 mt-md-4 d-flex justify-content-center">
           <b-button
             class="w-100"
             :disabled="placeBidPrice <= (activeAuction.highest_bid / 100) || placeBidPrice <= (activeAuction.start_bid_price / 100)"
@@ -717,6 +760,46 @@
             {{ $t('auctions.frontpage.review') }}
           </b-button>
         </div>
+      </div>
+    </b-modal>
+    <!-- Mobile Bids history Modal -->
+    <b-modal id="mob-bids-history-modal" hide-footer hide-header>
+      <div class="text-left">
+        <back-icon role="button" class="back-icon" @click="$bvModal.hide('mob-bids-history-modal')"></back-icon>
+      </div>
+      <div class="bids-history-header text-center">
+        <div class="bids-history-header-title">{{ $t('auctions.frontpage.bidding_history') }}</div>
+        <div class="bids-history-header-id">{{ $t('common.auction') }} #{{ activeAuction.id }}</div>
+      </div>
+      <div class="bidding-history-table">
+        <table class="w-100 text-center">
+          <thead>
+            <tr>
+              <th>{{ $t('auctions.frontpage.time_date') }}</th>
+              <th width="40%"></th>
+              <th>{{ $t('auctions.frontpage.bid_amount') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template v-if="activeAuction.bids.length > 0">
+              <tr v-for="bid in activeAuction.bids" :key="bid.id">
+                <td class="py-3">
+                  <div class="text-dark value">{{ bid.created_at | formatDate('MM-DD-YYYY') }}</div>
+                  <div class="seconds">{{ bid.created_at | formatTime }}</div>
+                </td>
+                <td>&nbsp;</td>
+                <td class="value">${{ bid.price | formatPrice }}</td>
+              </tr>
+            </template>
+            <template v-else>
+              <tr>
+                <td class="value">-</td>
+                <td>&nbsp;</td>
+                <td class="value">-</td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
       </div>
     </b-modal>
     <!-- Bids history Modal -->
@@ -793,6 +876,7 @@ import dayjs from 'dayjs'
 import ProductSlider from '~/components/Auctions/ProductSlider'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
 import CloseIcon from '~/assets/img/icons/close.svg?inline'
+import BackIcon from '~/assets/img/icons/back.svg?inline'
 import { AuctionThresholdsData, SIZE_GUIDE_ITEMS, AUCTION_TYPE_COLLECTION, WATCHLIST_TYPE_AUCTION, SCHEDULED_STATUS } from '~/static/constants'
 import CheckmarkIcon from '~/assets/img/icons/checkmark.svg?inline'
 import {API_PROD_URL} from '~/static/constants/environments'
@@ -829,6 +913,7 @@ export default {
     CollectionItemsSlider,
     WatchlistBottomSheet,
     ShareLinkSheet,
+    BackIcon,
   },
   mixins: [screenSize],
   layout: 'IndexLayout',
@@ -899,6 +984,9 @@ export default {
       return this.autoBidPrice &&
         parseFloat(this.autoBidPrice) * 100 > this.activeAuction.start_bid_price &&
         parseFloat(this.autoBidPrice) * 100 > this.activeAuction.highest_bid
+    },
+    isCollection() {
+      return this.activeAuction.type === AUCTION_TYPE_COLLECTION
     }
   },
   watch: {
@@ -1631,6 +1719,112 @@ export default {
     height: 50px
     &:hover
       color: $white
+  @media (max-width: 576px)
+    h5
+      font-family: $font-sp-pro
+      font-weight: $medium
+      @include body-2327
+      color: $black
+      margin: 18px 0 9px
+    .bids-btn
+      font-family: $font-sp-pro
+      font-weight: $medium
+      @include body-4b
+      color: $color-blue-20
+    .close-icon
+      line
+        stroke: $color-blue-20
+    .auction-carousel
+      margin-right: -16px
+      margin-bottom: 12px
+      height: 159px
+      overflow: hidden
+      .owl-carousel::v-deep
+        opacity: 0
+        &.owl-loaded
+          opacity: 1
+    .place-bid-label
+      font-family: $font-sp-pro
+      font-weight: $regular
+      @include body-34
+      letter-spacing: 0.045em
+      color: $black
+    .field input
+      width: 75px
+      height: 37px
+    .enter-more-text
+      font-family: $font-sf-pro-text
+      font-weight: $normal
+      @include body-18
+      color: $color-gray-4
+    .amount-error
+      font-family: $font-sp-pro
+      font-weight: $normal
+      @include body-1214
+      color: $color-red-2
+      position: absolute
+      top: 108%
+      white-space: nowrap
+    .single-auction
+      margin-top: 12px
+    .bid-modal-product
+      &-item
+        width: 140px
+        height: 159px
+        background: $color-white-4
+        padding: 12px
+        .thumb-wrapper::v-deep
+          .overlay
+            background-color: rgba(200, 200, 200, 0.1)
+      &-image
+        width: 140px
+        height: 159px
+        margin-right: 36px
+        padding: 10px
+        background: $color-white-4
+        display: flex
+        align-items: center
+        .thumb-wrapper::v-deep
+          .overlay
+            background: rgba(200, 200, 200, 0.1)
+      &-name
+        font-family: $font-sp-pro
+        font-weight: $regular
+        @include body-21
+        color: $black
+        margin-bottom: 6px
+      &-label
+        position: absolute
+        top: 10px
+        left: 10px
+        background: $dark-gray-8
+        font-family: $font-montserrat
+        font-weight: $medium
+        @include body-18
+        color: $black
+        width: 70px
+        height: 25px
+      &-sku,
+      &-color,
+      &-size,
+      &-condition
+        font-family: $font-sp-pro
+        font-weight: $regular
+        @include body-9
+        color: $color-gray-5
+        margin-bottom: 6px
+    .btn-secondary.btn::v-deep
+      background: $color-blue-20
+      color: $white
+      font-family: $font-sp-pro
+      font-weight: $medium
+      @include body-4b
+      height: 40px
+      border: none
+      &.disabled,
+      &:disabled
+        background: $color-gray-1
+        color: $color-gray-47
 .placed-bid-desc
   font-family: $font-sp-pro
   font-weight: $regular

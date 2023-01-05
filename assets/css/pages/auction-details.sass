@@ -653,13 +653,13 @@
         font-weight: $bold
         border: 1px solid $color-gray-47
         border-radius: 8px
-        width: 80px
-        height: 38px
+        width: 75px
+        height: 37px
     .modal-dialog
       margin: 0
       .modal-content
         border-radius: 0
-        height: 100vh
+        height: calc(100vh - 70px)
 .watchlist-popover
   width: 150px
   .arrow::before
@@ -687,3 +687,61 @@
   @include body-5
 .auction-details-tooltip.bs-tooltip-right .arrow::before
   border-right-color: $white
+
+#mob-bids-history-modal
+  @media (max-width: 576px)
+    .modal-dialog
+      margin: 0
+    .modal-content
+      border-radius: 0
+      height: 100vh
+    .modal-body
+      padding: 0
+      .back-icon
+        margin: 14px 21px 3px
+        path
+          fill: $color-blue-20
+      .bidding-history-table
+        height: calc(100vh - 89px)
+        overflow: auto
+      .bids-history-header
+        padding-bottom: 12px
+        border-bottom: 0.5px solid $color-gray-4
+        &-title
+          font-family: $font-sp-pro
+          font-weight: $bold
+          @include body-34
+          letter-spacing: -0.02em
+          color: $black
+          margin-bottom: 5px
+        &-id
+          font-family: $font-sp-pro
+          font-weight: $normal
+          @include body-5
+          letter-spacing: -0.02em
+          color: $color-gray-25
+      table
+        tbody
+          tr:last-child
+            border-bottom: none
+        tr
+          border-bottom: 1px solid $color-gray-47
+        th
+          font-family: $font-sp-pro
+          font-weight: $medium
+          @include body-5
+          letter-spacing: -0.02em
+          color: $black
+          width: 150px
+          text-align: center
+          padding: 8px 0 7px
+        td
+          font-family: $font-sp-pro
+          font-weight: $normal
+          @include body-5
+          color: $color-gray-4
+          height: 68px
+          .seconds
+            @include body-21
+            letter-spacing: -0.02em
+            margin-top: 3px

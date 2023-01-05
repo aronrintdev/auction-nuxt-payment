@@ -2099,6 +2099,7 @@
       "sold_on": "Sold on",
       "quick_bid_info": "A quick bid allows you bid quickly with a suggested value shown on the page based on the highest bid.",
       "review": "Review",
+      "insert_amount_error": "Enter a Bid at the Next Available Bid Increment",
       "collection_description": "This collection features {count} products, consisting of {categories}. The items offered in this collection are {items}."
     },
     "errors": {
