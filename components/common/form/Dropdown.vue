@@ -100,7 +100,7 @@ export default {
     },
     iconArrowDown: {
       type: String,
-      default: require('~/assets/img/icons/arrow-down-gray.svg'),
+      default: require('~/assets/img/icons/arrow-down-black.svg'),
     },
     noArrow: {
       type: Boolean,
@@ -183,12 +183,11 @@ export default {
     height: 32px
     .icon-arrow
       transition: transform 0.2s ease-in-out
-      transform: rotate(180deg)
     &.opened
       border-bottom-left-radius: 0
       border-bottom-right-radius: 0
       .icon-arrow
-        transform: rotate(0deg)
+        transform: rotate(180deg)
     &.active
       color: $color-black-1
   .icon-clear

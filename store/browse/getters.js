@@ -17,8 +17,8 @@ export function selectedBrands(state) {
 export function selectedSizes(state) {
   return state.selectedSizes
 }
-export function selectedSizeTypes(state) {
-  return state.selectedSizeTypes
+export function selectedSizeType(state) {
+  return state.selectedSizeType
 }
 export function selectedSort(state) {
   return state.selectedSort
@@ -28,6 +28,12 @@ export function selectedSearch(state) {
 }
 export function selectedOrdering(state){
   return state.selectedOrdering
+}
+export function selectedProductType(state){
+  return state.selectedProductType
+}
+export function selectedGender(state){
+  return state.selectedGender
 }
 export function getSizesByType(state){
   return state.sizes

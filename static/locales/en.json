@@ -2168,7 +2168,8 @@
       "price_high_first": "Price: High to Low",
       "most_viewed": "Most Viewed",
       "best_sellers": "Best Sellers"
-    }
+    },
+    "no_more_results":"No more result found"
   },
   "wish_lists": {
     "create_new_list": "Create a New List",
@@ -6818,7 +6819,7 @@
     "shop_with": "Shop With",
     "deadstock": "deadstock",
     "years": "Years",
-    "new_release": "New Release",
+    "new_release": "New Releases",
     "view_more_release": "View More Releases",
     "view_more_trending": "View More Trending"
   },

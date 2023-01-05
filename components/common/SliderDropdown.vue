@@ -174,7 +174,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .accordion-filter-item
-  background: $color-white-5
+  background: $color-white-19
   border-radius: 8px
   padding: 12px 14px 12px 20px
   width: max-content

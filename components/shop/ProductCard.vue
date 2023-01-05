@@ -46,8 +46,8 @@
         </div>
       </div>
     </div>
-    <div class="mt-2 ml-3 ml-sm-0 ml-md-0 ml-lg-0 ml-xl-0 row">
-      <div :class="[showActionBtn ? 'col-7' : 'col-12','px-1 px-lg-0']">
+    <div class="mt-3 row product-bottom-section">
+      <div :class="[showActionBtn ? 'col-7' : 'col-12']">
         <div class="fs-15 fw-6 font-secondary product-title text-truncate">
           {{ getTruncateName }}
         </div>
@@ -258,6 +258,8 @@ export default {
   max-width: initial
   text-align: left
   background-color: $color-white-1
+  .product-bottom-section
+    margin-left: 1px
   .badge-slot
     position: absolute
     top: 20px
@@ -327,7 +329,7 @@ export default {
   @media (max-width: 500px)
     .product-image
       height: 185px
-      width: 164px
+      width: 200px
     .action-btn-slot button
       font-size: 10px
       img.btnIcon
