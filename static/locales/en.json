@@ -2176,6 +2176,7 @@
     "list_name": "List Name",
     "all_lists_are_private": "All lists are private unless you share them with others",
     "create_list_helper": "Save items onto wishlists.",
+    "create_list_helper_public": "(By setting to public, you can access a link to share with friends)",
     "create_list": "Create List",
     "enter_name": "Entet Name",
     "move_items": "Move Items",
