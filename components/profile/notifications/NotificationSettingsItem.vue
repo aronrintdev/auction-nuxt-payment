@@ -3,7 +3,7 @@
     <b-col md="5" sm="12">
       <div
         :class="{ 'justify-content-between': isScreenXS }"
-        class="title d-flex align-items-center"
+        class="sub-heading-title d-flex align-items-center"
       >
         {{ settings.label }}
         <arrow-right v-if="isScreenXS" @click="notificationSelect" />
@@ -15,7 +15,7 @@
         </div>
       </div>
     </b-col>
-    <b-col v-if="!isScreenXS" class="title-labels w-50 pt-19" md="4">
+    <b-col v-if="!isScreenXS" class="title-labels w-50 pt-20" md="4">
       <div
         v-if="
           fieldExist(settings.data, 'when') ||
@@ -427,7 +427,8 @@ export default {
 
 .pt-19
   padding-top: 19px
-
+.pt-20
+  padding-top: 20px
 .h-26px
   @include body-8
   height: 26px
@@ -445,10 +446,11 @@ export default {
   white-space: nowrap
 
 
-.title
+.sub-heading-title
   @include body-8
   font-family: $font-family-sf-pro-display
   font-style: normal
+  font-weight: $medium
   color: $color-black-1
 
 .sub-title
@@ -494,8 +496,8 @@ export default {
 
     .custom-control-input:checked ~ .custom-control-label
       &:before
-        background-color: $color-green-16
-        border-color: $color-green-16
+        background-color: $color-grey-101
+        border-color: $color-grey-101
 
 .type-checkboxes::v-deep
   .custom-checkbox

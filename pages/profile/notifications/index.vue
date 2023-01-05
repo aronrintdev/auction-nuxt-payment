@@ -23,7 +23,7 @@
         </template>
       </MobileHeader>
 
-      <div v-if="onSettings && !isScreenXS" class="title">
+      <div v-if="onSettings && !isScreenXS" class="notifi-title">
         {{ tabTitle }}
       </div>
       <NotificationFilters
@@ -207,6 +207,11 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+.notifi-title
+  @include body-16
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
 .mb-6p
   margin-bottom: 6px
 
@@ -217,12 +222,6 @@ export default {
   .notification-tabs
     max-width: 236px
     margin-bottom: 26px
-
-  .title
-    @include body-4b
-    font-family: $font-family-sf-pro-display
-    font-style: normal
-    font-weight: $medium
   .notification-nav
     margin: 20px 0 18px 0
     .btn-group
