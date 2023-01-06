@@ -31,7 +31,7 @@ export default {
 ::v-deep.notification-switch
   .custom-control-label
     &:before
-      height: 31px
+      height: 32px
       width: 51px
       border-radius: 25px
       border: none
@@ -48,7 +48,7 @@ export default {
 ::v-deep.notification-switch
   .custom-control-input:checked ~ .custom-control-label
     &:before
-      height: 31px
+      height: 32px
       width: 51px
       border-radius: 25px
       border: none
