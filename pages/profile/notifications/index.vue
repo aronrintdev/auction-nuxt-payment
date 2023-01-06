@@ -23,7 +23,7 @@
         </template>
       </MobileHeader>
 
-      <div v-if="onSettings && !isScreenXS" class="title">
+      <div v-if="onSettings && !isScreenXS" class="title font-sz-30">
         {{ tabTitle }}
       </div>
       <NotificationFilters
@@ -219,10 +219,13 @@ export default {
     margin-bottom: 26px
 
   .title
-    @include body-4b
     font-family: $font-family-sf-pro-display
     font-style: normal
     font-weight: $medium
+
+    &.font-sz-30
+      @include body-16
+
   .notification-nav
     margin: 20px 0 18px 0
     .btn-group
