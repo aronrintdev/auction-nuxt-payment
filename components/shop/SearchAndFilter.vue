@@ -125,7 +125,7 @@ import SearchIcon from '~/assets/icons/SearchIcon'
 import ShopFiltersMobile from '~/components/shop/ShopFiltersMobile'
 import SearchbarMobile from '~/components/shop/SearchbarMobile'
 import Checkbox from '~/components/common/form/Checkbox'
-import Arrowback from '~/assets/icons/ArrowBack'
+import Arrowback from '~/assets/icons/Arrowback'
 
 export default {
   name: 'SearchAndFilter',
