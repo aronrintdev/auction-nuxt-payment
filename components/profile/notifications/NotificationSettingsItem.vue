@@ -116,7 +116,7 @@
       <b-row
         class="title-labels text-center"
         :class="{
-          'pt-19': preference,
+          'mt-18': preference,
         }"
       >
         <b-col>
@@ -428,6 +428,9 @@ export default {
 .pt-19
   padding-top: 19px
 
+.mt-18
+  margin-top: 18px
+
 .h-26px
   @include body-8
   height: 26px
@@ -517,4 +520,8 @@ export default {
         border: none
         box-shadow: none
         border-radius: 0
+
+@media (min-width: 993px)
+  ::v-deep .notification-switch.custom-switch
+    margin-top: -4px
 </style>
