@@ -208,7 +208,7 @@
       </div>
     </div>
     <div
-      class="bottom-sheet-footers d-flex justify-content-between align-items-center w-100 bg-white"
+      class="bottom-sheet-footers position-absolute d-flex justify-content-between align-items-center w-100 bg-white"
     >
       <button
         class="btn fs-16 fw-5 text-dark font-secondary rounded-pill btn-outline-dark"
@@ -267,7 +267,7 @@ export default {
         },
       ],
       sortBy: '',
-      orderBy: 'trending',
+      orderBy: '',
       categories: [
         { label: this.$t('common.footwear'), value: 'sneakers' },
         { label: this.$t('common.apparel'), value: 'apparel' },
@@ -522,7 +522,8 @@ export default {
   .bottom_sheet_body
     margin: 0 28px
     overflow-y: scroll
-    height: 550px
+    overflow-x: hidden
+    height: 580px
     &::-webkit-scrollbar
         width: 0px
   .bottom-sheet-footers
