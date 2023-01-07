@@ -44,10 +44,7 @@
         </Collapse>
       </div>
       <div v-if="category === ACCESSORIES" class="border-bottom py-3">
-        <Collapse
-          :title="$t('filter_sidebar.gender')"
-          :selectedValue="gender"
-        >
+        <Collapse :title="$t('filter_sidebar.gender')" :selectedValue="gender">
           <div class="row">
             <div
               v-for="(genderType, index) in sizeTypeOptions"
@@ -66,10 +63,7 @@
         </Collapse>
       </div>
       <div v-if="category !== ACCESSORIES" class="border-bottom py-3">
-        <Collapse
-          :title="$t('common.sizetype')"
-          :selectedValue="sizeType"
-        >
+        <Collapse :title="$t('common.sizetype')" :selectedValue="sizeType">
           <div class="row">
             <div
               v-for="(type, index) in sizeTypeOptions"
@@ -87,7 +81,10 @@
           </div>
         </Collapse>
       </div>
-      <div  v-if="productTypeOptions && productTypeOptions.length" class="border-bottom py-3">
+      <div
+        v-if="productTypeOptions && productTypeOptions.length"
+        class="border-bottom py-3"
+      >
         <Collapse
           :title="$t('common.product_type')"
           :selectedValue="productType"
@@ -109,7 +106,10 @@
           </div>
         </Collapse>
       </div>
-      <div v-if="sizeOptions && sizeOptions.length && category !== ACCESSORIES" class="border-bottom py-3">
+      <div
+        v-if="sizeOptions && sizeOptions.length && category !== ACCESSORIES"
+        class="border-bottom py-3"
+      >
         <Collapse
           :title="$t('home_page.size')"
           :selectedValue="getSizesLabel(selectedSizes)"
@@ -241,7 +241,7 @@ import {
   MIN_YEAR_RANGE_WINDOW,
   MEN,
   APPAREL,
-  ACCESSORIES
+  ACCESSORIES,
 } from '~/static/constants'
 export default {
   name: 'ShopFiltersMobile',
@@ -318,8 +318,8 @@ export default {
     sizeOptions() {
       let options = this.filters?.sizes
       if (options && (this.sizeType || this.defaultSizetype)) {
-        options = options.filter(({ type }) =>
-          (this.sizeType || this.defaultSizetype) === type
+        options = options.filter(
+          ({ type }) => (this.sizeType || this.defaultSizetype) === type
         )
       }
       return (
@@ -360,13 +360,13 @@ export default {
     selectedCategory: {
       immediate: true,
       handler(val) {
-          this.category = val
+        this.category = val
       },
     },
     selectedBrands: {
       handler(val) {
-          this.brands = val
-      }
+        this.brands = val
+      },
     },
     brands: {
       handler(val) {
@@ -379,29 +379,23 @@ export default {
           case APPAREL:
             this.defaultSizetype = APPAREL
             this.sizeType = null
-            this.$store.commit(
-              'browse/setSelectedSizeType',
-              this.sizeType
-            )
+            this.$store.commit('browse/setSelectedSizeType', this.sizeType)
             break
           case ACCESSORIES:
             this.sizeType = null
             this.sizes = []
-            this.$store.commit(
-              'browse/setSelectedSizeType',
-              this.sizeType
-            )
+            this.$store.commit('browse/setSelectedSizeType', this.sizeType)
             break
           default:
             this.defaultSizetype = MEN
             this.$store.commit(
               'browse/setSelectedSizeType',
               this.defaultSizetype
-        )
+            )
         }
         this.category = newV
         this.getFilters()
-      }
+      },
     },
   },
   created() {
@@ -409,7 +403,7 @@ export default {
     this.MIN_YEAR_RANGE_WINDOW = MIN_YEAR_RANGE_WINDOW
   },
   methods: {
-    ...mapActions('browse', ['resetFilters','fetchFilters']),
+    ...mapActions('browse', ['resetFilters', 'fetchFilters']),
     resetMobileFilters() {
       this.sizes = []
       this.sizeType = ''
@@ -500,6 +494,11 @@ export default {
         value[1]
       )}`
       this.prices = value
+
+      // if range back into default stage remove tag from search
+      if (value[0] === MIN_PRICE && value[1] === MAX_PRICE / 100) {
+        this.selectedRangePrices = null
+      }
     },
     updateYearFilters(value) {
       this.selectedYears = value
@@ -507,6 +506,11 @@ export default {
         value[1]
       )}`
       this.years = value
+      
+      // if range back into default stage remove tag from search
+      if (value[0] === MIN_YEAR && value[1] === MAX_YEAR) {
+        this.selectedRangeYears = null
+      }
     },
     getFilters() {
       this.fetchFilters(this.category)
@@ -533,5 +537,4 @@ export default {
       width: 134px
     .apply-btn
       background-color: $color-blue-20
-
 </style>
