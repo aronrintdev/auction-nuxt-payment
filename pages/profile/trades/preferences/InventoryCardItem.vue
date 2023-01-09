@@ -28,14 +28,14 @@
         </div>
         </b-row>
       </div>
-      <div v-else>
+      <div class="d-flex ml-30" v-else>
         <div v-for="(item) in items" :key="'preference-inventory' + item.id" class="invent-item mr-45">
           <div class="position-absolute size-cont">
             <b-row class="justify-content-between">
               <div class="size text-center ml-3 mt-2">
                 {{$t('trades.size')}} {{item.size.size}}
               </div>
-              <b-form-checkbox :key="'inventory-checkbox-' + item.id" :checked="selectedItems" :value="item.id" class="pr-2 pt-2" @change="changeSelection(item.id)"></b-form-checkbox>
+              <b-form-checkbox :key="'inventory-checkbox-' + item.id" :checked="selectedItems" :value="item.id" class="pr-4 pt-2" @change="changeSelection(item.id)"></b-form-checkbox>
             </b-row>
           </div>
           <div class="inventory-image d-flex justify-content-center mx-auto align-items-center">
@@ -188,4 +188,6 @@ export default {
   background: $color-white-1
   border-radius: 10px
   overflow-y: scroll
+.ml-30
+  margin-left: 30px
 </style>

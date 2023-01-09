@@ -1,15 +1,15 @@
 <template>
   <div>
     <!--      End Header Search and Filter   -->
-    <b-row class="mt-md-4 align-items-md-end justify-content-md-between">
-      <b-col md="12" lg="6" class="search-text-wrapper">
+    <b-row class="d-flex align-items-center">
+      <b-col sm="10">
         <b-row>
-          <b-col md="12" lg="12" class="mt-md-2">
+          <b-col md="12" lg="12">
             <div class="d-flex align-items-center">
               <SearchInput
                 :value="filters.search"
                 :placeholder="$t('orders.search_placeholder').toString()"
-                class="flex-grow-1 mw-734 search"
+                class="flex-grow-1 search"
                 :debounce="1000"
                 @change="handleSearch"
               />
@@ -20,69 +20,77 @@
           </b-col>
         </b-row>
       </b-col>
-      <b-col md="12" lg="6" class="d-none d-md-block search-date-wrapper">
-        <span class="header-title">{{ $t('orders.date_ordered') }}</span>
-        <b-row>
-          <b-col sm="12" md="4" class="mt-2">
-            <CalendarInput
-              class="mr-4"
-              :value="filters.start_date"
-              :placeholder="$t('bids.start_date').toString()"
-              @context="(context) => filters.start_date = context.selectedYMD"
-            ></CalendarInput>
+      <b-col sm="2" class="text-right d-none d-md-block">
+        <button class="btn-export text-center border-0" @click="handleExportBtnClick">{{
+            $t('orders.export_to_csv')
+          }}
+        </button>
+      </b-col>
+      <b-col sm="12" class="d-none d-md-block"></b-col>
+      <b-col sm="10" class="d-none d-md-block">
+        <b-row class="mt-md-2">
+          <b-col sm="5">
+            <span class="header-title">{{ $t('orders.filter_by') }}</span>
+            <b-row class="d-flex justify-content-between">
+              <b-col sm="5" class="mt-2">
+                <CustomSelectwithCheckbox
+                  id="auction-type-selector"
+                  class="mr-4 dropdown-filters"
+                  :value="filters.orderType"
+                  :options="orderTypes"
+                  :icon-arrow-down="DownArrow"
+                  title="Type"
+                  :updateFilters="filters.activeTypeFilters"
+                />
+              </b-col>
+              <b-col sm="6" class="mt-2">
+                <CustomSelectwithCheckbox
+                  id="auction-status-selector"
+                  class="mr-4 dropdown-filters"
+                  :value="filters.statusType"
+                  :options="orderStatuses"
+                  :title="$t('bids.status').toString()"
+                  :updateFilters="filters.activeStatusFilters"
+                />
+              </b-col>
+            </b-row>
           </b-col>
-          <b-col sm="12" md="4" class="mt-2">
-            <CalendarInput
-              class="mr-4"
-              :value="filters.end_date"
-              :placeholder="$t('bids.end_date').toString()"
-              @context="(context) => filters.end_date = context.selectedYMD"
-            ></CalendarInput>
-          </b-col>
-          <b-col sm="12" md="4" class="mt-2">
-            <div class="d-flex flex-column position-relative">
-              <Button
-                variant="primary"
-                class="bg-blue-2 apply-button text-white"
-                @click="applyFilter"
-              >{{ $t('vendor_purchase.apply') }}
-              </Button>
-              <span v-if="haveFilters" role="button" class="clear-filters position-absolute mt-5 ml-2"
-                    @click="clearFilters">{{ $t('bids.clear_filters') }}</span>
-            </div>
+          <b-col>
+            <span class="header-title">{{ $t('orders.date_ordered') }}</span>
+            <b-row>
+              <b-col sm="4" class="mt-2">
+                <CalendarInput
+                  class="mr-4"
+                  :value="filters.start_date"
+                  :placeholder="$t('bids.start_date').toString()"
+                  @context="(context) => filters.start_date = context.selectedYMD"
+                ></CalendarInput>
+              </b-col>
+              <b-col sm="4" class="mt-2">
+                <CalendarInput
+                  class="mr-4"
+                  :value="filters.end_date"
+                  :placeholder="$t('bids.end_date').toString()"
+                  @context="(context) => filters.end_date = context.selectedYMD"
+                ></CalendarInput>
+              </b-col>
+              <b-col sm="4" class="mt-2">
+                <div class="d-flex flex-column position-relative">
+                  <Button
+                    variant="primary"
+                    class="bg-blue-2 apply-button text-white"
+                    @click="applyFilter"
+                  >{{ $t('vendor_purchase.apply') }}
+                  </Button>
+                  <span v-if="haveFilters" role="button" class="clear-filters position-absolute mt-5 ml-2"
+                        @click="clearFilters">{{ $t('bids.clear_filters') }}</span>
+                </div>
+              </b-col>
+            </b-row>
           </b-col>
         </b-row>
       </b-col>
     </b-row>
-    <b-row class="mt-2 d-none d-md-block">
-      <b-col sm="8">
-        <span class="header-title">{{ $t('orders.filter_by') }}</span>
-        <b-row>
-          <b-col sm="12" md="3" class="mt-2">
-            <CustomSelectwithCheckbox
-              id="auction-type-selector"
-              class="mr-4 dropdown-filters"
-              :value="filters.orderType"
-              :options="orderTypes"
-              :icon-arrow-down="DownArrow"
-              title="Type"
-              :updateFilters="filters.activeTypeFilters"
-            />
-          </b-col>
-          <b-col sm="12" md="4" class="mt-2">
-            <CustomSelectwithCheckbox
-              id="auction-status-selector"
-              class="mr-4 dropdown-filters"
-              :value="filters.statusType"
-              :options="orderStatuses"
-              :title="$t('bids.status').toString()"
-              :updateFilters="filters.activeStatusFilters"
-            />
-          </b-col>
-        </b-row>
-      </b-col>
-    </b-row>
-
     <div class="d-block d-md-none">
       <vue-bottom-sheet ref="ordersFilter" max-height="90%" :is-full-screen="true">
         <div class="d-flex flex-column justify-content-between h-100">
@@ -109,7 +117,7 @@
                 </b-form-group>
               </div>
               <div class="border-top py-2">
-                <collapsible-box :title="$t('orders.type').toString()" :second-title="selectedTypesString">
+                <collapsible-box :title="$t('orders.type').toString()" :second-title="selectedTypesString | truncate(32, '...')">
                   <div class="row my-2">
                     <div v-for="type in orderTypes" :key="type.key" class="col-4 my-1 filter-boxes">
                       <div
@@ -122,7 +130,7 @@
                 </collapsible-box>
               </div>
               <div class="border-top py-2">
-                <collapsible-box :title="$t('orders.status').toString()" :second-title="selectedStatusString">
+                <collapsible-box :title="$t('orders.status').toString()" :second-title="selectedStatusString | truncate(32, '...')">
                   <div class="row my-2">
                     <div v-for="status in orderStatuses" :key="status.key" class="col-4 my-1 filter-boxes">
                       <div
@@ -174,6 +182,7 @@
 </template>
 
 <script>
+import {VENDOR_ORDER_STATUSES} from '~/static/constants'
 import {Button, CustomSelectwithCheckbox, SearchInput} from '~/components/common';
 import DownArrow from '~/assets/img/icons/down-arrow.svg';
 import CalendarImg from '~/assets/img/icons/calendar-gray.svg';
@@ -201,10 +210,12 @@ export default {
           value: rectify[a]
         }
       }),
-      orderStatuses: Object.keys(this.$t('orders.order_statuses')).map(a => {
+      orderStatuses: VENDOR_ORDER_STATUSES.map(status => {
         return {
-          text: this.$t('orders.order_statuses.' + a),
-          value: a
+          id: status.id,
+          text: this.$t(status.text),
+          value: status.value,
+          type: status.type,
         }
       }),
       filters: {
@@ -288,6 +299,9 @@ export default {
     },
     selectedFilterStyle(type, activeFilters) {
       return activeFilters.find(x => x.value === type.value) ? 'active-filter' : ''
+    },
+    handleExportBtnClick(e){
+      this.$emit('export', e)
     }
   }
 }
@@ -295,6 +309,16 @@ export default {
 
 <style scoped lang="sass">
 @import '/assets/css/variables'
+.btn-export
+  height: 38px
+  background: $black
+  border-radius: 5px
+  font-family: $font-family-sf-pro-display
+  font-weight: $normal
+  @include body-8
+  color: $white
+  padding: 10px 25px
+
 .filter-boxes
   border-color: $color-gray-28
   min-height: 45px
@@ -406,6 +430,7 @@ export default {
   background: $color-blue-20
   border: 1px solid $color-blue-20
   color: $color-white-1
+  font-family: $font-sp-pro
 
 ::v-deep .col-form-label
   font-weight: bold
@@ -449,39 +474,50 @@ export default {
   height: 38px
   min-width: 170px
   border: none
+
   .selected
     height: 38px
     border: 1px solid $color-gray-60
     padding: 9px 9px 9px 10px
+
     &.open
       border: 1px solid $color-gray-60
       border-bottom: none
+
       &::after
         top: 2px
+
     &::after
       top: 2px
       right: 25px
+
   .items
     padding: 0
     overflow: auto
     border: 1px solid $color-gray-60
+
     .filter-select-count
       padding: 10px !important
+
     .item-wrapper
       border: none
+
       & > div
         border: none
         border-bottom: 1px solid $color-gray-60
+
       .d-flex
         font-weight: $regular
         @include body-5
         color: $black
         border: none
         padding: 9px 10px !important
+
         .custom-checkbox
           min-height: 18px
           line-height: 18px
           margin-left: 20px !important
+
   .btn-dropdown
     display: flex
     justify-content: space-between
@@ -496,6 +532,7 @@ export default {
       font-weight: $regular
       color: $color-gray-5
       @include body-5
+
     &.opened
       border-bottom: none
 
@@ -523,8 +560,10 @@ export default {
         margin: 0 -24px
         background-color: $color-blue-20
         border-radius: 0
+
       .dropdownItem
         height: 38px
+
         &:hover
           color: $white
           margin: 0 -24px
@@ -539,6 +578,7 @@ export default {
       background-color: $color-blue-20
       box-shadow: none
       border: 1px solid $color-blue-20
+
 .dropdown-filters::v-deep
   .custom-control-input
     ~ .custom-control-label::before
@@ -551,6 +591,7 @@ export default {
       width: 10px
       height: 10px
       border: 1px solid $color-gray-60
+
     ~ .custom-control-label::after
       left: -20px
 

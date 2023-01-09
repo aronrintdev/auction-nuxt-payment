@@ -23,19 +23,19 @@
     </div>
     <div v-else class="d-md-none d-flex justify-content-center mobile-time-remaining">
       <div class="time position-relative d-flex flex-column justify-content-center align-items-center">
-        <div class="time-value">{{ days }}</div>
+        <div class="time-value">{{ days >= 10 ? days : `0${days}` }}</div>
         <div class="time-unit text-lowercase">{{ $t('promotions.days') }}</div>
       </div>
       <div class="time position-relative d-flex flex-column justify-content-center align-items-center">
-        <div class="time-value">{{ hours }}</div>
+        <div class="time-value">{{ hours >= 10 ? hours : `0${hours}` }}</div>
         <div class="time-unit text-lowercase">{{ $t('promotions.hours') }}</div>
       </div>
       <div class="time position-relative d-flex flex-column justify-content-center align-items-center">
-        <div class="time-value">{{ mins }}</div>
+        <div class="time-value">{{ mins >= 10 ? mins : `0${mins}` }}</div>
         <div class="time-unit text-lowercase">{{ $t('promotions.mins') }}</div>
       </div>
       <div class="time position-relative d-flex flex-column justify-content-center align-items-center">
-        <div class="time-value">{{ secs }}</div>
+        <div class="time-value">{{ secs >= 10 ? secs : `0${secs}` }}</div>
         <div class="time-unit text-lowercase">{{ $t('promotions.secs') }}</div>
       </div>
     </div>

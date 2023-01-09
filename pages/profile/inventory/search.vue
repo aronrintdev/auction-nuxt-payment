@@ -285,6 +285,8 @@ export default {
     @include heading-1
     color: $color-black-1
     font-family: $font-family-sf-pro-display
+    @include text-24
+    font-weight: $bold
 
   .btn-back
     @include body-5-regular
@@ -325,7 +327,8 @@ export default {
   overflow: hidden
   .product-name
     font-family: $font-montserrat
-    @include body-10-medium
+    @include body-9
+    font-weight: $regular
     color: $color-black-15
     display: -webkit-box
     -webkit-line-clamp: 2
@@ -334,7 +337,7 @@ export default {
 
   .add-btn
     font-family: $font-family-sf-pro-display
-    @include body-9-normal
+    @include body-9-medium
     color: $color-white
     border-radius: 5px
     margin-right: 5px

@@ -34,10 +34,7 @@
                 <b-col md="12">
                   <div class="text-center main-mobile-image d-block d-lg-none">
                     <nuxt-link to="/">
-                      <b-img
-                        :src="require('~/assets/img/home/logo-mb.png')"
-                        class="ds-logo pt-1 img-main"
-                      />
+                      <Logo class="img-main" />
                     </nuxt-link>
                   </div>
                   <div class="welcome-back-text text-center d-block d-lg-none">
@@ -95,7 +92,7 @@
               </div>
             </b-col>
             <div
-              class="body-5-normal text-color-gray-38 text-center mt-2 d-block d-lg-none"
+              class="body-5-normal text-color-gray-38 text-center mt-2 d-block d-lg-none mb-3"
             >
               {{ $t('auth.login_via_social_media') }}
             </div>
@@ -168,6 +165,7 @@ import SocialLoginButtons from '~/components/Auth/SocialLoginButtons'
 import TwoFaVerificationCodeForm from '~/components/Auth/TwoFaVerificationCodeForm'
 import screenSize from '~/plugins/mixins/screenSize'
 import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
+import Logo from '~/components/header/Logo.vue'
 
 export default {
   name: 'Login',
@@ -176,6 +174,7 @@ export default {
     LoginForm,
     SocialLoginButtons,
     Button,
+    Logo
   },
   mixins: [screenSize],
   layout: 'Auth',
@@ -269,8 +268,7 @@ export default {
   color: $color-gray-5
   font-style: normal
   font-weight: $bold
-  font-size: 17px
-  line-height: 51px
+  @include body-17
 .toggler-main
   background-color: $color-gray-75
   border-radius: 20px
@@ -280,6 +278,7 @@ export default {
   width: 346px
   height: 36px
   margin-left: 12px
+  margin-top: -12.5px
 .login-btn
   border: none
   background-color: $color-white-1
@@ -305,9 +304,7 @@ export default {
 
 @media (min-width: 320px) and (max-width: 556px)
   .img-main
-    height: 40px
-    width: 133px
-    margin-left: 10px
+    margin: 0 auto
   .forgot-pass-text
     font-size: 14px
   .text-line-middle

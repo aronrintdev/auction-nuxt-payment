@@ -1,9 +1,10 @@
 <template>
   <div :class="{
-          'bottom-border': hasBottomBorder
+          'bottom-border': hasBottomBorder,
+          [headerClasses]: true
        }"
        class="mobile-header d-flex flex-column w-100 px-4">
-    <div class="header-content d-flex align-items-center justify-content-between">
+    <div v-if="hasHeader" class="header-content d-flex align-items-center justify-content-between">
       <div role="button" @click="$emit('back')">
         <back-svg/>
       </div>
@@ -35,7 +36,15 @@ export default {
       type: String,
       required: true
     },
+    headerClasses: {
+      type: String,
+      default: ''
+    },
     hasBottomBorder: {
+      type: Boolean,
+      default: true
+    },
+    hasHeader: {
       type: Boolean,
       default: true
     },

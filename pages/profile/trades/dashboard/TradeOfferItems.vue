@@ -44,7 +44,7 @@
             >
               <span class="dollar-sign">$</span>
               {{ $t('common.they_added') }}
-              <span class="dollar-count mx-1">${{ offer.cash_added/100 }}</span> {{ $t('common.on_top') }}
+              <span class="dollar-count mx-1">${{ offer.cash_added/100 }}</span> {{ $t('common.on_top') }}  <img class="ml-1" src="~/assets/img/info-offer.svg" />
             </div>
           </div>
           <div
@@ -68,7 +68,10 @@
                 :key="'offer-item-'+ theirItems.id"
                 class="col-4 text-left mx-auto"
               >
-                <img :src="theirItems.inventory.product | getProductImageUrl" class="img-fluid">
+                <div class="image-wrapper">
+                  <img class="pro-image" :src="theirItems.inventory.product | getProductImageUrl"/>
+                  <div class="overlay"></div>
+                </div>
                 <div class="product-name">
                   {{ theirItems.inventory.product.name }}
                 </div>
@@ -84,7 +87,7 @@
           </div>
           <div class="w-10 text-break d-flex flex-column align-items-center justify-content-center">
             <div class="trade-icon-text mb-2 px-1">{{ $t(`common.${offer.condition}`) }}</div>
-            <img width="45" height="45" :src="require('~/assets/img/icons/trade-icon.svg')" />
+            <img width="45" height="45" :src="require('~/assets/img/trade-center.svg')" />
           </div>
           <div class="w-45 items-section">
             <div class="text-center owner-name-desktop">
@@ -97,7 +100,11 @@
                 :key="'offer-item-'+ yoursItems.id"
                 class="col-4 text-left mx-auto"
               >
-                <img :src="yoursItems.inventory.product | getProductImageUrl" class="img-fluid">
+                <div class="image-wrapper">
+                  <img class="pro-image" :src="yoursItems.inventory.product | getProductImageUrl"/>
+                  <div class="overlay"></div>
+                </div>
+
                 <div class="product-name">
                   {{ yoursItems.inventory.product.name }}
                 </div>
@@ -119,14 +126,14 @@
         >
           <Button
             variant="dark-blue"
-            class="mr-3"
+            class="mr-3 buttons-for-offers p-0"
             @click="$router.push(`/profile/trades/dashboard/${offer.id}`)"
           >
             {{ $t('common.accept_trade') }}
           </Button>
 
           <div
-            class="decline-button d-flex justify-content-center align-items-center mr-3"
+            class="decline-button d-flex justify-content-center align-items-center mr-3 buttons-for-offers"
             role="button"
             @click="$bvModal.show('declineOffer')"
           >
@@ -134,7 +141,7 @@
           </div>
 
           <Button
-            variant="outline-dark-blue"
+            variant="outline-dark-blue buttons-for-offers p-0"
             @click="$router.push(`/profile/trades/dashboard/counter-offer/${offer.id}`)"
           >
             {{ $t('trades.counter_offer') }}
@@ -204,62 +211,105 @@
           >
           </div>
         </div>
-        <div class="mt-2 d-flex justify-content-between">
-          <div class="owner-name">
+        <div class="mt-2  mb-3 d-flex justify-content-between">
+          <div class="owner-name ml-1">
             {{ $t('vendor_purchase.theirs') }}
           </div>
           <div class="owner-name">
             {{ $t('vendor_purchase.yours') }}
           </div>
         </div>
-        <div class="d-flex justify-content-between">
-          <div class="col-5 d-flex flex-column justify-content-center">
+
+        <div class="row justify-content-between">
+          <div
+            class="col-5 d-flex flex-column align-items-center justify-content-center z-10"
+            :class="{
+                'justify-content-between': offer.theirs_items.length === TWO_ITEMS
+              }"
+          >
             <div
-              v-for="(theirItems) in offer.theirs_items"
-              :key="'mobile-offer-item-'+ theirItems.id"
-              class="px-0 text-left"
+              v-for="(item,index) in offer.theirs_items"  :key="index"
+              :id="offer.theirs_items.length === THREE_ITEMS ? 'card-'+index : ''"
+              class="item mb-2"
             >
-              <img
-                width="99"
-                :src="theirItems.inventory.product | getProductImageUrl"
-                class="h-auto"
-              >
-              <div class="mobile-product-name">
-                {{ theirItems.inventory.product.name }}
+              <div class="image-wrapper">
+                <img class="pro-image" :src="item.inventory.product | getProductImageUrl"  alt="image" />
+                <div class="overlay"></div>
               </div>
-              <div class="mt-1 mobile-description">
-                <div>
-                  {{ theirItems.inventory.product.colorway | truncate(10, '...') }}, {{ $t('home_page.size') }} {{ theirItems.inventory.size.size }}
-                </div>
-                {{ $t('sell.inventory.box') }}:
-                {{ theirItems.inventory.packaging_condition.name }}
+              <div class="item-name-small text-truncate">{{ item.inventory.product.name }}</div>
+              <div class="mt-1 item-caption-description-small d-flex">
+                <span class="w-50 text-truncate">{{ item.inventory.product.colorway }}</span>
+                <span>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</span>
+              </div>
+              <div class="mt-1 item-box-condition-small text-truncate">
+                {{ $t('common.box') }}: {{ item.inventory.packaging_condition.name }}
               </div>
             </div>
           </div>
-          <div class="col-2 relative-right-10 d-flex flex-column align-items-center justify-content-center">
-            <div class="trade-icon-text mb-2">{{ $t(`common.${offer.condition}`) }}</div>
-            <img width="31" height="31" :src="require('~/assets/img/icons/trade-icon.svg')" />
-          </div>
-          <div class="col-4 px-0 d-flex flex-column justify-content-center">
-            <div
-              v-for="(yoursItems) in offer.yours_items"
-              :key="'mobile-offer-item-'+ yoursItems.id"
-              class="px-0 text-left d-flex flex-column"
+          <div
+            class="col-2 d-flex flex-column align-items-center justify-content-center"
+          >
+
+            <div class="position-relative d-flex w-100 justify-content-center"
+                 :class="{
+                  'h-70': offer.theirs_items.length > ONE_ITEM ||
+                          offer.yours_items.length > ONE_ITEM
+                }"
             >
-              <img
-                width="99"
-                :src="yoursItems.inventory.product | getProductImageUrl"
-                class="h-auto mx-auto"
-              >
-              <div class="mobile-product-name">
-                {{ yoursItems.inventory.product.name }}
-              </div>
-              <div class="mt-1 mobile-description">
-                <div>
-                  {{ yoursItems.inventory.product.colorway | truncate(10, '...') }}, {{ $t('home_page.size') }} {{ yoursItems.inventory.size.size }}
+              <div
+                v-if="offer.theirs_items.length > ONE_ITEM"
+                class="pointer-left-sm"
+              ></div>
+              <div
+                v-if="offer.yours_items.length > ONE_ITEM"
+                class="pointer-right-sm"
+              ></div>
+              <div class="position-absolute bg-white pt-1 pb-2 bottom-45">
+                <div class="fair-text-sm">{{ $t(`common.${offer.condition}`) }}</div>
+                <div class="d-flex align-items-center">
+                  <div
+                    v-if="offer.theirs_items.length === THREE_ITEMS ||
+                            offer.theirs_items.length === ONE_ITEM"
+                    class="line-bar-sm"
+                  />
+                  <div v-else class="slot-line" />
+                  <img class="trade-img-sm mx-2" :src="require('~/assets/img/trade-center.svg')" />
+                  <div
+                    v-if="offer.yours_items.length === THREE_ITEMS ||
+                            offer.yours_items.length === ONE_ITEM"
+                    class="line-bar-sm"
+                  />
+                  <div v-else class="slot-line" />
                 </div>
-                {{ $t('sell.inventory.box') }}:
-                {{ yoursItems.inventory.packaging_condition.name }}
+
+              </div>
+
+            </div>
+
+          </div>
+          <div
+            class="col-5 d-flex flex-column align-items-center justify-content-center z-10"
+            :class="{
+                'justify-content-between': offer.yours_items.length === TWO_ITEMS
+              }"
+          >
+            <div
+              v-for="(item,index) in offer.yours_items"
+              :id="offer.yours_items.length > ONE_ITEM ?'your-card-'+index : 'your-item'"
+              :key="index"
+              class="item mb-2"
+            >
+              <div class="image-wrapper">
+                <img class="pro-image" :src="item.inventory.product | getProductImageUrl"  alt="image" />
+                <div class="overlay"></div>
+              </div>
+              <div class="item-name-small text-truncate">{{ item.inventory.product.name }}</div>
+              <div class="mt-1 item-caption-description-small d-flex">
+                <span class="w-50 text-truncate">{{ item.inventory.product.colorway }}</span>
+                <span>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</span>
+              </div>
+              <div class="mt-1 item-box-condition-small text-truncate">
+                {{ $t('common.box') }}: {{ item.inventory.packaging_condition.name }}
               </div>
             </div>
           </div>
@@ -297,10 +347,11 @@
 
 import {
   OFFER_SENT,
-  OFFER_RECEIVED
+  OFFER_RECEIVED, ONE_ITEM, THREE_ITEMS, TWO_ITEMS
 } from '~/static/constants/trades'
 import Button from '~/components/common/Button'
 import DeclineModel from '~/pages/profile/trades/dashboard/DeclineModel'
+
 
 export default {
   name: 'TradeOfferItems',
@@ -333,6 +384,9 @@ export default {
       OFFER_SENT,
       OFFER_RECEIVED,
       infiniteId: +new Date(),
+      ONE_ITEM,
+      THREE_ITEMS,
+      TWO_ITEMS,
     }
   },
   methods: {
@@ -415,6 +469,8 @@ export default {
 .items-section
   border: 1px solid $color-gray-th-44
   border-radius: 4px
+  height: 272px
+  width: 451px
   padding: 20px 11px 8px 11px
 
 .view-details
@@ -438,12 +494,15 @@ export default {
 .dollar-sign
   @include body-2-bold
   margin-right: 20px
+  font-weight: $normal
 
 .desktop-offer
   background: $color-white-1
   padding: 27px 20px
   box-shadow: 0px 1px 4px $color-black-rgb2
   border-radius: 10px
+  width: 1050px
+  height: 466px
 
 .circle-full, .circle-blue
   width: 19px
@@ -670,4 +729,87 @@ export default {
   font-style: normal
   @include body-12-normal
   color: $color-gray-5
+.image-wrapper
+  position: relative
+.image-wrapper
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: $color-grey-70
+.pro-image
+  width: 130px
+.buttons-for-offers
+  width: 139px
+  height: 39px
+.line-bar-sm, .slot-line
+  width: 15px
+  height: 0.5px
+  background: $color-white-21
+
+.line-bar-sm
+  background: $color-white-21
+.pointer-left-sm,.pointer-right-sm
+  width: 25px
+
+.pointer-left-sm
+  border: 0.5px solid $color-white-21
+  border-left: 0
+  margin-right: 10px
+
+.pointer-right-sm
+  border: 0.5px solid $color-white-21
+  border-right: 0
+  margin-left: 10px
+.item-name-small
+  @include body-6-medium
+  font-family: $font-family-sf-pro-display
+  color: $color-black-1
+
+.item-box-condition-small, .item-caption-description-small
+  @include body-6-medium
+  font-family: $font-sp-pro
+  color: $color-gray-5
+.item
+  max-width: 117px
+.px-29
+  padding-left: 29px
+  padding-right: 29px
+
+.px-20
+  padding-left: 20px
+  padding-right: 20px
+.fair-text-sm
+  @include body-3-bold
+  color: $color-black-1
+  text-align: center
+  margin-bottom: 5px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+
+.h-70
+  height: 70%
+
+.z-10
+  z-index: 10
+
+.bottom-45
+  bottom: 45%
+.image-wrapper
+  position: relative
+.image-wrapper
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 120px !important
+    height: 100%
+    background: $color-grey-70
+.pro-image
+  width: 100px
+.trade-img-sm
+  width: 25px
+  height: 30px
 </style>

@@ -32,11 +32,22 @@
                 <div class="d-flex align-items-start flex-column justify-content-center h-90">
                   <span class="font-weight-bold ml-4 mb-3">{{$t('trades.trade_arena.share')}}</span>
                   <div class="social-icons">
-                    <div class="twitter">
-                      <b-icon icon="twitter" class="twt-icon" role="button"></b-icon></div>
-                    <b-icon icon="facebook" class="facebook" role="button"></b-icon>
-                    <img :src="require('~/assets/img/instagram.png')" class="instagram" role="button">
-                    <b-icon icon="link45deg" class="link-icon" role="button"></b-icon>
+                    <ShareNetwork
+                      v-for="n in networks"
+                      :network="n.network"
+                      :key="n.network"
+                      :title="'Deadstock Trade Arena'"
+                      :description="''"
+                      :url="shareUrl"
+                    >
+                      <b-img :src="n.icon" />
+                    </ShareNetwork>
+                    <b-img
+                      :title="'Deadstock Trade Arena'"
+                      class="link-share-btn"
+                      src="~/assets/img/icons/copy.svg"
+                      @click="shareLink"
+                    />
                   </div>
                 </div>
               </b-popover>
@@ -120,7 +131,7 @@
            }">
             <div  v-if="getYourTradeItems.length" class="">
               <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_ONE && !isPayment ?'your-item-'+index : getYourTradeItems.length > ITEM_COUNT_ONE && isPayment ? 'your-item-payment-'+index : isPayment ? 'your-items-payment-'+index : 'your-items-'+index" :key="index" class="preview" :class="{'right-item-payment': isPayment,'item-normal': !isPayment}">
-                <div class="remove-item" @click="decrementOrRemoveItem(item)" v-if="!isPayment">
+                <div v-if="!isPayment" class="remove-item" @click="decrementOrRemoveItem(item)">
                   <div class="minus"></div>
                 </div>
                 <div class="image-wrapper position-relative d-flex align-items-center justify-content-center" :class="{'image-wrapper-payment':isPayment}">
@@ -177,7 +188,7 @@
               {{$t('trades.trade_arena.edit_cash')}}
             </div>
           </div>
-          <b-btn  v-if="!isExpire && !isPayment" ref="btnShow" class="next-btn" @click="showPoorTradeConfirmationModal">
+           <b-btn  v-if="!isExpire && !isPayment" ref="btnShow" class="next-btn" @click="showPoorTradeConfirmationModal">
             {{$t('trades.trade_arena.next')}}
           </b-btn>
           <b-btn v-if="isPayment" class="back-btn-trade" @click="goBack" >{{$t('trades.trade_arena.go_back')}}</b-btn>
@@ -241,7 +252,7 @@
                           optionsWidth="custom" dropDownHeight="46px" :showFilterBtn="false" @getResults="applyFilters()" @change="changeSizeFilter" />
                     </client-only>
                     <b-btn class="filter-btn" @click="applyFilters()">{{$t('trades.trade_arena.apply')}}</b-btn>
-                    <label class="d-flex align-items-center" v-if="categoryFilter || sizeTypesFilter.length || sizeFilter.length "><u class="clear-all-text" @click="clearAllFilters" role="button">{{$t('common.clear_all')}}</u></label>
+                    <label v-if="categoryFilter || sizeTypesFilter.length || sizeFilter.length" class="d-flex align-items-center"><u class="clear-all-text" role="button" @click="clearAllFilters">{{$t('common.clear_all')}}</u></label>
                   </div>
                 </div>
               </div>
@@ -253,8 +264,8 @@
                   <div class="no-item">{{$t('trades.trade_arena.no_items')}}</div>
                 </div>
                 <div v-else class="row pl-154px">
-                  <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item position-relative">
-                    <div draggable @dragstart="startDrag($event, item)">
+                  <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item position-relative" :class="{'d-none': item.stock <= 0}">
+                    <div v-if="item.stock >= 1" draggable @dragstart="startDrag($event, item)">
                       <img alt="No Image" class="plus-icon-add-trade" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
                             @click="addYourItem(item)"/>
                       <div class="position-relative height-240px d-flex justify-content-center align-items-center">
@@ -282,7 +293,10 @@
       <PoorTradeConfirmationModal :poorTrade="checkForPoorTrade()"></PoorTradeConfirmationModal>
       <AlreadyListedModal :listingId="itemListingId" :item="alreadyListedItemDetails" @confirm="addOrIncrementYourItem" />
     </b-col>
-    <CheckoutSidebar  v-if="isPayment" class="order-summary" />
+    <b-col md="3" class="summary-box">
+      <CheckoutSidebar  v-if="isPayment" class="order-summary" />
+    </b-col>
+
     </b-row>
     </div>
     </div>
@@ -332,6 +346,8 @@ import {
   OFFER_SENT, CASH_TYPE_REQUESTED
 } from '~/static/constants/trades'
 import IndexMobile from '~/pages/trades/_id/IndexMobile';
+import twitterIcon from '~/assets/img/icons/twitter2.svg'
+import facebookIcon from '~/assets/img/icons/facebook-share.svg'
 
 export default {
   name: 'Index',
@@ -408,6 +424,16 @@ export default {
         trader_ranking: '100%',
         total_trades: '100+'
       },
+      networks: [
+        {
+          network: 'twitter',
+          icon: twitterIcon,
+        },
+        {
+          network: 'facebook',
+          icon: facebookIcon,
+        },
+      ],
     }
   },
   head() {
@@ -430,7 +456,10 @@ export default {
       // add expiry days to date
       const expiryDate = date.setDate(date.getDate() + TRADE_EXPIRY_DAYS)
       return new Date(expiryDate) < new Date()
-    }
+    },
+    shareUrl() {
+      return `${process.env.APP_URL}/trades/${this.$route.params.id}`
+    },
   },
   created() {
     this.getTrade()
@@ -550,11 +579,25 @@ export default {
       }
     },
     /**
+     * Update inventory stock
+     */
+    updateInventoryStock(inventoryId, increment){
+      const allInventories = JSON.parse(JSON.stringify(this.inventoryItems))
+      const index = this.inventoryItems.findIndex((inventoryItem) => inventoryItem.id === inventoryId)
+      if(index !== false && increment){
+        allInventories[index].stock += 1
+      }else if(index !== false){
+        allInventories[index].stock -= 1
+      }
+      this.inventoryItems = JSON.parse(JSON.stringify(allInventories))
+    },
+    /**
      * This function is used to add or increment your trade item in store
      * @param item
      */
     addOrIncrementYourItem: debounce(function (item) {
         this.$store.commit('trade/setYourTradeItems', item)
+        this.updateInventoryStock(item.id, false)
         this.updateActiveTrade()
         this.$nextTick(() => this.$forceUpdate())
     }, 100),
@@ -730,6 +773,7 @@ export default {
       } else {
         this.$store.commit('trade/removeYourTradeItem', item.id)
       }
+      this.updateInventoryStock(item.id, true)
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
     },
@@ -762,7 +806,7 @@ export default {
     showPoorTradeConfirmationModal() {
       if(this.checkForPoorTrade()){
         this.$root.$emit('bv::show::modal', 'poor_trade_confirmation', '#btnShow')
-      }else{
+      } else if(this.getYourTradeItems.length) {
         this.isPayment = true
       }
     },
@@ -788,15 +832,11 @@ export default {
      */
     onSearchInput(term) {
       this.searchText = term
-      if (term) {
-        this.page = 1;
-        this.inventoryItems = []
-        this.infiniteId += 1;
-      } else {
+      this.page = 1;
+      this.inventoryItems = []
+      this.infiniteId += 1;
+      if (!term) {
         this.searchText = null
-        this.page = 1;
-        this.inventoryItems = []
-        this.infiniteId += 1;
       }
     },
 
@@ -820,12 +860,23 @@ export default {
         })
         .then((response) => { // response will get us listing of
           const res = response?.data
+
           if (!res.next_page_url) {
             $state.complete()
           }else {
             this.page += 1;
-            this.inventoryItems.push(...res.data);
             $state.loaded()
+          }
+          this.inventoryItems.push(...res.data);
+
+          if(this.getYourTradeItems.length >= 1){
+            const inventoryIds = this.getYourTradeItems.map((yourItem) => {
+              return yourItem.id
+            });
+
+            inventoryIds.forEach((inventoryId) => {
+              this.updateInventoryStock(inventoryId, false)
+            })
           }
         })
         .catch((error) => { // return error
@@ -903,7 +954,27 @@ export default {
     addInventory(){
       this.addReferrer(`/trades/${this.$route.params.id}`)
       this.$router.push('/profile/inventory/search')
-    }
+    },
+    shareLink() {
+      this.copyStringToClipboard(this.shareUrl)
+      this.$toasted.success(this.$t('share.copied'))
+    },
+    copyStringToClipboard(str) {
+      // Create new element
+      const el = document.createElement('textarea')
+      // Set value (string to be copied)
+      el.value = str
+      // Set non-editable to avoid focus and move outside of view
+      el.setAttribute('readonly', '')
+      el.style = { position: 'absolute', left: '-9999px' }
+      document.body.appendChild(el)
+      // Select text inside element
+      el.select()
+      // Copy text to clipboard
+      document.execCommand('copy')
+      // Remove temporary element
+      document.body.removeChild(el)
+    },
   }
 }
 </script>
@@ -1347,4 +1418,6 @@ export default {
 .payment-center-image
   height: 45px
   width: 45px
+.summary-box
+  margin-left: -4rem
 </style>

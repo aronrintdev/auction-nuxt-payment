@@ -14,8 +14,8 @@
     </div>
     <div>
       <div class="d-flex justify-content-between pt-2 total-container" >
-        <div class="theirs-total d-flex justify-content-center align-items-center">{{$t('trades.trade_arena.theirs')}}: <span class="total-value"> {{theirAmount}}</span></div>
-        <div class="yours-total d-flex justify-content-center align-items-center">{{$t('trades.trade_arena.yours')}}: <span class="total-value"> {{yourAmount}}</span></div>
+        <div class="theirs-total d-flex justify-content-center align-items-center">{{$t('trades.trade_arena.theirs')}} : <span class="total-value pl-2">  {{theirAmount}} </span></div>
+        <div class="yours-total d-flex justify-content-center align-items-center">{{$t('trades.trade_arena.yours')}} :  <span class="total-value pl-2">  {{yourAmount}} </span></div>
       </div>
     </div>
     <div>
@@ -27,7 +27,7 @@
         id="amount"
         ref="amount"
         v-model="amount"
-        placeholder="0"
+        placeholder="$0's"
         type="number"
         class="add-cash-mob"
         autofocus

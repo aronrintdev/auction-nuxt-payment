@@ -100,7 +100,7 @@ export default {
     },
     iconArrowDown: {
       type: String,
-      default: require('~/assets/img/icons/arrow-down-gray.svg'),
+      default: require('~/assets/img/icons/arrow-down-black.svg'),
     },
     noArrow: {
       type: Boolean,
@@ -183,12 +183,11 @@ export default {
     height: 32px
     .icon-arrow
       transition: transform 0.2s ease-in-out
-      transform: rotate(180deg)
     &.opened
       border-bottom-left-radius: 0
       border-bottom-right-radius: 0
       .icon-arrow
-        transform: rotate(0deg)
+        transform: rotate(180deg)
     &.active
       color: $color-black-1
   .icon-clear
@@ -215,9 +214,10 @@ export default {
       padding: 0 20px
       background-color: $color-white-4
     .dropdownItem
-      font-weight: $regular
-      font-size: 16px
-      font-family: $font-sp-pro
+      font-weight: $normal
+      font-style: $normal
+      font-family: $font-family-montserrat
+      @include body-5
       color: $color-gray-5
       border-radius: 0
       padding: 0 14px

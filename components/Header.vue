@@ -1,14 +1,14 @@
 <template>
   <b-navbar
     toggleable="lg"
-    :class="`navbar-wrapper ${!mobileClass && ''}`"
+    class="navbar-wrapper"
+    :class="mobileClass ? 'border-bottom' : ''"
   >
     <PortalTarget name="back-icon-slot" class="d-block d-sm-none">
       <b-navbar-toggle target="top-menu-sidebar">
         <template #default>
           <img
-            width="25px"
-            :src="require('~/assets/img/icons/menu-new.svg')"
+            :src="require('~/assets/img/icons/menu_v2.svg')"
             alt="..."
           />
         </template>
@@ -19,7 +19,7 @@
         <Logo :width="171" />
       </div>
       <div class="d-inline-block d-sm-none">
-        <h2 class="meta-info font-primary fs-18 fw-7 mb-0 text-black">
+        <h2 class="meta-info font-secondary fs-18 fw-7 mb-0 text-black">
           <PortalTarget name="page-title">
             <Logo :width="171" />
           </PortalTarget>
@@ -64,7 +64,7 @@
         <PortalTarget name="cart-icon-slot">
           <img
             height="22px"
-            :src="require('~/assets/img/icons/bag.png')"
+            :src="require('~/assets/img/icons/basket.svg')"
             alt="..."
           />
         </PortalTarget>
@@ -283,7 +283,7 @@ export default {
     notificationPage() {
       if (this.authenticated) {
         this.$router.push({
-          path: '/profile/notification',
+          path: '/profile/notifications',
         })
       }
     },

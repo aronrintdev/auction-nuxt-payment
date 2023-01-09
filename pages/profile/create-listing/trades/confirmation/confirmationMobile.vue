@@ -114,7 +114,7 @@
              @click="saveVendorTrade(STATUS_DRAFT)">
         {{  $t('trades.create_listing.vendor.wants.save_as_draft')  }}
       </b-btn>
-      <b-btn class="confirm-trade-post-btn ml-3" :disabled="!getTradeItemsWants.length || !getTradeItems.length"
+      <b-btn class="confirm-trade-post-btn ml-3" :disabled="!getTradeItemsWants.length && !getTradeItems.length"
              @click="saveVendorTrade(STATUS_LIVE)">
         {{  $t('trades.post_trade')  }}
       </b-btn>

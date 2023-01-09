@@ -27,7 +27,9 @@
       <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.in_app_notifications.methods') }}
       </FeatureTitle>
-      <div class="cards-wrapper-in-app d-flex flex-column align-items-center">
+      <div
+        class="cards-wrapper-in-app d-flex flex-column align-items-center margin-bottom-class"
+      >
         <div class="in-app-cards">
           <FeatureFourCards
             :icon="
@@ -170,7 +172,8 @@ export default {
           color: $color-black-5
         .desc
           font-size: 18px !important
-
+    .margin-bottom-class
+      margin-bottom: 100px
 
 @media (max-width: 768px)
   .features-container::v-deep
@@ -193,4 +196,7 @@ export default {
     .feature-title-my
       margin-top: 48px !important
       margin-bottom: 24px !important
+    .feature-content
+      .margin-bottom-class
+        margin-bottom: 1px
 </style>

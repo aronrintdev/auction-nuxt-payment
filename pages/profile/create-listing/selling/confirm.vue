@@ -153,7 +153,7 @@
             <!-- ./Min Offer Amount -->
 
             <!-- Price -->
-            <b-td class="p-3 text-center">
+            <b-td class="p-3 text-center price-text">
               {{
                 listingItem.price
                   ? listingItem.price
@@ -199,13 +199,12 @@
         >
           <Button
             to="/profile/create-listing/selling"
-            variant="outline-primary"
-            pill
+            variant="outline-dark-blue"
             ><span>{{ $t('createlisting.add_another_listing') }}</span></Button
           >
         </b-col>
         <b-col sm="12" lg="4" md="4" class="text-center mt-md-2 mt-2">
-          <Button variant="info" pill @click="saveasDraft">
+          <Button variant="dark-blue" @click="saveasDraft">
             <span>{{ $t('createlisting.save_as_draft') }}</span></Button
           >
         </b-col>
@@ -218,7 +217,6 @@
           <Button
             v-show="showPostListing"
             variant="dark"
-            pill
             type="button"
             @click="postListings"
           >
@@ -232,11 +230,11 @@
         class="mt-4 d-flex justify-content-center confirm-text"
       >
         <span v-if="showPostListing" class="text-center"
-          ><span class="text-bold">{{
+          ><span>{{
             $t('createlisting.on_post_listing_click')
           }}</span
           ><br />
-          <span v-if="showPostListing" class="text-bold">{{
+          <span v-if="showPostListing">{{
             $t('createlisting.no_auth_fee')
           }}</span></span
         >
@@ -635,21 +633,39 @@ export default {
   h2.title
     @include heading-1
     color: $color-black-1
+    font-family: $font-family-sf-pro-display
+    @include text-24
 
   .table-inventory
+    thead
+      tr
+        th
+          font-family: $font-family-sf-pro-display
+          font-weight: $medium
+          font-size: 18px
     .inventory-row
       @include body-4-regular
       color: $color-black-1
       background-color: $color-white-1
       border-bottom: 10px solid $color-white-5
+      .price-text
+        font-family: $font-family-sf-pro-display
+        font-weight: $regular
+        font-size: 16px
 
       .title
-        @include body-5-bold
+        @include body-10
+        font-style: normal
         color: $color-black-1
+        font-family: $font-family-sf-pro-display
+        font-weight: $normal
 
       .info
-        @include body-5-normal
+        @include body-10
         color: $color-gray-6
+        font-family: $font-family-sf-pro-display
+        font-weight: $normal
+        font-style: normal
 
       td
         .btn-copy
@@ -689,7 +705,10 @@ export default {
   .input-error
     :deep(.form-input)
       border: 1px solid $color-red-3
-
+.confirm-text
+  font-family: $font-family-sf-pro-display
+  font-weight: $regular
+  font-size: 16px
 @media (min-width: 576px)
   .container-profile-inventory-confirm
     padding: 47px 54px

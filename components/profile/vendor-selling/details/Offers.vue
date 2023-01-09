@@ -24,10 +24,18 @@
         <b-thead>
           <b-tr class="text-center vd-selling-TblHead">
             <b-th scope="col" class="text-start"></b-th>
-            <b-th scope="col">{{ $t('selling_page.offer_amount') }}</b-th>
-            <b-th scope="col">{{ $t('selling_page.offer_date') }}</b-th>
-            <b-th scope="col">{{ $t('selling_page.status') }}</b-th>
-            <b-th scope="col">{{ $t('selling_page.actions') }}</b-th>
+            <b-th scope="col">{{ $t('selling_page.offer_amount') }}
+              <img :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9" />
+            </b-th>
+            <b-th scope="col">{{ $t('selling_page.offer_date') }}
+              <img :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9" />
+            </b-th>
+            <b-th scope="col">{{ $t('selling_page.status') }}
+              <img :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9" />
+            </b-th>
+            <b-th scope="col">{{ $t('selling_page.actions') }}
+              <img :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9" />
+            </b-th>
           </b-tr>
         </b-thead>
 

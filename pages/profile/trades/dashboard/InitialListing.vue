@@ -9,13 +9,14 @@
           v-if="initialWantsItems && initialWantsItems.length > 0"
           :offerItems="initialWantsItems"
           :heading="$t('trades.your_listed_items')"
+          :mobileItem="OFFER_SUMMARY_INITIAL_LISTING"
           class="w-100"
         />
       </div>
     </div>
   </div>
   <div v-else>
-    <div class="initial-listing mx-auto col-12 col-lg-10 col-xl-7">
+    <div class="initial-listing wd-685px mx-auto col-12 col-lg-10 col-xl-7">
       <div class="d-flex justify-content-between">
         <div class="listing-heading">{{ $t('trades.initial_listing') }}</div>
         <div class="created-at">
@@ -40,6 +41,7 @@
 <script>
 import OfferItems from '~/pages/profile/trades/dashboard/OfferItems';
 import ScreenSize from '~/plugins/mixins/screenSize'
+import { OFFER_SUMMARY_INITIAL_LISTING } from '~/static/constants/trades'
 export default {
   name: 'InitialListing',
   components: {
@@ -55,6 +57,7 @@ export default {
   data() {
     return {
       width: '',
+      OFFER_SUMMARY_INITIAL_LISTING
     }
   },
   mounted() {
@@ -86,5 +89,6 @@ export default {
   padding: 0 25px 15px 25px
   @media (min-width: 576px)
     padding: 30px 49px
-
+.wd-685px
+  min-width: 685px
 </style>

@@ -17,8 +17,8 @@ export function setSelectedBrands(state, val) {
 export function setSelectedSizes(state, val) {
   state.selectedSizes = val
 }
-export function setSelectedSizeTypes(state, val) {
-  state.selectedSizeTypes = val
+export function setSelectedSizeType(state, val) {
+  state.selectedSizeType = val
 }
 export function setSelectedSort(state, val){
   state.selectedSort = val
@@ -31,6 +31,12 @@ export function setSelectedOrdering(state, val){
 }
 export function setSizesByType(state, val){
   state.sizes = val
+}
+export function setProductType(state, val){
+  state.selectedProductType = val
+}
+export function setGender(state, val){
+  state.selectedGender = val
 }
 export function setIsFilter(state, val){
   state.isFilter = val

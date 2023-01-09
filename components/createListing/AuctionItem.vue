@@ -46,12 +46,13 @@
           </b-col>
           <b-col cols="9" md="9" class="px-4">
             <b-row class="d-block">
-              <div class="product-name">{{ itemProduct.product.name }}</div>
+              <div class="product-name text-truncate">{{ itemProduct.product.name }}</div>
               <div class="product-sku text-uppercase">
                 {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ itemProduct.product.sku }}
               </div>
-              <div class="product-color">
-                {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ itemProduct.product.colorway }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{itemProduct.size.size }}
+              <div class="product-color d-flex text-truncate">
+                <span class="flex-grow-1 text-truncate">{{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ itemProduct.product.colorway }}</span>
+                <span>, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{itemProduct.size.size }}</span>
               </div>
               <div class="product-condition">
                 {{ $t('products.box_condition') }}&colon;&nbsp;{{itemProduct.packaging_condition.name}}
@@ -76,9 +77,8 @@
           <div class="d-flex align-items-center">
             <span v-if="item.scheduled_date">{{ item.scheduled_date }}</span>
             <b-form-datepicker
-              v-if="openDatePicker"
               size="xs"
-              class="ml-2"
+              class="ml-2 d-none d-md-flex"
               button-only
               hide-header
               :min="tomorrowDate"
@@ -106,12 +106,13 @@
             @select="handleDurationSelect"
           />
           <button
-            class="d-md-none text-left duration-box-btn position-relative d-flex align-items-center"
+            class="d-md-none text-left duration-box-btn position-relative d-flex align-items-center justify-content-between"
             :class="{'is-invalid': itemError.includes('time_limit')}"
             @click="openDurationSheet"
           >
             <span v-if="!item.time_limit" class="placeholder">{{ $t('create_listing.confirm.select_duration_placeholder') }}</span>
             <span v-else class="value">{{ item.time_limit }} {{ $tc('common.day', item.time_limit) }}</span>
+            <img :src="require('~/assets/img/icons/arrow-down-gray.svg')" />
           </button>
         </div>
         <div class="mt-4 reserve-section d-flex flex-column ml-3 ml-md-0">
@@ -123,7 +124,7 @@
               @change="handleReserveChange"
             />
             <FormInput
-              placeholder="$"
+              :placeholder="isMobileSize ? '$' : $t('create_listing.confirm.enter_reserve')"
               :class="{'is-invalid': itemError.includes('reserve_price')}"
               :disabled="!item.is_reserved"
               required
@@ -145,7 +146,7 @@
         <div class="col-12 col-md-12">
           <span class="auction-form-label">{{ $t('create_listing.confirm.starting_bid') }}</span>
           <FormInput
-            :placeholder="$t('create_listing.confirm.enter_starting_bid')"
+            :placeholder="isMobileSize ? $t('create_listing.confirm.enter_starting_bid_mobile') : $t('create_listing.confirm.enter_starting_bid')"
             class="mt-2 flex-grow-1"
             :class="{'is-invalid': itemError.includes('start_bid_price')}"
             required
@@ -240,7 +241,6 @@ export default {
         }
       }),
       tempScheduleDate: null,
-      openDatePicker: false,
     }
   },
   computed: {
@@ -263,7 +263,6 @@ export default {
       if (ctx.selectedFormatted!=='No date selected'){
         this.handleChanges('scheduled_date', ctx.selectedFormatted)
       }
-      this.openDatePicker = false
     },
     handleDurationSelect(item) {
       this.handleChanges('time_limit', item.value)
@@ -308,8 +307,6 @@ export default {
         this.tempScheduleDate = this.item.scheduled_date
         if (this.isMobileSize) {
           this.$refs.scheduleDateSheet.open()
-        } else {
-          this.openDatePicker = true
         }
       }
     },
@@ -478,6 +475,8 @@ export default {
       @include body-21
       color: $color-gray-6
       margin-top: 3px
+    &-color
+      width: max-content
   .auction-item-form
     max-width: 248px
     @media (max-width: 576px)
@@ -611,6 +610,7 @@ export default {
       border: 2px solid $red-1
     .placeholder
       color: $color-gray-23
+      font-weight: $normal
     .value
       color: $black
   @media (max-width: 576px)
@@ -673,7 +673,7 @@ export default {
       border: 1px solid $color-gray-3
       border-radius: 10px
       background: transparent
-      padding: 17px 14px
+      padding: 16px 7px 16px 14px
       font-family: $font-montserrat
       font-weight: $medium
       white-space: nowrap
@@ -684,6 +684,8 @@ export default {
         color: $color-gray-23
       .value
         color: $black
+      img
+        width: 12px
     .auction-form-label
       font-size: 12px
       line-height: 15px

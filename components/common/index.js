@@ -14,6 +14,7 @@ export { default as ShareButton } from '~/components/common/ShareButton'
 export { default as SliderInput } from '~/components/common/SliderInput'
 export { default as CustomSelectwithCheckbox } from '~/components/common/CustomSelectwithCheckbox'
 export { default as MultiSelectDropdown } from '~/components/common/MultiSelectDropdown'
+export { default as SingleSelectDropdown } from '~/components/common/SingleSelectDropdown'
 export { default as SliderDropdown } from '~/components/common/SliderDropdown'
 // form elements
 export { default as FormInput } from '~/components/common/form/Input'

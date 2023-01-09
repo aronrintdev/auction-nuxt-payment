@@ -94,6 +94,7 @@
             :viewMode="sizeViewMode"
             class="size-picker"
             :xsCount="4"
+            :slide-by="5"
             @update="handleSizeChange"
             @changeViewMode="handleSizeViewModeChange"
           />
@@ -692,7 +693,8 @@ export default {
 
 .product-image-wrapper
   @media (min-width: 576px)
-    margin-top: 110px
+    margin-top: 100px
+    margin-left: 147px
 
 .nav-group::v-deep
   @media (min-width: 576px)

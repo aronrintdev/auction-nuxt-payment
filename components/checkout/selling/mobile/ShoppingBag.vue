@@ -53,7 +53,7 @@
       <b-col cols="12" sm="12" class="text-center">
         <Button
           :disabled="! canCheckout"
-          class="btn-checkout body-13-medium"
+          class="btn-checkout"
           pill
           variant="dark-blue"
           @click="handleCheckoutButtonClick"
@@ -192,6 +192,10 @@ export default {
   .btn
     &.btn-dark-blue
       &.btn-checkout
+        @include body-4b
+        font-weight: $medium
+        font-family: $font-sp-pro
+        font-style: $normal
         position: fixed
         bottom: 35px
         left: 50%
@@ -214,7 +218,7 @@ export default {
 /* Override bottom sheet settings in order to fix height readjustment. */
 .bottom-sheet
   &__content
-    height: 100% !important
+    height: 100%
     font-family: $font-sp-pro !important
     overflow-x: hidden !important
 </style>

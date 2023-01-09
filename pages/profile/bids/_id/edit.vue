@@ -1,19 +1,22 @@
 <template>
   <b-container fluid class="container-profile-auctions h-100">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="title">{{ $t('bids.bids_summary') }}</h2>
+    <div class="d-flex justify-content-between align-items-center summary-header">
+      <h2 class="title mb-0">{{ $t('bids.bids_summary') }}</h2>
       <span role="button" class="view-similar mt-0 mt-md-2" @click="viewSimilarAuction">{{$t('bids.view_similar')}}</span>
     </div>
-    <div v-if="selectedBid">
-      <BidAuctionSummary/>
+    <div v-if="selectedBid" class="d-none d-md-block">
+      <BidAuctionSummary />
+    </div>
+    <div v-if="selectedBid" class="d-md-none">
+      <BidAuctionSummaryMobile :bid="selectedBid" />
     </div>
 
     <div v-if="selectedBid && isHighest && isLive"  class="mt-4">
       <AutoBidSettings @update-bid="fetchSingleBid"/>
     </div>
 
-    <div v-if="selectedBid">
-      <div class="d-flex mt-4 mx-1 auction-bids">
+    <div v-if="selectedBid" class="bids-container">
+      <div class="d-none d-md-flex auction-bids">
         <div class="mr-5" role="button" @click="changeTab(BIDS_TAB_ALL)">
           <h2 class="title" :class="{'non-active': bidsTab === BIDS_TAB_YOUR}">{{ $t('bids.all_bids') }}
             ({{ bidsTotal }})</h2>
@@ -22,6 +25,29 @@
           <h2 class="title " :class="{'non-active': bidsTab === BIDS_TAB_ALL}">{{ $t('bids.your_bids') }}
             ({{ myBidsTotal }})</h2>
         </div>
+      </div>
+
+      <b-row class="d-none d-md-flex mx-0 item-header-row">
+        <b-col cols="4" md="5" class="text-left pl-3">
+          {{ $t('auction.recent_history') }}
+        </b-col>
+        <b-col cols="4" md="5" class="d-flex flex-column align-items-center justify-content-center">
+          {{ $t('auction.bid_amount') }}
+        </b-col>
+        <b-col cols="4" md="2" class="d-flex flex-column align-items-center justify-content-center text-center">
+          {{ $t('auction.date_time') }}
+        </b-col>
+      </b-row>
+
+      <div class="d-md-none">
+        <div class="bids-history-xs">{{ $t('auction.bid_history') }}</div>
+        <NavGroup
+          :data="tabOptions"
+          :value="bidsTab"
+          nav-key="auctions_ending_soon"
+          class="section-nav"
+          @change="changeTab"
+        />
       </div>
 
       <div v-if="bidsLoading" class="mx-auto my-5">
@@ -51,14 +77,15 @@
 <script>
 import {mapActions, mapGetters} from 'vuex';
 import BidAuctionSummary from '~/components/profile/bids/BidAuctionSummary';
+import BidAuctionSummaryMobile from '~/components/profile/bids/BidAuctionSummaryMobile';
 import SummaryBid from '~/components/profile/bids/SummaryBid';
-import {Button, Loader} from '~/components/common';
+import {Button, Loader, NavGroup} from '~/components/common';
 import {AUCTION_BIDS_PER_PAGE, BIDS_TAB_ALL, BIDS_TAB_YOUR} from '~/static/constants';
 import AutoBidSettings from '~/components/profile/bids/AutoBidSettings';
 
 export default {
   name: 'Edit',
-  components: {AutoBidSettings, SummaryBid, BidAuctionSummary, Button, Loader},
+  components: {AutoBidSettings, SummaryBid, BidAuctionSummary, Button, Loader, NavGroup, BidAuctionSummaryMobile},
   layout: 'Profile',
   data() {
     return {
@@ -69,7 +96,14 @@ export default {
       take: AUCTION_BIDS_PER_PAGE,
       bidsTotal: 0,
       myBidsTotal: 0,
-      myBids: []
+      myBids: [],
+      tabOptions: [{
+        label: this.$t('bids.all_bids'),
+        value: BIDS_TAB_ALL,
+      }, {
+        label: this.$t('bids.your_bids'),
+        value: BIDS_TAB_YOUR,
+      }]
     }
   },
   computed: {
@@ -202,8 +236,8 @@ export default {
 
 .view-similar
   @include body-4
+  font-family: $font-sp-pro
   color: $color-blue-2
-  width: 200px
   font-weight: $normal
 
 .bg-blue-2.btn.btn-primary
@@ -211,33 +245,69 @@ export default {
   border: none
 
 .container-profile-auctions
-  padding: 47px 54px
+  padding: 42px 40px
   background-color: $color-white-5
-
-  h2.title
-    @include heading-3
-    color: $color-black-1
+  .item-header-row
+    font-family: $font-montserrat
     font-weight: $bold
-
-    &.non-active
-      color: $color-gray-47
+    @include body-4
+    color: $black
+    margin-bottom: 15px
+    padding: 0 47px
+  .summary-header
+    margin-bottom: 36px
+  h2.title
+    font-family: $font-montserrat
+    font-weight: $bold
+    @include body-16
+  .auction-bids
+    margin: 31px 6px 24px
+    &:first-child
+      margin-right: 59px
+    h2.title
+      font-family: $font-sp-pro
+      font-weight: $bold
+      @include body-2
+      color: $black
+      margin: 0
+      &.non-active
+        color: $color-gray-47
 
   h3.title
     @include heading-2
     color: $color-black-1
     font-weight: $bold
+  
+  .bids-container
+    margin: 0 -15px
 
   @media (max-width: 576px)
-    padding: 16px
+    padding: 20px 16px
     background: $white
-    h2.title
-      @include body-3-bold
-      margin-bottom: 0
-    .view-similar
+    min-height: 100vh
+    .summary-header
+      margin-bottom: 26px
+    .bids-history-xs
+      font-family: $font-montserrat
+      font-weight: $medium
       @include body-5
+      color: $black
+      margin: 25px 0 26px
+    .nav-group
+      margin-bottom: 21px
+    h2.title
+      margin-bottom: 0
+      font-family: $font-montserrat
+      font-weight: $medium
+      @include body-5
+      color: $black
+    .view-similar
       font-weight: $normal
+      font-family: $font-sp-pro
+      @include body-1214
+      text-decoration-line: underline
+      color: $color-blue-20
       width: auto
-    .auction-bids
-      h2.title
-        @include body-4-bold
+    .bids-container
+      margin: 0
 </style>

@@ -12,13 +12,13 @@
           <div v-if="!isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer">{{$t('trades.they_offered')}}</div>
           <div v-else-if="isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer">{{$t('trades.you_asking_for')}}</div>
           <div class="history-time-mobile">
-            {{ $t('common.on') }} {{ offer.created_at | formatDateTimeString }}
+            {{ offer.created_at | formatDateTimeString }}
           </div>
         </div>
 
         <div class="row justify-content-start pt-2 m-0">
-          <offer-items v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0" :offerItems="offer.yours_items" marginItems="mr-3"/>
-          <offer-items v-if="!isOfferMine(offer) && offer.theirs_items && offer.theirs_items.length > 0" :offerItems="offer.theirs_items" marginItems="mr-3"/>
+          <offer-items v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0" :offerItems="offer.yours_items" marginItems="mr-3" :mobileItem="OFFER_SUMMARY"/>
+          <offer-items v-if="!isOfferMine(offer) && offer.theirs_items && offer.theirs_items.length > 0" :offerItems="offer.theirs_items" marginItems="mr-3" :mobileItem="OFFER_SUMMARY"/>
         </div>
         <div v-if="offer.cash_added" class="d-flex justify-content-center pt-3">
           <div class="request-amount-mobile d-flex justify-content-center align-items-center mt-2">
@@ -46,8 +46,8 @@
           </div>
         </div>
         <div class="row pt-2 m-0">
-          <offer-items v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0" :offerItems="offerHistory.yours_items" marginItems="mr-3" class="w-100" />
-          <offer-items v-if="!isOfferMine(offerHistory) && offerHistory.theirs_items && offerHistory.theirs_items.length > 0" :offerItems="offerHistory.theirs_items" marginItems="mr-3" class="w-100" />
+          <offer-items v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0" :offerItems="offerHistory.yours_items" marginItems="mr-3" class="w-100" :mobileItem="OFFER_SUMMARY" />
+          <offer-items v-if="!isOfferMine(offerHistory) && offerHistory.theirs_items && offerHistory.theirs_items.length > 0" :offerItems="offerHistory.theirs_items" marginItems="mr-3" class="w-100" :mobileItem="OFFER_SUMMARY" />
         </div>
         <div v-if="offerHistory.cash_added" class="d-flex justify-content-center pt-3">
           <div class="request-amount-mobile d-flex justify-content-center align-items-center mt-2">
@@ -78,7 +78,7 @@
         </b-row>
         <div v-if="!isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</div>
         <div v-else-if="isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.you_asking_for')}}</div>
-        <b-col class="row justify-content-start px-54 pt-2 m-0">
+        <b-col class="row justify-content-start pt-2 m-0">
           <offer-items
             v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0"
             :offerItems="offer.yours_items"
@@ -127,7 +127,7 @@
         <div v-else-if="isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-2">
           {{ $t('trades.you_asking_for') }}
         </div>
-        <b-col class="row justify-content-center px-54 pt-2 pb-4 m-0">
+        <b-col class="row justify-content-center pt-2 pb-4 m-0">
           <offer-items
             v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0"
             :offerItems="offerHistory.yours_items"
@@ -165,7 +165,8 @@ import ScreenSize from '~/plugins/mixins/screenSize'
 import {
   OFFER_TYPE,
   COUNTER_OFFER_TYPE,
-  CASH_TYPE_REQUESTED
+  CASH_TYPE_REQUESTED,
+  OFFER_SUMMARY
 } from '~/static/constants/trades'
 export default {
   name: 'OfferHistory',
@@ -193,6 +194,7 @@ export default {
       OFFER_TYPE,
       CASH_TYPE_REQUESTED,
       width:'',
+      OFFER_SUMMARY
     }
   },
   computed: {
@@ -248,6 +250,7 @@ export default {
     border-radius: 10px
 
   @media (min-width: 576px)
+    min-width: 685px
     border-radius: 10px
     padding: 30px 49px 0 49px
 

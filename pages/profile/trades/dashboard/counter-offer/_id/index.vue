@@ -3,8 +3,15 @@
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
-          <div class="center-container-xs mt-5 mb-5">
-            <div class="left-item-xs" :class="{'right-item-margin-top-sm':getTheirItems.length === TWO_ITEMS,'left-item-one-xs':getTheirItems.length === ONE_ITEM}">
+          <div :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM
+                ? 'center-container-xs-one': (getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM  ? 'center-container-two-one': 'center-container-xs mb-5')">
+            <div class="left-item-xs"
+                 :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM ?
+                 'left-item-one-one': getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM ?
+                 'left-item-two-one': getTheirItems.length === THREE_ITEMS && getYourItems.length === THREE_ITEMS
+                  ? 'left-item-three-threel':getTheirItems.length === THREE_ITEMS && getYourItems.length === TWO_ITEMS ?
+                   'left-item-three-two':getTheirItems.length === THREE_ITEMS && getYourItems.length === ONE_ITEM ?
+                   'left-item-three-one' :'right-item-margin-top-sm'">
               <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'card-'+index : ''" :key="index" class="item mb-4">
                 <div class="image-wrapper-sm">
                   <img class="pro-image-sm"  :src="item.inventory.product | getProductImageUrl"/>
@@ -31,12 +38,20 @@
               </div>
               <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right-sm" :class="{'pointer-right-two-items-sm':getYourItems.length === TWO_ITEMS}"></div>
             </div>
-            <div class="right-item-sm position-relative" :class="{'right-item-margin-top-sm':getYourItems.length === TWO_ITEMS,'right-item-one-sm':getYourItems.length === ONE_ITEM}">
+            <div class="right-item-sm position-relative"
+                 :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM ?
+                 'left-item-one-one': getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM ?
+                 'right-item-two-one': getTheirItems.length === THREE_ITEMS && getYourItems.length === THREE_ITEMS
+                  ? 'left-item-three-threel':getTheirItems.length === THREE_ITEMS && getYourItems.length === TWO_ITEMS ?
+                   'right-item-three-two':getTheirItems.length === THREE_ITEMS && getYourItems.length === ONE_ITEM ?
+                   'right-item-three-one' :'right-item-margin-top-sm'"
+
+                 >
               <div  v-if="getYourItems.length" class="">
                 <div  v-for="(item,index) in getYourItems" :id="getYourItems.length > ONE_ITEM ?'your-card-'+index : 'your-item'" :key="index" class="preview mb-4">
                   <div class="position-relative">
-                  <div class="remove-item position-absolute mt-2"  @click="removeItem(item.inventory.product.id)">
-                    <div class="minus"></div>
+                  <div class="remove-item-xs position-absolute mt-2" @click="removeItem(item.inventory.product.id)">
+                    <img :src="require('~/assets/img/minusSign.svg')" />
                   </div>
                   </div>
                   <div class="image-wrapper-sm">
@@ -56,16 +71,21 @@
             </div>
           </div>
 
-
-
-
           <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center m-2">
-            <Meter :highest="getTheirTotal(false)"
-                   :lowest="0"
-                   :value="getYourTotal(false)"
-                   :fair="getFairTradeValue()"
-                   heading="trades.trade_arena.fair_trade_meter"
-            />
+            <Meter v-if="editYours"
+                :highest="getTheirTotal(false)"
+                :lowest="0"
+                :value="getYourTotal(false)"
+                :fair="getFairTradeValue()"
+                  heading="trades.trade_arena.fair_trade_meter"
+              />
+              <Meter v-else
+                :highest="getYourTotal(false)"
+                :lowest="0"
+                :value="getTheirTotal(false)"
+                :fair="getFairTradeValue()"
+                  heading="trades.trade_arena.fair_trade_meter"
+              />
           </div>
           <div>
             <b-btn v-if="editYours" variant="primary"
@@ -126,39 +146,33 @@
             <div v-else>
               <div class="offer-items">
                 <div class="d-flex justify-content-between pl-3 pr-3">
-                  <div class="clear" :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="clearItems()">Clear</div>
+                  <div class="clear" :class="{'color-blue': getYourItems.length > 0}" role="button" @click="clearItems()">Clear</div>
                   <div class="d-block text-center">
                     <div class="offer-heading">{{$t('trades.your_offer')}}</div>
                     <div class="est-val">{{$t('trades.estimated_value')}}:{{getYourTotal()}}</div>
                   </div>
-                  <div class="done"  :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="doneClose()">Done</div>
+                  <div class="done"  :class="{'color-blue': getYourItems.length > 0}" role="button" @click="doneClose()">Done</div>
                 </div>
-                <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="d-flex justify-content-center">
-                  <div  v-for="(item,index) in getYourTradeItems" :id="'your-card-'+index" :key="index" class="item-inventory mt-2 mb-4 ml-3">
+                <div v-if="getYourItems.length > ITEM_COUNT_0" class="d-flex justify-content-center">
+                  <div  v-for="(item,index) in getYourItems" :id="'your-card-'+index" :key="index" class="item-inventory mt-2 mb-4 ml-3">
                     <div class="position-relative">
-                      <div class="remove-item mt-2" @click="decrementOrRemoveItem(item)">
-                        <div class="minus"></div>
+                      <div class="remove-item-xs mt-2" @click="removeItem(item.inventory.product.id)">
+                        <img :src="require('~/assets/img/minusSign.svg')" />
                       </div>
                     </div>
                     <div class="image-wrapper-sm position-relative d-flex justify-content-center align-items-center">
-                      <img class="pro-image-sm" :src="item.product.image" alt="image" />
+                      <img class="pro-image-sm" :src="item.inventory.product | getProductImageUrl" alt="image" />
                       <div class="overlay-image position-absolute"></div>
                     </div>
                     <div class="item-caption">
-                      <div class="item-name">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</div>
-                      <div class="item-caption-description">{{  (item.product  && item.product.colorway) ? item.product.colorway : item.colorway }},{{$t('trades.trade_arena.size')}} {{ item.size && item.size.size }}</div>
-                      <div class="item-box-condition">{{$t('trades.trade_arena.box_condition')}}: {{  (item.box_condition && item.box_condition.name) ? item.box_condition.name :item.box_condition }}</div>
+                      <div class="item-name">{{  (item.inventory.product && item.inventory.product.name) ? item.inventory.product.name : item.name  }}</div>
+                      <div class="item-caption-description">{{  (item.inventory.product  && item.inventory.product.colorway) ? item.inventory.product.colorway : item.colorway }},{{$t('trades.trade_arena.size')}} {{ item.inventory.size && item.inventory.size.size }}</div>
+                      <div class="item-box-condition">{{$t('trades.trade_arena.box_condition')}}: {{  (item.inventory.box_condition && item.inventory.box_condition.name) ? item.inventory.box_condition.name :item.box_condition }}</div>
                     </div>
                   </div>
                 </div>
                 <div v-else class="d-flex justify-content-center mb-3">
                   <div class="add-item-invent text-center">
-                    <div class="select-invent">
-                      {{$t('trades.trade_arena.select_from_inventory')}}
-                    </div>
-                    <div class="upto-three">
-                      {{$t('trades.trade_arena.up_to_three_items')}}
-                    </div>
                   </div>
                 </div>
               </div>
@@ -199,8 +213,8 @@
                       </div>
                       <div class="item-caption-inventory">
                         <div class="invent-name pt-2">{{item.product && item.product.name}}</div>
-                        <div class="invent-box">{{$t('common.box_condition')}}: {{item.packaging_condition && item.packaging_condition.name}}</div>
-                        <div class="invent-color">{{item.product && item.product.colorway}}</div>
+                        <div class="invent-color">{{item.product && item.product.colorway}} ,Size:{{item.product.size}} </div>
+                        <div class="invent-box"> Box : {{item.packaging_condition && item.packaging_condition.name}}</div>
                       </div>
                     </div>
                   </div>
@@ -248,7 +262,7 @@
           </div>
           <div class="offer-card my-3">
             <div class="d-flex flex-column px-3 px-lg-0">
-              <div class="mt-55 d-flex mb-2 justify-content-between col-md-8 mx-auto">
+              <div class="mt-55 d-flex mb-2 justify-content-between col-md-8 mx-auto price-value-box">
                 <div class="value">
                   {{ $t('common.their_value') }}
                   <span class="ml-1 price">{{ getTheirTotal() }}</span>
@@ -259,21 +273,22 @@
                 </div>
               </div>
               <div
-                class="center-container d-flex mx-0 mx-md-auto justify-content-between align-items-center col-md-8 col-xl-12"
-                :class="{'center-cont-height':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"
+                class="center-container d-flex mx-0 mx-md-auto justify-content-between align-items-center"
+                :class = "getTheirItems.length > ONE_ITEM || getYourItems.length > ONE_ITEM ? 'col-md-8 col-xl-12' : ''"
               >
                 <div class="left-item">
                   <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'trade-item-'+index : ''"
                       :key="'their-trade-item-key-'+index" class="item mb-4"
                       :class="[((getTheirItems.length > ONE_ITEM )|| (getYourItems.length)) ? 'item-length' : 'item-normal']">
-
-                    <div v-if="!editYours" class="position-relative">
-                      <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
+                    <div v-if="!editYours" >
+                      <div class="remove-item-icon-up" role="button" @click.stop="removeItem(item.inventory.product.id)">
                         <img :src="require('~/assets/img/trades/minus-icon.svg')">
                       </div>
                     </div>
-                    <div class="position-relative d-flex align-items-center justify-content-center">
-                      <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
+
+                    <div class="position-relative  d-flex justify-content-center align-items-center image-wrapper">
+                      <img class="pro-image-up"  :src="item.inventory.product | getProductImageUrl"/>
+                      <div class="overlay-up"></div>
                     </div>
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
@@ -303,12 +318,16 @@
                     <div v-for="(item, index) in getYourItems"
                         :id="getYourItems.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="'your-trade-item-key-'+index"
                         class="item-length mb-4">
-                      <div v-if="editYours" class="position-relative">
-                        <div class="position-absolute remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
+
+                      <div v-if="editYours" >
+                        <div class="remove-item-icon-up" role="button" @click.stop="removeItem(item.inventory.product.id)">
                           <img :src="require('~/assets/img/trades/minus-icon.svg')">
                         </div>
                       </div>
-                      <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
+                      <div class="position-relative  d-flex justify-content-center align-items-center image-wrapper">
+                        <img class="pro-image-up"  :src="item.inventory.product | getProductImageUrl"/>
+                        <div class="overlay-up"></div>
+                      </div>
                       <div class="item-caption">
                         <span class="item-name">{{ item.inventory.product.name }}</span>
                         <div class="mt-1 item-caption-description d-flex">
@@ -330,7 +349,7 @@
             </div>
             <div class="d-flex flex-column align-items-center mb-4">
               <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
-                <Meter
+                <Meter v-if="editYours"
                   :highest="getTheirTotal(false)"
                   :lowest="0"
                   :value="getYourTotal(false)"
@@ -338,10 +357,18 @@
                   heading="common.fair_trade_meter"
                   headingClass="my-header"
                 />
+                <Meter v-else
+                  :highest="getYourTotal(false)"
+                  :lowest="0"
+                  :value="getTheirTotal(false)"
+                  :fair="getFairTradeValue()"
+                  heading="common.fair_trade_meter"
+                  headingClass="my-header"
+                />
               </div>
               <div class="trade-hub-buttons mt-4 mb-4">
                 <div v-if="!cashAdded" class="mb-1">
-                  <span 
+                  <span
                     class="add-cash mr-3"
                     role="button"
                     :class="{
@@ -351,7 +378,7 @@
                   >
                     {{ $t('trades.add_cash') }}
                   </span>
-                  <span 
+                  <span
                     class="request-cash"
                     role="button"
                     :class="{
@@ -538,25 +565,30 @@
                 </b-col>
               </div>
             </div>
-            <div 
-              v-if="inventoryItems.length" 
+            <div
+              v-if="inventoryItems.length"
               class="carousel d-flex flex-column flex-sm-row flex-wrap justify-content-between inventory-items-trade"
             >
               <div
                 v-for="(item) in inventoryItems"
                 :key="item.id"
-                class="item invent-item d-flex flex-column justify-content-center col-6 col-md-3"
+                class="item invent-item-bg flex-column justify-content-center align-items-center col-6 col-md-3"
+                :class="{
+                  'd-none': item.stock <= 0,
+                  'd-flex': item.stock > 0
+                  }"
               >
-                <b-row class="justify-content-between">
-                  <b-col class="d-flex justify-content-end pr-3 pt-3">
-                    <img v-if="!editYours" class="plus-icon-add-trade" role="button"
-                          :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
-                    <img v-else class="plus-icon-add-trade" role="button"
-                          :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
-                  </b-col>
-                </b-row>
-                <img class="img-fluid mx-auto max-h-200" :src="item.product | getProductImageUrl" />
-                <div class="item-caption">
+                <div v-if="item.stock >= 1">
+                  <img v-if="!editYours" class="plus-icon-add-trade-bg" role="button"
+                       :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
+                  <img v-else class="plus-icon-add-trade-bg" role="button"
+                       :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
+                </div>
+                <div v-if="item.stock >= 1" class="position-relative  d-flex justify-content-center align-items-center image-wrapper-bg">
+                  <img class="pro-image"  :src="item.product | getProductImageUrl"/>
+                  <div class="overlay-bg"></div>
+                </div>
+                <div v-if="item.stock >= 1" class="item-caption">
                   <span class="item-name-invent">{{ item.product.name }}</span>
                   <div class="mt-1 item-caption-description-invent d-flex">
                     <div class="item-color text-truncate">{{ item.product.colorway }}</div>
@@ -607,7 +639,7 @@
   import TradeArenaFilters from '~/components/trade/TradeArenaFilters'
   import {
     ITEM_COUNT_0,
-  
+
     PAGE,
     PER_PAGE,
     PER_PAGE_OPTIONS,
@@ -717,7 +749,6 @@ export default {
     ...mapGetters('browse', ['filters']),
     ...mapGetters('counter-offer', ['getOffer', 'getYourItems', 'getTheirItems', 'getLastSubmittedOffer', 'getYourVendorId', 'getTheirVendorId']),
     ...mapGetters('trade', ['getActiveTrade']),
-    ...mapGetters('trade', ['getYourTradeItems']),
   },
   created() {
     this.$store.commit('counter-offer/clearStates')
@@ -783,20 +814,18 @@ export default {
     showFilters(){
       this.filterScreen = true;
     },
-    addYourItem(item) {
-      if (this.canAddMoreItems() && this.checkIfItemAlreadyListed(item)) {
-        this.addOrIncrementYourItem(item)
+    /**
+     * Update inventory stock
+     */
+    updateInventoryStock(inventoryId, increment){
+      const allInventories = JSON.parse(JSON.stringify(this.inventoryItems))
+      const index = this.inventoryItems.findIndex((inventoryItem) => inventoryItem.id === inventoryId)
+      if(index !== false && increment){
+        allInventories[index].stock += 1
+      }else if(index !== false){
+        allInventories[index].stock -= 1
       }
-    },
-    decrementOrRemoveItem(item) {
-      const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
-      if (existingItem.quantity > 1) {
-        this.$store.commit('trade/decrementYourTradeItemQuantity', item.id)
-      } else {
-        this.$store.commit('trade/removeYourTradeItem', item.id)
-      }
-      this.updateActiveTrade()
-      this.$nextTick(() => this.$forceUpdate())
+      this.inventoryItems = JSON.parse(JSON.stringify(allInventories))
     },
     getInventory: debounce(function ($state,filters = {}) {
       filters.category = this.categoryFilter
@@ -817,8 +846,18 @@ export default {
             $state.complete()
           }else {
             this.page += 1;
-            this.inventoryItems.push(...res.data);
             $state.loaded()
+          }
+          this.inventoryItems.push(...res.data);
+
+          if(this.getYourTradeItems.length >= 1){
+            const inventoryIds = this.getYourItems.map((yourItem) => {
+              return yourItem.id
+            });
+
+            inventoryIds.forEach((inventoryId) => {
+              this.updateInventoryStock(inventoryId, false)
+            })
           }
         })
         .catch((error) => { // return error
@@ -838,7 +877,7 @@ export default {
       this.getYourTotal(false)
     },
     checkIfItemAlreadyListed(item) {
-      const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
+      const existingItem = this.getYourItems.find(val => val.id === item.id)
       if (existingItem) return true;
       this.$axios
         .post('check/product/in/listing', {
@@ -851,7 +890,7 @@ export default {
             this.$bvModal.show('alreadyListed')
             return false
           } else {
-            this.addOrIncrementYourItem(item)
+            this.addTheirsInventoryItem(item)
             return true
           }
         })
@@ -859,11 +898,6 @@ export default {
           this.$toasted.error(this.$t(error.response.data.error))
           this.itemListingId = null
         })
-    },
-    addOrIncrementYourItem(item) {
-      this.$store.commit('trade/setYourTradeItems', item)
-      this.updateActiveTrade()
-      this.$nextTick(() => this.$forceUpdate())
     },
     /**
      * check if trade is poor/fair
@@ -932,6 +966,7 @@ export default {
     addTheirsInventoryItem(item){
       if(this.canAddMoreItems()){
         this.$store.commit('counter-offer/addTheirItem', item)
+        this.updateInventoryStock(item.id, false)
         this.updateActiveTrade()
         this.$toasted.success(this.$t('trades.item_added'))
         this.$nextTick(() => this.$forceUpdate())
@@ -940,6 +975,7 @@ export default {
     addYourInventoryItem(item){
       if(this.canAddMoreItems()){
         this.$store.commit('counter-offer/addYourItem', item)
+        this.updateInventoryStock(item.id, false)
         this.updateActiveTrade()
         this.$toasted.success(this.$t('trades.item_added'))
         this.$nextTick(() => this.$forceUpdate())
@@ -1019,7 +1055,10 @@ export default {
      * @returns {boolean}
      */
     canAddMoreItems() {
-      const itemsCount = this.getYourTradeItems.map(i => i.quantity).reduce((a, b) => a + b, 0)
+      let itemsCount = this.getYourItems.map(i => i.quantity).reduce((a, b) => a + b, 0)
+      if(!this.editYours){
+        itemsCount = this.getTheirItems.map(i => i.quantity).reduce((a, b) => a + b, 0)
+      }
       if (itemsCount < MAX_ITEMS_ALLOWED) {
         return true
       } else {
@@ -1428,7 +1467,11 @@ export default {
 .remove-item-icon
   right: 5px
   top: 5px
-
+.remove-item-icon-up
+  position: absolute
+  right: 17%
+  top: 10px
+  z-index: 1000
 .order-summary
   padding: 0
 .btn-accept
@@ -1655,13 +1698,21 @@ export default {
   color: $color-gray-25
 
 .pro-image
-  width: 81px
-  z-index: 10
+  width: 171px
+.pro-image-up
+  width: 130px
+.overlay-up
+  position: absolute
+  top: 0
+  left: 0
+  width: 140px
+  height: 100%
+  background: $color-grey-70
 .remove-item
   height: 13px
   width: 13px
   z-index: 100
-  background: $color-red-24
+  //background: $color-red-24
 .minus
   width: 7px
   height: 2px
@@ -1689,7 +1740,7 @@ export default {
     @include body-9-normal
     font-family: $font-family-sf-pro-display
     width: auto
-  
+
 .item-name-invent
   color: $color-black-1
   font-size: 15px
@@ -1699,8 +1750,7 @@ export default {
   overflow: hidden
   width: 200px
   display: block
-  @media (min-width: 576px)
-    width: auto
+
 
 .item-caption-description-invent
   font-size: 14px
@@ -1717,12 +1767,26 @@ export default {
 .invent-item
   width: 164px
   height: 265px
+.invent-item-bg
+  width: 213px
+  height: 323px
 .item-image-trade
   width: 134px
   border-radius: 0
 .image-wrapper-inventory
   height: 185px
   width: 164px
+.image-wrapper-bg
+  width: 213px
+.image-wrapper-bg
+  .overlay-bg
+    position: absolute
+    top: 0
+    left: 0
+    width: 213px
+    height: 100%
+    background: $color-grey-70
+
 .plus-icon-add-trade
   right: 5px
   top: 7px
@@ -1771,7 +1835,7 @@ export default {
   height: 100%
   background: $color-white-1
 .image-wrapper
-  width: 120px
+  width: 130px
   height: 112.4px
 .item-caption
   padding-left: unset
@@ -1795,7 +1859,7 @@ export default {
 .input-search
   width: 306px
 .add-item-invent
-  background: url('~/assets/img/trades/select-inventory.svg')
+  background: url('~/assets/img/your-invent-bottomsheet.svg')
   width: 100px
   height: 143px
 .select-invent
@@ -1822,7 +1886,17 @@ export default {
     font-size: 14px
     line-height: 19px
 .center-container-xs
-    min-height: 650px
+    min-height: 680px
+    margin: 0 15px
+    display: flex
+    justify-content: center
+.center-container-xs-one
+    min-height: 350px
+    margin: 0 15px
+    display: flex
+    justify-content: center
+.center-container-two-one
+    min-height: 500px
     margin: 0 15px
     display: flex
     justify-content: center
@@ -1853,6 +1927,11 @@ export default {
   right: 5%
   top: 15px
   z-index: 1000
+.plus-icon-add-trade-bg
+  position: absolute
+  right: 17%
+  top: 50px
+  z-index: 1000
 
 .input-mt
   margin-top: 7px
@@ -1880,9 +1959,12 @@ export default {
 .image-wrapper
   height: 134px
   background: $color-white-4
-  position: relative
-
-
+  //position: relative
+.remove-item-xs
+  height: 13px
+  width: 13px
+  z-index: 100
+  left: 82%
 
 .remove-item
   height: 13px
@@ -1921,10 +2003,6 @@ export default {
     width: 100%
     height: 100%
     background: $color-grey-70
-
-.pro-image
-  width: 117px
-  height: 100%
 
 
 
@@ -2151,4 +2229,43 @@ export default {
 .left-item-one-sm
   margin-top: 183px
   margin-right: 15px
+.right-item-one-one
+  margin-top: 50px
+  margin-left: 15px
+.left-item-one-one
+  margin-top: 50px
+  margin-right: 15px
+.left-item-two-one
+  margin-top: 148px
+.left-item-two-one
+  margin-top: 60px
+.right-item-two-one
+  margin-top: 148px
+.left-item-three-threel
+  margin-top: 60px
+.left-item-three-two
+  margin-top: 60px
+.right-item-three-one
+  margin-top: 60px
+.right-item-three-two
+  margin-top: 148px
+.right-item-two-three
+  margin-top: 148px
+.right-item-three-one
+  margin-top: 148px
+.left-item-three-one
+  margin-top: 60px
+.price-value-box
+  background-color: $color-white-4
+  width: 797px
+  height: 61px
+  padding: 25px
+.center-container
+  min-height: 450px
+  margin: 0 15px
+  display: flex
+  justify-content: center
+  margin-bottom: 140px
+
+
 </style>

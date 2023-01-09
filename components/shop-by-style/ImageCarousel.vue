@@ -80,7 +80,7 @@ export default {
     color: $color-gray-5
 
   .carousel::v-deep
-    padding: 0 111px
+    padding: 0 80px
 
     .owl-nav
       width: auto
@@ -96,8 +96,9 @@ export default {
       &.owl-prev
         float: left
         margin-left: -79px !important
-@media(min-width: 576px)
-  .style-image
+.style-image
+  width: 175px
+  @media(min-width: 576px)
     width: 305px
     margin: 0 auto
 </style>

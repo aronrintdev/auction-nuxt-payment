@@ -6,7 +6,7 @@
     >
       <b-row class="carousel-wrapper-title">
         <b-col md="12 px-0">
-          <span class="text-uppercase" :class="isScreenXS ? 'body-10-regular font-monserrat' : 'body-8-normal'">
+          <span class="text-uppercase select-size-text" :class="isScreenXS ? 'body-10-regular font-monserrat' : 'body-8-normal'">
             {{ $t('products.select_size') }}*
           </span>
 
@@ -372,4 +372,9 @@ export default {
 
 .font-monserrat
   font-family: $font-montserrat
+.select-size-text
+  font-family: $font-family-montserrat
+  font-style: $normal
+  font-weight: $regular
+  @include body-10
 </style>

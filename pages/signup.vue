@@ -29,7 +29,7 @@
       <b-col
         lg="8"
         cols="12"
-        class="social-area pt-5 px-2 d-flex justify-content-center"
+        class="social-area px-1 d-flex justify-content-center"
       >
         <b-row class="h-100 justify-content-center w-100">
           <b-col
@@ -125,7 +125,7 @@
                           <Logo class="img-main" />
                         </nuxt-link>
                         <span
-                          class="signup-heading fs-15 fw-5 font-primary w-75 text-center mb-4 pre-line"
+                          class="signup-heading font-primary w-75 text-center mb-4 pre-line"
                         >
                           {{ $t('signup.create_your_account') }}
                         </span>
@@ -135,7 +135,7 @@
                       :data="tabs"
                       :value="currentTab"
                       nav-key="new_releases"
-                      class="text-center px-2 mb-4 d-lg-none d-block nav-buttons"
+                      class="text-center px-1 mb-4 d-lg-none d-block nav-buttons"
                       @change="handleTabChange"
                     />
                     <ValidationProvider
@@ -155,7 +155,7 @@
                           <b-form-input
                             id="first-name"
                             v-model="form.first_name"
-                            class="rounded-pill rounded-md input-signup"
+                            class="rounded-pill rounded-md input-signup mt-4"
                             :placeholder="$t('auth.first_name')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -165,11 +165,12 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1 pl-2"
+                          class="success-check d-flex align-items-center pl-1 pt-2"
                         >
                           <b-img
                             width="20"
                             height="20"
+                            class="mt-4"
                             :src="require('~/assets/img/auth/check.svg')"
                           />
                         </b-input-group-prepend>
@@ -202,11 +203,12 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1 pl-2"
+                          class="success-check d-flex align-items-center pl-1 pt-2"
                         >
                           <b-img
                             width="20"
                             height="20"
+                            class="mt-2"
                             :src="require('~/assets/img/auth/check.svg')"
                           />
                         </b-input-group-prepend>
@@ -239,11 +241,12 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1 pl-2"
+                          class="success-check d-flex align-items-center pl-1 pt-1"
                         >
                           <b-img
                             width="20"
                             height="20"
+                            class="mt-2"
                             :src="require('~/assets/img/auth/check.svg')"
                           />
                         </b-input-group-prepend>
@@ -276,11 +279,12 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1 pl-2"
+                          class="success-check d-flex align-items-center pl-1 pt-1"
                         >
                           <b-img
                             width="20"
                             height="20"
+                            class="mt-2"
                             :src="require('~/assets/img/auth/check.svg')"
                           />
                         </b-input-group-prepend>
@@ -334,11 +338,12 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1"
+                          class="success-check d-flex align-items-center pl-1 pt-1"
                         >
                           <b-img
                             width="20"
                             height="20"
+                            class="mt-2"
                             :src="require('~/assets/img/auth/check.svg')"
                           />
                         </b-input-group-prepend>
@@ -396,11 +401,12 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1"
+                          class="success-check d-flex align-items-center pl-1 pt-1"
                         >
                           <b-img
                             width="20"
                             height="20"
+                            class="mt-2"
                             :src="require('~/assets/img/auth/check.svg')"
                           />
                         </b-input-group-prepend>
@@ -661,6 +667,7 @@ export default {
   font-weight: $bold
   font-size: 42px
   line-height: 51px
+  margin-top: 46px
 
 .bg-color-white-5
   background: $color-white-5
@@ -687,8 +694,7 @@ export default {
   width: 5%
 
 .success-check
-  padding: 0.5rem
-  margin: 0px auto
+  margin: 0 auto
   height: 100%
 
 /* Override common Button component border color */
@@ -697,7 +703,8 @@ export default {
 
 /* Override bootstrap-vue 'b-form-input' styles */
 .input-signup
-  @include body-5-normal
+  @include body-5
+  font-weight: $normal
   color: $color-black-1
   background-color: $color-white-5
   border: 0
@@ -782,15 +789,9 @@ export default {
   padding-left: 13px
 // ------------------Responsive--------------------
 @media only screen and (max-width: 768px)
-  .input-signup
-    font-size: 15px
-    line-height: 18px
-
   .form-area::v-deep
-    padding: 30px 1px 0 1px
+    padding: 30px 1px 0px 1px
 
-    .form-group
-      margin-bottom: 14px !important
     .minimum
       margin-bottom: 15px
     .submit-btn-p
@@ -818,14 +819,14 @@ export default {
       border: 1px solid $color-gray-3
       border-left: 0px
       border-radius: 0px 10px 10px 0px !important
-      padding: 0.7rem
+      padding: 0.68rem
       &:focus
         border-radius: 0px 10px 10px 0px
     .signup-heading
-      line-height: 18px
       color: $color-gray-5
       font-style: normal
-      font-weight: $medium
+      font-weight: $bold
+      @include body-17
     .validation
       font-size: 10px !important
       font-weight: 500 !important
@@ -833,6 +834,7 @@ export default {
     .switch-btn
       padding: 0px 64px 0px 70px
   .social-area
+    padding: 82px 0px 0px 1px
     .or
       padding: 26px 0px !important
     .skip-link
@@ -864,7 +866,7 @@ export default {
   fieldset
     width: 343px
     .input-group
-      width: 343px
+      width: 310px
       margin-left: 4px
       .input-signup
         &::placeholder

@@ -66,7 +66,7 @@
           :key="`popular-product-${product.id}`"
           class="d-flex align-items-center popular-item"
         >
-          <div class="flex-grow-1">{{ product.name }}</div>
+          <div class="flex-grow-1 text-nowrap">{{ product.name.slice(0, 41) }}</div>
           <div class="flex-shrink-0">
             <Button
               :to="`/shop/${product.sku}`"
@@ -250,6 +250,7 @@ export default {
       h4
         @include heading-1
         margin: 0
+        font-size:41px
         color: $color-black-1
 
       .popular-item
@@ -315,7 +316,12 @@ export default {
               margin: 5px 20px 0 0
 
       .popular-section
+        h4
+          @include heading-1
         .popular-item
+          font-family: $font-family-montserrat
+          font-style: $normal
+          font-size: 13px
           flex-direction: column
           align-items: flex-start !important
 
