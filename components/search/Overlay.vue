@@ -66,7 +66,7 @@
           :key="`popular-product-${product.id}`"
           class="d-flex align-items-center popular-item"
         >
-          <div class="flex-grow-1">{{ product.name }}</div>
+          <div class="flex-grow-1 text-nowrap">{{ product.name.slice(0, 41) }}</div>
           <div class="flex-shrink-0">
             <Button
               :to="`/shop/${product.sku}`"
