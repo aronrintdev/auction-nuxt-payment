@@ -10,9 +10,6 @@
       </div>
       <div :class="{ 'w-75': isScreenXS }" class="sub-title mt-2 mr-2">
         {{ settings.desc }}
-        <div v-if="settings.desc_next && !isScreenXS" class="mt-4">
-          {{ settings.desc_next }}
-        </div>
       </div>
     </b-col>
     <b-col v-if="!isScreenXS" class="title-labels w-50 pt-19" md="4">
@@ -87,30 +84,6 @@
           </div>
         </WhiteDropDown>
       </div>
-      <div
-        v-if="fieldExist(settings.data, 'until') && !isScreenXS"
-        class="mt-15"
-        :class="{
-          'mt-50':
-            !fieldExist(settings.data, 'when') &&
-            !fieldExist(settings.data, 'every'),
-        }"
-      >
-        <vue-slider
-          v-if="settings.data.until.type === 'slider'"
-          :max="100"
-          :min="0"
-          :min-range="0"
-          :tooltip-formatter="(val) => val + '%'"
-          :tooltipStyle="{
-            'background-color': 'transparent',
-          }"
-          :value="formData.extra.until.value"
-          class="vue-slider-ltr-shop w-50"
-          tooltip="always"
-          @change="percentageChange"
-        ></vue-slider>
-      </div>
     </b-col>
     <b-col v-if="!isScreenXS" md="3">
       <b-row
@@ -138,6 +111,35 @@
           />
         </b-col>
       </b-row>
+    </b-col>
+    <b-col md="12"></b-col>
+    <b-col md="5" class="sub-title">
+      <div v-if="settings.desc_next && !isScreenXS" class="mt-4">
+        {{ settings.desc_next }}
+      </div>
+    </b-col>
+    <b-col>
+      <div
+        v-if="fieldExist(settings.data, 'until') && !isScreenXS"
+        class="mt-25"
+      >
+        <vue-slider
+          v-if="settings.data.until.type === 'slider'"
+          :max="100"
+          :min="0"
+          :min-range="0"
+          :tooltip-formatter="(val) => val + '%'"
+          :tooltipStyle="{
+            'background-color': 'transparent',
+          }"
+          :value="formData.extra.until.value"
+          class="vue-slider-ltr-shop w-50"
+          tooltip="always"
+          @change="percentageChange"
+        ></vue-slider>
+      </div>
+    </b-col>
+    <b-col md="3">
     </b-col>
   </b-row>
 </template>
@@ -417,14 +419,11 @@ export default {
   .sub-title
     @include body-10
 
-.mt-15
-  margin-top: 15px
+.mt-25
+  margin-top: 25px
 
 .mt-50
   margin-top: 50px
-
-.mt-26
-  margin-top: 36px
 
 .pt-19
   padding-top: 19px
