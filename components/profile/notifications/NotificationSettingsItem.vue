@@ -89,7 +89,7 @@
       </div>
       <div
         v-if="fieldExist(settings.data, 'until') && !isScreenXS"
-        class="mt-36"
+        class="mt-15"
         :class="{
           'mt-50':
             !fieldExist(settings.data, 'when') &&
@@ -416,8 +416,9 @@ export default {
 .mobile
   .sub-title
     @include body-10
-.mt-36
-  margin-top: 36px
+
+.mt-15
+  margin-top: 15px
 
 .mt-50
   margin-top: 50px
