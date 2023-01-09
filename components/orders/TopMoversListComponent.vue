@@ -5,10 +5,12 @@
         <NavGroup :value="activeNav" :data="navCategories" @change="navItem"/>
       </div>
       <div class="d-none d-md-block">
+        <!--
         <button class="btn-export text-center border-0" @click="handleExportBtnClick">{{
             $t('orders.export_to_csv')
           }}
         </button>
+        -->
       </div>
     </div>
     <template v-if="!isScreenXS">

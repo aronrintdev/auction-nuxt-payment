@@ -3,7 +3,7 @@
     <div class="filters-wrapper">
       <div class="row">
         <div class="col-9">
-          <Searchbar :searchKeyword="selectedSearch" @enter="searchProducts"/>
+          <Searchbar :searchKeyword="selectedSearch" @enter="searchProducts" />
         </div>
         <div class="col-3">
           <FormDropdown
@@ -12,9 +12,6 @@
             :placeholder="$t('selling_page.sortby')"
             :items="SORT_OPTIONS"
             :icon="require('~/assets/img/icons/three-lines.svg')"
-            :icon-arrow-down="
-              require('~/assets/img/icons/arrow-down-gray2.svg')
-            "
             class="dropdown-sort flex-shrink-1"
             can-clear
             @select="handleSortBySelect"
@@ -22,17 +19,43 @@
         </div>
       </div>
       <div class="row mt-4">
-        <div class="col-2">
+        <div v-if="category === ACCESSORIES" class="col">
+          <!-- Gender-->
+          <SingleSelectDropdown
+            v-model="selectedFilters.gender"
+            collapseKey="gender"
+            :title="$t('filter_sidebar.gender')"
+            :options="sizeTypeOptions"
+            class="mr-3 mr-xl-4 w-100"
+          />
+        </div>
+        <div v-if="category !== ACCESSORIES" class="col">
           <!-- Size Types -->
-          <MultiSelectDropdown
-            v-model="selectedFilters.sizeTypes"
+          <SingleSelectDropdown
+            v-model="selectedFilters.sizeType"
             collapseKey="size-types"
             :title="$t('filter_sidebar.size_types')"
             :options="sizeTypeOptions"
             class="mr-3 mr-xl-4 w-100"
           />
         </div>
-        <div v-if="sizeOptions.length" class="col-2">
+        <div
+          v-if="productTypeOptions && productTypeOptions.length"
+          class="col-2"
+        >
+          <!-- Product Types -->
+          <SingleSelectDropdown
+            v-model="selectedFilters.productType"
+            collapseKey="product-types"
+            :title="$t('common.product_type')"
+            :options="productTypeOptions"
+            class="mr-3 mr-xl-4 w-100"
+          />
+        </div>
+        <div
+          v-if="sizeOptions && sizeOptions.length && category !== ACCESSORIES"
+          class="col"
+        >
           <!-- Sizes -->
           <MultiSelectDropdown
             v-model="selectedFilters.sizes"
@@ -42,7 +65,7 @@
             class="mr-3 mr-xl-4 flex-grow-1 w-100"
           />
         </div>
-        <div class="col-2">
+        <div class="col">
           <SliderDropdown
             :start-label="$t('filter_sidebar.price_items.min')"
             :end-label="$t('filter_sidebar.price_items.max')"
@@ -57,16 +80,34 @@
             @change="updatePriceFilters"
           />
         </div>
-        <div class="col-4">
-          <MultiSelectDropdown
+        <div class="col">
+          <BrandMultiSelectDropdown
             v-model="selectedFilters.brands"
             collapseKey="brands"
             :title="$t('filter_sidebar.brands')"
-            :options="brandOptions"
+            :options="filterBrands"
             class="w-100"
-          />
+          >
+            <template #firstRow>
+              <!-- brands -->
+              <div class="filter-body">
+                <div class="search-bar position-relative">
+                  <input
+                    v-model="brandName"
+                    type="search"
+                    placeholder="Search for Brands"
+                  />
+                  <img
+                    class="searchbarIcon"
+                    width="15"
+                    :src="require('~/assets/img/icons/browse-magnify.svg')"
+                  />
+                </div>
+              </div>
+            </template>
+          </BrandMultiSelectDropdown>
         </div>
-        <div class="col-2">
+        <div class="col">
           <!-- Years -->
           <SliderDropdown
             :start-label="$t('filter_sidebar.price_items.min')"
@@ -78,7 +119,7 @@
             :step="1"
             :title="$t('auctions.frontpage.filterbar.year')"
             :value="selectedYears"
-            class="mr-3 mr-xl-4"
+            class="mr-3 mr-xl-4 w-100"
             :width="203"
             @change="updateYearFilters"
           />
@@ -86,63 +127,92 @@
       </div>
     </div>
     <div class="mt-3 d-flex align-items-center text-secondary flex-wrap gap-2">
-      <template  v-if="selectedFilters.sizeTypes.length">
-      <div v-for="(x, index) in selectedFilters.sizeTypes"
-         :key="`sizeType${index}`"
-        class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
-      >
-      
-        {{ x }}
-        <span
-          class="remove-filter ml-3"
-          @click="removeFilter('sizesType', index)"
+      <template v-if="selectedFilters.gender">
+        <div
+          class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
         >
-          ✖
-        </span>
-      </div>
-    </template>
-      <div
-        v-for="(x, index) in selectedFilters.sizes"
-        :key="`sizes${index}`"
-        class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
-      >
-        {{ getSizeName(x) }}
-        <span class="remove-filter ml-3" @click="removeFilter('sizes', index)">
-          ✖
-        </span>
-      </div>
-      <div
-        v-for="(x, index) in selectedFilters.brands"
-        :key="`brands${index}`"
-        class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
-      >
-        {{ x }}
-        <span class="remove-filter ml-3" @click="removeFilter('brands', index)">
-          ✖
-        </span>
-      </div>
-      <div
-        v-if="selectedFilters.prices.length > 0"
-        class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
-      >
-        ${{ selectedFilters.prices[0] }} - ${{ selectedFilters.prices[1] }}
-        <span class="remove-filter ml-3" @click="removeFilter('prices')">
-          ✖
-        </span>
-      </div>
-      <div
-        v-if="selectedFilters.years.length > 0"
-        class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
-      >
-        {{ selectedFilters.years[0] }} - {{ selectedFilters.years[1] }}
-        <span class="remove-filter ml-3" @click="removeFilter('years')">
-          ✖
-        </span>
-      </div>
+          {{ selectedFilters.gender }}
+          <span class="remove-filter ml-3" @click="removeFilter('gender')">
+            ✖
+          </span>
+        </div>
+      </template>
+      <template v-if="selectedFilters.sizeType">
+        <div
+          class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
+        >
+          {{ selectedFilters.sizeType }}
+          <span class="remove-filter ml-3" @click="removeFilter('sizeType')">
+            ✖
+          </span>
+        </div>
+      </template>
+      <template v-if="selectedFilters.productType">
+        <div
+          class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
+        >
+          {{ selectedFilters.productType }}
+          <span class="remove-filter ml-3" @click="removeFilter('productType')">
+            ✖
+          </span>
+        </div>
+      </template>
+      <template v-if="selectedFilters.sizes.length > 0">
+        <div
+          v-for="(x, index) in selectedFilters.sizes"
+          :key="`sizes${index}`"
+          class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
+        >
+          {{ getSizeName(x) }}
+          <span
+            class="remove-filter ml-3"
+            @click="removeFilter('sizes', index)"
+          >
+            ✖
+          </span>
+        </div>
+      </template>
+      <template v-if="selectedFilters.brands.length">
+        <div
+          v-for="(x, index) in selectedFilters.brands"
+          :key="`brands${index}`"
+          class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
+        >
+          {{ x }}
+          <span
+            class="remove-filter ml-3"
+            @click="removeFilter('brands', index)"
+          >
+            ✖
+          </span>
+        </div>
+      </template>
+      <template v-if="selectedFilters.prices.length > 0">
+        <div
+          class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
+        >
+          ${{ selectedFilters.prices[0] }} - ${{ selectedFilters.prices[1] }}
+          <span class="remove-filter ml-3" @click="removeFilter('prices')">
+            ✖
+          </span>
+        </div>
+      </template>
+      <template v-if="selectedFilters.years.length > 0">
+        <div
+          class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
+        >
+          {{ selectedFilters.years[0] }} - {{ selectedFilters.years[1] }}
+          <span class="remove-filter ml-3" @click="removeFilter('years')">
+            ✖
+          </span>
+        </div>
+      </template>
       <div
         v-if="
           selectedFilters.sizes.length > 0 ||
-          selectedFilters.sizeTypes.length ||
+          selectedFilters.sizeType ||
+          selectedFilters.gender ||
+          selectedFilters.productType ||
           selectedFilters.brands.length > 0 ||
           selectedFilters.prices.length > 0 ||
           selectedFilters.years.length > 0
@@ -165,20 +235,27 @@ import {
   MAX_PRICE,
   MIN_PRICE_RANGE_WINDOW,
   MIN_YEAR_RANGE_WINDOW,
+  MEN,
+  ACCESSORIES,
+  APPAREL,
 } from '~/static/constants'
 import {
   FormDropdown,
   MultiSelectDropdown,
+  SingleSelectDropdown,
   SliderDropdown,
 } from '~/components/common'
 import Searchbar from '~/components/shop/Searchbar'
+import BrandMultiSelectDropdown from '~/components/shop/BrandMultiSelectDropdown'
 export default {
   name: 'ShopFilters',
   components: {
     Searchbar,
     FormDropdown,
     MultiSelectDropdown,
+    SingleSelectDropdown,
     SliderDropdown,
+    BrandMultiSelectDropdown,
   },
   fetchOnServer: false,
   data() {
@@ -197,68 +274,66 @@ export default {
       MIN_PRICE,
       MAX_YEAR,
       MIN_YEAR,
+      MEN,
+      ACCESSORIES,
+      APPAREL,
       MIN_PRICE_RANGE_WINDOW,
       selectedPrices: [MIN_PRICE, MAX_PRICE / 100],
       selectedYears: [MIN_YEAR, MAX_YEAR],
       selectedFilters: {
-        sizeTypes: [],
+        sizeType: null,
+        productType: null,
         sizes: [],
         brands: [],
         status: [],
         sortBy: null,
-        orderBy:'',
+        orderBy: '',
         prices: [],
         years: [],
-        brandName: '',
         search: null,
+        gender: null,
       },
+      defaultSizetype: MEN,
+      category: null,
+      brandName: '',
+      categoryFilterLabel: this.$t('filter_sidebar.size_types'),
       defaultValue: null,
     }
   },
   computed: {
-    ...mapGetters(
-      'browse',
-      [
-        'filters',
-        'selectedBrands',
-        'selectedSearch',
-        'selectedSizes',
-        'selectedSizeTypes',
-        'selectedOrdering',
-        'getSizesByType',
-      ],
-      'auction',
-      ['getProductFilter']
-    ),
+    ...mapGetters('browse', [
+      'filters',
+      'selectedBrands',
+      'selectedSearch',
+      'selectedSizes',
+      'selectedSizeType',
+      'selectedOrdering',
+      'getSizesByType',
+      'selectedCategory',
+      'selectedProductType',
+      'selectedGender',
+    ]),
     filterBrands() {
-      if (this.selectedFilters.brandName.trim() === '') {
+      if (this.brandName.trim() === '') {
         return this.brandOptions
       }
       return this.brandOptions.filter(
         (brand) =>
-          brand.label
-            ?.toLowerCase()
-            .indexOf(this.selectedFilters.brandName.toLowerCase()) > -1
+          brand.label?.toLowerCase().indexOf(this.brandName.toLowerCase()) > -1
       )
     },
     sizeOptions() {
-      if(this.selectedFilters.sizeTypes.length === 0){
-        return []
-      }
       let options = this.filters?.sizes
-      if (
-        options &&
-        this.selectedFilters.sizeTypes &&
-        this.selectedFilters.sizeTypes.length > 0
-      ) {
-        options = options.filter(({ type }) =>
-          this.selectedFilters.sizeTypes.includes(type)
+      if (options && (this.selectedFilters.sizeType || this.defaultSizetype)) {
+        options = options.filter(
+          ({ type }) =>
+            (this.selectedFilters.sizeType || this.defaultSizetype) === type
         )
       }
       return (
         options?.map(({ id, size, type }) => {
           return {
-            label: `${type} - ${size}`,
+            label: size,
             value: id,
           }
         }) || []
@@ -271,9 +346,27 @@ export default {
     },
 
     sizeTypeOptions() {
-      return this.filters?.size_types?.map((type) => {
+      return this.filters?.size_types?.map(({ type }) => {
         return { label: type, value: type }
       })
+    },
+
+    genderOptions() {
+      return this.filters?.size_types?.map(({ type }) => {
+        return { label: type, value: type }
+      })
+    },
+
+    productTypeOptions() {
+      const options = this.filters?.product_types
+      return (
+        options?.map(({ id, type }) => {
+          return {
+            label: type,
+            value: type.toLowerCase(),
+          }
+        }) || []
+      )
     },
   },
   watch: {
@@ -282,6 +375,35 @@ export default {
         this.emitChange(JSON.parse(JSON.stringify(newV)))
       },
       deep: true,
+    },
+    selectedCategory: {
+      handler(newV) {
+        switch (newV) {
+          case APPAREL:
+            this.defaultSizetype = APPAREL
+            this.selectedFilters.sizeType = null
+            this.$store.commit(
+              'browse/setSelectedSizeType',
+              this.selectedFilters.sizeType
+            )
+            break
+          case ACCESSORIES:
+            this.selectedFilters.sizeType = null
+            this.selectedFilters.sizes = []
+            this.$store.commit(
+              'browse/setSelectedSizeType',
+              this.selectedFilters.sizeType
+            )
+            break
+          default:
+            this.defaultSizetype = MEN
+            this.$store.commit(
+              'browse/setSelectedSizeType',
+              this.defaultSizetype
+            )
+        }
+        this.category = newV
+      },
     },
   },
   created() {
@@ -296,20 +418,16 @@ export default {
     }, 300),
     applyFilters() {
       const brands = JSON.parse(JSON.stringify(this.selectedFilters.brands))
-      const sizeTypes = JSON.parse(JSON.stringify(this.selectedFilters.sizeTypes))
       const sizes = JSON.parse(JSON.stringify(this.selectedFilters.sizes))
       this.$store.commit(
         'browse/setSelectedPrices',
         this.selectedFilters.prices
       )
       this.$store.commit('browse/setSelectedYears', this.selectedFilters.years)
+      this.$store.commit('browse/setSelectedBrands', brands)
       this.$store.commit(
-        'browse/setSelectedBrands',
-        brands
-      )
-      this.$store.commit(
-        'browse/setSelectedSizeTypes',
-        sizeTypes
+        'browse/setSelectedSizeType',
+        this.selectedFilters.sizeType
       )
       this.$store.commit('browse/setSelectedSort', this.selectedFilters.sortBy)
       this.$store.commit(
@@ -320,87 +438,92 @@ export default {
         'browse/setSelectedSearch',
         this.selectedFilters.search
       )
-      this.$store.commit('browse/setIsFilter',true)
-      if (
-        this.selectedFilters.sizeTypes &&
-        this.selectedFilters.sizeTypes.length > 0 &&
-        this.selectedFilters.sizes
-      ) {
+      this.$store.commit(
+        'browse/setProductType',
+        this.selectedFilters.productType
+      )
+      this.$store.commit('browse/setIsFilter', true)
+      this.$store.commit('browse/setGender', this.selectedFilters.gender)
+      if (this.selectedFilters.sizeType && this.selectedFilters.sizes) {
         const newSizes = this.selectedFilters.sizes.filter((size) =>
           this.filters?.sizes?.find(
-            (s) =>
-              s.id === size && this.selectedFilters.sizeTypes.includes(s.type)
+            (s) => s.id === size && this.selectedFilters.sizeType === s.type
           )
         )
         this.$store.commit('browse/setSelectedSizes', newSizes)
       } else {
-        this.$store.commit(
-          'browse/setSelectedSizes',
-          sizes
-        )
+        this.$store.commit('browse/setSelectedSizes', sizes)
       }
       this.$emit('apply')
     },
 
     removeFilter(type, index) {
-      this.$store.commit('browse/setIsFilter',false)
-      switch(type) {
-            case 'sizesType':
-              this.selectedFilters.sizeTypes.splice(index, 1)
-              break;
-            case 'sizes':
-              this.selectedFilters.sizes.splice(index, 1)
-              break;
-            case 'brands':
-              this.selectedFilters.brands.splice(index, 1)
-              break;
-            case 'years':
-              this.selectedFilters.years = []
-              this.selectedYears =  [MIN_YEAR, MAX_YEAR]
-              break;
-            case 'prices':
-              this.selectedFilters.prices = []
-              this.selectedPrices = [MIN_PRICE, MAX_PRICE / 100]
-              break;
-            default:
-              // code block
+      switch (type) {
+        case 'sizeType':
+          this.selectedFilters.sizeType = null
+          break
+        case 'productType':
+          this.selectedFilters.productType = null
+          break
+        case 'gender':
+          this.selectedFilters.gender = null
+          break
+        case 'sizes':
+          this.selectedFilters.sizes.splice(index, 1)
+          break
+        case 'brands':
+          this.selectedFilters.brands.splice(index, 1)
+          break
+        case 'years':
+          this.selectedFilters.years = []
+          this.selectedYears = [MIN_YEAR, MAX_YEAR]
+          break
+        case 'prices':
+          this.selectedFilters.prices = []
+          this.selectedPrices = [MIN_PRICE, MAX_PRICE / 100]
+          break
+        default:
+        // code block
       }
     },
     clearAllFilters() {
       this.selectedPrices = [MIN_PRICE, MAX_PRICE / 100]
-      this.selectedYears =  [MIN_YEAR, MAX_YEAR]
+      this.selectedYears = [MIN_YEAR, MAX_YEAR]
       this.selectedFilters.sizes = []
-      this.selectedFilters.sizeTypes = []
+      this.selectedFilters.sizeType = null
+      this.selectedFilters.productType = null
       this.selectedFilters.brands = []
       this.selectedFilters.years = []
       this.selectedFilters.prices = []
+      this.selectedFilters.gender = null
       this.$store.commit('browse/setSelectedBrands', [])
-      this.$store.commit('browse/setSelectedSizeTypes', [])
+      this.$store.commit('browse/setSelectedSizeType', null)
+      this.$store.commit('browse/setProductType', null)
+      this.$store.commit('browse/setGender', null)
       this.$store.commit('browse/setSelectedSort', null)
       this.$store.commit('browse/setSelectedOrdering', null)
       this.$store.commit('browse/setSelectedSearch', null)
       this.$store.commit('browse/setSizesByType', [])
       this.$store.commit('browse/setSelectedPrices', [])
       this.$store.commit('browse/setSelectedYears', [])
-      this.$store.commit('browse/setIsFilter',false)
+      this.$store.commit('browse/setIsFilter', false)
     },
     handleSortBySelect(option) {
       // Select SortBy option
-      if(option){
+      if (option) {
         this.selectedFilters = {
-        ...this.selectedFilters,
-        sortBy: option?.value,
-        orderBy:'sale_price'
-      }
-      }else{
+          ...this.selectedFilters,
+          sortBy: option?.value,
+          orderBy: 'sale_price',
+        }
+      } else {
         this.selectedFilters = {
-        ...this.selectedFilters,
-        sortBy: option?.value,
-        orderBy:''
+          ...this.selectedFilters,
+          sortBy: option?.value,
+          orderBy: '',
+        }
       }
-    
-    }
-  },
+    },
     searchProducts(searchKeyword) {
       if (searchKeyword) {
         this.selectedFilters.search = searchKeyword
@@ -413,7 +536,7 @@ export default {
       this.selectedPrices = value
       this.selectedFilters = {
         ...this.selectedFilters,
-        prices:value,
+        prices: value,
       }
     },
     // Update selected years and pass to parent component
@@ -421,12 +544,20 @@ export default {
       this.selectedYears = value
       this.selectedFilters = {
         ...this.selectedFilters,
-        years:value,
+        years: value,
       }
     },
     getSizeName(id) {
       const size = this.filters?.sizes?.find((s) => s.id === id)
-      return size.type + '-' + size.size
+      return size.size
+    },
+    getSizeType(id) {
+      const size = this.filters?.size_types?.find((s) => s.id === id)
+      return size && size.type
+    },
+    getProductType(id) {
+      const size = this.filters?.product_types?.find((p) => p.id === id)
+      return size && size.type
     },
   },
 }
@@ -445,7 +576,7 @@ export default {
     .btn-dropdown
       color: $color-black-1
       border-width: 0
-      background-color: $color-white-4
+      background-color: $color-white-19
       border-radius: 8px
       height: 44px
       width: 100%
@@ -496,9 +627,23 @@ export default {
     input[type="search"]
       border: 0
       width: calc(100% - 10px)
-      height: 26px
-      padding-left: 26px
-      padding-right: 10px
+      height: 30px
+      padding: 0px 0px 0px 40px
+      font-size: $font-size-14
+      font-weight: $normal
+      font-family: $font-sp-pro
+      outline: none
+      &::placeholder
+        color: $color-black-15
+      &::-webkit-search-cancel-button
+        -webkit-appearance: none
+        height: 0.9em
+        width: 0.9em
+        background: url(~assets/img/icons/close-gray.svg) no-repeat 50% 50%
+        background-size: contain
+        padding-right: 10px
+        cursor: pointer
+
     img
       position: absolute
       left: 10px

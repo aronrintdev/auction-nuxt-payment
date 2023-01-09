@@ -170,7 +170,7 @@ export const ALL_SETTINGS = {
         trade: {
             trade_offer: {
                 key: 'selling_trade_offer',
-                label: 'Placed Trade Offers',
+                label: 'Received Trade Offer',
                 desc: 'Get a notification when a new offer has been placed on your trade listing ',
                 desc_next: 'Will not be sent a notification unless ___ % of your Offer has been reached.',
                 data: {
@@ -199,7 +199,7 @@ export const ALL_SETTINGS = {
         auction: {
             new_bids: {
                 key: 'selling_new_bids',
-                label: 'Placed Bids',
+                label: 'Received Bid',
                 desc: 'Get a notification when you receive a new bid placed on your auction listing',
                 desc_next: 'Will not be sent a notification unless ___ % of your Reserve Price has been reached.',
                 data: {

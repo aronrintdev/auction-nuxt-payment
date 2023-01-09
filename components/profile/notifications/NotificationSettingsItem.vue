@@ -452,6 +452,7 @@ export default {
   @include body-8
   font-family: $font-family-sf-pro-display
   font-style: normal
+  font-weight: $medium
   color: $color-black-1
 
 .sub-title
@@ -497,8 +498,8 @@ export default {
 
     .custom-control-input:checked ~ .custom-control-label
       &:before
-        background-color: $color-green-16
-        border-color: $color-green-16
+        background-color: $color-grey-101
+        border-color: $color-grey-101
 
 .type-checkboxes::v-deep
   .custom-checkbox

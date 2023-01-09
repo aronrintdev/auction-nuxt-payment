@@ -192,7 +192,7 @@ export default {
       background: $color-white-5
 
     .offer-details-key
-      font-family: $font-sp-pro
+      font-family: $font-family-montserrat
       font-style: normal
       @include body-9-medium
       color: $color-black-1
