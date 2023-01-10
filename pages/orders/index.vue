@@ -10,11 +10,11 @@
       <div class="w-100 pt-20 order-md-2 order-2">
         <top-movers-carousel></top-movers-carousel>
       </div>
-      <div class="w-100 py-20 order-md-3 order-0">
-        <top-movers-filter></top-movers-filter>
+      <div class="w-100 py-20 order-md-3 order-0 mt-md-4">
+        <top-movers-filter @export="handleExportBtnClick"></top-movers-filter>
       </div>
       <div class="w-100 py-20 order-md-4 order-4">
-        <top-movers-list-component></top-movers-list-component>
+        <top-movers-list-component ref="list"></top-movers-list-component>
       </div>
     </div>
     <Portal to="page-title"> {{ $t('orders.orders') }}</Portal>
@@ -56,7 +56,10 @@ export default {
       'getVendorsOrders': 'vendors/getVendorOrders',
       'fetchCategories': 'vendors/fetchCategories',
       'fetchFilters': 'browse/fetchFilters'
-    })
+    }),
+    handleExportBtnClick(e){
+      this.$refs.list.handleExportBtnClick(e)
+    }
   }
 }
 </script>

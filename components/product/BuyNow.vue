@@ -54,6 +54,12 @@
         @show="wishListShow = true"
         @hidden="wishListShow = false"
       />
+      <WishListSuccessModal
+        ref="successModal"
+        :id="`wishlist-success-modal-${product.id}`"
+        :productName="product.name"
+        :listName="wishListName"
+      />
 
       <Button class="mt-3 color-gray h-46 d-none d-sm-block" block variant="dark" @click="$emit('add-to-cart')">
         {{ $t('products.add_to_cart') }}
@@ -66,12 +72,13 @@
 import { mapActions } from 'vuex'
 import Button from '~/components/common/Button'
 import AlternativePaymentTitle from '~/components/product/AlternativePaymentTitle'
-import WishListPopover from '~/components/wish-list/Popover.vue'
+import WishListPopover from '~/components/wish-list/WishListPopover.vue'
 import ShippingOptions from '~/components/product/ShippingOptions'
+import WishListSuccessModal from '~/components/modal/WishListSuccessModal'
 
 export default {
   name: 'BuyNowSection',
-  components: { Button, AlternativePaymentTitle, WishListPopover, ShippingOptions },
+  components: { Button, AlternativePaymentTitle, WishListPopover, ShippingOptions, WishListSuccessModal },
   props: {
     product: {
       type: Object,
@@ -85,6 +92,7 @@ export default {
   },
   data() {
     return {
+      wishListName: null,
       wishListShow: false,
       wishList:
         this.product.wish_lists && this.product.wish_lists.length > 0
@@ -116,6 +124,10 @@ export default {
         this.$set(this, 'wishList', wishList)
         this.wishListShow = false
         this.$emit('wishlisted', this.product, wishList)
+
+        // show success message
+        this.wishListName = wishList.name
+        this.$nextTick(() => this.$bvModal.show(`wishlist-success-modal-${this.product.id}`))
       }
     }
   }

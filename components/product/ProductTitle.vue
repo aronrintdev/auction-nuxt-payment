@@ -5,15 +5,21 @@
         <b-col md="12" class="d-flex align-items-center">
           <span class="title body-1-medium">{{ formattedProductName }}</span>
           <template v-if="showWishlist">
-            <b-img
-              :id="`popover-wishlist-${product.id}`"
-              :tooltip-text="wishList ? wishList.name : ''"
-              width="18"
-              :src="require('~/assets/img/product/heart-outline.svg')"
-              class="d-sm-none"
-              @click="removeFromWishList"
-            >
-            </b-img>
+              <b-img
+                v-if="!wishList"
+                @click="onMobileWishListOpenHandler"
+                width="18"
+                class="d-sm-none mx-1"
+                :src="require('~/assets/img/product/heart-outline.svg')"
+              />
+              <b-img
+                @click="removeFromWishList"
+                v-b-tooltip.hover.top="wishList ? wishList.name : ''"
+                class="d-sm-none mx-1"
+                v-else
+                width="18"
+                :src="require('~/assets/img/icons/heart-red.svg')"
+              />
             <ShareSVG
               :id="`popover-share-${product.id}`"
               class="ml-auto"
@@ -68,17 +74,49 @@
         :description="product.description"
       />
     </b-popover>
+
+    <!-- Mobile Wishlist Start -->
+    <vue-bottom-sheet
+      id="mobileWishlist"
+      ref="mobileWishlist"
+      max-width="100vw"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <WishListMobile
+        :product="product"
+        @close="closeMobileWishList"
+        @create="createNewWishlist"
+        @wishlisted="onWishListed"
+      />
+    </vue-bottom-sheet>
+    <!-- Mobile Wishlist End -->
+
+    <!-- Mobile Wishlist Create Start -->
+    <vue-bottom-sheet
+      class="create-list"
+      id="mobileCreateWishlist"
+      ref="mobileCreateWishlist"
+      max-width="100vw"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <CreateWatchListMobile :product="product" @close="closeMobileCreateWishList"  @wishlisted="onWishListed" />
+    </vue-bottom-sheet>
+    <!-- Mobile Wishlist Create End -->
   </b-row>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import ShareSVG from '~/assets/img/icons/share.svg?inline'
 import WishListPopover from '~/components/wish-list/Popover.vue'
 import ShareButton from '~/components/common/ShareButton'
+import WishListMobile from '~/components/modal/WishListMobile'
+import CreateWatchListMobile from '~/components/modal/CreateWatchListMobile'
 
 export default {
   name: 'ProductBreadcrumb',
-  components: { ShareSVG, WishListPopover, ShareButton },
+  components: {CreateWatchListMobile, WishListMobile, ShareSVG, WishListPopover, ShareButton },
   props: {
     productName: {
       type: String,
@@ -117,6 +155,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      wishLists: 'wish-list/getWishLists',
+    }),
     formattedProductName(vm) {
       return vm.productName.substr(0, 32)
     },
@@ -155,6 +196,42 @@ export default {
         this.wishListShow = false
         this.$emit('wishlisted', this.product, wishList)
       }
+    },
+    onMobileWishListOpenHandler() {
+      // if wishlist count = 0 open create new form
+      if(!this.wishLists.length) {
+        this.openMobileCreateWishList()
+      } else {
+        this.openMobileWishList()
+      }
+    },
+    openMobileWishList() {
+      const { mobileWishlist } = this.$refs
+      if (mobileWishlist) {
+        mobileWishlist.open()
+      }
+    },
+    closeMobileWishList() {
+      const { mobileWishlist } = this.$refs
+      if (mobileWishlist) {
+        mobileWishlist.close()
+      }
+    },
+    openMobileCreateWishList() {
+      const { mobileCreateWishlist } = this.$refs
+      if (mobileCreateWishlist) {
+        mobileCreateWishlist.open()
+      }
+    },
+    closeMobileCreateWishList() {
+      const { mobileCreateWishlist } = this.$refs
+      if (mobileCreateWishlist) {
+        mobileCreateWishlist.close()
+      }
+    },
+    createNewWishlist() {
+      this.closeMobileWishList();
+      this.openMobileCreateWishList()
     }
   },
 }
@@ -218,4 +295,9 @@ export default {
 
       &.link-share-btn
         margin-right: 0
+
+::v-deep.create-list
+  .bottom-sheet__content
+    overflow-y: hidden
+
 </style>

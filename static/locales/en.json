@@ -2171,7 +2171,8 @@
       "price_high_first": "Price: High to Low",
       "most_viewed": "Most Viewed",
       "best_sellers": "Best Sellers"
-    }
+    },
+    "no_more_results":"No more result found"
   },
   "wish_lists": {
     "create_new_list": "Create a New List",
@@ -2180,7 +2181,7 @@
     "all_lists_are_private": "All lists are private unless you share them with others",
     "create_list_helper": "Save items onto wishlists.",
     "create_list": "Create List",
-    "enter_name": "Entet Name",
+    "enter_name": "Enter Name",
     "move_items": "Move Items",
     "move": "Move",
     "remove_items": "Remove Items",
@@ -2213,10 +2214,12 @@
     },
     "list_has_been_created": "{list} has been created",
     "one_item_added": "One item added to {list}",
+    "item_added_success": "{item} has been added to {list}",
     "view_list": "View List",
     "continue_shopping": "Continue Shopping",
     "products_removed_from_wishlist": "{n} product has been removed from wishlist | {n} products have been removed from wishlist",
-    "products_moved": "{n} product moved to `{wishlist}` | {n} products moved to `{wishlist}`"
+    "products_moved": "{n} product moved to `{wishlist}` | {n} products moved to `{wishlist}`",
+    "add_to_wishlist": "Add to Wishlist"
   },
   "watchlists": {
     "create_new_list": "Create a New List",
@@ -4578,6 +4581,7 @@
     "enter_year": "Enter Year",
     "select_color": "Select Color",
     "back_to_createlisting": "Back To Create a Listing",
+    "search_for_the_items": "Search for the item(s) you’d like to list",
     "listing_drafts": "Listing Drafts",
     "search_draft": "Search Draft by SKU, Product Name or Brand",
     "last_updated": "Last Updated",
@@ -6826,7 +6830,7 @@
     "shop_with": "Shop With",
     "deadstock": "deadstock",
     "years": "Years",
-    "new_release": "New Release",
+    "new_release": "New Releases",
     "view_more_release": "View More Releases",
     "view_more_trending": "View More Trending"
   },

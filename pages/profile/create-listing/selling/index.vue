@@ -4,22 +4,18 @@
       
       <!-- Header -->
       <b-row class="mb-bb h-100">
+        <!-- Search heading -->
+        <b-col md="12" class="vd-create-listing-css pl-1">
+          <div class="create-listing-heading">{{ $t('auction.create_listing') }}</div>
+        </b-col>
+        <!-- Search heading -->
         <!-- Back to create listing -->
         <b-col md="12" class="back-to-createlisting">
-          <span role="button" @click="backToCreateListing">
-            <img
-              :src="require('~/assets/img/icons/back.svg')"
-              class="img-fluid"
-            />
-            {{ $t('createlisting.back_to_createlisting') }}
+          <span>
+            {{ $t('createlisting.search_for_the_items') }}
           </span>
         </b-col>
         <!-- Back to create listing -->
-        <!-- Search heading -->
-        <b-col md="12" class="vd-create-listing-css">
-          <div class="purchase-heading">{{ $t('common.search') }}</div>
-        </b-col>
-        <!-- Search heading -->
       </b-row>
       <!-- Header ends -->
 
@@ -32,7 +28,7 @@
           <h1
             class="heading-mobile d-flex align-items-center"
           >
-            {{ $t('home.create_listing') }}
+            {{ $t('auction.create_listing') }}
           </h1>
         </div>
       </div>
@@ -98,10 +94,20 @@
         <!-- Search Input Field ends -->
 
         <!-- Create new Inventory button -->
-        <b-col md="4" sm="6" class="mt-md-4 mt-2 text-center">
-          <Button variant="info" pill @click="moveToInventory">{{
-            $t('createlisting.create_new_inventory')
-          }}</Button>
+        <b-col md="4" sm="6" class="mt-md-4 mt-2 text-center pl-4">
+          <Button
+            class="flex-shrink-0 btn-file pl-3 pr-4"
+            @click="handleUploadCSVClick"
+            variant="dark"
+          >
+            <b-img
+              :src="require('~/assets/img/bx_upload.svg')"
+               class="mr-2"
+            />
+            <span class="">
+              {{ $t('inventory.upload_csv_bulk_file') }}
+            </span>
+          </Button>
         </b-col>
         <!-- Create new inventory button ends. -->
       </div>
@@ -150,7 +156,7 @@
               />
             </b-col>
             <b-col id="apply-filter-col" md="1" sm="6" class="mt-2 float-left">
-              <Button variant="info" class="float-left w-100" @click="filterInventories">
+              <Button variant="dark-blue" class="float-left w-100" @click="filterInventories">
                 {{ $tc('common.filter', 1) }}
               </Button>
             </b-col>
@@ -378,7 +384,11 @@
       <!-- ./Clarification Screen -->
       <!-- Modal Popup for full screen view ends -->
 
-
+    <InventoryCsvUploadModal
+      id="csv-upload-modal"
+      :message="$t('inventory.message.csv_upload')"
+      @uploaded="onCsvUploaded"
+    />
     </b-container>
   </div>
 </template>
@@ -391,6 +401,7 @@ import MobileFilter from '~/components/profile/create-listing/selling/MobileFilt
 import {
   ListingItemProductSuggestion,
   ClarificationScreen,
+  InventoryCsvUploadModal,
 } from '~/components/modal'
 import {
   SearchInput,
@@ -424,6 +435,7 @@ export default {
     InventoryCount,
     MobileResult,
     ThumbMobile,
+    InventoryCsvUploadModal,
   },
 
   mixins: [screenSize],
@@ -489,17 +501,14 @@ export default {
       addReferrer: 'inventory/addReferrer',
       showProductDetails: 'create-listing/showProductDetails'
     }),
-    backToCreateListing() {
-      this.$router.push({
-        path: '/profile/create-listing',
-      })
-    },
     // On filter inventory click
     filterInventories() {
       this.showResult = true
       this.getInventories()
     },
-
+    handleUploadCSVClick() {
+      this.$bvModal.show('csv-upload-modal')
+    },
     // Get the size, size_type filter
     async getSizeFilters() {
       await this.$axios
@@ -914,4 +923,16 @@ export default {
     left: 0px
     right: 0px
     margin-bottom: 98px
+.btn-file
+  @include body-4-medium
+  font-family: $font-sp-pro
+  background: $color-black-1
+  color: $color-white-1
+  padding: 10px 25px 10px 25px
+  border-radius: 4px
+  border: 0
+.create-listing-heading
+  font-family: $font-family-sf-pro-display
+  font-size: $font-size-28
+  font-weight: $bold
 </style>

@@ -13,14 +13,13 @@
     </div>
 
     <div v-show="menuVisible" class="position-absolute m-0 w-100 accordion-filter-body">
-      <slot name="firstRow"></slot>
       <div class="mr-2">
         <div v-for="(item, index) in options" :key="index" class="form-check">
           <input
             :id="`${title}-flexCheckDefault-${index}`"
-            :checked="value && value.includes(item.value)"
+            :checked="value == item.value"
             class="form-check-input"
-            type="checkbox"
+            type="radio"
             @click="updateFilter(item.value)"
           />
           <label
@@ -39,7 +38,7 @@
 import ClickOutside from 'vue-click-outside'
 
 export default {
-  name: 'MultiSelectDropdown',
+  name: 'SingleSelectDropdown',
   directives: {
     ClickOutside
   },
@@ -53,8 +52,8 @@ export default {
       default: () => [],
     },
     value: {
-      type: Array,
-      default: () => [],
+      type: [Number, String],
+      default: '',
     },
     width: {
       type: [Number, String],
@@ -67,7 +66,7 @@ export default {
     }
   },
   mounted() {
-    if (this.value && this.value.length > 0) {
+    if (this.value) {
       this.$root.$emit('bv::toggle::collapse', `collapse-${this.collapseKey}`)
     }
   },
@@ -78,17 +77,7 @@ export default {
     },
 
     updateFilter(value) {
-      if (this.value?.includes(value)) {
-        this.$emit('input', this.removeItem(this.value, value))
-      } else if (this.value) {
-        this.$emit('input', [...this.value, value])
-      } else {
-        this.$emit('input', [value])
-      }
-    },
-
-    removeItem(arr, value) {
-      return arr?.filter((i) => i !== value)
+        this.$emit('input',value)
     },
 
     hideMenu() {
@@ -173,7 +162,7 @@ export default {
       margin-bottom: 7px
 
       & > *
-        cursor: pointer !important
+        cursor: pointer
 
       .form-check-input
         border: none
@@ -208,12 +197,10 @@ export default {
         width: 100%
 
   ::-webkit-scrollbar
-    width: 6px !important
-
+    width: 6px
   ::-webkit-scrollbar-thumb
-    background-color: $color-blue-20
-    border: none !important
-
+    background-color:  $color-blue-20
+    border: none
   ::-webkit-scrollbar-track
     background-color: $color-gray-3
 </style>

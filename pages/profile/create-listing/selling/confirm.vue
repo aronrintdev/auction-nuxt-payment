@@ -199,13 +199,12 @@
         >
           <Button
             to="/profile/create-listing/selling"
-            variant="outline-primary"
-            pill
+            variant="outline-dark-blue"
             ><span>{{ $t('createlisting.add_another_listing') }}</span></Button
           >
         </b-col>
         <b-col sm="12" lg="4" md="4" class="text-center mt-md-2 mt-2">
-          <Button variant="info" pill @click="saveasDraft">
+          <Button variant="dark-blue" @click="saveasDraft">
             <span>{{ $t('createlisting.save_as_draft') }}</span></Button
           >
         </b-col>
@@ -218,7 +217,6 @@
           <Button
             v-show="showPostListing"
             variant="dark"
-            pill
             type="button"
             @click="postListings"
           >
@@ -232,11 +230,11 @@
         class="mt-4 d-flex justify-content-center confirm-text"
       >
         <span v-if="showPostListing" class="text-center"
-          ><span class="text-bold">{{
+          ><span>{{
             $t('createlisting.on_post_listing_click')
           }}</span
           ><br />
-          <span v-if="showPostListing" class="text-bold">{{
+          <span v-if="showPostListing">{{
             $t('createlisting.no_auth_fee')
           }}</span></span
         >
@@ -656,18 +654,18 @@ export default {
         font-size: 16px
 
       .title
-        @include body-5-bold
+        @include body-10
+        font-style: normal
         color: $color-black-1
         font-family: $font-family-sf-pro-display
-        font-weight: $medium
-        font-size: 15px
+        font-weight: $normal
 
       .info
-        @include body-5-normal
+        @include body-10
         color: $color-gray-6
         font-family: $font-family-sf-pro-display
-        font-weight: $medium
-        font-size: 13px
+        font-weight: $normal
+        font-style: normal
 
       td
         .btn-copy
