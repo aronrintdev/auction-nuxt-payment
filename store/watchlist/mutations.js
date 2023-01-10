@@ -29,3 +29,8 @@ export function setSingleAuctionItems(state, watchlists) {
 export function setCollectionAuctionItems(state, watchlists) {
   state.collectionAuctionItems = watchlists
 }
+
+export function renameList(state, { watchlist, name }) {
+  const found = state.watchlists.find((list) => list.id === watchlist.id)
+  if (found) found.name = name
+}

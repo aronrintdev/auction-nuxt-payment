@@ -36,9 +36,13 @@
     <Portal to="back-icon-slot">
       <nuxt-link to="/profile/watchlist">
         <img src="~/assets/img/icons/back.svg" />
-      </nuxt-link> </Portal
-    ><Portal to="page-title">
-      {{ currentWatchList ? currentWatchList.name : 'Watchlist' }}
+      </nuxt-link>
+    </Portal>
+    <Portal to="page-title">
+      <div class="d-flex align-items-center">
+        <span class="pl-2">{{ currentWatchList ? currentWatchList.name : 'Watchlist' }}</span>
+        <img class="ml-2" src="~/assets/img/icons/three-dots.svg" @click="openMenu" />
+      </div>
     </Portal>
     <Portal to="notification-icon-slot">
       <div :id="`popover-share-watchlist`">
@@ -70,21 +74,64 @@
       <ProductCarousel class="mt-4 mb-5" :products="products" loop />
     </div>
     <CreateWatchListModal />
+    <vue-bottom-sheet v-if="currentWatchList" ref="mobileMenu">
+      <div class="mobile-menu-title">{{ isRenameMode ? $t('watchlists.rename') : currentWatchList.name }}</div>
+      <div v-if="!isRenameMode" class="mobile-menu-content">
+        <div class="d-flex align-items-center justify-content-between mobile-menu-item">
+          <div class="mobile-menu-label">{{ $t('sell.inventory.table_columns.status') }}</div>
+          <CheckboxSwitch
+            class="justify-content-end"
+            :value="currentWatchList.privacy === WATCHLIST_PRIVACY_PUBLIC"
+            :label-on="$t('common.public')"
+            :label-off="$t('common.private')"
+            @change="togglePrivacy"
+          />
+        </div>
+        <div class="d-flex align-items-center justify-content-between mobile-menu-item" @click="isRenameMode=true">
+          <div class="mobile-menu-label">{{ $t('watchlists.rename') }}</div>
+          <svg class="right-arrow" width="20" height="22" viewBox="0 0 20 22">
+            <path d="M6 16.5008L11 11.0008L6 5.50078L7 3.30078L14 11.0008L7 18.7008L6 16.5008Z" fill="black"/>
+          </svg>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mobile-menu-item" @click="deleteList">
+          <div class="mobile-menu-label">{{ $t('watchlists.delete') }}</div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mobile-menu-item" @click="$refs.mobileMenu.close()">
+          <div class="mobile-menu-label">{{ $t('common.cancel') }}</div>
+        </div>
+      </div>
+      <div v-else class="mobile-menu-content">
+        <div class="w-75 mx-auto pt-3"><input v-model="listName" class="w-100 p-2" /></div>
+        <div class="mt-4 mb-3 d-flex justify-content-center">
+          <b-button class="mx-3 confirm-btn" pill @click="confirmRename">{{ $t('common.ok') }}</b-button>
+          <b-button class="mx-3 cancel-btn" variant="outline-dark" pill @click="isRenameMode=false">{{ $t('common.cancel') }}</b-button>
+        </div>
+      </div>
+    </vue-bottom-sheet>
+    <vue-bottom-sheet ref="deleteListSheet">
+      <div class="modal-text mx-auto w-75 mb-3 text-center">{{ $t('watchlists.delete_list_modal_text') }}</div>
+      <div class="mt-4 mb-4 d-flex justify-content-center">
+        <b-button class="mx-3 confirm-btn" pill @click="confirmDelete">{{ $t('common.ok') }}</b-button>
+        <b-button class="mx-3 cancel-btn" variant="outline-dark" pill @click="$refs.deleteListSheet.close()">{{ $t('common.cancel') }}</b-button>
+      </div>
+    </vue-bottom-sheet>
   </b-container>
 </template>
 <script>
 import { mapActions } from 'vuex'
 import CreateWatchListModal from '~/components/modal/CreateWatchlist'
 import ShareIcon from '~/assets/icons/ShareIcon'
-import ShareButton from '~/components/common/ShareButton.vue'
-import Button from '~/components/common/Button.vue'
-import NavGroup from '~/components/common/NavGroup.vue'
+import { CheckboxSwitch, NavGroup, Button, ShareButton } from '~/components/common'
 import WatchlistAuctionCard from '~/components/watchlist/AuctionCard'
-import { WATCHLIST_TYPE_AUCTION } from '~/static/constants'
+import {
+  WATCHLIST_TYPE_AUCTION,
+  WATCHLIST_PRIVACY_PUBLIC,
+  WATCHLIST_PRIVACY_PRIVATE,
+} from '~/static/constants'
 
 export default {
   name: 'WatchListsId',
-  components: { CreateWatchListModal, ShareIcon, ShareButton, Button, NavGroup, WatchlistAuctionCard  },
+  components: { CreateWatchListModal, ShareIcon, ShareButton, Button, NavGroup, WatchlistAuctionCard, CheckboxSwitch },
   layout: 'IndexLayout',
   data() {
     return {
@@ -135,6 +182,9 @@ export default {
       removed: [],
       moved: [],
       movedWatchlist: null,
+      WATCHLIST_PRIVACY_PUBLIC,
+      isRenameMode: false,
+      listName: null,
     }
   },
 
@@ -144,8 +194,10 @@ export default {
       this.currentWatchList = await this.findWatchList({
         id: this.$route.params.id,
       })
+      this.listName = this.currentWatchList.name
     }
     if (this.currentWatchList) {
+      this.listName = this.currentWatchList.name
       await this.getWatchListItems()
     }
     await this.getProducts()
@@ -168,6 +220,9 @@ export default {
       fetchWatchListItems: 'watchlist/fetchWatchlistItems',
       searchProducts: 'product/searchProducts',
       suggestProduct: 'product/suggestProduct',
+      updateWatchlistPrivacy: 'watchlist/updateWatchlistPrivacy',
+      renameWatchlist: 'watchlist/renameList',
+      removeWatchlist: 'watchlist/removeWatchlist',
     }),
     async getProducts(value) {
       const productRes = await this.searchProducts({ search: value })
@@ -303,13 +358,36 @@ export default {
         )
       }
     },
+    openMenu(event) {
+      event.preventDefault()
+      this.$refs.mobileMenu.open()
+      return false
+    },
+    // Update privacy of current watchlist
+    togglePrivacy(privacy) {
+      this.updateWatchlistPrivacy({
+        watchlist: this.currentWatchList,
+        privacy: privacy ? WATCHLIST_PRIVACY_PUBLIC : WATCHLIST_PRIVACY_PRIVATE,
+      })
+    },
+    deleteList() {
+      this.$refs.deleteListSheet.open()
+    },
+    confirmDelete() {
+      this.removeWatchlist({ watchlist: this.currentWatchList })
+      this.$router.push('/profile/watchlist')
+    },
+    confirmRename() {
+      this.renameWatchlist({ watchlist: this.currentWatchList, name: this.listName })
+      this.isRenameMode = false
+    }
   },
 }
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .watchlist-mobile
-  width: 100%
+  width: auto
   clear: both
 .thumb-wrapper
   width: 164px
@@ -323,4 +401,74 @@ export default {
     stroke: $color-gray-47
   .fillColor
     fill: $color-gray-47
+.mobile-menu
+  
+  &-title 
+    font-family: $font-sp-pro
+    font-weight: $bold
+    @include body-34
+    letter-spacing: -0.02em
+    color: $black
+    padding: 0 19px 20px
+    border-bottom: 0.5px solid $color-gray-47
+  &-item
+    height: 53px
+    padding: 0 19px
+    border-bottom: 0.5px solid $color-gray-47
+    .right-arrow
+      transform: translateX(30%)
+  &-content
+    input
+      border-radius: 5px
+      border: 1px solid $black
+  &-label 
+    font-family: $font-sp-pro
+    font-weight: $normal
+    @include body-34
+    letter-spacing: -0.02em
+    color: $black
+
+::v-deep .checkbox-switch
+  line-height: 32px
+  margin-top: -3px
+  span[role='button']
+    font-family: $font-montserrat
+    @include body-5
+    margin-top: 5px
+    font-weight: $bold
+    letter-spacing: -0.02em
+
+  .custom-switch
+    height: 31px
+    margin-right: 20px
+    .custom-control-label::before
+      background-color: rgba(120, 120, 128, 0)
+      border: none
+      height: 31px
+      width: 51px
+      border-radius: 16px
+      box-shadow: none
+      background-image: url('~/assets/img/profile/wishlist/toggle-bg.svg')
+      background-repeat: no-repeat
+
+    .custom-control-label::after
+      background: $color-white
+      border: 0.5px solid rgba(0, 0, 0, 0.04)
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06)
+      width: 27px
+      height: 27px
+      border-radius: 100%
+
+    .custom-control-input:checked ~ .custom-control-label::after
+      transform: translateX(1.27rem)
+    .custom-control-input:checked ~ .custom-control-label::before
+      background-color: $color-green-16
+.modal-text
+  font-weight: $medium
+  @include body-4
+.confirm-btn
+  background: $color-blue-20
+  width: 160px
+.cancel-btn
+  width: 160px
 </style>

@@ -3,14 +3,14 @@
     <div class="d-none d-sm-flex justify-content-between align-items-start header">
       <div v-if="!!currentWatchlist" class="title">
         <h2 class="text-truncate mw-800px watch-list-name">{{ currentWatchlist.name }}</h2>
-        <span class="watch-list-counter">({{ totalCount }} {{ $t('common.items') }})</span>
+        <div class="watch-list-counter">({{ totalCount }} {{ $t('common.items') }})</div>
       </div>
       <div v-else>&nbsp;</div>
 
       <div class="py-1 d-flex align-items-center">
         <span
           role="button"
-          class="mx-5 watchlists-type"
+          class="watchlists-type"
           :class="{ active: watchlistsType === WATCHLIST_TYPE_TRADE }"
           @click="changeListType(WATCHLIST_TYPE_TRADE)"
         >
@@ -18,7 +18,7 @@
         </span>
         <span
           role="button"
-          class="text-underline mx-5 watchlists-type"
+          class="text-underline watchlists-type"
           :class="{ active: watchlistsType === WATCHLIST_TYPE_AUCTION }"
           @click="changeListType(WATCHLIST_TYPE_AUCTION)"
         >
@@ -91,10 +91,10 @@
                   <Thumb :src="list.image" />
                 </div>
                 <div
-                  class="w-100 d-flex flex-column justify-content-between ml-3"
+                  class="w-100 d-flex flex-column justify-content-between ml-3 watchlist-details"
                 >
                   <div class="d-flex justify-content-between">
-                    <div>
+                    <div class="w-100">
                       <h4 class="fs-14 fw-6 font-secondary mb-1">
                         {{ list.name }}
                       </h4>
@@ -144,7 +144,7 @@
 
         <div
           v-if="!!currentWatchlist && watchlistsType === WATCHLIST_TYPE_AUCTION"
-          class="section-items mt-4 col-12 col-sm-9 d-none d-sm-block"
+          class="section-items col-12 col-sm-9 d-none d-sm-block"
         >
           <div class="accordion" role="tablist">
             <AuctionItems
@@ -154,6 +154,9 @@
               :auctionsCount="singleAuctionsCount"
               accordionId="accordion-1"
             />
+            <div class="title">
+              <h2 class="text-truncate mw-800px watch-list-name">{{ currentWatchlist.name }}</h2>
+            </div>
             <hr />
             <AuctionItems
               :key="currentWatchlist.id"
@@ -311,16 +314,24 @@ export default {
 .wishlist-mobile
   .thumb-wrapper
     width: 164px
+  .watchlist-details
+    max-width: calc(100% - 180px)
+    h4
+      overflow-wrap: break-word
 .container-watchlists
   background: $white
   .section-lists
     max-width: 250px
-    margin-right: 20px
+    padding-top: 100px
+    margin: 0
+    background: $white
+    position: relative
+    z-index: 10
     btn
       font-size: 16px
       font-weight: $medium
     h5
-      padding-left: 10px
+      padding-left: 12px
       font-family: $font-montserrat
       font-weight: $bold
       font-style: $normal
@@ -334,8 +345,10 @@ export default {
     .watch-list-name
       font-family: $font-montserrat
       font-style: $normal
-      font-weight: $bold
-      @include text-24
+      @include heading-1
+      text-transform: capitalize
+      color: $black
+      margin-bottom: 9px
     .watch-list-counter
       font-family: $font-montserrat
       font-style: $normal
@@ -354,7 +367,7 @@ export default {
     @include body-5
     margin-top: 7px
     font-weight: $bold
-    font-style: $normal
+    letter-spacing: -0.02em
 
   .custom-switch
     height: 31px

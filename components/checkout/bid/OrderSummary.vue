@@ -13,7 +13,7 @@
       </b-col>
     </b-row>
     <OrderSummaryCard
-      class="mt-2"
+      class="bid-checkout-summary"
       :items="getItems"
       :promo-code="promoCode"
       :promoCodeDiscount="getDiscount"
@@ -22,7 +22,7 @@
     <!-- End of Shopping Cart Order Summary Card -->
 
     <!-- Shopping Cart Billing Address -->
-    <b-row v-if="billingAddress" :class="{ 'mt-3': !promoCode }">
+    <b-row v-if="billingAddress">
       <b-col md="12">
         <div class="body-4-medium">
           {{ $t('shopping_cart.billing_address') }}&colon;
@@ -31,7 +31,7 @@
     </b-row>
     <AddressCard
       v-if="billingAddress"
-      class="mt-2"
+      class="mt-2 address"
       editable
       :full-name="getBillingFullName"
       :full-address="getBillingAddress"
@@ -49,7 +49,7 @@
     </b-row>
     <AddressCard
       v-if="shippingAddress"
-      class="mt-2"
+      class="mt-2 address"
       editable
       :full-name="getShippingFullName"
       :full-address="getShippingAddress"
@@ -208,6 +208,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import emitEvent from '~/plugins/mixins/emit-event'
+import bidSummaryMixin from '~/plugins/mixins/bid-summary'
 import OrderTitle from '~/components/checkout/common/OrderTitle'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
 import AddressCard from '~/components/checkout/common/AddressCard'
@@ -219,8 +220,6 @@ import {
   PAYMENT_METHOD_TYPE_INSTALLMENT,
   BAD_REQUEST,
   NOT_FOUND,
-  FIXED_PRODUCT,
-  PERCENT,
 } from '~/static/constants'
 import CheckmarkIcon from '~/assets/img/icons/checkmark.svg?inline'
 import CloseIcon from '~/assets/img/icons/close.svg?inline'
@@ -237,7 +236,7 @@ export default {
     CheckmarkIcon,
     CloseIcon,
   },
-  mixins: [ emitEvent ],
+  mixins: [ emitEvent, bidSummaryMixin ],
   data() {
     return {
       loading: false,
@@ -268,94 +267,6 @@ export default {
       processingFee: 'order-settings/getProcessingFee',
       taxRate: 'tax-rate/getTaxRate',
     }),
-    shoppingCart: (vm) => {
-      return vm.auction ? [vm.auction] : []
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getBillingFullName: (vm) => {
-      return `${vm.billingAddress.firstName} ${vm.billingAddress.lastName}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getBillingAddress: (vm) => {
-      return `${vm.billingAddress.addressLine}, ${vm.billingAddress.city}, ${vm.billingAddress.country}, ${vm.billingAddress.zipCode}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingFullName: (vm) => {
-      return `${vm.shippingAddress.firstName} ${vm.shippingAddress.lastName}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingAddress: (vm) => {
-      return `${vm.shippingAddress.addressLine}, ${vm.shippingAddress.city}, ${vm.shippingAddress.country}, ${vm.shippingAddress.zipCode}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getSubtotal: (vm) => {
-      return vm.shoppingCart[0].bid_price || 0
-    },
-    getPromoDiscount: (vm) => {
-      let discount = 0
-
-      if (vm.promoCode.code) {
-        switch (vm.promoCode.type) {
-          case FIXED_PRODUCT: {
-            const items = vm.auction.auction_items.filter((item) => {
-              return item.inventory.product.sku === vm.promoCode.sku
-            })
-
-            if (items) {
-              const totalQuantity = items.length
-
-              discount += totalQuantity * vm.promoCode.amount * 100
-            }
-
-            break;
-          }
-          case PERCENT: {
-            discount += vm.getSubtotal * (vm.promoCode.amount / 100)
-
-            break;
-          }
-          default:
-            discount += vm.promoCode.amount * 100
-        }
-      }
-
-      return discount
-    },
-    getTotalQuantity: (vm) => {
-      return vm.auction.auction_items ? vm.auction.auction_items.length : 0
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingFee: (vm) => {
-      return vm.shippingFee * vm.getTotalQuantity
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getProcessingFee: (vm) => {
-      return Math.trunc(vm.processingFee * vm.getSubtotal)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getTax: (vm) => {
-      return Math.trunc(vm.taxRate * (vm.getSubtotal - vm.getDiscount))
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getTotal: (vm) => {
-      const total = vm.getShippingFee + vm.getProcessingFee + vm.getTax + vm.getSubtotal - vm.getDiscount
-      return total
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getDiscount: (vm) => {
-      return vm.getPromoDiscount
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getItems: (vm) => {
-      const items = []
-
-      items.push({ label: vm.$t('shopping_cart.subtotal'), value: vm.getSubtotal })
-      items.push({ label: vm.$t('shopping_cart.shipping_fee'), value: vm.getShippingFee })
-      items.push({ label: vm.$t('shopping_cart.processing_fee'), value: vm.getProcessingFee })
-      items.push({ label: vm.$t('shopping_cart.tax'), value: vm.getTax })
-
-      return items
-    }
   },
   mounted() {
     this.getTaxRateByZip({ zip: this.billingAddress.zipCode })
@@ -482,9 +393,14 @@ export default {
   .btn.btn-link.custom-link
     @include body-10
 
+  .bid-checkout-summary
+    margin-top: 8px
+    margin-bottom: 52px
+  .address
+    margin-bottom: 29px
   .summary-wrapper
     .body-5-regular
-      font-family: $font-montserrat
+      font-family: $font-sp-pro
     div.custom-card.card
       border-radius: 10px
       & > .card-body
@@ -511,6 +427,25 @@ export default {
     font-weight: $medium
     @include body-4b
     color: $white
+  .custom-control
+    margin-top: 10px
+    padding-left: 3rem
+  .custom-checkbox .custom-control-label::before
+    background: transparent
+    box-shadow: none
+    width: 18px
+    height: 18px
+    border: 1px solid $color-gray-60
+    border-radius: 4px
+  .custom-checkbox .custom-control-input:checked~.custom-control-label::after
+    background-image: url('~/assets/img/shopping-cart/check-white.svg')
+    background-size: 12px 12px
+    background-color: $black
+    border: none
+    width: 18px
+    height: 18px
+    border-radius: 4px
+    outline: none
 
   @media (max-width: 576px)
     .summary-wrapper

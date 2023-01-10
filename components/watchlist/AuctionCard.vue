@@ -17,7 +17,7 @@
       </div>
       <div
         v-else-if="isScheduled"
-        class="d-inline-flex align-items-center remaining-time"
+        class="d-inline-flex align-items-center remaining-time danger-bg text-white"
       >
         <CalendarIcon />
         <div class="text-capitalize">{{ auction.scheduled_date | diffForHumans }}</div>
@@ -31,7 +31,7 @@
       </div>
       <div
         v-else-if="auction.remaining_hours >= 24"
-        class="d-inline-flex align-items-center remaining-time"
+        class="d-inline-flex align-items-center remaining-time danger-bg text-white"
       >
         <ClockBackSvg />
         <div class="text-capitalize">{{ auction.remaining_time }}</div>
@@ -42,8 +42,8 @@
           <ProductThumb :product="auction.auction_items[0].inventory.product" overlay />
         </div>
         <div v-if="auction.type === AUCTION_TYPE_COLLECTION" class="d-flex justify-content-center collection-product-imgs">
-          <div v-for="item in auction.auction_items.slice(0, 2)" :key="item.id" class="collection-product-img">
-            <ProductThumb :product="item.inventory.product" overlay />
+          <div v-for="it in auction.auction_items.slice(0, 2)" :key="it.id" class="collection-product-img">
+            <ProductThumb :product="it.inventory.product" overlay />
           </div>
           <div v-if="auction.auction_items.length > 2" class="collection-product-img">
             <ProductThumb :product="auction.auction_items[2].inventory.product" overlay />
@@ -52,27 +52,27 @@
         </div>
       </div>
     </div>
-    <div class="mt-3">
+    <div class="auct-card-details">
       <div v-if="auction.type === AUCTION_TYPE_SINGLE">
-        <h5 class="auct-card-title mb-1">{{ auction.auction_items[0].inventory.product.name }}</h5>
-        <div class="auct-card-text mb-1">
+        <h5 class="auct-card-title">{{ auction.auction_items[0].inventory.product.name }}</h5>
+        <div class="auct-card-text">
           <span class="auct-card-text-colorway">{{ auction.auction_items[0].inventory.color }},&nbsp;</span>
           <span class="auct-card-text-size">{{ `${$t('auctions.frontpage.size')} ${auction.auction_items[0].inventory.size.size}` }}</span>
         </div>
       </div>
       <div v-else>
-        <h5 class="auct-card-title mb-1 text-capitalize">{{ auction.name }}</h5>
-        <div class="auct-card-text mb-1">
+        <h5 class="auct-card-title text-capitalize">{{ auction.name }}</h5>
+        <div class="auct-card-text">
           <span v-for="(cat, idx) in auction.categories" :key="cat" class="auct-card-text-colorway">
             <span v-if="idx !== 0">&nbsp;&amp;&nbsp;</span>
             {{ $t(`common.categories.${cat}`) }}
           </span>
         </div>
       </div>
-      <div class="d-flex justify-content-between align-items-end">
+      <div class="d-flex justify-content-between align-items-center align-items-md-end">
         <div class="auct-card-price">${{ auction.highest_bid / 100 || auction.start_bid_price / 100 }}</div>
         <nuxt-link :to="`/auction/${auction.id}`">
-          <button class="w-100 btn bid-now-btn text-nowrap">{{ isScheduled || isSold || isExpired ? $t('common.view') : $tc('common.bid', 1) }}</button>
+          <button class="btn bid-now-btn text-nowrap">{{ isScheduled || isSold || isExpired ? $t('common.view') : $tc('common.bid', 1) }}</button>
         </nuxt-link>
       </div>
     </div>
@@ -138,12 +138,14 @@ export default {
 @import '~/assets/css/_variables'
 
 .item
-  padding: 0 16px
+  padding: 0
+  width: 213px
   @media (min-width: 1600px)
     flex: 0 0 25%
     max-width: 25%
 
 .auct-card
+  height: 240px
   .remaining-time
     background: $dark-gray-8
     padding: 4px 8px 4px 6px
@@ -164,6 +166,12 @@ export default {
     background: #DD5E5E
   &-text
     font-weight: $normal
+  &-details
+    padding: 15px 6px 0 10px
+  &-title 
+    margin-bottom: 3px
+  &-text
+    margin-bottom: 7px
 ::v-deep
   .thumb-wrapper
     .overlay
@@ -179,18 +187,24 @@ export default {
     padding: 0 8px
     max-width: 50%
     float: left
-  .auct-card
-    .remaining-time
-      padding: 4px 8px 4px 6px
-      min-width: 70px
-      min-height: 25px
-      svg
-        margin-right: 10px
-        width: 15px
-        height: 15px
-        path
-          stroke: currentColor
-      div
-        font-size: 10px
-        line-height: 11px
+    .auct-card
+      &-details
+        padding: 8px 0 0 5px
+      &-title
+        margin-bottom: 1px
+      &-text
+        margin-bottom: 1px
+      .remaining-time
+        padding: 4px 8px 4px 6px
+        min-width: 70px
+        min-height: 25px
+        svg
+          margin-right: 10px
+          width: 15px
+          height: 15px
+          path
+            stroke: currentColor
+        div
+          font-size: 10px
+          line-height: 11px
 </style>

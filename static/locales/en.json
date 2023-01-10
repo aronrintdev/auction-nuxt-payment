@@ -2023,6 +2023,8 @@
         "thresholds_current_bid": "Current Bid"
       },
       "size": "Size",
+      "complete_bid": "Complete Bid",
+      "complete_bid_message": "Your Bid has been placed. You are the highest bidder. Good Luck!",
       "auction_number": "AUCTION NUMBER",
       "item_details": "Item Details",
       "have_piece_to_sell": "Have a piece to sell?",
@@ -2247,7 +2249,13 @@
     "view_list": "View List",
     "continue_shopping": "Continue Shopping",
     "products_removed_from_watchlist": "{n} product has been removed from watchlist | {n} products have been removed from watchlist",
-    "products_moved": "{n} product moved to `{watchlist}` | {n} products moved to `{watchlist}`"
+    "products_moved": "{n} product moved to `{watchlist}` | {n} products moved to `{watchlist}`",
+    "rename_list": "Rename List",
+    "delete_list": "Delete List",
+    "rename": "Rename",
+    "delete": "Delete",
+    "rename_list_modal_text": "Are you really sure you want to rename the list?",
+    "delete_list_modal_text": "Are you really sure you want to delete the list?"
   },
   "heatcheck": {
     "heatcheck": "Heat Check",

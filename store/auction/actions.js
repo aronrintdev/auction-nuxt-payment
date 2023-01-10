@@ -32,3 +32,7 @@ export function setProductFilter({ commit }, productId) {
 export function setActiveAuction({ commit }, payload) {
   commit('setActiveAuction', payload)
 }
+
+export function changeStatus({ commit }, payload) {
+  commit('updateCheckoutStatus', payload)
+}

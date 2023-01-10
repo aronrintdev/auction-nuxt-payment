@@ -49,6 +49,17 @@ export async function removeItemsFromWatchlist(
     })
 }
 
+export async function removeWatchlist(
+  _,
+  { watchlist }
+) {
+  await this.$axios
+    .delete(`/watchlists/${watchlist.id}`)
+    .then((res) => {
+      return res.data
+    })
+}
+
 export async function updateWatchlistPrivacy({ commit }, { watchlist, privacy }) {
   await this.$axios
     .put(`/watchlists/${watchlist.id}`, {
@@ -100,4 +111,14 @@ export function clearWatchlistItems({ commit }){
 
 export function changeWatchlistsType({ commit }, payload){
   commit('setWatchlistsType', payload)
+}
+
+export async function renameList({ commit }, { watchlist, name }) {
+  await this.$axios
+    .put(`/watchlists/${watchlist.id}`, {
+      name,
+    })
+    .then(() => {
+      commit('renameList', { watchlist, name })
+    })
 }

@@ -1,5 +1,11 @@
 <template>
-  <div v-if="activeAuction" class="container-fluid overflow auction-details-page">
+  <div v-if="activeAuction" class="container-fluid overflow position-relative auction-details-page">
+    <div v-if="checkoutStatus === COMPLETED_STATUS" class="position-absolute highest-bid-message">
+      <div class="d-flex align-items-center justify-content-center mx-auto mt-3 checkmark-icon">
+        <CheckmarkIcon />
+      </div>
+      <div class="text d-flex align-items-center">{{ $t('auctions.frontpage.complete_bid_message') }}</div>
+    </div>
     <div v-if="!isMobileSize" class="d-md-flex align-items-center justify-content-between mb-1 auction-header">
       <div>
         <b-breadcrumb :items="breadcrumbItems" class="mb-1"></b-breadcrumb>
@@ -958,12 +964,14 @@ export default {
       auctionName: '',
       watchlistSheetVisible: false,
       EXPIRED_STATUS,
+      COMPLETED_STATUS,
       currentProduct: {},
     }
   },
   computed: {
     ...mapGetters({
       activeAuction: 'auction/activeAuction',
+      checkoutStatus: 'auction/getCheckoutStatus',
     }),
     isMobileSize() {
       return this.isScreenXS || this.isScreenSM
@@ -1036,11 +1044,15 @@ export default {
   },
   mounted() {
     this.loadAuction()
+    setTimeout(() => {
+      this.changeStatus('processing')
+    }, 3000);
   },
   methods: {
     ...mapActions({
       removeItemsFromWatchlist: 'watchlist/removeItemsFromWatchlist',
       getAuctionDetails: 'auction/getAuctionDetails',
+      changeStatus: 'auction/changeStatus',
     }),
     ...mapMutations({
       updateBidPrice: 'auction/updateActiveAuctionPrice',
@@ -1848,4 +1860,30 @@ export default {
   width: 78%
 .header-back-icon
   padding: 0 6px 0 8px
+.highest-bid-message
+  padding: 22px 0 13px
+  background: rgba(247, 247, 247, 0.91)
+  backdrop-filter: blur(2px)
+  border-radius: 8px
+  z-index: 100
+  top: 28px
+  left: 45px
+  right: 45px
+  .checkmark-icon
+    width: 55px
+    height: 55px
+    margin: 0 auto 7px
+    background: $color-blue-20
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+    border-radius: 62px
+    svg
+      width: 24px
+  .text
+    font-family: $font-montserrat
+    font-weight: $normal
+    @include body-4
+    text-align: center
+    height: 80px
+    color: $black
+    padding: 0 3px
 </style>

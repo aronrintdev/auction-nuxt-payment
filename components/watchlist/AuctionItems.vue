@@ -1,11 +1,11 @@
 <template>
-  <div class="mt-5">
+  <div class="watchlist-items-list">
     <div
       v-if="action === 'none'"
       class="d-flex align-items-start justify-content-between mb-2"
     >
       <div class="position-relative">
-        <div class="header-title position-absolute">{{ $t('bids.filter_by') }}</div>
+        <div class="header-title">{{ $t('bids.filter_by') }}</div>
         <CustomSelectwithCheckbox
           id="auction-status-selector"
           class="mr-4 dropdown-filters"
@@ -35,6 +35,16 @@
             {{ $t('watchlists.edit_list') }}
           </template>
           <b-dropdown-item
+            @click="renameList"
+          >
+            {{ $t('watchlists.rename_list') }}
+          </b-dropdown-item>
+          <b-dropdown-item
+            @click="deleteList"
+          >
+            {{ $t('watchlists.delete_list') }}
+          </b-dropdown-item>
+          <b-dropdown-item
             :disabled="
               listProducts.length === 0 || getMovableWatchlists().length === 0
             "
@@ -49,7 +59,7 @@
             {{ $t('watchlists.remove_items') }}
           </b-dropdown-item>
           <b-dropdown-item v-b-modal.create-watchlist-modal>
-            <img src="~/assets/img/icons/plus_blue.svg" />
+            <img src="~/assets/img/icons/plus_dark_blue.svg" />
             {{ $t('watchlists.create_list') }}
           </b-dropdown-item>
         </b-dropdown>
@@ -60,14 +70,13 @@
         class="py-2 px-3 d-flex align-items-center justify-content-between"
         role="tab"
       >
-        <span class="body-2-bold flex-grow-1"
+        <span class="body-2-medium flex-grow-1"
           >{{ type === 'single' ? $t('auction.auction_types.single') :  $t('auctions.list.collection') }} ({{
-            auctionCount
-          }})</span
-        >
+            auctionsCount
+          }})</span>
         <div
           v-b-toggle="''+accordionId"
-          class="d-flex align-items-center justify-content-center p-1 collapase-icon"
+          class="d-flex align-items-center justify-content-center collapase-icon"
         >
           <UpArrowIcon />
         </div>
@@ -79,7 +88,7 @@
         role="tabpanel"
       >
         <b-card-body class="px-0">
-          <div v-if="!!currentWatchlist" class="section-items py-4 px-1 flex-grow-1">
+          <div v-if="!!currentWatchlist" class="section-items flex-grow-1">
             <div
               v-if="action !== 'none'"
               class="bulk-select-section"
@@ -100,15 +109,14 @@
 
             <Loader v-if="loading" class="py-5" />
 
-            <div v-else class="py-3">
-              <div v-if="listProducts.length > 0" class="row">
+            <div v-else>
+              <div v-if="listProducts.length > 0" class="section-items-list mx-0 row justify-content-between">
                 <WatchlistAuctionCard
                   v-for="item in listProducts"
                   :key="item.id"
                   :item="item"
                   :selectable="action === 'move' || action === 'remove'"
                   :selected="!!selected.find((id) => id == item.id)"
-                  class="col-12 col-md-4 col-lg-6 col-xl-4"
                   @select="selectItem"
                 ></WatchlistAuctionCard>
               </div>
@@ -173,6 +181,31 @@
         </b-card-body>
       </b-collapse>
     </b-card>
+    <b-modal id="rename-list-modal" hide-footer hide-header size="md">
+      <div class="text-right">
+        <close-icon role="button" class="close-icon" @click="$bvModal.hide('rename-list-modal')"></close-icon>
+      </div>
+      <div class="text-center mt-2">
+        <div class="modal-text mb-3">{{ $t('watchlists.rename_list_modal_text') }}</div>
+        <div class="w-75 mx-auto"><input v-model="listName" class="w-100 p-2" /></div>
+        <div class="mt-4 mb-3 d-flex justify-content-center">
+          <b-button class="mx-3 confirm-btn" pill @click="confirmRename">{{ $t('common.ok') }}</b-button>
+          <b-button class="mx-3 cancel-btn" variant="outline-dark" pill @click="$bvModal.hide('rename-list-modal')">{{ $t('common.cancel') }}</b-button>
+        </div>
+      </div>
+    </b-modal>
+    <b-modal id="delete-list-modal" hide-footer hide-header size="md">
+      <div class="text-right">
+        <close-icon role="button" class="close-icon" @click="$bvModal.hide('delete-list-modal')"></close-icon>
+      </div>
+      <div class="text-center mt-2">
+        <div class="modal-text mb-3">{{ $t('watchlists.delete_list_modal_text') }}</div>
+        <div class="mt-4 mb-3 d-flex justify-content-center">
+          <b-button class="mx-3 confirm-btn" pill @click="confirmDelete">{{ $t('common.ok') }}</b-button>
+          <b-button class="mx-3 cancel-btn" variant="outline-dark" pill @click="$bvModal.hide('delete-list-modal')">{{ $t('common.cancel') }}</b-button>
+        </div>
+      </div>
+    </b-modal>
   </div>
 
 
@@ -212,7 +245,7 @@ export default {
       type: String,
       default: '',
     },
-    auctionCount: {
+    auctionsCount: {
       type: Number,
       default: 0,
     },
@@ -242,6 +275,7 @@ export default {
       perPage: 15,
       loading: false,
       totalCount: 0,
+      listName: null,
     }
   },
 
@@ -255,10 +289,11 @@ export default {
   watch: {
     activeStatusFilters() {
       this.getWatchlistItems()
-    }
+    },
   },
 
   mounted() {
+    this.listName = this.currentWatchlist.name
     this.getWatchlistItems()
   },
 
@@ -268,6 +303,8 @@ export default {
       removeItemsFromWatchlist: 'watchlist/removeItemsFromWatchlist',
       moveWatchlistItems: 'watchlist/moveWatchlistItems',
       addItemsToWatchlist: 'watchlist/addItemsToWatchlist',
+      renameWatchlist: 'watchlist/renameList',
+      removeWatchlist: 'watchlist/removeWatchlist',
     }),
     // Called when user click move/delete item buttons
     setAction(mode) {
@@ -414,6 +451,43 @@ export default {
       this.totalCount = res.total
       this.loading = false
     },
+    renameList() {
+      this.$bvModal.show('rename-list-modal')
+    },
+    confirmRename() {
+      this.renameWatchlist({ watchlist: this.currentWatchlist, name: this.listName })
+      this.$bvModal.hide('rename-list-modal')
+    },
+    deleteList() {
+      this.$bvModal.show('delete-list-modal')
+    },
+    confirmDelete() {
+      this.removeWatchlist({ watchlist: this.currentWatchlist })
+      this.$bvModal.hide('delete-list-modal')
+    }
   },
 }
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.watchlist-items-list
+  margin-top: 8px
+.header-title
+  font-family: $font-sp-pro
+  font-weight: $medium
+  @include body-8
+  color: $black
+  margin-bottom: 5px
+.btn-edit
+  margin-top: 20px
+.modal-text
+  font-weight: $medium
+  @include body-4
+.confirm-btn
+  background: $color-blue-20
+  width: 160px
+.cancel-btn
+  width: 160px
+</style>
