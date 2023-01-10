@@ -34,7 +34,7 @@
         :loop="true"
         :nav="false"
         :center="true"
-        :margin="30"
+        :margin="37"
         :responsive="{
           0: {
             items: xsCount,

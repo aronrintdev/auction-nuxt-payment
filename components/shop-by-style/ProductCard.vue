@@ -11,7 +11,7 @@
         class="flex-shrink-0 product-image"
       />
       <div class="info-section position-relative flex-grow-1">
-        <div class="position-relative">
+        <div>
           <div class="title fw-6 fs-20 font-secondary text-capitalize">
             {{ product.name }}
           </div>
@@ -197,9 +197,9 @@
                   class="mx-auto add-to-cart-button d-block pl-205"
                   @click="handleAddToCartClick('web', product.id)"
                 >
-                <div class="w-fit-content">
-                  {{ $t('product_page.add_to_cart') }}
-                </div>
+                  <div class="w-fit-content">
+                    {{ $t('product_page.add_to_cart') }}
+                  </div>
                 </Button>
                 <button
                   :id="`popover-wishlist-${product.id}`"

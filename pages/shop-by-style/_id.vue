@@ -13,7 +13,7 @@
           class="topbar d-none d-sm-flex justify-content-between align-items-center"
         >
           <nuxt-link :to="`/shop-by-style`">
-            <p class="backto-css">
+            <p class="backto-css mb-0 mt-2">
               {{ $t('shop_by_style.general.back_to_style') }}
             </p>
           </nuxt-link>

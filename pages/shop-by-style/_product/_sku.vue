@@ -109,7 +109,7 @@
               sizeViewMode === 'carousel' &&
               !offerAmount
             "
-            class="mt-3 px-4 d-none d-sm-block px-sm-0"
+            class="mt-3 d-none d-sm-block px-sm-0 out-of-stock-el"
             :product="product"
             @notify-me="handleNotifyMeClick"
             @offer-duration="handleOfferDurationEvent"
@@ -929,4 +929,7 @@ export default {
     stroke: $color-gray-47
   .fillColor
     fill: $color-gray-47
+
+.out-of-stock-el
+  padding-top: 12px
 </style>
