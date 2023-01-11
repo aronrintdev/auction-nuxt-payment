@@ -291,7 +291,7 @@ export default {
       })
     },
     sizeTypeOptions() {
-      return this.filters?.size_types?.map((type) => {
+      return this.filters?.size_types?.map(({ type }) => {
         return { label: type, value: type }
       })
     },

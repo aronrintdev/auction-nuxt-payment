@@ -2258,7 +2258,8 @@
     "rename": "Rename",
     "delete": "Delete",
     "rename_list_modal_text": "Are you really sure you want to rename the list?",
-    "delete_list_modal_text": "Are you really sure you want to delete the list?"
+    "delete_list_modal_text": "Are you really sure you want to delete the list?",
+    "duplicate_error": "A watchlist with same name already exists. Please try with another name."
   },
   "heatcheck": {
     "heatcheck": "Heat Check",

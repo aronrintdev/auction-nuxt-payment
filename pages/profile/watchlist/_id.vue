@@ -5,11 +5,11 @@
       class="section-no-list text-center py-5"
     >
       <p class="mb-3">
-        {{ $t('wish_lists.no_wish_lists') }}
+        {{ $t('watchlists.no_items_info') }}
       </p>
 
-      <Button variant="primary" class="mx-auto" pill>
-        {{ $t('wish_lists.create_new_list') }}
+      <Button variant="dark-blue" class="mx-auto" pill @click="$router.push('/auction')">
+        {{ $t('watchlists.browse_items') }}
       </Button>
     </div>
     <div v-else class="row watchlist-mobile clear-fix">

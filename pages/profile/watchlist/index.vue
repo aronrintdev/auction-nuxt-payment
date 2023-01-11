@@ -38,7 +38,7 @@
     </div>
     <div class="d-block d-sm-none">
       <NavGroup
-        v-model="activeTab"
+        v-model="watchlistsType"
         nav-key="list-type"
         class="d-flex d-sm-none mb-4 pt-2"
         :data="tabs"
@@ -148,7 +148,7 @@
         >
           <div class="accordion" role="tablist">
             <AuctionItems
-              :key="currentWatchlist.id"
+              :key="`single-${currentWatchlist.id}`"
               :currentWatchlist="currentWatchlist"
               type="single"
               :auctionsCount="singleAuctionsCount"
@@ -159,7 +159,7 @@
             </div>
             <hr />
             <AuctionItems
-              :key="currentWatchlist.id"
+              :key="`collection-${currentWatchlist.id}`"
               :currentWatchlist="currentWatchlist"
               type="collection"
               :auctionsCount="collectionAuctionsCount"
@@ -230,10 +230,9 @@ export default {
       currentWatchlist: null,
       shareDescription: this.$t('watchlists.share_description'),
       shareUrl: process.env.APP_URL + '/watchlist/',
-      activeTab: 'trades',
       tabs: [
-        { label: 'Trades', value: 'trades' },
-        { label: 'Auctions', value: 'auctions' },
+        { label: 'Trades', value: WATCHLIST_TYPE_TRADE },
+        { label: 'Auctions', value: WATCHLIST_TYPE_AUCTION },
       ],
       WATCHLIST_TYPE_AUCTION,
       WATCHLIST_TYPE_TRADE,
@@ -266,8 +265,10 @@ export default {
       changeWatchlistsType: 'watchlist/changeWatchlistsType',
     }),
 
-    handleTabs(tab) {
-      this.activeTab = tab
+    async handleTabs(tab) {
+      this.changeWatchlistsType(tab)
+      await this.fetchWatchlists({ type: tab })
+      await this.selectWatchlist(this.watchlists[0])
     },
 
     handleCreated(watchlist) {

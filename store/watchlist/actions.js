@@ -28,10 +28,13 @@ export async function createWatchlist({ commit }, { name, privacy, type }) {
       name,
       type,
       privacy,
-    })
+    }, { handleError: false })
     .then((res) => {
       commit('addWatchlist', res.data)
       return res.data
+    })
+    .catch((error) => {
+      return Promise.reject(error)
     })
 }
 

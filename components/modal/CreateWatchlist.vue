@@ -124,17 +124,23 @@ export default {
     }),
 
     // Create new watchlist
-    async createNewList() {
+    createNewList() {
       if (this.newListName) {
         this.loading = true
-        const watchlist = await this.createWatchlist({
+        this.createWatchlist({
           name: this.newListName,
           type: this.getWatchlistsType,
           privacy: this.newListPrivacy ? 'public' : 'private',
         })
-        this.loading = false
-        this.$emit('created', watchlist)
-        this.$bvModal.hide(this.id)
+        .then((watchlist) => {
+          this.loading = false
+          this.$emit('created', watchlist)
+          this.$bvModal.hide(this.id)
+        })
+        .catch(error => {
+          this.loading = false
+          this.$toasted.error(this.$t(error.response.data.error))
+        })
       }
     },
     getValidationState({ dirty, validated, valid = null }) {

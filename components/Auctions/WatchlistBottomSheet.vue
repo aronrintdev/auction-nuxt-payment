@@ -1,113 +1,99 @@
 <template>
   <div>
     <vue-bottom-sheet ref="watchlistsSheet" @closed="$emit('close')">
-      <div class="d-flex flex-column h-100 filters-sheet">
-        <div class="filters-sheet-title text-center">{{ $t('auctions.frontpage.watchlist') }}</div>
-        <div class="flex-shrink-1 overflow-auto filters-sheet-content">
-          <div v-if="watchlists.length" class="list-section">
-            <div
-              v-for="list in watchlists"
-              :key="`watchlist-${list.id}`"
-              class="d-flex align-items-center watchlist-item"
-              @click="handleWatchlistClick(list)"
-            >
-              <div class="image-section">
-                <ProductThumb :src="list.image" />
-              </div>
-              <div class="ml-2 text-truncate">{{ list.name }}</div>
-              <div class="overlay"></div>
-            </div>
-          </div>
+      <div class="watchlist-title">{{ $t('auctions.frontpage.add_to_watchlist') }}</div>
+      <div class="watchlist-content">
+        <div v-if="watchlists.length" class="list-section">
           <div
-            class="create-section d-flex align-items-center"
-            @click="openNewWatchList"
+            v-for="list in watchlists"
+            :key="`watchlist-${list.id}`"
+            class="d-flex align-items-center watchlist-item"
+            @click="handleWatchlistClick(list)"
           >
             <div class="image-section">
-              <Icon src="plus_blue.svg" width="26" height="26" />
+              <ProductThumb :src="list.image" />
             </div>
-            <div class="ml-2">{{ $t('wish_lists.create_list') }}</div>
+            <div class="ml-2 text-truncate">{{ list.name }}</div>
           </div>
+        </div>
+        <div
+          class="watchlist-btn d-flex align-items-center justify-content-end"
+          @click="openNewWatchList"
+        >
+          <div class="image-section">
+            <Icon src="plus_circle_fill.svg" width="18" height="18" />
+          </div>
+          <div class="ml-1">{{ $t('shopping_cart.create_new_list') }}</div>
+        </div>
+        <div class="text-center">
+          <div class="watchlist-cancel-btn" role="button" @click="$refs.createNewListSheet.close()">{{ $t('common.cancel') }}</div>
         </div>
       </div>
     </vue-bottom-sheet>
 
     <vue-bottom-sheet ref="createNewListSheet">
-      <div class="d-flex flex-column h-100 filters-sheet">
-        <div class="filters-sheet-title text-center">{{ $t('wish_lists.create_new_list') }}</div>
-        <div class="flex-shrink-1 overflow-auto filters-sheet-content">
-          <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
-            <b-container fluid class="p-3">
-              <b-form @submit.stop.prevent="handleSubmit(createNewList)">
-                <b-row>
-                  <b-col md="10" offset-md="1">
-                    <ValidationProvider
-                      v-slot="validationContext"
-                      :name="$t('watchlists.list_name')"
-                      :rules="{ required: true, min: 3, max: 255 }"
+      <div class="filters-sheet-title create-list-title d-flex align-items-center justify-content-between">
+        <div>{{ $t('wish_lists.create_new_list') }}</div>
+        <div class="create-list-cancel-btn" role="button" @click="$refs.createNewListSheet.close()">{{ $t('common.cancel') }}</div>
+      </div>
+      <div class="flex-shrink-1 overflow-auto filters-sheet-content">
+        <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
+          <b-container fluid>
+            <b-form @submit.stop.prevent="handleSubmit(createNewList)">
+              <b-row class="privacy-row">
+                <b-col class="px-0">
+                  <CheckboxSwitch
+                    v-model="newListPrivacy"
+                    :label-on="$t('common.public').toUpperCase()"
+                    :label-off="$t('common.private').toUpperCase()"
+                  />
+                </b-col>
+              </b-row>
+              <b-row class="name-row">
+                <b-col class="px-0">
+                  <ValidationProvider
+                    v-slot="validationContext"
+                    :name="$t('watchlists.list_name')"
+                    :rules="{ required: true, min: 3, max: 255 }"
+                  >
+                    <b-form-group
+                      label-for="list-name"
+                      :label="$t('watchlists.list_name')"
                     >
-                      <b-form-group
-                        label-for="list-name"
-                        :label="$t('watchlists.list_name')"
-                      >
-                        <b-form-input
-                          id="list-name"
-                          v-model="newListName"
-                          aria-describedby="input-live-help"
-                          trim
-                          :state="getValidationState(validationContext)"
-                        ></b-form-input>
-                        <b-form-invalid-feedback>{{
-                            validationContext.errors[0]
-                          }}</b-form-invalid-feedback>
-                      </b-form-group>
-                    </ValidationProvider>
-                  </b-col>
-                </b-row>
-                <b-row>
-                  <b-col md="10" offset-md="1">
-                    <b-form-text id="input-live-help">
-                      {{ $t('watchlists.create_list_helper') }}
-                    </b-form-text>
-                  </b-col>
-                </b-row>
-                <b-row class="mt-3">
-                  <b-col md="10" offset-md="1">
-                    <CheckboxSwitch
-                      v-model="newListPrivacy"
-                      :label-on="$t('common.public').toUpperCase()"
-                      :label-off="$t('common.private').toUpperCase()"
-                    />
-                  </b-col>
-                </b-row>
-                <div class="mt-3 d-flex align-items-center">
-                  <Button
-                    ref="btnSave"
-                    type="submit"
-                    variant="primary"
-                    pill
-                    block
-                    :disabled="!newListName || loading"
-                  >
-                    {{ $t('watchlists.create_list') }}
-                  </Button>
-                  <span class="mx-3">&nbsp;</span>
-                  <Button
-                    variant="outline-dark"
-                    pill
-                    block
-                    @click.prevent="$refs.createNewListSheet.close()"
-                  >
-                    {{ $t('common.cancel') }}
-                  </Button>
-                </div>
-              </b-form>
-            </b-container>
-          </ValidationObserver>
-        </div>
+                      <b-form-input
+                        id="list-name"
+                        v-model="newListName"
+                        aria-describedby="input-live-help"
+                        trim
+                        :state="getValidationState(validationContext)"
+                      ></b-form-input>
+                      <b-form-invalid-feedback>{{
+                          validationContext.errors[0]
+                        }}</b-form-invalid-feedback>
+                    </b-form-group>
+                  </ValidationProvider>
+                </b-col>
+              </b-row>
+              <div class="d-flex align-items-center">
+                <Button
+                  ref="btnSave"
+                  type="submit"
+                  variant="dark-blue"
+                  class="create-list-btn"
+                  pill
+                  block
+                  :disabled="!newListName || loading"
+                >
+                  {{ $t('watchlists.create_list') }}
+                </Button>
+              </div>
+            </b-form>
+          </b-container>
+        </ValidationObserver>
       </div>
     </vue-bottom-sheet>
 
-    <vue-bottom-sheet ref="listedCreatedSheet">
+    <vue-bottom-sheet ref="listedCreatedSheet" max-height="90%">
       <div class="d-flex flex-column h-100 filters-sheet">
         <div class="filters-sheet-title text-center">
           {{ $t('wish_lists.create_new_list') }}
@@ -209,17 +195,23 @@ export default {
     }),
 
     // Create new wishlist
-    async createNewList() {
+    createNewList() {
       if (this.newListName) {
         this.loading = true
-        const watchlist = await this.createWatchlist({
+        this.createWatchlist({
           name: this.newListName,
           type: this.getWatchlistsType,
           privacy: this.newListPrivacy ? 'public' : 'private',
         })
-        this.loading = false
-        this.$refs.createNewListSheet.close()
-        this.handleWatchlistCreated(watchlist)
+        .then((watchlist) => {
+          this.loading = false
+          this.$refs.createNewListSheet.close()
+          this.handleWatchlistCreated(watchlist)
+        })
+        .catch(error => {
+          this.loading = false
+          this.$toasted.error(this.$t(error.response.data.error))
+        })
       }
     },
     getValidationState({ dirty, validated, valid = null }) {
@@ -309,4 +301,109 @@ export default {
       @include body-5
       font-weight: $regular
       color: $color-gray-5
+
+.create-list
+  &-title
+    padding-left: 20px
+    padding-right: 18px
+  &-cancel-btn
+    font-family: $font-sp-pro
+    font-weight: $medium
+    @include body-34
+    color: $color-blue-20
+  &-btn.btn.btn-dark-blue
+    font-family: $font-sp-pro
+    font-weight: $medium
+    @include body-4b
+    color: $white
+    width: 216px
+    height: 40px
+    margin: 50px auto 20px
+    border: none
+    &:disabled
+      color: $color-gray-47
+      background-color: $color-gray-1
+.watchlist
+  &-title 
+    padding: 0 29px 17px
+    font-family: $font-sp-pro
+    font-weight: $bold
+    @include body-32
+    color: $black
+  &-item
+    margin: 17px 16px 21px
+    height: 50px
+    border: 1px solid $color-white-12
+    font-family: $font-sp-pro
+    font-weight: $regular
+    @include body-5
+    color: $black
+    border-radius: 8px
+    padding: 5px 17px
+    .image-section
+      margin-right: 36px
+      .thumb-wrapper::v-deep
+        width: 40px
+        height: 40px
+      
+  &-btn
+    font-family: $font-sp-pro
+    font-weight: $regular
+    @include body-1424
+    color: $black
+    padding: 1px 21px
+  &-cancel-btn 
+    font-family: $font-sp-pro
+    font-weight: $medium
+    @include body-34
+    color: $color-blue-20
+    margin: 23px auto 7px
+.privacy-row
+  padding: 12px 20px 15px
+  border-bottom: 0.5px solid $color-gray-47
+.name-row
+  padding: 14px 24px 0 20px
+  .form-group::v-deep
+    label
+      font-family: $font-sp-pro
+      font-weight: $bold
+      @include body-5
+      letter-spacing: -0.02em
+      color: $black
+      margin-bottom: 11px
+    .invalid-feedback
+      position: absolute
+      top: 78%
+
+::v-deep .checkbox-switch
+  line-height: 32px
+  span[role='button']
+    font-family: $font-montserrat
+    @include body-5
+    margin-top: 7px
+    font-weight: $bold
+    letter-spacing: -0.02em
+
+  .custom-switch
+    height: 31px
+    margin-right: 20px
+    .custom-control-label::before
+      background-color: rgba(120, 120, 128, 0)
+      border: none
+      height: 31px
+      width: 51px
+      box-shadow: none
+      background-image: url('~/assets/img/profile/wishlist/toggle-bg.svg')
+      background-repeat: no-repeat
+
+    .custom-control-label::after
+      background: $color-white
+      border: 0.5px solid rgba(0, 0, 0, 0.04)
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06)
+      width: 27px
+      height: 27px
+      border-radius: 100%
+
+    .custom-control-input:checked ~ .custom-control-label::after
+      transform: translateX(1.27rem)
 </style>
