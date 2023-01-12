@@ -245,6 +245,9 @@ export default {
       border: 1px solid $color-gray-60
     ~ .custom-control-label::after
       left: -20px
+  .custom-checkbox
+    .custom-control-input:checked ~ .custom-control-label::after
+      background-image: none
 
 .search-input-wrapper.search-primary::v-deep
   img.icon-search
@@ -270,6 +273,7 @@ export default {
     height: 38px
     border: 1px solid $color-gray-60
     padding: 9px 9px 9px 10px
+    font-family: $font-montserrat
     &.open
       border: 1px solid $color-gray-60
       border-bottom: none

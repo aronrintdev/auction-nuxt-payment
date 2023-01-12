@@ -11,7 +11,7 @@
               <div class="d-flex align-items-center flex-grow-1 mt-1 overflow-hidden">
                 <span class="body-5-medium flex-grow-1 text-truncate sf-pro-font">{{ inventory.product.name }}</span>
                 <span v-if="auctionIsLive" class="status-text">&bull;{{ $t('bids.live') }}</span>
-                <span v-if="auction.remaining_time !== EXPIRED_STATUS" class="status-text text-gray-24">
+                <span v-else-if="auction.remaining_time !== EXPIRED_STATUS" class="status-text text-gray-24">
                   &bull;{{ $t(`auction.status_array.${auction.status}`) }}
                 </span>
                 <span v-else class="status-text text-danger">&bull;{{ $t('bids.expired') }}</span>

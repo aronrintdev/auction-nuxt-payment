@@ -71,6 +71,18 @@
         >
       </div>
     </div>
+    <client-only>
+      <Portal to="page-title"><span class="pl-2">{{ $tc('common.bid', 2) }}</span></Portal>
+      <!-- If back icons needed -->
+      <Portal to="back-icon-slot">
+        <img
+          :src="require('~/assets/img/icons/back.svg')"
+          alt="back-arrow"
+          class="pl-2"
+          @click="$router.push('/profile/bids/outgoing')"
+        />
+      </Portal>
+    </client-only>
   </b-container>
 </template>
 

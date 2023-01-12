@@ -251,6 +251,7 @@
       <MobileFilter @filter="onMobileFilter" />
     </vue-bottom-sheet>
     <!-- For mobile filters end -->
+    <Portal to="page-title"><span class="page-title">{{ $t('home.bids_placed') }}</span></Portal>
   </b-container>
 </template>
 
@@ -767,6 +768,12 @@ h4.title
     width: 10%
   .auction-type
     width: 10.6%
-
+.page-title 
+  font-family: $font-montserrat
+  font-weight: $medium
+  @include body-3
+  letter-spacing: -0.02em
+  text-transform: capitalize
+  color: $black
 </style>
 
