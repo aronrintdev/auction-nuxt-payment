@@ -111,7 +111,7 @@ export default {
     padding: 0
     .main-wrapper
       width: 100%
-      background-color: $color-white-4
+      background-color: $color-gray-1
       @media (max-width: 576px)
         min-height: calc(100vh - 200px)
 .w3-xlarge

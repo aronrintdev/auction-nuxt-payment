@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="options && options.length"
     v-click-outside="hideMenu"
     class="position-relative border-0 accordion-filter-item"
     :class="{ 'collapsed': !menuVisible }"
@@ -39,7 +38,7 @@
 import ClickOutside from 'vue-click-outside'
 
 export default {
-  name: 'MultiSelectDropdown',
+  name: 'BrandMultiSelectDropdown',
   directives: {
     ClickOutside
   },
@@ -173,7 +172,7 @@ export default {
       margin-bottom: 7px
 
       & > *
-        cursor: pointer !important
+        cursor: pointer
 
       .form-check-input
         border: none
@@ -208,11 +207,11 @@ export default {
         width: 100%
 
   ::-webkit-scrollbar
-    width: 6px !important
+    width: 6px
 
   ::-webkit-scrollbar-thumb
     background-color: $color-blue-20
-    border: none !important
+    border: none
 
   ::-webkit-scrollbar-track
     background-color: $color-gray-3

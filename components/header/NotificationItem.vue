@@ -19,7 +19,7 @@
           <div :class="{'body-lighter': fromDown}" class="body-text d-flex align-items-center">
             <img v-if="!fromDown && notification.icon_link"
                  :src="notification.icon_link" class="mr-2 icon-image">
-            <p class="mb-0">
+            <p class="mb-0 mt-2">
               <span :class="{'mobile-subject': isScreenXS}">
                 <span v-if="notification.data && notification.model_type == 'App\\Models\\ListingItemOrder'">
                 {{notification.data.prefix_listing_order_id}}:

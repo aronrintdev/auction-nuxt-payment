@@ -31,7 +31,16 @@
       <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
     </a>
   </li>
-  <li v-else class="border-bottom">
+  <li class="border-bottom">
+    <a
+      class="d-flex justify-content-between align-items-center nav-link"
+      @click="$emit('edit')"
+    >
+      <span>{{ $t('common.edit') }}</span>
+      <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
+    </a>
+  </li>
+  <li v-if="inventory.listing_items.length" class="border-bottom">
     <a
       class="d-flex justify-content-between align-items-center nav-link"
       @click="$emit('delist')"
@@ -40,15 +49,7 @@
       <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
     </a>
   </li>
-  <li class="border-bottom">
-    <a
-      class="d-flex justify-content-between align-items-center nav-link"
-      @click="$emit('edit')"
-    >
-      <span>{{ $t('inventory.edit_details') }}</span>
-      <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
-    </a>
-  </li>
+  
   <li class="border-bottom">
     <a
       class="d-flex justify-content-between align-items-center nav-link"

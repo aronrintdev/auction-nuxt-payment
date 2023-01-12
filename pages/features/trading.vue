@@ -56,7 +56,9 @@
         />
       </div>
 
-      <div class="d-flex justify-content-center cards-wrapper-selling mb-5">
+      <div
+        class="d-flex justify-content-center cards-wrapper-selling margin-bottom-class"
+      >
         <FeatureCardHoverable
           :icon="
             require('~/assets/img/features/newest-feature/trading/shoes-shirt.png')
@@ -165,7 +167,8 @@ export default {
       max-width: 361px
       min-height: 168px
       max-height: 320px
-
+  .margin-bottom-class
+    margin-bottom: 100px
 
 @media (max-width: 768px)
   .features-container
@@ -183,4 +186,8 @@ export default {
     width: 100%
     margin-top: 0px !important
     margin-bottom: 24px !important
+
+  .features-container
+    .margin-bottom-class
+      margin-bottom: 35px
 </style>

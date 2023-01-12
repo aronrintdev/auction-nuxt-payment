@@ -1,11 +1,11 @@
 <template>
   <div class="ShopFiltersMobile">
-    <div class="border-bottom mb-3 pb-2 bottom_sheet_header">
+    <div class="border-bottom pb-2 bottom_sheet_header">
       <h3 class="font-secondary fs-16 fw-7 text-black text-center">
         {{ $t('common.filter_by') }}
       </h3>
     </div>
-    <div class="bottom_sheet_body">
+    <div class="bottom_sheet_body pt-4">
       <div class="border-bottom pt-0 pb-3">
         <h5 class="fs-16 fw-7 text-base-blue font-secondary">
           {{ $t('selling_page.filter.sort') }}
@@ -13,6 +13,7 @@
         <Radio
           v-for="(option, index) in SORT_OPTIONS"
           :key="index"
+          v-model="orderBy"
           class="mb-2"
           :label="option.label"
           :val="option.value"
@@ -42,38 +43,82 @@
           </div>
         </Collapse>
       </div>
-      <div class="border-bottom py-3">
+      <div v-if="category === ACCESSORIES" class="border-bottom py-3">
         <Collapse
-          :title="$t('common.sizetype')"
-          :selectedValue="selectedSizeType"
+          :title="$t('filter_sidebar.gender')"
+          :selectedValue="gender"
         >
           <div class="row">
             <div
-              v-for="(sizeType, index) in sizeTypeOptions"
+              v-for="(genderType, index) in sizeTypeOptions"
               :key="index"
               class="col-4 mb-3"
             >
               <Radio
-                v-model="selectedSizeType"
+                v-model="gender"
                 button
-                :label="sizeType.label"
-                :val="sizeType.value"
+                :label="genderType.label"
+                :val="genderType.value"
+                name="gender"
+              />
+            </div>
+          </div>
+        </Collapse>
+      </div>
+      <div v-if="category !== ACCESSORIES" class="border-bottom py-3">
+        <Collapse
+          :title="$t('common.sizetype')"
+          :selectedValue="sizeType"
+        >
+          <div class="row">
+            <div
+              v-for="(type, index) in sizeTypeOptions"
+              :key="index"
+              class="col-4 mb-3"
+            >
+              <Radio
+                v-model="sizeType"
+                button
+                :label="type.label"
+                :val="type.value"
                 name="sizeType"
               />
             </div>
           </div>
         </Collapse>
       </div>
-      <div v-if="sizeOptions.length" class="border-bottom py-3">
+      <div  v-if="productTypeOptions && productTypeOptions.length" class="border-bottom py-3">
+        <Collapse
+          :title="$t('common.product_type')"
+          :selectedValue="productType"
+        >
+          <div class="row">
+            <div
+              v-for="(type, index) in productTypeOptions"
+              :key="index"
+              class="col-4 mb-3"
+            >
+              <Radio
+                v-model="productType"
+                button
+                :label="type.label"
+                :val="type.value"
+                name="productType"
+              />
+            </div>
+          </div>
+        </Collapse>
+      </div>
+      <div v-if="sizeOptions && sizeOptions.length && category !== ACCESSORIES" class="border-bottom py-3">
         <Collapse
           :title="$t('home_page.size')"
           :selectedValue="getSizesLabel(selectedSizes)"
         >
-          <div class="sizes-option">
+          <div class="row row-cols-5 sizes-option">
             <div
               v-for="(size, index) in sizeOptions"
               :key="index"
-              class="size-option"
+              class="col pb-4 size-option"
               :class="`size-option-${index}`"
             >
               <Checkbox
@@ -121,11 +166,12 @@
               class="col-4 mb-3"
             >
               <Checkbox
-                v-model="selectedBrand"
+                v-model="brands"
                 button
                 :label="brandCategory.label"
                 :val="brandCategory.value"
                 name="brandCategory"
+                class="brandCheckbox"
               />
             </div>
             <div class="text-center w-100">
@@ -162,19 +208,20 @@
       </div>
     </div>
     <div
-      class="bottom-sheet-footers position-absolute d-flex justify-content-between align-items-center w-100 p-3 bg-white"
+      class="bottom-sheet-footers d-flex justify-content-between align-items-center w-100 bg-white"
     >
       <button
-        class="btn fs-16 fw-6 font-secondary rounded-pill btn-outline-dark"
+        class="btn fs-16 fw-5 text-dark font-secondary rounded-pill btn-outline-dark"
         @click="resetMobileFilters"
       >
         {{ $t('common.reset') }}
       </button>
       <button
-        class="btn text-white fs-16 fw-6 font-secondary rounded-pill apply-btn"
+        class="btn text-white fs-16 fw-5 font-secondary rounded-pill apply-btn"
         @click="applyFilters"
       >
         {{ $t('orders.apply_filter') }}
+        {{ filterCounts !== 0 ? filterCounts : '' }}
       </button>
     </div>
   </div>
@@ -192,6 +239,9 @@ import {
   MAX_PRICE,
   MIN_PRICE_RANGE_WINDOW,
   MIN_YEAR_RANGE_WINDOW,
+  MEN,
+  APPAREL,
+  ACCESSORIES
 } from '~/static/constants'
 export default {
   name: 'ShopFiltersMobile',
@@ -217,12 +267,11 @@ export default {
         },
       ],
       sortBy: '',
-      orderBy: '',
+      orderBy: 'trending',
       categories: [
-        { label: this.$t('common.all'), value: 'all' },
         { label: this.$t('common.footwear'), value: 'sneakers' },
         { label: this.$t('common.apparel'), value: 'apparel' },
-        { label: this.$tc('common.all_sizes', 2), value: 'all_sizes' },
+        { label: this.$tc('common.accessories', 2), value: 'accessories' },
       ],
       selectedRangePrices: null,
       selectedRangeYears: null,
@@ -232,6 +281,9 @@ export default {
       MIN_PRICE,
       MAX_YEAR,
       MIN_YEAR,
+      MEN,
+      APPAREL,
+      ACCESSORIES,
       MIN_PRICE_RANGE_WINDOW,
       category: 'all',
       search: '',
@@ -239,43 +291,41 @@ export default {
       prices: [],
       brands: [],
       sizes: [],
-      selectedBrand: [],
-      selectedSizeType: '',
+      sizeType: null,
+      productType: null,
+      gender: null,
+      defaultSizetype: MEN,
+      filterCounts: 0,
     }
   },
   computed: {
-    ...mapGetters('browse', [
-      'filters',
-      'selectedBrands',
-      'selectedSizes',
-      'selectedSizeTypes',
-      'selectedCategory',
-    ]),
-
+    ...mapGetters({
+      filters: 'browse/filters',
+      selectedBrands: 'browse/selectedBrands',
+      selectedSizes: 'browse/selectedSizes',
+      selectedSizeType: 'browse/selectedSizeType',
+      selectedCategory: 'browse/selectedCategory',
+    }),
     brandOptionsLess() {
       return this.brandOptions?.slice(0, 9)
     },
-
     selectedSizes() {
       return this.sizes.join(', ')
     },
     selectedBrandsValue() {
-      return this.selectedBrand.join(', ')
+      return this.brands.join(', ')
     },
     sizeOptions() {
-      if (!this.selectedSizeType) {
-        return []
-      }
       let options = this.filters?.sizes
-      if (options && this.selectedSizeType) {
+      if (options && (this.sizeType || this.defaultSizetype)) {
         options = options.filter(({ type }) =>
-          this.selectedSizeType.includes(type)
+          (this.sizeType || this.defaultSizetype) === type
         )
       }
       return (
         options?.map(({ id, size, type }) => {
           return {
-            label: `${type} - ${size}`,
+            label: `${size}`,
             value: id,
           }
         }) || []
@@ -289,17 +339,69 @@ export default {
     },
 
     sizeTypeOptions() {
-      return this.filters?.size_types?.map((type) => {
-        return { label: type, value: type }
+      return this.filters?.size_types?.map((size) => {
+        return { label: size.type, value: size.type }
       })
+    },
+
+    productTypeOptions() {
+      const options = this.filters?.product_types
+      return (
+        options?.map(({ id, type }) => {
+          return {
+            label: type,
+            value: type.toLowerCase(),
+          }
+        }) || []
+      )
     },
   },
   watch: {
     selectedCategory: {
       immediate: true,
       handler(val) {
-        this.category = val
+          this.category = val
       },
+    },
+    selectedBrands: {
+      handler(val) {
+          this.brands = val
+      }
+    },
+    brands: {
+      handler(val) {
+        this.$store.commit('browse/setSelectedBrands', val)
+      },
+    },
+    category: {
+      handler(newV) {
+        switch (newV) {
+          case APPAREL:
+            this.defaultSizetype = APPAREL
+            this.sizeType = null
+            this.$store.commit(
+              'browse/setSelectedSizeType',
+              this.sizeType
+            )
+            break
+          case ACCESSORIES:
+            this.sizeType = null
+            this.sizes = []
+            this.$store.commit(
+              'browse/setSelectedSizeType',
+              this.sizeType
+            )
+            break
+          default:
+            this.defaultSizetype = MEN
+            this.$store.commit(
+              'browse/setSelectedSizeType',
+              this.defaultSizetype
+        )
+        }
+        this.category = newV
+        this.getFilters()
+      }
     },
   },
   created() {
@@ -307,10 +409,12 @@ export default {
     this.MIN_YEAR_RANGE_WINDOW = MIN_YEAR_RANGE_WINDOW
   },
   methods: {
-    ...mapActions('browse', ['resetFilters']),
+    ...mapActions('browse', ['resetFilters','fetchFilters']),
     resetMobileFilters() {
       this.sizes = []
-      this.selectedSizeType = ''
+      this.sizeType = ''
+      this.productType = ''
+      this.gender = ''
       this.brands = []
       this.years = []
       this.prices = []
@@ -332,15 +436,17 @@ export default {
       this.$store.commit('browse/setSelectedYears', this.years)
       this.$store.commit('browse/setSelectedPrices', this.prices)
       this.$store.commit('browse/setSelectedBrands', this.brands)
-      this.$store.commit('browse/setSelectedSizeTypes', this.sizeTypes)
+      this.$store.commit('browse/setSelectedSizeType', this.sizeType)
+      this.$store.commit('browse/setProductType', this.productType)
+      this.$store.commit('browse/setGender', this.gender)
       this.$store.commit('browse/setSelectedSort', this.sortBy)
       this.$store.commit('browse/setSelectedOrdering', this.orderBy)
       this.$store.commit('browse/setIsFilter', true)
 
-      if (this.selectedSizeType && this.sizes) {
+      if (this.sizeType && this.sizes) {
         const newSizes = this.sizes.filter((size) =>
           this.filters?.sizes?.find(
-            (s) => s.id === size && this.selectedSizeType.includes(s.type)
+            (s) => s.id === size && this.sizeType.includes(s.type)
           )
         )
         this.$store.commit('browse/setSelectedSizes', newSizes)
@@ -354,7 +460,7 @@ export default {
         const category = this.categories.find(
           (category) => category.value === value
         )
-        if(category === undefined){
+        if (category === undefined) {
           return ''
         }
         return category.label
@@ -367,8 +473,8 @@ export default {
           this.sizes?.find((s) => s === size.id)
         )
         selectedSizes?.map(({ id, size, type }) => {
-          newSizes.push(`${type} - ${size}`)
-          return `${type} - ${size}`
+          newSizes.push(`${size}`)
+          return `${size}`
         })
         return newSizes.join(', ')
       } else {
@@ -378,13 +484,13 @@ export default {
     handleSortBySelect(option) {
       // Select SortBy option
       if (option === 'true' || option === 'false') {
-        this.sortBy= option
-        this.orderBy=  'sale_price'
-      } else if(option === 'trending' || option === 'created_at') {
-        this.sortBy= 'true'
-        this.orderBy=  option
-      }else{
-        this.orderBy=  ''
+        this.sortBy = option
+        this.orderBy = 'sale_price'
+      } else if (option === 'trending' || option === 'created_at') {
+        this.sortBy = 'true'
+        this.orderBy = option
+      } else {
+        this.orderBy = ''
       }
     },
     // Update selected prices and pass to parent component
@@ -402,26 +508,29 @@ export default {
       )}`
       this.years = value
     },
+    getFilters() {
+      this.fetchFilters(this.category)
+    },
   },
 }
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
 .ShopFiltersMobile
   padding-bottom: 90px
   .bottom_sheet_body
-    margin: 0 19px
-  .sizes-option
-    display: grid
-    grid-template-columns: repeat(2 , 1fr)
-    gap: 14px
+    margin: 0 28px
+    overflow-y: scroll
+    height: 550px
+    &::-webkit-scrollbar
+        width: 0px
   .bottom-sheet-footers
+    padding: 20px 28px
     bottom: 0
-    z-index: 9
     .btn
       width: 134px
     .apply-btn
-        background-color: $color-blue-20
-::v-deep .bottom-sheet__content
-  margin-right: -8px
+      background-color: $color-blue-20
+
 </style>
