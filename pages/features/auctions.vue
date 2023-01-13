@@ -168,7 +168,7 @@ export default {
       margin-bottom: 115px
 
     .feature-tabs::v-deep // Tabs section main desktop
-      margin-bottom: 117px
+      margin-bottom: 100px
       .btn-feature-tab
         &:first-child
           img

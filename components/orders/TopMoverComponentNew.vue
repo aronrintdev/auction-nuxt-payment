@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     handleChecked(newVal, oldVal) {
-      console.debug('checked top-movers-component-new')
       this.$emit('checked', newVal, oldVal)
     },
     handleLabelCreated() {

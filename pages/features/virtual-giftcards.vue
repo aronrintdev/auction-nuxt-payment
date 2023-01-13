@@ -28,7 +28,7 @@
         {{ $t('newest_features.virtual_giftcards.options') }}
       </FeatureTitle>
       <div
-        class="d-flex justify-content-center cards-wrapper-virtual mb-3 mb-md-5"
+        class="d-flex justify-content-center cards-wrapper-virtual margin-bottom-class"
       >
         <FeatureCardHoverable
           :icon="
@@ -143,7 +143,8 @@ export default {
         max-width: 361px
         min-height: 168px
         max-height: 320px
-
+  .margin-bottom-class
+    margin-bottom: 100px
 
 @media (max-width: 768px)
   .features-container::v-deep
@@ -166,4 +167,6 @@ export default {
       .feature-title-my
         margin-top: 48px !important
         margin-bottom: 24px !important
+    .margin-bottom-class
+      margin-bottom: 9px
 </style>

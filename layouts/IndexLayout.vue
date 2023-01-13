@@ -1,28 +1,34 @@
 <template>
   <div class="position-relative">
-    <Header v-if="! isHeaderHidden || ! isResponsive" ref="header"/>
-    <div class="height-wrapper container-fluid p-0 overflow-hidden" :style="bodyMinHeight">
-      <Nuxt/>
+    <Header v-if="!isHeaderHidden || !isResponsive" ref="header" />
+    <div
+      class="height-wrapper container-fluid p-0 overflow-hidden"
+      :style="bodyMinHeight"
+    >
+      <Nuxt />
     </div>
-    <ScrollToTop v-show="showScroll"/>
-    <BottomNavigation v-if="! isFooterHidden || ! isResponsive" class="d-flex d-md-none mt-4"/>
-    <Footer ref="footer" class="d-none d-md-flex"/>
+    <ScrollToTop v-show="showScroll" />
+    <BottomNavigation
+      v-if="!isFooterHidden || !isResponsive"
+      class="d-flex d-md-none mt-4"
+    />
+    <Footer ref="footer" class="d-none d-md-flex" />
   </div>
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 import screenSize from '~/plugins/mixins/screenSize'
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 import ScrollToTop from '~/components/common/ScrollToTop.vue'
-import {SCROLLY} from '~/static/constants'
+import { SCROLLY } from '~/static/constants'
 import BottomNavigation from '~/components/homepage/BottomNavigation.vue'
-import {enquireScreenSizeHandler} from '~/utils/screenSizeHandler'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'IndexLayout',
-  components: {Header, Footer, ScrollToTop, BottomNavigation},
+  components: { Header, Footer, ScrollToTop, BottomNavigation },
   mixins: [screenSize],
   data() {
     return {
@@ -30,7 +36,7 @@ export default {
       scrollY: SCROLLY,
       isHeaderHidden: false,
       isFooterHidden: false,
-      bodyMinHeight: ''
+      bodyMinHeight: '',
     }
   },
   async fetch() {
@@ -39,7 +45,7 @@ export default {
   computed: {
     isResponsive(vm) {
       return vm.isScreenXS || vm.isScreenSM
-    }
+    },
   },
   fetchOnServer: false,
   beforeMount() {
@@ -53,20 +59,20 @@ export default {
     window.removeEventListener('scroll', this.handleScroll)
   },
   mounted() {
-    this.$root.$on('hide-header', payload => {
+    this.$root.$on('hide-header', (payload) => {
       this.isHeaderHidden = payload.hideHeader
     })
 
-    this.$root.$on('hide-footer', payload => {
+    this.$root.$on('hide-footer', (payload) => {
       this.isFooterHidden = payload.hideFooter
     })
 
     this.calculateMinHeight()
 
-    window.addEventListener('resize', () => this.calculateMinHeight());
+    window.addEventListener('resize', () => this.calculateMinHeight())
   },
   unmounted() {
-    window.removeEventListener('resize', ()=>{});
+    window.removeEventListener('resize', () => {})
   },
   methods: {
     ...mapActions({
@@ -81,7 +87,7 @@ export default {
         const doc = document.body.getBoundingClientRect()
         const header = this.$refs.header?.$el.getBoundingClientRect()
         const footer = this.$refs.footer?.$el.getBoundingClientRect()
-        if(!header || !footer){
+        if (!header || !footer) {
           this.bodyMinHeight = ''
           return null
         }
@@ -91,13 +97,14 @@ export default {
       } else {
         this.bodyMinHeight = ''
       }
-    }
+    },
   },
 }
 </script>
 
 <style lang="sass" scoped>
 .height-wrapper
+  min-height: calc(100vh - 256px)
   @media (max-width: 576px)
     min-height: calc(100vh - 200px)
 </style>

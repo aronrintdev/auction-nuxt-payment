@@ -101,7 +101,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .accordion-filter-item
-  background: $color-white-5
+  background: $color-white-19
   border-radius: 8px
   padding: 12px 14px 12px 20px
   width: max-content
@@ -112,7 +112,7 @@ export default {
 
     .accordion-filter-button
       &::after
-        transform: rotate(0deg)
+        transform: rotate(180deg)
 
   .accordion-filter-button
     @include body-4-normal
@@ -134,7 +134,7 @@ export default {
       background-repeat: no-repeat
       background-size: 20px
       transition: transform 0.2s ease-in-out
-      transform: rotate(180deg)
+      transform: rotate(0deg)
 
     @media (prefers-reduced-motion: reduce)
       &::after
@@ -151,7 +151,7 @@ export default {
 
     &:focus
       box-shadow: none
-
+  
   .accordion-filter-body
     position: absolute
     z-index: 1000
@@ -211,7 +211,7 @@ export default {
     width: 6px !important
 
   ::-webkit-scrollbar-thumb
-    background-color: $color-blue-2
+    background-color: $color-blue-20
     border: none !important
 
   ::-webkit-scrollbar-track

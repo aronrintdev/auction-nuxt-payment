@@ -71,7 +71,7 @@ export default {
     margin-left: 19px
     margin-right: 19px
   .btn-group
-    background-color: $color-white-30
+    background-color: $color-white-19
     border-radius: 20px
     padding: 4px 6px
     height: 40px
@@ -79,7 +79,7 @@ export default {
       height: 35px
     .btn, .btn-lg
       @include body-6-regular
-      background-color: $color-white-30
+      background-color: $color-white-19
       border: 0 !important
       border-radius: 20px !important
       color: $color-black-1 !important
@@ -100,6 +100,7 @@ export default {
       &.active
         background-color: $color-white-1
         font-weight: $medium
+        @include body-6
       &::before
         display: block
         content: attr(title)
@@ -117,7 +118,7 @@ export default {
       .btn
         padding: 6px 10px
         white-space: nowrap
-        font-size: 11px
+        @include body-6
 
   @media (max-width: 375px)
     .btn-group
@@ -125,5 +126,5 @@ export default {
       .btn
         padding: 6px 5px
         white-space: nowrap
-        font-size: 11px
+        @include body-6
 </style>

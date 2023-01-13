@@ -3,83 +3,74 @@
     :id="id"
     modal-class="create-list-modal"
     hide-footer
+    :rounded="true"
     @hidden="newListName = ''"
+    no-header-border
+    header-class="py-0"
+    bodyClass="pt-3"
   >
     <template #header>
-      <h5>{{ $t('wish_lists.create_new_list') }}</h5>
+      <h5 class="header px-5">{{ $t('wish_lists.create_new_list') }}</h5>
     </template>
 
     <template #default="{}">
       <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
-        <b-container fluid>
-          <b-form @submit.stop.prevent="handleSubmit(createNewList)">
-            <b-row>
-              <b-col md="10" offset-md="1">
-                <ValidationProvider
-                  v-slot="validationContext"
-                  :name="$t('wish_lists.list_name')"
-                  :rules="{ required: true, min: 3, max: 255 }"
-                >
-                  <b-form-group
-                    label-for="list-name"
-                    :label="$t('wish_lists.list_name')"
-                  >
-                    <b-form-input
-                      id="list-name"
-                      v-model="newListName"
-                      aria-describedby="input-live-help"
-                      trim
-                      :state="getValidationState(validationContext)"
-                    ></b-form-input>
-                    <b-form-invalid-feedback>{{
-                        validationContext.errors[0]
-                      }}</b-form-invalid-feedback>
-                  </b-form-group>
-                </ValidationProvider>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col md="10" offset-md="1">
-                <b-form-text id="input-live-help">
-                  {{ $t('wish_lists.create_list_helper') }}
-                </b-form-text>
-              </b-col>
-            </b-row>
-            <b-row class="mt-2">
-              <b-col md="10" offset-md="1">
-                <CheckboxSwitch
-                  v-model="newListPrivacy"
-                  :label-on="$t('common.public').toUpperCase()"
-                  :label-off="$t('common.private').toUpperCase()"
-                />
-              </b-col>
-            </b-row>
-            <b-row class="mt-2">
-              <b-col md="5" offset-md="1">
-                <Button
-                  ref="btnSave"
-                  type="submit"
-                  variant="dark-blue"
-                  pill
-                  block
-                  :disabled="!newListName || loading"
-                >
-                  {{ $t('wish_lists.create_list') }}
-                </Button>
-              </b-col>
-              <b-col md="5">
-                <Button
-                  variant="outline-dark"
-                  pill
-                  block
-                  @click.prevent="$bvModal.hide(id)"
-                >
-                  {{ $t('common.cancel') }}
-                </Button>
-              </b-col>
-            </b-row>
-          </b-form>
-        </b-container>
+        <b-form @submit.stop.prevent="handleSubmit(createNewList)" class="px-5">
+          <div>
+            <ValidationProvider
+              v-slot="validationContext"
+              :name="$t('wish_lists.list_name')"
+              :rules="{ required: true, min: 3, max: 255 }"
+            >
+              <b-form-group
+                label-for="list-name"
+                :label="$t('wish_lists.list_name')"
+              >
+                <b-form-input
+                  id="list-name"
+                  v-model="newListName"
+                  aria-describedby="input-live-help"
+                  trim
+                  :state="getValidationState(validationContext)"
+                ></b-form-input>
+                <b-form-invalid-feedback>{{
+                    validationContext.errors[0]
+                  }}</b-form-invalid-feedback>
+              </b-form-group>
+            </ValidationProvider>
+          </div>
+          <div class="switch-wrapper">
+            <CheckboxSwitch
+              v-model="newListPrivacy"
+              :label-on="$t('common.public').toUpperCase()"
+              :label-off="$t('common.private').toUpperCase()"
+            />
+          </div>
+          <div>
+            <div id="input-live-help">
+              <span class="input-live-help">{{ $t('wish_lists.create_list_helper_public') }}</span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between buttons-wrapper">
+            <Button
+              ref="btnSave"
+              type="submit"
+              variant="dark-blue p-0"
+              pill
+              :disabled="!newListName || loading"
+            >
+              {{ $t('wish_lists.create_list') }}
+            </Button>
+            <Button
+              variant="outline-dark"
+              pill
+              block
+              @click.prevent="$bvModal.hide(id)"
+            >
+              {{ $t('common.cancel') }}
+            </Button>
+          </div>
+        </b-form>
       </ValidationObserver>
     </template>
   </Modal>
@@ -147,3 +138,53 @@ export default {
   },
 }
 </script>
+<style scoped lang="sass">
+@import '~/assets/css/_variables'
+.header
+  padding-top: 27px
+
+.switch-wrapper
+  padding-top: 4px
+  padding-bottom: 4px
+
+.buttons-wrapper
+  margin-top: 20px
+  margin-bottom: 10px
+  ::v-deep.btn
+    width: 160px
+
+.input-live-help
+  font-family: $font-sf-pro-text
+  @include body-13-normal
+  color: $color-gray-5
+
+::v-deep .checkbox-switch
+  line-height: 32px
+  margin-top: -4px
+  span[role='button']
+    font-family: $font-montserrat
+    @include body-5-bold
+    margin-top: 7px
+  .custom-switch
+    height: 31px
+    margin-right: 20px
+    .custom-control-label::before
+      background-color: rgba(120, 120, 128, 0)
+      border: none
+      height: 31px
+      width: 51px
+      box-shadow: none
+      background-image: url('~/assets/img/profile/wishlist/toggle-bg.svg')
+      background-repeat: no-repeat
+
+    .custom-control-label::after
+      background: $color-white
+      border: 0.5px solid rgba(0, 0, 0, 0.04)
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06)
+      width: 27px
+      height: 27px
+      border-radius: 100%
+
+    .custom-control-input:checked ~ .custom-control-label::after
+      transform: translateX(1.27rem)
+</style>

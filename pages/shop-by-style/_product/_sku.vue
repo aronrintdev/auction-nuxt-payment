@@ -109,7 +109,7 @@
               sizeViewMode === 'carousel' &&
               !offerAmount
             "
-            class="mt-3 px-4 d-none d-sm-block px-sm-0"
+            class="mt-3 d-none d-sm-block px-sm-0 pt-12"
             :product="product"
             @notify-me="handleNotifyMeClick"
             @offer-duration="handleOfferDurationEvent"
@@ -117,7 +117,7 @@
 
           <OfferDuration
             v-else-if="sizeViewMode === 'carousel' && offerAmount"
-            class="mt-3 px-3 px-sm-0"
+            class="mt-3 pt-12 px-3 px-sm-0"
             :offer-amount="offerAmount"
             @place-offer="handleOfferSubmit"
             @clear-offer="offerAmount = null"
@@ -125,7 +125,7 @@
 
           <BuyNow
             v-else-if="method === 'buy' && sizeViewMode === 'carousel'"
-            class="mt-3 d-none d-sm-block"
+            class="mt-3 pt-12 d-none d-sm-block"
             :product="product"
             :lowest-price="lowestPrice"
             @buy-now="handleBuyNowClick"
@@ -135,7 +135,7 @@
 
           <SellNow
             v-else-if="sizeViewMode === 'carousel' && !offerAmount"
-            class="mt-3 px-3 px-sm-0"
+            class="mt-3 pt-12 px-3 px-sm-0"
             :highest-offer="highestOffer"
             @offer-duration="handleOfferDurationEvent"
             @sell-now="handleSellNowClick"
@@ -206,7 +206,7 @@
 
       <OutOfStockSm
         v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
-        class="px-4 d-sm-none"
+        class="px-3 pt-12 d-sm-none"
         :product="product"
         @notify-me="handleNotifyMeClick"
         @place-offer="handleOfferSubmit"
@@ -214,7 +214,7 @@
 
       <BuyNow
         v-else-if="method === 'buy' && sizeViewMode === 'carousel' && product"
-        class="mt-3 px-4 d-sm-none"
+        class="mt-3 pt-12 px-3 d-sm-none"
         :product="product"
         :lowest-price="lowestPrice"
         @buy-now="handleBuyNowClick"
@@ -281,6 +281,12 @@
         @click="backTo"
       />
     </Portal>
+    <Portal to="notification-icon-slot">
+      <ShareIcon class="share-icon" />
+    </Portal>
+    <Portal to="cart-icon-slot">
+      <Cart class="cart-icon" />
+    </Portal>
   </b-row>
 </template>
 
@@ -306,6 +312,9 @@ import PlusCircle from '~/assets/icons/PlusCircle'
 import ProductCarousel from '~/components/shop-by-style/ProductCarousel'
 import DetailCard from '~/components/shop-by-style/DetailCard'
 import SizePickerMobile from '~/components/shop-by-style/SizePickerMobile'
+import ShareIcon from '~/assets/icons/ShareIcon'
+import Cart from '~/assets/icons/Cart'
+
 export default {
   name: 'ShopByStyleProductDetails',
   components: {
@@ -327,6 +336,8 @@ export default {
     ProductCarousel,
     DetailCard,
     SizePickerMobile,
+    ShareIcon,
+    Cart,
   },
   layout: 'IndexLayout',
   fetchOnServer: false,
@@ -912,4 +923,14 @@ export default {
     background-color: $color-gray-23
 .mt-22
   margin-top: 22px
+@media (max-width: 460px)
+.share-icon::v-deep
+  .strokeColor
+    stroke: $color-gray-47
+  .fillColor
+    fill: $color-gray-47
+
+.pt-12
+  padding-top: 12px
+
 </style>

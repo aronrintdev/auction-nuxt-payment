@@ -66,8 +66,8 @@
     </div>
     </div>
     <div class="inventory-items d-flex flex-wrap pt-3 pl-4">
-      <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item">
-        <div>
+      <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item" :class="{'d-none': item.stock <= 0}">
+        <div v-if="item.stock >= 1">
           <div class="position-relative">
             <img alt="No Image" class="plus-icon-add-trade position-absolute" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
                  @click="addYourItem(item)"/>
@@ -167,8 +167,18 @@ export default {
             $state.complete()
           }else {
             this.page += 1;
-            this.inventoryItems.push(...res.data);
             $state.loaded()
+          }
+          this.inventoryItems.push(...res.data);
+
+          if(this.getYourTradeItems.length >= 1){
+            const inventoryIds = this.getYourTradeItems.map((yourItem) => {
+              return yourItem.id
+            });
+
+            inventoryIds.forEach((inventoryId) => {
+              this.updateInventoryStock(inventoryId, false)
+            })
           }
         })
         .catch((error) => { // return error
@@ -197,6 +207,7 @@ export default {
       } else {
         this.$store.commit('trade/removeYourTradeItem', item.id)
       }
+      this.updateInventoryStock(item.id, true)
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
     },
@@ -267,11 +278,25 @@ export default {
         })
     },
     /**
+     * Update inventory stock
+     */
+    updateInventoryStock(inventoryId, increment){
+      const allInventories = JSON.parse(JSON.stringify(this.inventoryItems))
+      const index = this.inventoryItems.findIndex((inventoryItem) => inventoryItem.id === inventoryId)
+      if(index !== false && increment){
+        allInventories[index].stock += 1
+      }else if(index !== false){
+        allInventories[index].stock -= 1
+      }
+      this.inventoryItems = JSON.parse(JSON.stringify(allInventories))
+    },
+    /**
      * This function is used to add or increment your trade item in store
      * @param item
      */
     addOrIncrementYourItem(item) {
       this.$store.commit('trade/setYourTradeItems', item)
+      this.updateInventoryStock(item.id, false)
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
     },

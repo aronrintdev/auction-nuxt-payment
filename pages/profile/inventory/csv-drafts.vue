@@ -57,12 +57,12 @@
               @change="toggleSelectAll"
             ></b-checkbox>
           </th>
-          <th class="p-3 text-center">{{ $t('common.details') }}</th>
-          <th class="p-3 text-center">{{ $tc('common.size', 1) }}</th>
-          <th class="p-3 text-center">{{ $t('common.box_condition') }}</th>
-          <th class="p-3 text-center">{{ $t('common.quantity') }}</th>
-          <th class="p-3 text-center">{{ $t('common.price') }}</th>
-          <th class="p-3 text-center">{{ $tc('common.action', 2) }}</th>
+          <th class="p-3 text-center font-style">{{ $t('common.details') }}</th>
+          <th class="p-3 text-center font-style">{{ $tc('common.size', 1) }}</th>
+          <th class="p-3 text-center font-style">{{ $t('common.box_condition') }}</th>
+          <th class="p-3 text-center font-style">{{ $t('common.quantity') }}</th>
+          <th class="p-3 text-center font-style">{{ $t('common.price') }}</th>
+          <th class="p-3 text-center font-style">{{ $tc('common.action', 2) }}</th>
         </tr>
       </thead>
       <tbody class="inventory-rows">
@@ -741,4 +741,10 @@ export default {
 
 .mt-fix
   margin-top: 36px
+
+.font-style
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  @include body-1816
 </style>

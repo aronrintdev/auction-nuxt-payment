@@ -250,6 +250,8 @@ export default {
     resetFilter() {
       this.sizeTypeSelected.splice(0, this.sizeTypeSelected.length)
       this.brandsSelected.splice(0, this.brandsSelected.length)
+      this.year.start = ''
+      this.year.end = ''
       this.handleApply()
     },
     handleApply() {

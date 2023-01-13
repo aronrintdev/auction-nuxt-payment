@@ -4,7 +4,7 @@
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
           <div :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM
-                ? 'center-container-xs-one':getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM  ? 'center-container-two-one': 'center-container-xs mb-5'">
+                ? 'center-container-xs-one': (getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM  ? 'center-container-two-one': 'center-container-xs mb-5')">
             <div class="left-item-xs"
                  :class="getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM ?
                  'left-item-one-one': getTheirItems.length === TWO_ITEMS && getYourItems.length === ONE_ITEM ?
@@ -50,7 +50,7 @@
               <div  v-if="getYourItems.length" class="">
                 <div  v-for="(item,index) in getYourItems" :id="getYourItems.length > ONE_ITEM ?'your-card-'+index : 'your-item'" :key="index" class="preview mb-4">
                   <div class="position-relative">
-                  <div class="remove-item-xs position-absolute mt-2"  @click="removeItem(item.inventory.product.id)">
+                  <div class="remove-item-xs position-absolute mt-2" @click="removeItem(item.inventory.product.id)">
                     <img :src="require('~/assets/img/minusSign.svg')" />
                   </div>
                   </div>
@@ -72,12 +72,20 @@
           </div>
 
           <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center m-2">
-            <Meter :highest="getTheirTotal(false)"
-                   :lowest="0"
-                   :value="getYourTotal(false)"
-                   :fair="getFairTradeValue()"
-                   heading="trades.trade_arena.fair_trade_meter"
-            />
+            <Meter v-if="editYours"
+                :highest="getTheirTotal(false)"
+                :lowest="0"
+                :value="getYourTotal(false)"
+                :fair="getFairTradeValue()"
+                  heading="trades.trade_arena.fair_trade_meter"
+              />
+              <Meter v-else
+                :highest="getYourTotal(false)"
+                :lowest="0"
+                :value="getTheirTotal(false)"
+                :fair="getFairTradeValue()"
+                  heading="trades.trade_arena.fair_trade_meter"
+              />
           </div>
           <div>
             <b-btn v-if="editYours" variant="primary"
@@ -138,28 +146,28 @@
             <div v-else>
               <div class="offer-items">
                 <div class="d-flex justify-content-between pl-3 pr-3">
-                  <div class="clear" :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="clearItems()">Clear</div>
+                  <div class="clear" :class="{'color-blue': getYourItems.length > 0}" role="button" @click="clearItems()">Clear</div>
                   <div class="d-block text-center">
                     <div class="offer-heading">{{$t('trades.your_offer')}}</div>
                     <div class="est-val">{{$t('trades.estimated_value')}}:{{getYourTotal()}}</div>
                   </div>
-                  <div class="done"  :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="doneClose()">Done</div>
+                  <div class="done"  :class="{'color-blue': getYourItems.length > 0}" role="button" @click="doneClose()">Done</div>
                 </div>
-                <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="d-flex justify-content-center">
-                  <div  v-for="(item,index) in getYourTradeItems" :id="'your-card-'+index" :key="index" class="item-inventory mt-2 mb-4 ml-3">
+                <div v-if="getYourItems.length > ITEM_COUNT_0" class="d-flex justify-content-center">
+                  <div  v-for="(item,index) in getYourItems" :id="'your-card-'+index" :key="index" class="item-inventory mt-2 mb-4 ml-3">
                     <div class="position-relative">
-                      <div class="remove-item-xs mt-2" @click="decrementOrRemoveItem(item)">
+                      <div class="remove-item-xs mt-2" @click="removeItem(item.inventory.product.id)">
                         <img :src="require('~/assets/img/minusSign.svg')" />
                       </div>
                     </div>
                     <div class="image-wrapper-sm position-relative d-flex justify-content-center align-items-center">
-                      <img class="pro-image-sm" :src="item.product.image" alt="image" />
+                      <img class="pro-image-sm" :src="item.inventory.product | getProductImageUrl" alt="image" />
                       <div class="overlay-image position-absolute"></div>
                     </div>
                     <div class="item-caption">
-                      <div class="item-name">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</div>
-                      <div class="item-caption-description">{{  (item.product  && item.product.colorway) ? item.product.colorway : item.colorway }},{{$t('trades.trade_arena.size')}} {{ item.size && item.size.size }}</div>
-                      <div class="item-box-condition">{{$t('trades.trade_arena.box_condition')}}: {{  (item.box_condition && item.box_condition.name) ? item.box_condition.name :item.box_condition }}</div>
+                      <div class="item-name">{{  (item.inventory.product && item.inventory.product.name) ? item.inventory.product.name : item.name  }}</div>
+                      <div class="item-caption-description">{{  (item.inventory.product  && item.inventory.product.colorway) ? item.inventory.product.colorway : item.colorway }},{{$t('trades.trade_arena.size')}} {{ item.inventory.size && item.inventory.size.size }}</div>
+                      <div class="item-box-condition">{{$t('trades.trade_arena.box_condition')}}: {{  (item.inventory.box_condition && item.inventory.box_condition.name) ? item.inventory.box_condition.name :item.box_condition }}</div>
                     </div>
                   </div>
                 </div>
@@ -341,10 +349,18 @@
             </div>
             <div class="d-flex flex-column align-items-center mb-4">
               <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
-                <Meter
+                <Meter v-if="editYours"
                   :highest="getTheirTotal(false)"
                   :lowest="0"
                   :value="getYourTotal(false)"
+                  :fair="getFairTradeValue()"
+                  heading="common.fair_trade_meter"
+                  headingClass="my-header"
+                />
+                <Meter v-else
+                  :highest="getYourTotal(false)"
+                  :lowest="0"
+                  :value="getTheirTotal(false)"
                   :fair="getFairTradeValue()"
                   heading="common.fair_trade_meter"
                   headingClass="my-header"
@@ -556,19 +572,23 @@
               <div
                 v-for="(item) in inventoryItems"
                 :key="item.id"
-                class="item invent-item-bg d-flex flex-column justify-content-center align-items-center col-6 col-md-3"
+                class="item invent-item-bg flex-column justify-content-center align-items-center col-6 col-md-3"
+                :class="{
+                  'd-none': item.stock <= 0,
+                  'd-flex': item.stock > 0
+                  }"
               >
-                <div>
+                <div v-if="item.stock >= 1">
                   <img v-if="!editYours" class="plus-icon-add-trade-bg" role="button"
                        :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
                   <img v-else class="plus-icon-add-trade-bg" role="button"
                        :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
                 </div>
-                <div class="position-relative  d-flex justify-content-center align-items-center image-wrapper-bg">
+                <div v-if="item.stock >= 1" class="position-relative  d-flex justify-content-center align-items-center image-wrapper-bg">
                   <img class="pro-image"  :src="item.product | getProductImageUrl"/>
                   <div class="overlay-bg"></div>
                 </div>
-                <div class="item-caption">
+                <div v-if="item.stock >= 1" class="item-caption">
                   <span class="item-name-invent">{{ item.product.name }}</span>
                   <div class="mt-1 item-caption-description-invent d-flex">
                     <div class="item-color text-truncate">{{ item.product.colorway }}</div>
@@ -729,7 +749,6 @@ export default {
     ...mapGetters('browse', ['filters']),
     ...mapGetters('counter-offer', ['getOffer', 'getYourItems', 'getTheirItems', 'getLastSubmittedOffer', 'getYourVendorId', 'getTheirVendorId']),
     ...mapGetters('trade', ['getActiveTrade']),
-    ...mapGetters('trade', ['getYourTradeItems']),
   },
   created() {
     this.$store.commit('counter-offer/clearStates')
@@ -795,20 +814,18 @@ export default {
     showFilters(){
       this.filterScreen = true;
     },
-    addYourItem(item) {
-      if (this.canAddMoreItems() && this.checkIfItemAlreadyListed(item)) {
-        this.addOrIncrementYourItem(item)
+    /**
+     * Update inventory stock
+     */
+    updateInventoryStock(inventoryId, increment){
+      const allInventories = JSON.parse(JSON.stringify(this.inventoryItems))
+      const index = this.inventoryItems.findIndex((inventoryItem) => inventoryItem.id === inventoryId)
+      if(index !== false && increment){
+        allInventories[index].stock += 1
+      }else if(index !== false){
+        allInventories[index].stock -= 1
       }
-    },
-    decrementOrRemoveItem(item) {
-      const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
-      if (existingItem.quantity > 1) {
-        this.$store.commit('trade/decrementYourTradeItemQuantity', item.id)
-      } else {
-        this.$store.commit('trade/removeYourTradeItem', item.id)
-      }
-      this.updateActiveTrade()
-      this.$nextTick(() => this.$forceUpdate())
+      this.inventoryItems = JSON.parse(JSON.stringify(allInventories))
     },
     getInventory: debounce(function ($state,filters = {}) {
       filters.category = this.categoryFilter
@@ -829,8 +846,18 @@ export default {
             $state.complete()
           }else {
             this.page += 1;
-            this.inventoryItems.push(...res.data);
             $state.loaded()
+          }
+          this.inventoryItems.push(...res.data);
+
+          if(this.getYourTradeItems.length >= 1){
+            const inventoryIds = this.getYourItems.map((yourItem) => {
+              return yourItem.id
+            });
+
+            inventoryIds.forEach((inventoryId) => {
+              this.updateInventoryStock(inventoryId, false)
+            })
           }
         })
         .catch((error) => { // return error
@@ -850,7 +877,7 @@ export default {
       this.getYourTotal(false)
     },
     checkIfItemAlreadyListed(item) {
-      const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
+      const existingItem = this.getYourItems.find(val => val.id === item.id)
       if (existingItem) return true;
       this.$axios
         .post('check/product/in/listing', {
@@ -863,7 +890,7 @@ export default {
             this.$bvModal.show('alreadyListed')
             return false
           } else {
-            this.addOrIncrementYourItem(item)
+            this.addTheirsInventoryItem(item)
             return true
           }
         })
@@ -871,11 +898,6 @@ export default {
           this.$toasted.error(this.$t(error.response.data.error))
           this.itemListingId = null
         })
-    },
-    addOrIncrementYourItem(item) {
-      this.$store.commit('trade/setYourTradeItems', item)
-      this.updateActiveTrade()
-      this.$nextTick(() => this.$forceUpdate())
     },
     /**
      * check if trade is poor/fair
@@ -944,6 +966,7 @@ export default {
     addTheirsInventoryItem(item){
       if(this.canAddMoreItems()){
         this.$store.commit('counter-offer/addTheirItem', item)
+        this.updateInventoryStock(item.id, false)
         this.updateActiveTrade()
         this.$toasted.success(this.$t('trades.item_added'))
         this.$nextTick(() => this.$forceUpdate())
@@ -952,6 +975,7 @@ export default {
     addYourInventoryItem(item){
       if(this.canAddMoreItems()){
         this.$store.commit('counter-offer/addYourItem', item)
+        this.updateInventoryStock(item.id, false)
         this.updateActiveTrade()
         this.$toasted.success(this.$t('trades.item_added'))
         this.$nextTick(() => this.$forceUpdate())
@@ -1031,7 +1055,10 @@ export default {
      * @returns {boolean}
      */
     canAddMoreItems() {
-      const itemsCount = this.getYourTradeItems.map(i => i.quantity).reduce((a, b) => a + b, 0)
+      let itemsCount = this.getYourItems.map(i => i.quantity).reduce((a, b) => a + b, 0)
+      if(!this.editYours){
+        itemsCount = this.getTheirItems.map(i => i.quantity).reduce((a, b) => a + b, 0)
+      }
       if (itemsCount < MAX_ITEMS_ALLOWED) {
         return true
       } else {

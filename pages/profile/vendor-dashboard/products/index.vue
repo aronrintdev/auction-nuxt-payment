@@ -1,100 +1,106 @@
 <template>
   <div class="dashboard-products" :class="mobileClass">
     <div
-        v-if="isScreenXS"
-        class="d-flex align-items-center justify-content-between mb-29"
+      v-if="isScreenXS"
+      class="d-flex align-items-center justify-content-between mb-29"
     >
       <MobileSearchInput
-          :value="searchValue"
-          class="w-100"
-          @input="handleSearch"
+        :value="searchValue"
+        class="w-100"
+        @input="handleSearch"
       />
       <filter-svg
-          class="ml-3"
-          role="button"
-          @click="mobileFiltersOpen = !mobileFiltersOpen"
+        class="ml-3"
+        role="button"
+        @click="mobileFiltersOpen = !mobileFiltersOpen"
       ></filter-svg>
     </div>
 
     <div v-if="isScreenXS" class="body-5-bold font-primary text-black mb-23">
-      {{$t('vendor_dashboard.breakdown.overview')}}
+      {{ $t('vendor_dashboard.breakdown.overview') }}
     </div>
     <section :class="mobileClass" class="row">
       <div class="col-3 col-md-3">
         <StatsCard
-            :show-icon="!isScreenXS"
-            :coloredText="isScreenXS"
-            :icon="require('~/assets/img/icons/profile/total-sales.svg')"
-            :title="$tc('vendor_dashboard.total_sales', 1).toString()"
-            :value="totalSales"
-            color="#667799"
+          :coloredText="isScreenXS"
+          :icon="require('~/assets/img/icons/profile/total-sales.svg')"
+          :title="$tc('vendor_dashboard.total_sales', 1).toString()"
+          :value="totalSales"
+          color="#667799"
         />
       </div>
       <div class="col-3 col-md-3">
         <StatsCard
-            :show-icon="!isScreenXS"
-            :coloredText="isScreenXS"
-            :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
-            :title="
+          :coloredText="isScreenXS"
+          :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
+          :title="
             $t(
               isScreenXS
                 ? 'vendor_dashboard.pending_percentage'
                 : 'vendor_dashboard.commision_pending'
             ).toString()
           "
-            :value="commissionPending"
-            color="#CE745F"
+          :value="commissionPending"
+          color="#CE745F"
         />
       </div>
       <div class="col-3 col-md-3">
         <StatsCard
-            :show-icon="!isScreenXS"
-            :coloredText="isScreenXS"
-            :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
-            :title="$t('vendor_dashboard.inventory')"
-            :value="'' + analytics.inventory_amount"
-            color="#7196B1"
+          :coloredText="isScreenXS"
+          :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
+          :title="$t('vendor_dashboard.inventory')"
+          :value="'' + analytics.inventory_amount"
+          color="#7196B1"
         />
       </div>
       <div class="col-3 col-md-3">
         <StatsCard
-            :show-icon="!isScreenXS"
-            :coloredText="isScreenXS"
-            :icon="require('~/assets/img/icons/profile/item-sold.svg')"
-            :title="$t('vendor_dashboard.items_sold')"
-            :value="'' + analytics.items_sold"
-            color="#909090"
+          :coloredText="isScreenXS"
+          :icon="require('~/assets/img/icons/profile/item-sold.svg')"
+          :title="$t('vendor_dashboard.items_sold')"
+          :value="'' + analytics.items_sold"
+          color="#909090"
         />
       </div>
     </section>
 
-    <DashboardTopMovers :class="{
-      'mt-29': !isScreenXS,
-      'mt-46': isScreenXS
-    }"/>
+    <DashboardTopMovers
+      :class="{
+        'mt-29': !isScreenXS,
+        'mt-46': isScreenXS,
+      }"
+    />
 
-    <DashboardVendorProducts :filter-search="searchValue" :filter-sort="sortbySelected"/>
+    <DashboardVendorProducts
+      :filter-search="searchValue"
+      :filter-sort="sortbySelected"
+    />
+    <Portal to="page-title"> Products </Portal>
+    <Portal to="cart-icon-slot">
+      <img
+          height="22px"
+          :src="require('~/assets/img/home/sidebar/cart-outline-rounded.svg')"
+          alt="..."
+      />
+    </Portal>
     <MobileBottomSheet
-        :height="'60%'"
-        :open="mobileFiltersOpen"
-        :title="$t('common.filter_by').toString()"
-        @closed="mobileFiltersOpen = false"
-        @opened="mobileFiltersOpen = true"
+      :height="'60%'"
+      :open="mobileFiltersOpen"
+      :title="$t('common.filter_by').toString()"
+      @closed="mobileFiltersOpen = false"
+      @opened="mobileFiltersOpen = true"
     >
       <template #default>
         <div
-            class="d-flex flex-column align-items-center justify-content-between h-88 w-100 filters"
+          class="d-flex flex-column align-items-center justify-content-between h-88 w-100 filters"
         >
           <div class="d-flex flex-column w-100">
-            <FilterAccordion
-                :open="true"
-                :title="$t('orders.sort').toString()"
-            >
+            <FilterAccordion :open="true" :title="$t('orders.sort').toString()">
               <b-form-radio-group
-                  v-model="sortbySelected"
-                  :options="sortOptions"
-                  class="d-flex flex-column mt-2 sort-filters"
-                  @change="mobileFiltersOpen = false"
+                v-model="sortbySelected"
+                :options="sortOptions"
+                class="d-flex flex-column mt-2 sort-filters"
+                @change="mobileFiltersOpen = false"
               >
               </b-form-radio-group>
             </FilterAccordion>
@@ -108,18 +114,24 @@
 <script>
 import StatsCard from '~/components/common/DashbaordStatsCard'
 import screenSize from '~/plugins/mixins/screenSize'
-import DashboardTopMovers from '~/components/profile/vendor-dashboard/DashboardTopMovers';
-import DashboardVendorProducts from '~/components/profile/vendor-dashboard/DashboardProducts';
-import MobileSearchInput from '~/components/mobile/MobileSearchInput';
+import DashboardTopMovers from '~/components/profile/vendor-dashboard/DashboardTopMovers'
+import DashboardVendorProducts from '~/components/profile/vendor-dashboard/DashboardProducts'
+import MobileSearchInput from '~/components/mobile/MobileSearchInput'
 import filterSvg from '~/assets/img/profile/notifications/filters.svg?inline'
-import MobileBottomSheet from '~/components/mobile/MobileBottomSheet';
-import FilterAccordion from '~/components/mobile/FilterAccordion';
+import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
+import FilterAccordion from '~/components/mobile/FilterAccordion'
 
 export default {
   name: 'Products',
   components: {
     FilterAccordion,
-    MobileBottomSheet, MobileSearchInput, DashboardVendorProducts, DashboardTopMovers, StatsCard, filterSvg },
+    MobileBottomSheet,
+    MobileSearchInput,
+    DashboardVendorProducts,
+    DashboardTopMovers,
+    StatsCard,
+    filterSvg,
+  },
   mixins: [screenSize],
   layout: 'Profile',
   data() {
@@ -142,18 +154,18 @@ export default {
           value: 'old_to_recent',
           text: this.$t('vendor_purchase.purchase_oldest_to_recent'),
         },
-      ]
+      ],
     }
   },
   computed: {
     totalSales() {
       return this.$options.filters.toCurrency(
-          parseInt(this.analytics.total_sales)
+        parseInt(this.analytics.total_sales)
       )
     },
     commissionPending() {
       return this.$options.filters.toCurrency(
-          parseInt(this.analytics.pending_commission)
+        parseInt(this.analytics.pending_commission)
       )
     },
   },
@@ -166,13 +178,13 @@ export default {
     },
     getAnalytics() {
       this.$axios
-          .get('/dashboard/vendor/analytics')
-          .then((res) => {
-            this.analytics = res.data.data
-          })
-          .catch((err) => {
-            this.logger.logToServer(err.response)
-          })
+        .get('/dashboard/vendor/analytics')
+        .then((res) => {
+          this.analytics = res.data.data
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
     },
   },
 }

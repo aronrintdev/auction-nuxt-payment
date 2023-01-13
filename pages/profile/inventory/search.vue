@@ -336,7 +336,8 @@ export default {
   overflow: hidden
   .product-name
     font-family: $font-montserrat
-    @include body-10-medium
+    @include body-9
+    font-weight: $regular
     color: $color-black-15
     display: -webkit-box
     -webkit-line-clamp: 2
@@ -345,7 +346,7 @@ export default {
 
   .add-btn
     font-family: $font-family-sf-pro-display
-    @include body-9-normal
+    @include body-9-medium
     color: $color-white
     border-radius: 5px
     margin-right: 5px

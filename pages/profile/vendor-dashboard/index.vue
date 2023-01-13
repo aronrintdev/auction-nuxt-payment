@@ -96,16 +96,18 @@
           height="22px"
           :src="require('~/assets/img/home/sidebar/cart-outline-rounded.svg')"
           alt="..."
-      />
+        />
       </Portal>
       <Portal to="back-icon-slot">
         <b-navbar-toggle target="top-menu-sidebar">
           <template #default>
             <img
-                width="17px"
-                height="16px"
-                :src="require('~/assets/img/icons/side-menu/hamburger-menu-rounded.svg')"
-                alt="..."
+              width="17px"
+              height="16px"
+              :src="
+                require('~/assets/img/icons/side-menu/hamburger-menu-rounded.svg')
+              "
+              alt="..."
             />
           </template>
         </b-navbar-toggle>

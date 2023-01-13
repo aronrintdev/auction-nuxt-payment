@@ -90,8 +90,8 @@
       <div class="product-title text-truncate">
         {{ inventory.product.name }}
       </div>
-      <div class="product-color text-truncate">
-        {{ inventory.product.colorway }}, {{ $t('sell.inventory.size') }} {{ inventory.size.size }}
+      <div class="product-color">
+        {{ inventory.product.colorway.slice(0, 10) }}, {{ $t('sell.inventory.size') }} {{ inventory.size.size }}
       </div>
       <div class="product-color text-truncate mr-5">
         {{ conditionLabel }}&colon; {{ $t(inventory.packaging_condition.name) }}

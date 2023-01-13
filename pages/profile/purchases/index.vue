@@ -420,7 +420,7 @@ import VendorPurchaseCustomSelect from '~/components/common/CustomSelect.vue'
 import VendorPurchaseHistory from '~/components/profile/purchases/PurchaseHistory.vue'
 import VendorPurchaseSelectWithCheckbox from '~/components/common/CustomSelectwithCheckbox.vue'
 import {Pagination} from '~/components/common'
-import {PER_PAGE_OPTIONS, PERPAGE} from '~/static/constants'
+import {PER_PAGE_OPTIONS, PERPAGE, BUYER_ORDER_STATUSES} from '~/static/constants'
 import screenSize from '~/plugins/mixins/screenSize'
 import MobileSearchInput from '~/components/mobile/MobileSearchInput'
 import filterSvg from '~/assets/img/profile/notifications/filters.svg?inline'
@@ -508,166 +508,6 @@ export default {
           type: this.$t('vendor_purchase.type'),
         },
       ],
-      buyerOptions: [
-        {
-          id: 1,
-          text: this.$t('vendor_purchase.products'),
-          value: '',
-          type: 'products',
-        },
-        {
-          id: 3,
-          text: this.$t('vendor_purchase.orderstatus.processing'),
-          value: 'processing,awaiting_shipment_to_ds',
-          type: 'products',
-        },
-        {
-          id: 4,
-          text: this.$t('vendor_purchase.orderstatus.pending'),
-          value: 'pending',
-          type: 'products',
-        },
-        {
-          id: 5,
-          text: this.$t('vendor_purchase.orderstatus.sent_to_deadstock'),
-          value: 'shipped_to_ds',
-          type: 'products',
-        },
-        {
-          id: 6,
-          text: this.$t('vendor_purchase.orderstatus.received_at_deadstock'),
-          value: 'arrived_at_ds,auth_issue,awaiting_auth',
-          type: 'products',
-        },
-        {
-          id: 7,
-          text: this.$t('vendor_purchase.orderstatus.authentication_failed'),
-          value: 'auth_failed',
-          type: 'products',
-        },
-        {
-          id: 8,
-          text: this.$t('vendor_purchase.orderstatus.cancelled'),
-          value: 'cancel,failed,refunded,voided',
-          type: 'products',
-        },
-        {
-          id: 9,
-          text: this.$t('vendor_purchase.orderstatus.authenticated'),
-          value: 'auth_completed,awaiting_shipment_to_buyer',
-          type: 'products',
-        },
-        {
-          id: 10,
-          text: this.$t('vendor_purchase.orderstatus.authenticated_and_shipped'),
-          value: 'shipped_to_buyer',
-          type: 'products',
-        },
-        {
-          id: 11,
-          text: this.$t('vendor_purchase.orderstatus.delivered'),
-          value: 'delivered,completed',
-          type: 'products',
-        },
-        {
-          id: 12,
-          text: this.$t('vendor_purchase.orderstatus.declined'),
-          value: 'declined',
-          type: 'products',
-        },
-        {
-          id: 13,
-          text: this.$t('vendor_purchase.giftcard'),
-          value: '',
-          type: 'giftcard',
-        },
-        {
-          id: 14,
-          text: this.$t('vendor_purchase.purchased'),
-          value: 'complete_giftcard',
-          type: 'giftcard',
-        },
-      ],
-      vendorOptions: [
-        {
-          id: 1,
-          text: this.$t('vendor_purchase.products'),
-          value: '',
-          type: 'products',
-        },
-        {
-          id: 3,
-          text: this.$t('vendor_purchase.orderstatus.ship_to_deadstock_status'),
-          value: 'processing',
-          type: 'products',
-        },
-        {
-          id: 31,
-          text: this.$t('vendor_purchase.orderstatus.awaiting_drop_off_with_shipping_carrier'),
-          value: 'awaiting_shipment_to_ds',
-          type: 'products',
-        },
-        {
-          id: 4,
-          text: this.$t('vendor_purchase.orderstatus.pending'),
-          value: 'pending',
-          type: 'products',
-        },
-        {
-          id: 5,
-          text: this.$t('vendor_purchase.orderstatus.sent_to_deadstock'),
-          value: 'shipped_to_ds',
-          type: 'products',
-        },
-        {
-          id: 6,
-          text: this.$t('vendor_purchase.orderstatus.received_at_deadstock'),
-          value: 'arrived_at_ds,auth_issue,awaiting_auth',
-          type: 'products',
-        },
-        {
-          id: 7,
-          text: this.$t('vendor_purchase.orderstatus.authentication_failed'),
-          value: 'auth_failed',
-          type: 'products',
-        },
-        {
-          id: 8,
-          text: this.$t('vendor_purchase.orderstatus.cancelled'),
-          value: 'cancel,failed,refunded,voided',
-          type: 'products',
-        },
-        {
-          id: 9,
-          text: this.$t('vendor_purchase.orderstatus.authenticated'),
-          value: 'auth_completed',
-          type: 'products',
-        },
-        {
-          id: 10,
-          text: this.$t('vendor_purchase.orderstatus.commission_paid'),
-          value: 'awaiting_shipment_to_buyer,shipped_to_buyer,completed,delivered',
-          type: 'products',
-        },
-        {
-          id: 13,
-          text: this.$t('vendor_purchase.orderstatus.declined'),
-          value: 'declined',
-          type: 'products',
-        },
-        {
-          id: 14,
-          text: this.$t('vendor_purchase.giftcard'),
-          value: '',
-          type: 'giftcard',
-        },
-        {
-          id: 15,
-          text: this.$t('vendor_purchase.purchased'),
-          value: 'complete_giftcard',
-          type: 'giftcard',
-        },
-      ],
       productsOptions: [],
       statusFilter: [],
       typeFilter: [],
@@ -729,7 +569,14 @@ export default {
 
   mounted() {
     this.loadData()
-    this.productsOptions = (this.isAuthenticated && this.isVendor) ? this.vendorOptions : this.buyerOptions
+    this.productsOptions = BUYER_ORDER_STATUSES.map(status => {
+      return {
+        id: status.id,
+        text: this.$t(status.text),
+        value: status.value,
+        type: status.type,
+      }
+    })
   },
   methods: {
     infiniteHandler($state) {

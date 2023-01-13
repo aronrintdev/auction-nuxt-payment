@@ -58,7 +58,9 @@
         />
       </div>
 
-      <div class="d-flex justify-content-center cards-wrapper-selling mb-5">
+      <div
+        class="d-flex justify-content-center cards-wrapper-selling margin-bottom-class"
+      >
         <FeatureCardHoverable
           :icon="
             require('~/assets/img/features/newest-feature/selling-on-deadstock/Truck-Icon.svg')
@@ -178,6 +180,8 @@ export default {
       max-width: 361px
       min-height: 168px
       max-height: 320px
+  .margin-bottom-class
+    margin-bottom: 100px
 
 
 @media (max-width: 768px)
@@ -192,4 +196,8 @@ export default {
         .feature-item::v-deep
           flex-direction: column
           align-items: center
+@media screen and (max-width: 577px)
+  .features-container
+    .margin-bottom-class
+      margin-bottom: 35px
 </style>

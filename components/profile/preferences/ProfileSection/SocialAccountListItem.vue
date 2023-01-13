@@ -5,7 +5,7 @@
         <!-- Image -->
 
 
-        <b-col class="social-logo p-0 m-0 d-block d-flex" :class="{'col-md-2': !responsiveDesign}">
+        <b-col class="social-logo p-0 m-0 d-block d-flex my-auto" :class="{'col-md-2': !responsiveDesign}">
           <img :class="responsiveDesign && 'icon-image'" :src="require(`~/assets/img/icons/${img}`)" alt="logo" />
 
           <div v-if="responsiveDesign" class="text-bold social-media-label ml-2 mt-2">
@@ -134,7 +134,7 @@ export default {
 @import '~/assets/css/_variables'
 .social-button
   .profile-social-link-button
-    border-color: $color-blue-2
+    border-color: $color-grey-101
     color: $color-blue-2
 
 .connected-text-responsive

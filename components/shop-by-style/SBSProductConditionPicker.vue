@@ -56,7 +56,7 @@
           borderBottom: '1px solid #000',
         }"
         labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500; font-size: 14px; color: #667799;"
-        arrowStyle="color: #667799; width: 14px; height: 16px; position: absolute; right: 70px; margin-bottom: 15.5px;"
+        arrowStyle="color: #667799; width: 14px; height: 16px; position: absolute; right: 15px; top: -3px;"
         @change="handleConditionSelect"
       />
     </div>

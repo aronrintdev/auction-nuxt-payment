@@ -158,7 +158,7 @@
   </section>
 </template>
 <script>
-import {Chart} from 'chart.js'
+import { Chart } from 'chart.js'
 import { CustomSelect } from '~/components/common'
 import {
   DEFAULT,
@@ -167,7 +167,7 @@ import {
   GRAPH_COLORS,
 } from '~/static/constants'
 import screenSize from '~/plugins/mixins/screenSize'
-import chartPlugin from '~/plugins/mixins/chart-plugin';
+import chartPlugin from '~/plugins/mixins/chart-plugin'
 
 export default {
   name: 'VendorDashboardCharts',
@@ -180,12 +180,14 @@ export default {
       filterBy: 'month',
       activeTab: 'month',
       activeTabDoughnut: 'week',
-      tabsOptions: Object.keys(this.$t('vendor_dashboard.tab_groups')).map(key => {
-        return {
-          title: this.$t(`vendor_dashboard.tab_groups.${key}`),
-          value: key
+      tabsOptions: Object.keys(this.$t('vendor_dashboard.tab_groups')).map(
+        (key) => {
+          return {
+            title: this.$t(`vendor_dashboard.tab_groups.${key}`),
+            value: key,
+          }
         }
-      }),
+      ),
       searchFilters: {
         startDate: '',
         endDate: '',
@@ -357,12 +359,14 @@ export default {
   },
   created() {
     Chart.plugins.register({
-      afterDraw: (chart) => this.chartAfterDrawPlugin(chart, this.emptyOrLoadingText),
+      afterDraw: (chart) =>
+        this.chartAfterDrawPlugin(chart, this.emptyOrLoadingText),
     })
   },
   destroyed() {
     Chart.plugins.unregister({
-      afterDraw: (chart) => this.chartAfterDrawPlugin(chart, this.emptyOrLoadingText),
+      afterDraw: (chart) =>
+        this.chartAfterDrawPlugin(chart, this.emptyOrLoadingText),
     })
   },
   mounted() {
@@ -458,29 +462,38 @@ export default {
   color: $color-blue-30
 
 .dropdown-filter::v-deep
-  background-color: $color-white-1
-  border-radius: 8px
-  border: none !important
-  width: 200px
-  &.open
-    .items
-      border-top: 0.5px solid $color-black-14
-
-  .selected
-    @include body-13-medium
-    color: $color-black-1
-    background-color: $color-white-1
-    font-family: $font-family-sf-pro-display
+    background-color: $color-white-4
+    border-radius: 8px
     border: none !important
-    padding-inline: 18px
+    width: 200px
 
-    label
-      display: none
+    &.open
+      .selected
+        border-bottom: 1px solid $color-black-14 !important
 
-  .items
-    @include body-13-regular
-    color: $color-black-1
-    font-family: $font-family-sf-pro-display
+    .selected
+      color: $color-black-1
+      background-color: $color-white-4 !important
+      font-family: $font-family-sf-pro-display
+      border: none !important
+      padding-inline: 18px
+      span
+        font-weight: $medium !important
+        font-size: 16px !important
+
+      label
+        display: none
+
+    div.items
+      div
+        font-weight: $regular !important
+        font-size: 16px !important
+        color: $color-black-1
+        background-color: $color-white-4 !important
+        font-family: $font-family-sf-pro-display
+
+        &:last-child
+          border: none
 
 
 .text-grey-69
