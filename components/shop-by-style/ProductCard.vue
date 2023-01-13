@@ -11,7 +11,7 @@
         class="flex-shrink-0 product-image"
       />
       <div class="info-section position-relative flex-grow-1">
-        <div class="position-relative">
+        <div>
           <div class="title fw-6 fs-20 font-secondary text-capitalize">
             {{ product.name }}
           </div>
@@ -194,21 +194,11 @@
                   variant="dark"
                   border="thick"
                   :disabled="addingToCart"
-                  class="mx-auto add-to-cart-button"
+                  class="mx-auto add-to-cart-button d-block pl-205"
                   @click="handleAddToCartClick('web', product.id)"
                 >
-                  <div class="d-flex justify-content-center">
-                    <div>
-                      {{ $t('product_page.add_to_cart') }}
-                    </div>
-                    <div
-                      class="ml-1"
-                      :class="
-                        addingToCart ? 'add-to-cart-animation' : 'invisible'
-                      "
-                    >
-                      +1
-                    </div>
+                  <div class="w-fit-content">
+                    {{ $t('product_page.add_to_cart') }}
                   </div>
                 </Button>
                 <button
@@ -255,7 +245,7 @@ import ProductThumb from '~/components/product/Thumb'
 import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
 import ProductSizePicker from '~/components/shop-by-style/SizePicker'
 import ProductBoxConditionPicker from '~/components/shop-by-style/BoxConditionPicker'
-import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
+import ProductSizeGuideShoe from '~/components/shop-by-style/size-guide/Shoe'
 import AlertModal from '~/components/modal/Alert'
 import PlusIcon from '~/assets/icons/Plus'
 import HeartIcon from '~/assets/icons/HeartIcon'
@@ -512,7 +502,7 @@ export default {
       if (!this.currentSize) {
         return (this.error.addToCart = this.$t('products.error.select_size'))
       }
-      this.addingToCart = true
+      this.addingToCart = false
       this.$store.dispatch('shopping-cart/addProduct', this.getCartProduct())
       this.show = false
       if (device !== 'mobile') {
@@ -580,4 +570,6 @@ export default {
   .heart-icon
     width: 21px
     height: 21px
+.pl-205
+  padding-left: 205px
 </style>

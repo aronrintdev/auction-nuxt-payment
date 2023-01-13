@@ -13,7 +13,7 @@
           class="topbar d-none d-sm-flex justify-content-between align-items-center"
         >
           <nuxt-link :to="`/shop-by-style`">
-            <p class="backto-css">
+            <p class="backto-css mb-0 mt-2">
               {{ $t('shop_by_style.general.back_to_style') }}
             </p>
           </nuxt-link>
@@ -81,6 +81,7 @@
             />
             <button
               class="view-cart-button fs-16 fw-5 font-secondary text-white"
+              @click="goToCheckout()"
             >
               {{ $t('shop_by_style.general.view_cart') }}
             </button>
@@ -241,6 +242,9 @@ export default {
         this.$emit('wishlisted', this.style, wishList)
       }
     },
+    goToCheckout() {
+      this.$router.push('/checkout/selling')
+    }
   },
 }
 </script>
