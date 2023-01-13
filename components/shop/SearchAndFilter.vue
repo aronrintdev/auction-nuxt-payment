@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container search-filter-main py-3 px-1"
+    class="container search-filter-main py-3 px-0"
     :class="{ scrolled: scrollPosition > 150 }"
   >
     <div class="d-flex align-items-center sf-wrapper">
@@ -71,21 +71,18 @@
             </div>
           </div>
         </div>
-        <div
-          class="bottom_sheet_body"
-          :class="{ scrolled: scrollPosition > 30 }"
-        >
-          <div class="searchbar-filter position-relative w-100 mb-3 pt-3">
-            <input
-              v-model="brandName"
-              type="search"
-              :placeholder="`${$t('common.search')} ${$t(
-                'filter_sidebar.brands'
-              )}`"
-              class="border-0 w-100 font-primary fs-13 fw-4 pr-2"
-            />
-            <SearchIcon class="brand-search-icon position-absolute" />
-          </div>
+        <div class="searchbar-filter brand-search position-relative mb-3 pt-3">
+          <input
+            v-model="brandName"
+            type="search"
+            :placeholder="`${$t('common.search')} ${$t(
+              'filter_sidebar.brands'
+            )}`"
+            class="border-0 w-100 font-primary fs-13 fw-4"
+          />
+          <SearchIcon class="brand-search-icon position-absolute" />
+        </div>
+        <div class="bottom_sheet_body">
           <div class="checkbox_wrapper">
             <div v-for="(brandCategory, index) in filterBrands" :key="index">
               <Checkbox
@@ -220,6 +217,7 @@ export default {
       this.search = value
     },
     resetBrand() {
+      this.brandName = ''
       this.$store.commit('browse/setSelectedBrands', [])
       this.closeAllBrands()
     },
@@ -240,7 +238,9 @@ export default {
   padding-bottom: 0
 .search-filter-main
   .sf-wrapper
-      margin: 0 16px
+    margin: 0 16px
+  .brand-search
+    margin: 0px 26px
   .searchbar-filter
     input[type="search"]
       background: $color-white-19
@@ -288,21 +288,21 @@ export default {
     z-index: 1020
     box-shadow: 0 .125rem .25rem $extralight-grey-rgba
 ::v-deep .bottom-sheet__content
-  overflow-y: hidden!important
+  overflow: unset !important
+  overflow-y: unset !important
+  overflow-x: unset !important
 .all-brands-bottom-sheet
   padding-bottom: 90px
   .bottom_sheet_header
     padding: 0px 30px
   .bottom_sheet_body
-    padding: 0px 28px
     overflow-y: scroll
     overflow-x: hidden
-    height: 550px
+    height: 620px
     &::-webkit-scrollbar
       width: 0px !important
 
     .checkbox_wrapper
-      margin: 0 -28px
       ::v-deep .list-type .checkbox-title
          padding-left: 28px
          padding-right: 28px
@@ -313,5 +313,4 @@ export default {
       width: 140px
     .apply-btn
         background-color: $color-blue-20
-
 </style>
