@@ -3,19 +3,16 @@
     <b-col md="5" sm="12">
       <div
         :class="{ 'justify-content-between': isScreenXS }"
-        class="sub-heading-title d-flex align-items-center"
+        class="title d-flex align-items-center"
       >
         {{ settings.label }}
         <arrow-right v-if="isScreenXS" @click="notificationSelect" />
       </div>
       <div :class="{ 'w-75': isScreenXS }" class="sub-title mt-2 mr-2">
         {{ settings.desc }}
-        <div v-if="settings.desc_next && !isScreenXS" class="mt-4">
-          {{ settings.desc_next }}
-        </div>
       </div>
     </b-col>
-    <b-col v-if="!isScreenXS" class="title-labels w-50 pt-20" md="4">
+    <b-col v-if="!isScreenXS" class="title-labels w-50 pt-19" md="4">
       <div
         v-if="
           fieldExist(settings.data, 'when') ||
@@ -87,36 +84,12 @@
           </div>
         </WhiteDropDown>
       </div>
-      <div
-        v-if="fieldExist(settings.data, 'until') && !isScreenXS"
-        class="mt-36"
-        :class="{
-          'mt-50':
-            !fieldExist(settings.data, 'when') &&
-            !fieldExist(settings.data, 'every'),
-        }"
-      >
-        <vue-slider
-          v-if="settings.data.until.type === 'slider'"
-          :max="100"
-          :min="0"
-          :min-range="0"
-          :tooltip-formatter="(val) => val + '%'"
-          :tooltipStyle="{
-            'background-color': 'transparent',
-          }"
-          :value="formData.extra.until.value"
-          class="vue-slider-ltr-shop w-50"
-          tooltip="always"
-          @change="percentageChange"
-        ></vue-slider>
-      </div>
     </b-col>
     <b-col v-if="!isScreenXS" md="3">
       <b-row
         class="title-labels text-center"
         :class="{
-          'pt-19': preference,
+          'mt-18': preference,
         }"
       >
         <b-col>
@@ -138,6 +111,35 @@
           />
         </b-col>
       </b-row>
+    </b-col>
+    <b-col md="12"></b-col>
+    <b-col md="5" class="sub-title">
+      <div v-if="settings.desc_next && !isScreenXS" class="mt-4">
+        {{ settings.desc_next }}
+      </div>
+    </b-col>
+    <b-col>
+      <div
+        v-if="fieldExist(settings.data, 'until') && !isScreenXS"
+        class="mt-25"
+      >
+        <vue-slider
+          v-if="settings.data.until.type === 'slider'"
+          :max="100"
+          :min="0"
+          :min-range="0"
+          :tooltip-formatter="(val) => val + '%'"
+          :tooltipStyle="{
+            'background-color': 'transparent',
+          }"
+          :value="formData.extra.until.value"
+          class="vue-slider-ltr-shop w-50"
+          tooltip="always"
+          @change="percentageChange"
+        ></vue-slider>
+      </div>
+    </b-col>
+    <b-col md="3">
     </b-col>
   </b-row>
 </template>
@@ -416,19 +418,19 @@ export default {
 .mobile
   .sub-title
     @include body-10
-.mt-36
-  margin-top: 36px
+
+.mt-25
+  margin-top: 25px
 
 .mt-50
   margin-top: 50px
 
-.mt-26
-  margin-top: 36px
-
 .pt-19
   padding-top: 19px
-.pt-20
-  padding-top: 20px
+
+.mt-18
+  margin-top: 18px
+
 .h-26px
   @include body-8
   height: 26px
@@ -446,7 +448,7 @@ export default {
   white-space: nowrap
 
 
-.sub-heading-title
+.title
   @include body-8
   font-family: $font-family-sf-pro-display
   font-style: normal
@@ -519,4 +521,8 @@ export default {
         border: none
         box-shadow: none
         border-radius: 0
+
+@media (min-width: 993px)
+  ::v-deep .notification-switch.custom-switch
+    margin-top: -4px
 </style>
