@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="mt-3">
-          <b-dropdown size="sm"  variant="link" toggle-class="text-decoration-none" no-caret>
+          <b-dropdown size="sm"  variant="link" toggle-class="text-decoration-none" no-caret class="dropdown-sm">
             <template #button-content>
               <b-icon icon='three-dots-vertical' color="#999999"/>
             </template>
@@ -393,4 +393,6 @@ export default {
     width: 290px
   @media (min-width: 400px)  and (max-width: 500px)
       width: 390px
+.dropdown-sm .dropdown-menu-item
+  width: 40px
 </style>
