@@ -7,7 +7,7 @@
     :header-class="`${headerClass} ${noHeaderBorder && 'border-bottom-0'}`"
     :footer-class="`${footerClass} ${noFooterBorder && 'border-top-0'}`"
     no-stacking
-    :body-class="`px-4 py-3`"
+    :body-class="bodyClass"
     :modal-class="modalClass"
     :content-class="`${rounded ? '' : 'rounded-0'} shadow-none`"
     :size="size"
@@ -93,6 +93,10 @@ export default {
     rounded: {
       type: Boolean,
       default: false,
+    },
+    bodyClass: {
+      type: String,
+      default: 'px-4 py-3',
     }
   },
 }
@@ -102,5 +106,6 @@ export default {
   float: right
   text-align: right
   margin-left: auto
+
 
 </style>
