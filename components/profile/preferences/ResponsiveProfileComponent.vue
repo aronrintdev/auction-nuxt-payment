@@ -50,7 +50,7 @@
       <!-- address -->
 
       <!-- social media links -->
-      <div class="card-text border-underline mt-3">
+      <div class="card-text mt-3">
         <span class="personal-details-heading"
          @click="openSocialMediaLinks">
           <span class="d-flex">

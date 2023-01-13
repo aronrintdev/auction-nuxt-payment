@@ -17,7 +17,7 @@
                 <b-form-group
                   id="input-group-shipping"
                   slot-scope="{ valid, errors }"
-                  class="profile-label text-left"
+                  class="profile-label fs-14 text-left"
                   :label="
                     addressType === 'shipping'
                       ? $t('preferences.profile.shipping_address')
@@ -47,7 +47,7 @@
               <b-form-group
                 id="input-group-opt"
                 slot-scope="{ valid, errors }"
-                class="profile-label text-left"
+                class="profile-label fs-14 fw-5 text-left"
                 :label="$t('preferences.profile.apt_suite_unit_building')"
                 label-for="input-opt"
               >
@@ -77,7 +77,7 @@
                 <b-form-group
                   id="input-group-city"
                   slot-scope="{ valid, errors }"
-                  class="profile-label text-left"
+                  class="profile-label fs-14 fw-5 text-left"
                   :label="$t('preferences.profile.city')"
                   label-for="input-city"
                 >
@@ -104,7 +104,7 @@
                 <b-form-group
                   id="input-group"
                   slot-scope="{ valid, errors }"
-                  class="profile-label text-left"
+                  class="profile-label fs-14 fw-5 text-left"
                   :label="$t('preferences.profile.zip')"
                   label-for="input"
                 >
@@ -134,7 +134,7 @@
                 <b-form-group
                   id="input-group"
                   slot-scope="{ valid, errors }"
-                  class="profile-label text-left"
+                  class="profile-label fs-14 fw-5 text-left"
                   :label="$t('preferences.profile.state')"
                   label-for="input"
                 >
@@ -161,7 +161,7 @@
                 <b-form-group
                   id="input-group"
                   slot-scope="{ valid, errors }"
-                  class="profile-label text-left"
+                  class="profile-label fs-14 fw-5 text-left"
                   :label="$t('preferences.profile.state')"
                   label-for="input"
                 >
@@ -179,7 +179,7 @@
                 <b-form-group
                   id="input-group"
                   slot-scope="{ valid, errors }"
-                  class="profile-label text-left"
+                  class="profile-label fs-14 fw-5 text-left"
                   :label="$t('preferences.profile.country')"
                   label-for="input"
                 >

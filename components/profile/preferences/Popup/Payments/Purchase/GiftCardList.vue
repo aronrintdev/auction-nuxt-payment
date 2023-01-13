@@ -115,6 +115,7 @@ export default {
   font-size: 14px
   font-style: $normal
   font-weight: $medium
+  color: $color-grey-101
 .selected-card
   -webkit-box-shadow: 10px 10px 14px 0px $color-black-1
   -moz-box-shadow: 10px 10px 14px 0px $color-black-1

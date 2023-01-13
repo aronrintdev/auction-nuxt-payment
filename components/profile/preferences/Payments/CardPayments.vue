@@ -8,7 +8,7 @@
             {{ $t('shopping_cart.card_payment') }}
           </div>
           <div class="card-details-container">
-            <div class="ds-wallet-title d-flex align-items-center justify-content-center">
+            <div class="ds-wallet-title d-flex align-items-center justify-content-center text-uppercase">
               {{ $t('preferences.payments.ds_wallet') }}
             </div>
             <div class="dynamic-card-wrappper">
@@ -23,31 +23,6 @@
         </div>
       </div>
       <!-- Card payment div ends -->
-    </div>
-
-    <div
-      v-if="cardPaymentsExist"
-      class="back-button d-flex justify-content-center align-items-center"
-      type="button"
-      @click="backTo"
-    >
-      <img
-        :src="require('~/assets/img/icons/back.svg')"
-        alt="back-arrow"
-        class="float-left ml-1"
-      />
-      <span
-        class="
-          back-to-text
-          ml-2
-          d-flex
-          justify-content-center
-          align-items-center
-          text-align-center
-        "
-      >
-        {{ $t('preferences.payments.back_to_paymentmethods') }}
-      </span>
     </div>
 
     <div class="mt-5">
@@ -337,10 +312,10 @@ export default {
     @include body-13-medium
     letter-spacing: 0.02em
     color: $color-blue-20
-    padding: 20px 219px 17px 12px
+    padding: 20px 0px 17px 12px
   .card-details-container
     .ds-wallet-title
-    font-family: $font-family-sf-pro-display
+      font-family: $font-family-sf-pro-display
       font-style: normal
       font-weight: $bold
       @include body-17

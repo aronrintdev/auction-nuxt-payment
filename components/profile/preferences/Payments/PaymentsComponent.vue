@@ -49,7 +49,7 @@
           </span>
         </span>
         <p class="payment-details-sub-heading mt-2 d-flex">
-          {{ $t('preferences.payments.add_gift_card') }}
+          {{ $t('common.purchase') }}/{{ $t('preferences.payments.redeem_gift_card') }}
         </p>
       </div>
       <!-- gift card -->
