@@ -100,6 +100,7 @@ export default {
       &.active
         background-color: $color-white-1
         font-weight: $medium
+        @include body-6
       &::before
         display: block
         content: attr(title)
@@ -117,7 +118,7 @@ export default {
       .btn
         padding: 6px 10px
         white-space: nowrap
-        font-size: 11px
+        @include body-6
 
   @media (max-width: 375px)
     .btn-group
@@ -125,5 +126,5 @@ export default {
       .btn
         padding: 6px 5px
         white-space: nowrap
-        font-size: 11px
+        @include body-6
 </style>

@@ -50,7 +50,7 @@
           </div>
         </div>
         <div v-if="!items.length">
-          <p class="text-center">{{$t('trades.preferences.no_inventory_found')}}</p>
+          <div class="d-flex justify-content-center align-items-center">{{$t('trades.preferences.no_inventory_found')}}</div>
         </div>
       </div>
 

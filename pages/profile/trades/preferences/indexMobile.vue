@@ -40,7 +40,7 @@
       <div class="p-2 mt-1" @click="brands()">
         <div class="d-flex mb-1">
           <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{$t('trades.preferences.brand_preferences')}}</div>
-          <img class="chev-img d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
+          <img class="chev-img-brand d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
         </div>
         <div class="inven-sub-set mb-1">{{$t('trades.preferences.select_brands_you_are_interested_in')}}</div>
         <div class="link-text">{{$t('trades.preferences.nike_supreme_bape')}}</div>
@@ -596,7 +596,11 @@ export default {
 .chev-img-size
   height: 15px
   width: 7px
-  margin-left: 10rem
+  margin-left: 10.2rem
+.chev-img-brand
+  height: 15px
+  width: 7px
+  margin-left: 9rem
 .hr-border
   border: 1px solid $color-gray-97
 .inven-cont
