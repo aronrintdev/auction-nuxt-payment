@@ -9,9 +9,11 @@
       @hidden="shown = false"
       @shown="shown = true"
   >
-    <template #button-content>
-      <NotificationIcon/>
-    </template>
+      <template #button-content>
+        <slot name="icon">
+          <NotificationIcon/>
+        </slot>
+      </template>
 
     <div class="content-top mx-3 d-flex align-items-center justify-content-between my-3">
       <span class="header">{{ $t('notifications.title') }}</span>

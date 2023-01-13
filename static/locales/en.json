@@ -1,4 +1,5 @@
 {
+  "Good Condition": "Excellent",
   "common": {
     "select_brands": "Select Brand(s)",
     "cancel": "Cancel",
@@ -3858,7 +3859,8 @@
   },
   "inventory": {
     "available_to_list": "Available to List",
-    "add_inventory": "Add Inventory",
+    "add_inventory": "Create New Inventory",
+    "save_as_draft": "Save as Draft",
     "create_inventory": "Create Inventory",
     "search_placeholder": "Search your Inventory by SKU, Product Name or Brand",
     "search_product_placeholder": "Search by SKU, Keyword, or Brand",

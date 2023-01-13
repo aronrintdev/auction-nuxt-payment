@@ -46,3 +46,7 @@ export function setPackageConditions(state, payload) {
 export function setColors(state, payload) {
     state.colors = payload
 }
+
+export function setLastUploadedCSVFile(state, filename) {
+  state.lastUploadedCSVFile = filename
+}

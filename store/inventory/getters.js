@@ -23,3 +23,7 @@ export function getPackageConditions(state) {
 export function getColors(state) {
     return state.colors
 }
+
+export function getLastUploadedCSVFile(state) {
+  return state.lastUploadedCSVFile
+}
