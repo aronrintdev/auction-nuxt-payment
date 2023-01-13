@@ -262,7 +262,7 @@
               !isScreenXS,
           }"
         >
-          ({{ chartFilterOptions[activeTab] }})
+          ({{ chartFilterOptions[isScreenXS ? activeTab : filterBy] }})
         </div>
       </div>
 
@@ -485,6 +485,7 @@
 </template>
 
 <script>
+import Chart from 'chart.js'
 import _ from 'lodash'
 import screenSize from '~/plugins/mixins/screenSize'
 import { CustomSelect } from '~/components/common'
@@ -495,6 +496,7 @@ import MobileSearchInput from '~/components/mobile/MobileSearchInput'
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
 import Button from '~/components/common/Button'
 import MobileFilterItem from '~/components/profile/vendor-dashboard/MobileFilterItem'
+import chartPlugin from '~/plugins/mixins/chart-plugin'
 
 export default {
   name: 'BreakDownPage',
@@ -508,7 +510,7 @@ export default {
     NavGroup,
     CustomSelect,
   },
-  mixins: [screenSize],
+  mixins: [screenSize, chartPlugin],
   layout: 'Profile',
   data() {
     return {
@@ -593,7 +595,6 @@ export default {
       filterByTitle: this.$t('selling_page.status'),
       filterBy: 'month',
       activeTab: 'month',
-      activeTabDoughnut: 'week',
       filterTabs: [
         { title: 'Week', value: 'week' },
         { title: 'Month', value: 'month' },
@@ -700,29 +701,13 @@ export default {
     },
   },
   created() {
-    // eslint-disable-next-line no-undef
     Chart.plugins.register({
-      afterDraw(chart) {
-        let sum = 0
-        sum = chart.data.datasets.reduce(
-          (accumulator, item) =>
-            accumulator + item.data.reduce((acc, val) => acc + val, 0),
-          sum
-        )
-        if (sum === 0) {
-          const ctx = chart.chart.ctx
-          const width = chart.chart.width
-          const height = chart.chart.height
-          ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.5)
-          ctx.fillStyle = '#626262'
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.font = '500 18px Montserrat'
-
-          ctx.fillText('No Data Found', width / 2, height / 2 - 30)
-          ctx.restore()
-        }
-      },
+      afterDraw: (chart) => this.chartAfterDrawPlugin(chart, 'No Data Found'),
+    })
+  },
+  destroyed() {
+    Chart.plugins.unregister({
+      afterDraw: (chart) => this.chartAfterDrawPlugin(chart, 'No Data Found'),
     })
   },
   mounted() {
@@ -1060,26 +1045,38 @@ export default {
     padding: 10px 15px 38px 17px
 
 .dropdown-filter::v-deep
-  background-color: $color-white-4
-  border-radius: 8px
-  border: none
-  width: 200px
-  &.custom-selectbox
+    background-color: $color-white-4
+    border-radius: 8px
+    border: none !important
+    width: 200px
+
+    &.open
+      .selected
+        border-bottom: 1px solid $color-black-14 !important
+
     .selected
-      @include body-13-medium
       color: $color-black-1
-      background-color: $color-white-4
+      background-color: $color-white-4 !important
       font-family: $font-family-sf-pro-display
-      border: none
+      border: none !important
       padding-inline: 18px
+      span
+        font-weight: $medium !important
+        font-size: 16px !important
 
       label
         display: none
 
-    .items
-      @include body-13-regular
-      color: $color-black-1
-      font-family: $font-family-sf-pro-display
+    div.items
+      div
+        font-weight: $regular !important
+        font-size: 16px !important
+        color: $color-black-1
+        background-color: $color-white-4 !important
+        font-family: $font-family-sf-pro-display
+
+        &:last-child
+          border: none
 
 ::v-deep.stat-table
   &.table.b-table.b-table-no-border-collapse

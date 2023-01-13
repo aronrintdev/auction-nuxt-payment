@@ -10,64 +10,84 @@
       <section :class="mobileClass" class="row my-3 my-sm-5">
         <div class="col-3 col-md-3">
           <StatsCard
-              :coloredText="false"
-              :icon="require('~/assets/img/icons/profile/total-sales.svg')"
-              :title="$t('vendor_purchase.purchases')"
-              :value="totalPurchases"
-              color="#667799"
+            :coloredText="false"
+            :icon="require('~/assets/img/icons/profile/total-sales.svg')"
+            :title="$t('vendor_purchase.purchases')"
+            :value="totalPurchases"
+            color="#667799"
           />
         </div>
         <div class="col-3 col-md-3">
           <StatsCard
-              :coloredText="false"
-              :icon="require('~/assets/img/icons/profile/trophy-green.svg')"
-              :title="$t(`buyer_dashboard.dashobard_buyer.rewards_points${isScreenXS? '_mobile': ''}`)"
-              :value="
+            :coloredText="false"
+            :icon="require('~/assets/img/icons/profile/trophy-green.svg')"
+            :title="
+              $t(
+                `buyer_dashboard.dashobard_buyer.rewards_points${
+                  isScreenXS ? '_mobile' : ''
+                }`
+              )
+            "
+            :value="
               '' + analytics.reward_points !== 'undefined'
                 ? analytics.reward_points + ''
                 : '...'
             "
-              color="#CE745F"
+            color="#CE745F"
           />
         </div>
         <div class="col-3 col-md-3">
           <StatsCard
-              :coloredText="false"
-              :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
-              :title="$t(`buyer_dashboard.dashobard_buyer.items_bought${isScreenXS? '_mobile': ''}`)"
-              :value="
+            :coloredText="false"
+            :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
+            :title="
+              $t(
+                `buyer_dashboard.dashobard_buyer.items_bought${
+                  isScreenXS ? '_mobile' : ''
+                }`
+              )
+            "
+            :value="
               '' + analytics.items_bought !== 'undefined'
                 ? analytics.items_bought + ''
                 : '...'
             "
-              color="#7196B1"
+            color="#7196B1"
           />
         </div>
         <div class="col-3 col-md-3">
           <StatsCard
-              :coloredText="false"
-              :icon="require('~/assets/img/icons/profile/item-sold.svg')"
-              :title="$t(`buyer_dashboard.dashobard_buyer.offers_placed${isScreenXS? '_mobile': ''}`)"
-              :value="
+            :coloredText="false"
+            :icon="require('~/assets/img/icons/profile/item-sold.svg')"
+            :title="
+              $t(
+                `buyer_dashboard.dashobard_buyer.offers_placed${
+                  isScreenXS ? '_mobile' : ''
+                }`
+              )
+            "
+            :value="
               '' + analytics.offers_placed !== 'undefined'
                 ? analytics.offers_placed + ''
                 : '...'
             "
-              color="#909090"
+            color="#909090"
           />
         </div>
       </section>
       <section>
-        <BuyerDashboardCharts/>
+        <BuyerDashboardCharts />
       </section>
       <section class="my-sm-5">
-        <Promotions/>
+        <Promotions />
       </section>
-      <section :class="{
-        'mt-20': isScreenXS,
-        'mb-104 px-27': !isScreenXS,
-      }">
-        <Purchases/>
+      <section
+        :class="{
+          'mt-20': isScreenXS,
+          'mb-104 px-27': !isScreenXS,
+        }"
+      >
+        <Purchases />
       </section>
       <Portal to="page-title"> {{ $t('profile_menu.dashboard') }}</Portal>
     </div>
@@ -142,7 +162,6 @@ export default {
   padding: 97px 30px 0 30px
   &.mobile
     padding: 16px
-    margin-bottom: -60px
 .mt-20
   margin-top: 20px
 

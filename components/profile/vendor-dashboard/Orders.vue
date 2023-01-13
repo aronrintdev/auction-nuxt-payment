@@ -65,7 +65,12 @@
           </div>
         </template>
         <template #head()="scope">
-          <div class="text-nowrap" role="button" @click="orderBy(scope)">
+          <div
+            v-if="scope.label"
+            class="text-nowrap"
+            role="button"
+            @click="orderBy(scope)"
+          >
             <span class="mr-1">{{ scope.label }}</span>
             <img
               v-if="scope.label !== $t('vendor_dashboard.actions')"
@@ -215,25 +220,10 @@
               >
                 <img :src="require('~/assets/img/paper.svg')" />
               </div>
-              <div v-if="data.item.status === PROCESSING" class="text-decoration-underline">
-                <a
-                  href="#generate-label"
-                  class="text-link-blue-mobile"
-                  @click="generateLabel(data.item)"
-                  >{{ $t('orders.print_shipping_label') }}
-                  <img
-                    v-if="isScreenXS"
-                    :src="require('~/assets/img/paper.svg')"
-                    height="16"
-                    width="12"
-                  />
-                  <img
-                    v-if="!isScreenXS"
-                    :src="require('~/assets/img/rewards/arrow-right-blue.svg')"
-                  />
-                </a>
-              </div>
-              <div v-if="data.item.status === AWAITING_SHIPMENT_TO_DEADSTOCK">
+              <div
+                v-if="data.item.status === PROCESSING"
+                class="text-decoration-underline"
+              >
                 <a
                   href="#generate-label"
                   class="text-link-blue-mobile"
@@ -324,14 +314,14 @@ export default {
       fields: [
         {
           key: 'order_id',
-          label: this.$t('vendor_dashboard.order_id'),
+          label: this.$t('vendor_dashboard.product'),
           sortable: false,
           tdClass: 'product-img-cell',
           thClass: 'text-nowrap  body-4-bold',
         },
         {
           key: 'product',
-          label: this.$t('vendor_dashboard.product'),
+          label: '',
           sortable: false,
           tdClass: 'product-info-cell',
           thClass: 'text-nowrap body-4-bold',
@@ -541,7 +531,6 @@ export default {
     text-align: right
 
   &:not(.mobile)
-    padding: 11px 30px
     border-radius: 4px
     width: 141px
     height: 61px

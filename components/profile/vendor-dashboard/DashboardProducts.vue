@@ -163,14 +163,14 @@
             <h4 class="font-secondary fw-5 fs-16 mb-0">
               {{ row.item.sales_amount_this_month | toCurrency }}
               <span
-                v-if="row.item.sales_percentage > 0"
-                class="text-success text-sm"
-                >(+{{ row.item.sales_percentage }}%)</span
+                  v-if="row.item.sales_percentage > 0"
+                  class="text-success text-sm"
+              >(+{{ row.item.sales_percentage | formatPrice }}%)</span
               >
               <span
-                v-if="row.item.sales_percentage < 0"
-                class="text-danger text-sm"
-                >(-{{ row.item.sales_percentage }}%)</span
+                  v-if="row.item.sales_percentage < 0"
+                  class="text-danger text-sm"
+              >({{ row.item.sales_percentage | formatPrice }}%)</span
               >
             </h4>
           </div>
