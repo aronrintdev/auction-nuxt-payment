@@ -156,7 +156,7 @@
               black-text
               border="thick"
               class="mx-auto warn-button"
-              @click="handleNotifyMeClick"
+              @click="handleNotifyMeClick(product.id)"
             >
               {{ $t('products.notify_me') }}
             </Button>
@@ -462,22 +462,22 @@ export default {
     handleSizeViewModeChange(mode) {
       this.sizeViewMode = mode
     },
-    handleNotifyMeClick() {
+    handleNotifyMeClick(id) {
       this.$axios
         .post(`/products/${this.products.id}/requests`, {
           size_id: this.currentSize,
           packaging_condition_id: this.currentCondition,
         })
         .then(() => {
-          this.showMessageModal(this.$t('products.message.send_item_email'))
+          this.showMessageModal(this.$t('products.message.send_item_email'), id)
         })
     },
 
-    showMessageModal(message, callback = () => {}) {
+    showMessageModal(message, id, callback = () => {}) {
       this.message = message
-      this.$bvModal.show('message-modal')
+      this.$bvModal.show('message-modal-web-'+id)
       setTimeout(() => {
-        this.$bvModal.hide('message-modal')
+        this.$bvModal.hide('message-modal-web-'+id)
         callback()
       }, this.MODAL_FADE_TIMEOUT)
     },
