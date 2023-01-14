@@ -19,12 +19,9 @@
                 giftCardEnding
               }}
             </div>
-            <div class="exp-date mt-1 d-flex align-item-center">
-              {{ $t('preferences.payments.expiry') }}&colon;&nbsp;{{
+            <div class="exp-date mt-1 d-flex align-item-center"> {{ $t('preferences.payments.expiry') }}&colon;&nbsp;{{
                 giftcard.delivery_date | formatDate
-              }}
-            </div>
-            <div class="exp-date mt-1 d-flex align-item-center">
+              }}, &nbsp;
               <span
                 role="button"
                 class="mr-2"
@@ -40,12 +37,12 @@
               >&colon;<span v-if="showPassword" type="password" class="ml-2">{{
                 giftcard.pin
               }}</span>
-              <span v-if="!showPassword" type="password" class="ml-2"
+              <span v-if="!showPassword" type="password" class="ml-2 pt-1"
                 >&#42;&#42;&#42;&#42;&#42;</span
               >
               <!-- End of Show/ Hide Pin -->
             </div>
-
+          
             <span class="remaining-amount mt-1 d-flex align-item-center"
               >{{ $t('preferences.payments.remaining_amount') }} &colon;
               {{ giftcard.remaining_amount | toCurrency('USD', 'N/A') }}</span

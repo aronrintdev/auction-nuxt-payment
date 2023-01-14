@@ -80,11 +80,16 @@
             }"
             class="d-flex gap-3 mb-2 mb-sm-0"
             role="button"
-            @click="$router.push(`/profile/vendor-dashboard/products/${row.item.id}`)"
+            @click="
+              $router.push(`/profile/vendor-dashboard/products/${row.item.id}`)
+            "
           >
-            <div class="col-thumb d-flex justify-content-center" :class="{
-              'mr-55' :!isScreenXS
-            }">
+            <div
+              class="col-thumb d-flex justify-content-center"
+              :class="{
+                'mr-55': !isScreenXS,
+              }"
+            >
               <ProductThumb
                 :product="row.item"
                 :src="row.item.image"
@@ -101,18 +106,21 @@
               >
                 {{ row.item.name }}
               </h4>
-              <h4 :class="{
-                  'body-6-normal mobile': isScreenXS,
-                  'body-21-normal font-secondary': !isScreenXS,
-                }" class="text-color-gray-6 mb-3px">
-                {{ $t('vendor_dashboard.sku') }}: {{ row.item.sku }}
-              </h4>
               <h4
-                  :class="{
+                :class="{
                   'body-6-normal mobile': isScreenXS,
                   'body-21-normal font-secondary': !isScreenXS,
                 }"
-                class="mb-0 text-color-gray-6 text-nowrap text-truncate mw-170 "
+                class="text-color-gray-6 mb-3px"
+              >
+                {{ $t('vendor_dashboard.sku') }}: {{ row.item.sku }}
+              </h4>
+              <h4
+                :class="{
+                  'body-6-normal mobile': isScreenXS,
+                  'body-21-normal font-secondary': !isScreenXS,
+                }"
+                class="mb-0 text-color-gray-6 text-nowrap text-truncate mw-170"
               >
                 {{ $t('vendor_dashboard.colorway') }}: {{ row.item.colorway }}
               </h4>
@@ -139,7 +147,7 @@
               <span
                 v-if="row.item.sales_percentage > 0"
                 class="text-success text-sm"
-                >(+{{ row.item.sales_percentage }}%)</span
+                >(+{{ row.item.sales_percentage | formatPrice }}%)</span
               >
               <span
                 v-if="row.item.sales_percentage < 0"

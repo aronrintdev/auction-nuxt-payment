@@ -29,6 +29,7 @@
           </h1>
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
+                id="buyer-select"
               :default="filterBy"
               :options="chartFilterOptions"
               :threelineIcon="false"
@@ -149,17 +150,19 @@
   </section>
 </template>
 <script>
+import Chart from 'chart.js'
 import { mapGetters } from 'vuex'
 import RadialChart from './RadialChart'
 import { CustomSelect } from '~/components/common'
 import { DEFAULT } from '~/static/constants'
 import screenSize from '~/plugins/mixins/screenSize'
 import MobileRewardGauge from '~/components/profile/rewards/MobileRewardGauge'
+import chartPlugin from '~/plugins/mixins/chart-plugin'
 
 export default {
   name: 'BuyerDashboardCharts',
   components: { MobileRewardGauge, CustomSelect, RadialChart },
-  mixins: [screenSize],
+  mixins: [screenSize, chartPlugin],
   data() {
     return {
       progress: 25,
@@ -288,23 +291,8 @@ export default {
     },
   },
   created() {
-    // eslint-disable-next-line no-undef
     Chart.plugins.register({
-      afterDraw(chart) {
-        if (chart.data.datasets[0].data.every((item) => item === 0)) {
-          const ctx = chart.chart.ctx
-          const width = chart.chart.width
-          const height = chart.chart.height
-          ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.6)
-          ctx.fillStyle = '#626262'
-          ctx.textAlign = 'center'
-          ctx.textBaseline = 'middle'
-          ctx.font = '500 18px Montserrat'
-
-          ctx.fillText('No Data Found', width / 2, height / 2 - 30)
-          ctx.restore()
-        }
-      },
+      afterDraw: (chart) => this.chartAfterDrawPlugin(chart, 'No Data Found'),
     })
   },
   mounted() {
@@ -394,27 +382,39 @@ export default {
 .reward-button
   right: 50px
 
-.dropdown-filter::v-deep
-  background-color: $color-white-4
-  border-radius: 8px
-  border: none !important
-  width: 200px
-
-  .selected
-    @include body-13-medium
-    color: $color-black-1
-    background-color: $color-white-4 !important
-    font-family: $font-family-sf-pro-display
+::v-deep#buyer-select
+    background-color: $color-white-4
+    border-radius: 8px
     border: none !important
-    padding-inline: 18px
+    width: 200px
 
-    label
-      display: none
+    &.open
+      .selected
+        border-bottom: 1px solid $color-black-14 !important
 
-  .items
-    @include body-13-regular
-    color: $color-black-1
-    font-family: $font-family-sf-pro-display
+    .selected
+      color: $color-black-1
+      background-color: $color-white-4 !important
+      font-family: $font-family-sf-pro-display
+      border: none !important
+      padding-inline: 18px
+      span
+        font-weight: $medium !important
+        font-size: 16px !important
+
+      label
+        display: none
+
+    div.items
+      div
+        font-weight: $regular !important
+        font-size: 16px !important
+        color: $color-black-1
+        background-color: $color-white-4 !important
+        font-family: $font-family-sf-pro-display
+
+        &:last-child
+          border: none
 
 
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal id="delist-offer" hide-footer hide-header no-close-on-esc no-close-on-backdrop sm>
+    <b-modal id="delist-offer" centered hide-footer hide-header no-close-on-esc no-close-on-backdrop sm>
       <div class="d-block text-center">
         <b-row class="justify-content-end pointer pr-3">
           <span @click="$bvModal.hide('delist-offer')">X</span>
@@ -18,7 +18,7 @@
       </div>
       <div class="d-block text-center">
         <b-row class="justify-content-center mb-4 mt-4">
-          <Button pill class="mr-5" @click="delistClick">{{$t('trades.delist')}}</Button>
+          <Button pill variant="dark-blue" class="mr-5" @click="delistClick">{{$t('trades.delist')}}</Button>
           <Button pill variant="outline-dark" @click="$bvModal.hide('delist-offer')">{{$t('trades.cancel')}}</Button>
         </b-row>
       </div>

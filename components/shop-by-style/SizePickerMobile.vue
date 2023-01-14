@@ -24,7 +24,7 @@
           {{ (size - Math.floor(size)) !== 0 ? size : parseInt(size).toFixed(1) }}
         </div>
         <template v-if="price">
-          <div class="box-condition color-black-15 text-center">({{ boxCondition }})</div>
+          <div class="box-condition color-black-15 text-center">{{ boxCondition.toLowerCase() === 'excellent' ? '' : '('+boxCondition+')' }}</div>
           <div class="size-price ml-auto">{{ price | toRoundedCurrency }}</div>
         </template>
         <template v-else>

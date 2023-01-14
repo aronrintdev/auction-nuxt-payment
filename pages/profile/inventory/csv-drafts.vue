@@ -10,7 +10,7 @@
         {{ $t('inventory.csv_upload') }}
       </h2>
       <div class="text-count ml-2">
-        {{ `(${drafts.length} items)` }}
+       <span class="px-3" v-if="getLastUploadedCSVFile.length">( {{getLastUploadedCSVFile}} )</span> {{ `(${drafts.length} items)` }}
       </div>
     </div>
 
@@ -22,7 +22,7 @@
       @change="handleTypeChange"
     />
 
-    <div class="d-flex align-items-center justify-content-between mt-4">
+    <div class="d-flex align-items-end justify-content-between" :class="type === 'available' ? 'mt-1' : 'mt-fix'">
       <SearchInput
         v-model="search"
         :placeholder="$t('inventory.search_draft_placeholder')"
@@ -30,18 +30,20 @@
         :debounce="1000"
       />
 
-      <Button
-        v-if="type === 'available'"
-        variant="dark"
-        class="flex-shrink-0 btn-add-to-inventory"
-        :disabled="selected.length === 0"
-        @click="handleAddToInventoryClick"
-        >{{
-          `${$t('inventory.add_to_inventory')}${
-            selected.length ? ' (' + selected.length + ')' : ''
-          }`
-        }}</Button
-      >
+      <div v-if="type === 'available'">
+        <div class="save-draft-btn"><a role="button">{{ $t('inventory.save_as_draft') }}</a></div>
+        <Button
+          variant="dark"
+          class="flex-shrink-0 btn-add-to-inventory"
+          :disabled="selected.length === 0"
+          @click="handleAddToInventoryClick"
+          >{{
+            `${$t('inventory.add_to_inventory')}${
+              selected.length ? ' (' + selected.length + ')' : ''
+            }`
+          }}
+        </Button>
+      </div>
     </div>
 
     <div :class="{'scroll-container' : !isScreenXS && !isScreenSM}">
@@ -351,6 +353,7 @@ export default {
   computed: {
     ...mapGetters({
       drafts: 'inventory/getCsvDrafts',
+      getLastUploadedCSVFile: 'inventory/getLastUploadedCSVFile'
     }),
 
     availableItems() {
@@ -440,7 +443,7 @@ export default {
 
     getPackagingConditionOptions(conditions) {
       return conditions.map((i) => {
-        return { text: i.name, value: i.id }
+        return { text: this.$t(i.name), value: i.id }
       })
     },
 
@@ -618,6 +621,9 @@ export default {
     max-width: 688px
 
   .table-inventory
+    th
+      font-family: $font-family-sf-pro-display
+      @include body-3-normal
     .inventory-rows
       max-height: 35vh
       height: 35vh
@@ -705,6 +711,37 @@ export default {
       top: 0
       background-color: $color-white-5
       z-index: 9999
+
+::v-deep.custom-control
+  .custom-control-label
+    &:before
+      width: 17px
+      height: 17px
+      border-radius: 3px
+      border: solid 2px $color-gray-47
+      box-shadow: none
+    &:after
+      width: 17px
+      height: 17px
+  .custom-control-input ~ .custom-control-label::before
+    background-color: $white
+    background-image: none
+  .custom-control-input:checked ~ .custom-control-label::before
+    background-color: $color-blue-20
+    background-image: none
+
+.save-draft-btn
+  text-align: center
+  margin-bottom: 15px
+  width: 100%
+  @include body-13-medium
+  text-decoration: underline
+  font-family: $font-montserrat
+  color: $color-gray-5
+
+.mt-fix
+  margin-top: 36px
+
 .font-style
   font-family: $font-sp-pro
   font-style: normal

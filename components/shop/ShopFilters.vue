@@ -8,7 +8,7 @@
         <div class="col-3">
           <FormDropdown
             id="sort-products"
-            :value="selectedFilters.sortBy"
+            :value="selectedFilters.orderBy"
             :placeholder="$t('selling_page.sortby')"
             :items="SORT_OPTIONS"
             :icon="require('~/assets/img/icons/three-lines.svg')"
@@ -262,6 +262,14 @@ export default {
     return {
       SORT_OPTIONS: [
         {
+          label: this.$t('home.trending'),
+          value: 'trending',
+        },
+        {
+          label: this.$t('home_page.newest'),
+          value: 'created_at',
+        },
+        {
           label: this.$t('shop.sort_by.price_low_first'),
           value: 'false',
         },
@@ -287,7 +295,7 @@ export default {
         brands: [],
         status: [],
         sortBy: null,
-        orderBy: '',
+        orderBy: null,
         prices: [],
         years: [],
         search: null,
@@ -473,6 +481,7 @@ export default {
           break
         case 'brands':
           this.selectedFilters.brands.splice(index, 1)
+          this.brandName=''
           break
         case 'years':
           this.selectedFilters.years = []
@@ -496,6 +505,7 @@ export default {
       this.selectedFilters.years = []
       this.selectedFilters.prices = []
       this.selectedFilters.gender = null
+      this.brandName = ''
       this.$store.commit('browse/setSelectedBrands', [])
       this.$store.commit('browse/setSelectedSizeType', null)
       this.$store.commit('browse/setProductType', null)
@@ -510,17 +520,22 @@ export default {
     },
     handleSortBySelect(option) {
       // Select SortBy option
-      if (option) {
+      if (option?.value === 'true' || option?.value === 'false') {
         this.selectedFilters = {
           ...this.selectedFilters,
           sortBy: option?.value,
           orderBy: 'sale_price',
         }
+      } else if (option?.value === 'trending' || option?.value === 'created_at') {
+        this.selectedFilters = {
+          ...this.selectedFilters,
+          sortBy: 'true',
+          orderBy: option?.value,
+        }
       } else {
         this.selectedFilters = {
           ...this.selectedFilters,
-          sortBy: option?.value,
-          orderBy: '',
+          orderBy: null,
         }
       }
     },
@@ -538,6 +553,10 @@ export default {
         ...this.selectedFilters,
         prices: value,
       }
+      // if range back into default stage remove tag from search
+      if(value[0] === MIN_PRICE && value[1] === MAX_PRICE / 100){
+        this.removeFilter('prices')
+      }
     },
     // Update selected years and pass to parent component
     updateYearFilters(value) {
@@ -545,6 +564,10 @@ export default {
       this.selectedFilters = {
         ...this.selectedFilters,
         years: value,
+      }
+       // if range back into default stage remove tag from search
+      if(value[0] === MIN_YEAR && value[1] === MAX_YEAR){
+        this.removeFilter('years')
       }
     },
     getSizeName(id) {
@@ -591,7 +614,7 @@ export default {
     .search-results
       .popover-body
         .dropdownItem
-          background-color: $color-white-4
+          background-color: $color-white-19
           height: 46px
           padding: 0 23px
           &:hover

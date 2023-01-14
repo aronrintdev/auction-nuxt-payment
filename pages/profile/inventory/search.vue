@@ -2,6 +2,13 @@
   <b-container fluid class="h-100" :class="isScreenXS ? 'p-4' : 'container-profile-inventory-search'">
     <!-- Mobile View Begin -->
     <div v-if="isScreenXS">
+
+      <!-- Header Title Begin -->
+      <client-only v-if="isScreenXS">
+        <Portal to="page-title">{{ $t('home.inventory') }}</Portal>
+      </client-only>
+      <!-- Header Title End -->
+
       <div class="d-flex align-items-center">
         <MobileSearchInput
           :value="searchKeyword"
@@ -74,6 +81,7 @@
           :placeholder="$t('inventory.search_product_placeholder')"
           size="lg"
           class="search-input mr-3"
+          input-height="60px"
           bordered
           autofocus
           @change="handleSearchChange"
@@ -303,6 +311,7 @@ export default {
   .search-input
     width: 100%
     max-width: 688px
+    height: 60px
 
   .btn-download
     @include body-3-normal
@@ -362,6 +371,10 @@ export default {
 
 .mt-38
   margin-top: 38px
+
+.input-padding
+  pading-top: 25px
+  pading-bottom: 25px
 
 
 </style>

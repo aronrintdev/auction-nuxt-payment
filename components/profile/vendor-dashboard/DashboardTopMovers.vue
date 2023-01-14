@@ -110,6 +110,9 @@ export default {
       return `width: ${count * 151}px`
     },
   },
+  mounted() {
+    this.$store.dispatch('vendors/getVendorOrders', 1)
+  },
   methods: {
     prev() {
       this.$refs.prev.click()

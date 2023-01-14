@@ -1,4 +1,5 @@
 {
+  "Good Condition": "Excellent",
   "common": {
     "select_brands": "Select Brand(s)",
     "cancel": "Cancel",
@@ -2180,6 +2181,7 @@
     "list_name": "List Name",
     "all_lists_are_private": "All lists are private unless you share them with others",
     "create_list_helper": "Save items onto wishlists.",
+    "create_list_helper_public": "(By setting to public, you can access a link to share with friends)",
     "create_list": "Create List",
     "enter_name": "Enter Name",
     "move_items": "Move Items",
@@ -2217,6 +2219,7 @@
     "item_added_success": "{item} has been added to {list}",
     "view_list": "View List",
     "continue_shopping": "Continue Shopping",
+    "keep_shopping": "Keep Shopping",
     "products_removed_from_wishlist": "{n} product has been removed from wishlist | {n} products have been removed from wishlist",
     "products_moved": "{n} product moved to `{wishlist}` | {n} products moved to `{wishlist}`",
     "add_to_wishlist": "Add to Wishlist"
@@ -3866,7 +3869,8 @@
   },
   "inventory": {
     "available_to_list": "Available to List",
-    "add_inventory": "Add Inventory",
+    "add_inventory": "Create New Inventory",
+    "save_as_draft": "Save as Draft",
     "create_inventory": "Create Inventory",
     "search_placeholder": "Search your Inventory by SKU, Product Name or Brand",
     "search_product_placeholder": "Search by SKU, Keyword, or Brand",
@@ -5831,6 +5835,7 @@
     },
     "faq_title": "Vendor Hub Frequently Asked Questions",
     "faq_body": "Have a question? See our FAQ with link below",
+    "empty_table": "There are no records to show",
     "view_details": "View Details",
     "view_all": "View All",
     "total_sales": "Total Sales | Sales Activity",

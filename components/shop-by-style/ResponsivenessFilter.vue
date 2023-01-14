@@ -15,10 +15,15 @@
     <vue-bottom-sheet
       ref="filtersBottomSheet"
       max-width="auto"
-      max-height="70vh"
+      max-height="80vh"
       :rounded="true"
       :is-full-screen="true"
     >
+      <div class="bottom_sheet_header">
+        <h3 class="font-secondary fs-17 fw-7 text-black text-center mb-3 pb-3">
+          {{ $t('common.filter_by') }}
+        </h3>
+      </div>
       <ShopFiltersMobile
         ref="shopFilters"
         :defaultType="currentType"
@@ -32,7 +37,7 @@
     <vue-bottom-sheet
       ref="AllBrands"
       max-width="auto"
-      max-height="70vh"
+      max-height="80vh"
       :rounded="true"
       :is-full-screen="true"
     >
@@ -173,6 +178,7 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 
 .filter-text
   padding: 4px 15px
@@ -250,4 +256,6 @@ input[type="search"].brandsSearchbar
   &::placeholder
     color:  $color-gray-6
     letter-spacing: 0.06em
+.fs-17
+  font-size: $font-size-17
 </style>

@@ -64,10 +64,6 @@ export const ALL_SETTINGS = {
                     until: {
                         value: 65,
                         type: 'slider'
-                    },
-                    every: {
-                        value: 1,
-                        type: 'hour'
                     }
                 }
             },

@@ -1,8 +1,8 @@
 <template>
-  <div class="shop-filters-mobile d-flex flex-column justify-content-between h-100">
+  <div class="shop-filters-mobile d-flex flex-column justify-content-between h-90">
     <div>
       <div class="border-bottom pb-3">
-        <h5 class="fs-16 fw-7 text-base-blue font-secondary">{{ $t('common.sort_by') }}</h5>
+        <h5 class="fs-16 fw-7 text-base-blue font-secondary">{{ $t('common.view') }}</h5>
         <Radio
           v-for="(option, index) in SORT_OPTIONS"
           :key="index"
@@ -14,8 +14,8 @@
           @change="selectedStatus"
         />
       </div>
-      <div class="border-bottom pb-3 mt-2">
-        <Collapse :title="$tc('common.size_type', 1)" :selectedValue="activeSizeTypes">
+      <div class="border-bottom pt-20 pb-20">
+        <Collapse :title="$tc('common.size_type', 1)" :selectedValue="activeSizeTypes" class="h-18">
           <div class="row">
             <template v-for="(sizeType, index) in sizeTypeOptions">
               <div
@@ -37,10 +37,11 @@
         </Collapse>
       </div>
 
-      <div class="border-bottom py-3">
+      <div class="border-bottom pt-20 pb-20">
         <Collapse
           :title="$t('filter_sidebar.brands')"
           :selectedValue="activeBrands"
+          class="h-18"
         >
           <div class="row">
             <div
@@ -350,10 +351,18 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .shop-filters-mobile 
-  margin: 0 19px
+  margin: 0 19px 0 29px
 .apply-btn
   background-color: $color-blue-20
 .bottom-sheet-footers
   .btn
     width: 134px
+.h-90
+  height: 90%
+.h-18
+  height: 18px
+.pt-20
+  padding-top: 20px
+.pb-20
+  padding-bottom: 20px
 </style>

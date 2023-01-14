@@ -11,7 +11,7 @@
         class="flex-shrink-0 product-image"
       />
       <div class="info-section position-relative flex-grow-1">
-        <div class="position-relative">
+        <div>
           <div class="title fw-6 fs-20 font-secondary text-capitalize">
             {{ product.name }}
           </div>
@@ -156,7 +156,7 @@
               black-text
               border="thick"
               class="mx-auto warn-button"
-              @click="handleNotifyMeClick"
+              @click="handleNotifyMeClick(product.id)"
             >
               {{ $t('products.notify_me') }}
             </Button>
@@ -194,21 +194,11 @@
                   variant="dark"
                   border="thick"
                   :disabled="addingToCart"
-                  class="mx-auto add-to-cart-button"
+                  class="mx-auto add-to-cart-button d-block pl-205"
                   @click="handleAddToCartClick('web', product.id)"
                 >
-                  <div class="d-flex justify-content-center">
-                    <div>
-                      {{ $t('product_page.add_to_cart') }}
-                    </div>
-                    <div
-                      class="ml-1"
-                      :class="
-                        addingToCart ? 'add-to-cart-animation' : 'invisible'
-                      "
-                    >
-                      +1
-                    </div>
+                  <div class="w-fit-content">
+                    {{ $t('product_page.add_to_cart') }}
                   </div>
                 </Button>
                 <button
@@ -255,7 +245,7 @@ import ProductThumb from '~/components/product/Thumb'
 import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
 import ProductSizePicker from '~/components/shop-by-style/SizePicker'
 import ProductBoxConditionPicker from '~/components/shop-by-style/BoxConditionPicker'
-import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
+import ProductSizeGuideShoe from '~/components/shop-by-style/size-guide/Shoe'
 import AlertModal from '~/components/modal/Alert'
 import PlusIcon from '~/assets/icons/Plus'
 import HeartIcon from '~/assets/icons/HeartIcon'
@@ -472,22 +462,22 @@ export default {
     handleSizeViewModeChange(mode) {
       this.sizeViewMode = mode
     },
-    handleNotifyMeClick() {
+    handleNotifyMeClick(id) {
       this.$axios
         .post(`/products/${this.products.id}/requests`, {
           size_id: this.currentSize,
           packaging_condition_id: this.currentCondition,
         })
         .then(() => {
-          this.showMessageModal(this.$t('products.message.send_item_email'))
+          this.showMessageModal(this.$t('products.message.send_item_email'), id)
         })
     },
 
-    showMessageModal(message, callback = () => {}) {
+    showMessageModal(message, id, callback = () => {}) {
       this.message = message
-      this.$bvModal.show('message-modal')
+      this.$bvModal.show('message-modal-web-'+id)
       setTimeout(() => {
-        this.$bvModal.hide('message-modal')
+        this.$bvModal.hide('message-modal-web-'+id)
         callback()
       }, this.MODAL_FADE_TIMEOUT)
     },
@@ -512,7 +502,7 @@ export default {
       if (!this.currentSize) {
         return (this.error.addToCart = this.$t('products.error.select_size'))
       }
-      this.addingToCart = true
+      this.addingToCart = false
       this.$store.dispatch('shopping-cart/addProduct', this.getCartProduct())
       this.show = false
       if (device !== 'mobile') {
@@ -580,4 +570,6 @@ export default {
   .heart-icon
     width: 21px
     height: 21px
+.pl-205
+  padding-left: 205px
 </style>

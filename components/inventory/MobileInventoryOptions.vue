@@ -27,7 +27,7 @@
       class="d-flex justify-content-between align-items-center nav-link"
       @click="$emit('list')"
     >
-      <span>{{ $t('inventory.list_product') }}</span>
+      <span>{{ $t('common.list') }}</span>
       <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
     </a>
   </li>
@@ -49,7 +49,6 @@
       <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
     </a>
   </li>
-  
   <li class="border-bottom">
     <a
       class="d-flex justify-content-between align-items-center nav-link"
@@ -95,4 +94,7 @@ export default {
   img
     width: 24px
     height: 22px
+
+.sf-pro-font
+  font-family: $font-family-sf-pro-display
 </style>

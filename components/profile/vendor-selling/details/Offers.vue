@@ -86,6 +86,7 @@
 
     <!-- Accept Offer -->
     <ConfirmModal
+      v-if="offerId"
       id="accept-offer-modal"
       :message="
         $t('selling_page.offer.content', {
@@ -226,9 +227,13 @@ export default {
       this.offerId = val.id
       this.actionType = val.type
       this.amount = this.$root.$options.filters.formatPrice(val.amount)
-      val.type === 'accept'
-        ? this.$bvModal.show('accept-offer-modal')
-        : this.$bvModal.show('reject-offer-modal')
+
+      this.$nextTick(() => {
+        val.type === 'accept'
+          ? this.$bvModal.show('accept-offer-modal')
+          : this.$bvModal.show('reject-offer-modal')
+      })
+
     },
 
     // On accept offer confirm.

@@ -142,7 +142,7 @@ export default {
     },
     goToDetail(sku){
       this.$store.commit('browse/setSelectedSearch', null)
-      this.$router.push('shop/'+sku)
+      this.$router.push('/shop/'+sku)
     }
   },
 }

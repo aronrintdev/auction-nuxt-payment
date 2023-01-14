@@ -16,11 +16,12 @@
         :data="CATEGORIES"
         :value="category"
         nav-key="category"
-        btn-class="px-lg-5 px-0"
+        btn-class="px-lg-5 px-0 shop-toggle-btn"
+        btnGroupClass="shop-group-btn"
         class="section-nav text-center"
         @change="handleCategoryChange"
       />
-      <div v-if="!noSearchResult" class="container">
+      <div v-if="!noSearchResult">
         <section class="recently-viewed">
           <SectionHeader
             :title="$t('auctions.frontpage.recently_viewed')"
@@ -83,7 +84,7 @@
         </section>
         <section class="instant-shipping">
           <SectionHeader
-            :title="$t('home_page.instant_shipping')"
+            :title="$t('newest_features.instant_shipping.title')"
             :label="$t('home_page.view_more_products')"
             to="/shop/products?type=instant-shipping"
             full-width
@@ -346,7 +347,7 @@ export default {
   },
 }
 </script>
-<style lang="sass" scoped>
+<style lang="sass">
 @import '~/assets/css/_variables'
 .container-shop
   .section-header
@@ -379,9 +380,9 @@ export default {
       @include body-1-regular
       font-family: $font-sp-pro
       color: $black
-::v-deep .section-header
-  @media (max-width: 576px)
-    margin: 25px 16px
+  .section-header
+    @media (max-width: 576px)
+      margin: 25px 16px
 .container-shop
   @media (min-width: 576px)
     margin: 0px 60px
@@ -393,5 +394,8 @@ export default {
       margin-bottom: 25px
       margin-top: 18px
     .section-nav
-      margin: 16px 16px 18px 16px 
+      margin: 16px 16px 18px 16px
+      .shop-group-btn
+        max-width: 100%
+      
 </style>
